@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "hexparse"
+version = "${version}"
+displayName = "HexParse"
+authors = "YukkuriC"
+description = '''
+parse pattern registry name code into list iota, and vice versa
+'''
+#logoFile = ""
+
+[[dependencies.hexparse]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.hexparse]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,)"
+ordering = "NONE"
+side = "BOTH"
+

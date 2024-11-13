@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "hexparse",
+  "version": "${version}",
+  "name": "HexParse",
+  "description": "parse pattern registry name code into list iota, and vice versa",
+  "authors": [
+    "YukkuriC"
+  ],
+  "contact": {
+    "homepage": "https://github.com/YukkuriC/"
+  },
+  "license": "MIT",
+  "icon": "assets/hexparse/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.yukkuric.hexparse.fabric.HexParseFabric"
+    ],
+    "client": [
+      "io.yukkuric.hexparse.fabric.client.HexParseFabricClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.19.2",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
