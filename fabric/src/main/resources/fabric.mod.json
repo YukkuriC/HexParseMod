@@ -24,7 +24,8 @@
   "depends": {
     "fabricloader": ">=0.16.9",
     "minecraft": "~1.19.2",
-    "java": ">=17"
+    "java": ">=17",
+    "hexcasting": ">=0"
   },
   "suggests": {
     "another-mod": "*"
