@@ -1,4 +1,4 @@
-* [ ] read item to chat
+* [x] read item to chat
     * [ ] share to server
 * [x] write code to item
     * [ ] from clipboard

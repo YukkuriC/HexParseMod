@@ -4,8 +4,8 @@
     * [x] normal lookup
     * [x] per-world lookup
         * [ ] limited great spell parse
-* [ ] myself ref
-* [ ] tab & comment
+* [x] myself ref
+* [x] tab & comment
 * [x] num literal
     * [ ] brute num pattern solver without collision
     * [ ] **A\* num pattern solver**

@@ -1,4 +1,4 @@
-* [ ] list
+* [x] list
 * [ ] pattern
   * [ ] auto drop comment pattern
 * [ ] double

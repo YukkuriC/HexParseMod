@@ -26,7 +26,7 @@ public class CommandWrite {
         var target = getFocusItem(ctx);
         if (target == null) return 0;
 
-        var nbt = ParserMain.ParseCode(StringArgumentType.getString(ctx, "code"), ctx.getSource());
+        var nbt = ParserMain.ParseCode(StringArgumentType.getString(ctx, "code"), ctx);
         boolean doRename = false;
         String rename = null;
         try {

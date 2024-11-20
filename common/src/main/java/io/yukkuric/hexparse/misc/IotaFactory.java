@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IotaFactory {
-    static final String TYPE_LIST = HexAPI.MOD_ID + ":list";
-    static final String TYPE_PATTERN = HexAPI.MOD_ID + ":pattern";
-    static final String TYPE_DOUBLE = HexAPI.MOD_ID + ":double";
+    public static final String TYPE_LIST = HexAPI.MOD_ID + ":list";
+    public static final String TYPE_PATTERN = HexAPI.MOD_ID + ":pattern";
+    public static final String TYPE_DOUBLE = HexAPI.MOD_ID + ":double";
+
     static final Map<Character, Byte> ANGLE_MAP = new HashMap<>() {
         {
             put('w', (byte) 0);
