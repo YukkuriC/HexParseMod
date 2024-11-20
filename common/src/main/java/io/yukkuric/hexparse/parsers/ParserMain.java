@@ -4,6 +4,7 @@ import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.IotaFactory;
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
+import io.yukkuric.hexparse.parsers.nbt2str.PatternParser;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
@@ -114,7 +115,7 @@ public class ParserMain {
         );
 
         nbt2strParsers = Arrays.asList(
-
+                new PatternParser()
         );
     }
 }
