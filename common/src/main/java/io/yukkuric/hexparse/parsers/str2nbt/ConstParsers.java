@@ -79,14 +79,14 @@ public class ConstParsers {
         @Override
         public CompoundTag parse(String node) {
             var seq = new StringBuilder();
-            var line = false;
+            var line = true;
             var start = HexDir.EAST;
             if (node.charAt(5) == 'v') {
                 line = false;
                 seq.append('a');
                 start = HexDir.SOUTH_EAST;
             }
-            for (var c : node.substring(5).toCharArray()) {
+            for (var c : node.substring(6).toCharArray()) {
                 if (c == '-') {
                     seq.append(line ? 'w' : 'e');
                     line = true;
