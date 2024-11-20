@@ -7,11 +7,11 @@
 * [x] myself ref
 * [x] tab & comment
 * [x] num literal
-    * [ ] brute num pattern solver without collision
+    * [x] brute num pattern solver without collision
     * [ ] **A\* num pattern solver**
-* [ ] mask pattern parser
-* [ ] vector literal
-* [ ] raw pattern angle seq
+* [x] mask pattern parser
+* [x] vector literal
+* [x] raw pattern angle seq
 * [ ] hexal types
     * [ ] iota
     * [ ] entity

@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
+
 public class ParserMain {
     static List<IStr2Nbt> str2nbtParsers;
     static List<INbt2Str> nbt2strParsers;
@@ -24,7 +26,7 @@ public class ParserMain {
         return ParseCode(code, ctx.getSource().getPlayer());
     }
 
-    public static CompoundTag ParseCode(String code, Player caller) {
+    public static synchronized CompoundTag ParseCode(String code, Player caller) {
         // bind caller
         for (var p : nbt2strParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
 
@@ -73,7 +75,7 @@ public class ParserMain {
         return ParseIotaNbt(node, ctx.getSource().getPlayer(), true);
     }
 
-    public static String ParseIotaNbt(CompoundTag node, Player caller, boolean isRoot) {
+    public static synchronized String ParseIotaNbt(CompoundTag node, Player caller, boolean isRoot) {
         // bind caller
         if (isRoot) for (var p : nbt2strParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
 
@@ -104,9 +106,11 @@ public class ParserMain {
     public static void init() {
         str2nbtParsers = Arrays.asList(
                 ToPattern.NORMAL, ToPattern.GREAT,
-                ConstParsers.TO_TAB, ConstParsers.TO_COMMENT,
-                ConstParsers.TO_NUM,
-                new ToSelf()
+                TO_TAB, TO_COMMENT,
+                TO_NUM, TO_VEC,
+                TO_MASK, TO_NUM_PATTERN,
+                new ToSelf(),
+                TO_RAW_PATTERN
         );
 
         nbt2strParsers = Arrays.asList(
