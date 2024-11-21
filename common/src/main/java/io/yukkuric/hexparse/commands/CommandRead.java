@@ -1,9 +1,8 @@
 package io.yukkuric.hexparse.commands;
 
-import at.petrak.hexcasting.common.items.ItemFocus;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import io.yukkuric.hexparse.parsers.ParserMain;
+import io.yukkuric.hexparse.misc.CodeHelpers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -11,10 +10,9 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
-
-import static io.yukkuric.hexparse.misc.CommandHelpers.getFocusItem;
 
 public class CommandRead {
     public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
@@ -28,13 +26,10 @@ public class CommandRead {
         );
     }
 
-    static int readHand(CommandContext<CommandSourceStack> ctx, Consumer<String> then) {
-        var target = getFocusItem(ctx);
-        if (target == null) return 0;
-        var iotaRoot = ((ItemFocus) (target.getItem())).readIotaTag(target);
-        if (iotaRoot == null) return 0;
-        var code = ParserMain.ParseIotaNbt(iotaRoot, ctx);
-        if (then != null) then.accept(code);
+    static int readHand(CommandContext<CommandSourceStack> ctx, @NotNull Consumer<String> then) {
+        var code = CodeHelpers.readHand(ctx.getSource().getPlayer());
+        if (code == null) return 0;
+        then.accept(code);
         return 1919810;
     }
 

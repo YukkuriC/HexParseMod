@@ -1,13 +1,11 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.IotaFactory;
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
 import io.yukkuric.hexparse.parsers.nbt2str.PatternParser;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -22,10 +20,6 @@ import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 public class ParserMain {
     static List<IStr2Nbt> str2nbtParsers;
     static List<INbt2Str> nbt2strParsers;
-
-    public static CompoundTag ParseCode(String code, CommandContext<CommandSourceStack> ctx) {
-        return ParseCode(code, ctx.getSource().getPlayer());
-    }
 
     public static synchronized CompoundTag ParseCode(String code, Player caller) {
         // bind caller
@@ -72,8 +66,8 @@ public class ParserMain {
         return IotaFactory.makeList(stack.pop());
     }
 
-    public static String ParseIotaNbt(CompoundTag node, CommandContext<CommandSourceStack> ctx) {
-        return ParseIotaNbt(node, ctx.getSource().getPlayer(), true);
+    public static synchronized String ParseIotaNbt(CompoundTag node, Player caller) {
+        return ParseIotaNbt(node, caller, true);
     }
 
     public static synchronized String ParseIotaNbt(CompoundTag node, Player caller, boolean isRoot) {
@@ -82,7 +76,7 @@ public class ParserMain {
 
         try {
             // handle nested list
-            if (node.getString(HexIotaTypes.KEY_TYPE).equals(IotaFactory.TYPE_PATTERN)) {
+            if (node.getString(HexIotaTypes.KEY_TYPE).equals(IotaFactory.TYPE_LIST)) {
                 var sb = new StringBuilder();
                 if (!isRoot) sb.append('[');
                 var isFirst = true;
