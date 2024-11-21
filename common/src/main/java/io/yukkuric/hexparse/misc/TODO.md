@@ -1,8 +1,8 @@
 # IotaFactory
 * [x] to list
-* [ ] to num
-* [ ] to vector
+* [x] to num
+* [x] ~~to vector~~ use native serializer
 * [x] to pattern
-* [ ] to iota type
+* [ ] to iota type (probably use native serializer)
 * [ ] to entity type
 * [x] to comment
