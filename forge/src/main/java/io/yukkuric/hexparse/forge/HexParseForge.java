@@ -1,18 +1,85 @@
 package io.yukkuric.hexparse.forge;
 
+import at.petrak.hexcasting.common.network.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
+import io.yukkuric.hexparse.network.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
+    static Network NETWORK;
+
     public HexParseForge() {
         // Run our common setup.
         HexParse.init();
 
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
+
+        NETWORK = new Network();
+    }
+
+    public static class Network implements ISenderClient, ISenderServer {
+        static final String PROTOCOL_VERSION = "1";
+        static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+                new ResourceLocation(HexParse.MOD_ID, "network"),
+                () -> PROTOCOL_VERSION,
+                PROTOCOL_VERSION::equals,
+                PROTOCOL_VERSION::equals
+        );
+
+        static <T> BiConsumer<T, Supplier<NetworkEvent.Context>> makeServerBoundHandler(
+                BiConsumer<T, ServerPlayer> handler) {
+            return (m, ctx) -> {
+                handler.accept(m, ctx.get().getSender());
+                ctx.get().setPacketHandled(true);
+            };
+        }
+
+        static <T> BiConsumer<T, Supplier<NetworkEvent.Context>> makeClientBoundHandler(Consumer<T> consumer) {
+            return (m, ctx) -> {
+                consumer.accept(m);
+                ctx.get().setPacketHandled(true);
+            };
+        }
+
+        Network() {
+            MsgHandlers.CLIENT = this;
+            MsgHandlers.SERVER = this;
+
+            // packets
+            int idx = 0;
+
+            // from server
+            CHANNEL.registerMessage(idx++, MsgPullClipboard.class, MsgPullClipboard::serialize,
+                    MsgPullClipboard::deserialize, makeClientBoundHandler(MsgPullClipboard::handle));
+
+            // from client
+            CHANNEL.registerMessage(idx++, MsgPushClipboard.class, MsgPushClipboard::serialize,
+                    MsgPushClipboard::deserialize, makeServerBoundHandler(MsgPushClipboard::handle));
+        }
+
+        @Override
+        public void sendPacketToServer(IMessage packet) {
+            CHANNEL.sendToServer(packet);
+        }
+
+        @Override
+        public void sendPacketToPlayer(ServerPlayer player, IMessage packet) {
+            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
+        }
     }
 }

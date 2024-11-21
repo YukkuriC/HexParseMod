@@ -3,9 +3,9 @@ package io.yukkuric.hexparse.hooks;
 import at.petrak.hexcasting.api.PatternRegistry;
 import at.petrak.hexcasting.api.spell.math.HexDir;
 import io.yukkuric.hexparse.misc.IotaFactory;
-import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -48,9 +48,7 @@ public class PatternMapper {
         map.put(idShort, pattern);
     }
 
-    public static void init(CommandSourceStack source) {
-        var level = source.getLevel();
-
+    public static void init(ServerLevel level) {
         // 0. reload great patterns
         level.getServer().overworld().getDataStorage().set("hex.per-world-patterns", PatternRegistry.Save.create(level.getSeed()));
 

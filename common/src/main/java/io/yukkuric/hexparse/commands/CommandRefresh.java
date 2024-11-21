@@ -15,17 +15,7 @@ public class CommandRefresh {
     }
 
     static int doRefresh(CommandContext<CommandSourceStack> ctx) {
-        PatternMapper.init(ctx.getSource());
+        PatternMapper.init(ctx.getSource().getLevel());
         return 19260817;
-    }
-
-    static WeakReference<MinecraftServer> refreshedWorld = new WeakReference<>(null);
-
-    static void autoRefresh(CommandContext<CommandSourceStack> ctx) {
-        var currentServer = ctx.getSource().getServer();
-        if (currentServer != refreshedWorld.get()) {
-            doRefresh(ctx);
-            refreshedWorld.refersTo(currentServer);
-        }
     }
 }
