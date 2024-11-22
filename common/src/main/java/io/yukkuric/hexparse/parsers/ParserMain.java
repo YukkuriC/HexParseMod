@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.misc.IotaFactory;
+import io.yukkuric.hexparse.parsers.nbt2str.CommentParser;
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
 import io.yukkuric.hexparse.parsers.nbt2str.PatternParser;
 import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt;
@@ -43,7 +44,6 @@ public class ParserMain {
                     stack.peek().add(inner);
                     break;
                 default:
-                    CompoundTag ret;
                     try {
                         var matched = false;
                         for (var p : str2nbtParsers) {
@@ -111,7 +111,8 @@ public class ParserMain {
         );
 
         nbt2strParsers = Arrays.asList(
-                new PatternParser()
+                new PatternParser(),
+                new CommentParser()
         );
     }
 }

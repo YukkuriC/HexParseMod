@@ -1,6 +1,7 @@
 * [x] list
-* [ ] pattern
+* [x] pattern
   * [ ] auto drop comment pattern
+* [x] comment iota nbt
 * [ ] double
 * [ ] vector
 * [ ] hexal types

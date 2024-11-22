@@ -1,5 +1,5 @@
 * [x] read item to chat
-    * [ ] share to server
+    * [x] share to server
 * [x] write code to item
     * [x] from clipboard
     * [x] from clipboard but only sequence

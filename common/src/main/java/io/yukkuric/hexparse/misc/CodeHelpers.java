@@ -36,6 +36,7 @@ public interface CodeHelpers {
         if (target == null) return null;
         var iotaRoot = ((ItemFocus) (target.getItem())).readIotaTag(target);
         if (iotaRoot == null) return null;
+        autoRefresh(player.getServer());
         return ParserMain.ParseIotaNbt(iotaRoot, player);
     }
 

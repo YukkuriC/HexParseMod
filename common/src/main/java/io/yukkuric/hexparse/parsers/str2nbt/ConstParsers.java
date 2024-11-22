@@ -18,12 +18,12 @@ public class ConstParsers {
             int indent = 0;
             try {
                 indent = Integer.parseInt(node.substring(4));
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
             }
             return IotaFactory.makeTab(indent);
         }
     };
-    public static BaseConstParser TO_COMMENT = new Prefix("comment") {
+    public static BaseConstParser TO_COMMENT = new Prefix("comment_") {
         @Override
         public CompoundTag parse(String node) {
             return IotaFactory.makeComment(node.substring(8));
@@ -51,7 +51,7 @@ public class ConstParsers {
             double num = 0;
             try {
                 num = Double.parseDouble(node.substring(4));
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
             }
             var seq = NumEvaluatorBrute.getAnglesFromNum(num);
             return IotaFactory.makePattern(seq, num < 0 ? HexDir.NORTH_EAST : HexDir.SOUTH_EAST);
