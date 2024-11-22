@@ -3,7 +3,9 @@ package io.yukkuric.hexparse.parsers.nbt2str;
 import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.PatternRegistry;
 import at.petrak.hexcasting.api.spell.ConstMediaAction;
+import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.iota.DoubleIota;
+import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.math.HexPattern;
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidPattern;
 import at.petrak.hexcasting.common.casting.operators.stack.OpMask;
@@ -13,9 +15,11 @@ import io.yukkuric.hexparse.misc.IotaFactory;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PatternParser implements INbt2Str, IPlayerBinder {
@@ -26,6 +30,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
             put("qqqaw", "\\");
         }
     };
+    static List<Iota> FOO_LIST = List.of();
 
     @Override
     public boolean match(CompoundTag node) {
@@ -49,7 +54,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
                 }
                 return maskBuilder.toString();
             } else if (opIdStr.equals("hexcasting:number")) {
-                var constInner = ((ConstMediaAction) action).execute(null, null);
+                var constInner = ((ConstMediaAction) action).execute(FOO_LIST, new CastingContext(player, InteractionHand.MAIN_HAND, CastingContext.CastSource.STAFF));
                 return String.format("num_%f", ((DoubleIota) constInner.get(0)).getDouble());
             } else if (!PatternMapper.mapPattern.containsKey(opIdStr) && !PatternMapper.mapPatternWorld.containsKey(opIdStr)) {
                 throw new MishapInvalidPattern();
@@ -64,9 +69,11 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
     }
 
     ServerLevel level;
+    ServerPlayer player;
 
     @Override
-    public void BindPlayer(Player p) {
+    public void BindPlayer(ServerPlayer p) {
+        this.player = p;
         this.level = (ServerLevel) p.level;
     }
 }

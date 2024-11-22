@@ -1,7 +1,7 @@
 package io.yukkuric.hexparse.parsers;
 
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 
 public interface IPlayerBinder {
-    void BindPlayer(Player p);
+    void BindPlayer(ServerPlayer p);
 }

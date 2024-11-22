@@ -4,12 +4,14 @@ import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.misc.IotaFactory;
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
 import io.yukkuric.hexparse.parsers.nbt2str.PatternParser;
-import io.yukkuric.hexparse.parsers.str2nbt.*;
+import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt;
+import io.yukkuric.hexparse.parsers.str2nbt.ToPattern;
+import io.yukkuric.hexparse.parsers.str2nbt.ToSelf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +23,7 @@ public class ParserMain {
     static List<IStr2Nbt> str2nbtParsers;
     static List<INbt2Str> nbt2strParsers;
 
-    public static synchronized CompoundTag ParseCode(String code, Player caller) {
+    public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
         // bind caller
         for (var p : nbt2strParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
 
@@ -66,11 +68,11 @@ public class ParserMain {
         return IotaFactory.makeList(stack.pop());
     }
 
-    public static synchronized String ParseIotaNbt(CompoundTag node, Player caller) {
+    public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller) {
         return ParseIotaNbt(node, caller, true);
     }
 
-    public static synchronized String ParseIotaNbt(CompoundTag node, Player caller, boolean isRoot) {
+    public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller, boolean isRoot) {
         // bind caller
         if (isRoot) for (var p : nbt2strParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
 

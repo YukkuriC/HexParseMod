@@ -6,13 +6,13 @@ import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
 import java.lang.ref.WeakReference;
 
 public interface CodeHelpers {
-    static ItemStack getFocusItem(Player player) {
+    static ItemStack getFocusItem(ServerPlayer player) {
         if (player == null) return null;
         var checkHand = player.getMainHandItem();
         if (checkHand.getItem() instanceof ItemFocus) return checkHand;
@@ -21,7 +21,7 @@ public interface CodeHelpers {
         return null;
     }
 
-    static void doParse(Player player, String code, String rename) {
+    static void doParse(ServerPlayer player, String code, String rename) {
         var target = getFocusItem(player);
         if (target == null) return;
         autoRefresh(player.getServer());
@@ -31,7 +31,7 @@ public interface CodeHelpers {
         if (rename != null) target.setHoverName(Component.literal(rename));
     }
 
-    static String readHand(Player player) {
+    static String readHand(ServerPlayer player) {
         var target = getFocusItem(player);
         if (target == null) return null;
         var iotaRoot = ((ItemFocus) (target.getItem())).readIotaTag(target);
