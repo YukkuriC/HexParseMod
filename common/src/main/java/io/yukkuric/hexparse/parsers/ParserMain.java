@@ -2,9 +2,7 @@ package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.misc.IotaFactory;
-import io.yukkuric.hexparse.parsers.nbt2str.CommentParser;
-import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
-import io.yukkuric.hexparse.parsers.nbt2str.PatternParser;
+import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt;
 import io.yukkuric.hexparse.parsers.str2nbt.ToPattern;
 import io.yukkuric.hexparse.parsers.str2nbt.ToSelf;
@@ -112,7 +110,8 @@ public class ParserMain {
 
         nbt2strParsers = Arrays.asList(
                 new PatternParser(),
-                new CommentParser()
+                new CommentParser(),
+                new NumParser(), new VecParser()
         );
     }
 }

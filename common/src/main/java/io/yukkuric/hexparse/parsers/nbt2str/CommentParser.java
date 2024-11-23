@@ -11,7 +11,7 @@ public class CommentParser implements INbt2Str {
 
     @Override
     public boolean match(CompoundTag node) {
-        return node.getString(HexIotaTypes.KEY_TYPE).equals(CommentIotaType.TYPE_ID);
+        return isType(node, CommentIotaType.TYPE_ID);
     }
 
     @Override

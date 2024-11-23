@@ -2,8 +2,8 @@
 * [x] pattern
   * [ ] auto drop comment pattern
 * [x] comment iota nbt
-* [ ] double
-* [ ] vector
+* [x] double
+* [x] vector
 * [ ] hexal types
   * [ ] iota
   * [ ] entity

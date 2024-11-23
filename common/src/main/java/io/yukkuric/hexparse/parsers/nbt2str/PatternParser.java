@@ -34,7 +34,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
 
     @Override
     public boolean match(CompoundTag node) {
-        return node.getString(HexIotaTypes.KEY_TYPE).equals(IotaFactory.TYPE_PATTERN);
+        return isType(node, IotaFactory.TYPE_PATTERN);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
                 return maskBuilder.toString();
             } else if (opIdStr.equals("hexcasting:number")) {
                 var constInner = ((ConstMediaAction) action).execute(FOO_LIST, new CastingContext(player, InteractionHand.MAIN_HAND, CastingContext.CastSource.STAFF));
-                return String.format("num_%.4f", ((DoubleIota) constInner.get(0)).getDouble());
+                return displayMinimal(((DoubleIota) constInner.get(0)).getDouble());
             } else if (!PatternMapper.mapPattern.containsKey(opIdStr) && !PatternMapper.mapPatternWorld.containsKey(opIdStr)) {
                 throw new MishapInvalidPattern();
             }
