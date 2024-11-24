@@ -9,6 +9,8 @@ public final class HexParse {
     public static final String MOD_ID = "hexparse";
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static IModHelpers HELPERS;
+
     public static void init() {
         ParserMain.init();
         CommentIotaType.registerSelf();

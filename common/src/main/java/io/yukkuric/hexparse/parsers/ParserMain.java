@@ -1,8 +1,10 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt;
+import io.yukkuric.hexparse.parsers.str2nbt.PluginConstParsers;
 import io.yukkuric.hexparse.parsers.str2nbt.ToPattern;
 import io.yukkuric.hexparse.parsers.str2nbt.ToSelf;
 import net.minecraft.ChatFormatting;
@@ -112,5 +114,16 @@ public class ParserMain {
                 new CommentParser(),
                 new NumParser(), new VecParser()
         );
+
+        if (HexParse.HELPERS.modLoaded("hexal")) {
+            str2nbtParsers.add(PluginConstParsers.TO_ENTITY_TYPE);
+            str2nbtParsers.add(PluginConstParsers.TO_IOTA_TYPE);
+            nbt2strParsers.add(StringParser.IOTA);
+            nbt2strParsers.add(StringParser.ENTITY);
+        }
+        if (HexParse.HELPERS.modLoaded("moreiotas")) {
+            str2nbtParsers.add(PluginConstParsers.TO_STRING);
+            nbt2strParsers.add(StringParser.STRING);
+        }
     }
 }

@@ -12,9 +12,9 @@
 * [x] mask pattern parser
 * [x] vector literal
 * [x] raw pattern angle seq
-* [ ] hexal types
-    * [ ] iota
-    * [ ] entity
-* [ ] moreiotas
-    * [ ] string
+* [x] hexal types
+    * [x] iota
+    * [x] entity
+* [x] moreiotas
+    * [x] string
     * [ ] matrix???

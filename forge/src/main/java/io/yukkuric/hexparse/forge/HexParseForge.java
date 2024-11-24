@@ -2,12 +2,14 @@ package io.yukkuric.hexparse.forge;
 
 import at.petrak.hexcasting.common.network.IMessage;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -21,6 +23,7 @@ import java.util.function.Supplier;
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
     static Network NETWORK;
+    static ModHelpers HELPERS;
 
     public HexParseForge() {
         // Run our common setup.
@@ -30,6 +33,7 @@ public final class HexParseForge {
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
 
         NETWORK = new Network();
+        HELPERS = new ModHelpers();
     }
 
     public static class Network implements ISenderClient, ISenderServer {
@@ -80,6 +84,17 @@ public final class HexParseForge {
         @Override
         public void sendPacketToPlayer(ServerPlayer player, IMessage packet) {
             CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
+        }
+    }
+
+    public static class ModHelpers implements IModHelpers {
+        ModHelpers() {
+            HexParse.HELPERS = this;
+        }
+
+        @Override
+        public boolean modLoaded(String modId) {
+            return ModList.get().isLoaded(modId);
         }
     }
 }
