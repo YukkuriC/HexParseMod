@@ -2,7 +2,7 @@ package io.yukkuric.hexparse.parsers.nbt2str;
 
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.misc.IotaFactory;
+import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.misc.IotaFactory;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt;
 import io.yukkuric.hexparse.parsers.str2nbt.ToPattern;

@@ -11,7 +11,7 @@ import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidPattern;
 import at.petrak.hexcasting.common.casting.operators.stack.OpMask;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.hooks.PatternMapper;
-import io.yukkuric.hexparse.misc.IotaFactory;
+import io.yukkuric.hexparse.parsers.IotaFactory;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;

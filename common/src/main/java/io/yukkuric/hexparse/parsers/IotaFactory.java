@@ -1,4 +1,4 @@
-package io.yukkuric.hexparse.misc;
+package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.spell.math.HexDir;
