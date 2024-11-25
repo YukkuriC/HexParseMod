@@ -26,14 +26,14 @@ public final class HexParseForge {
     static ModHelpers HELPERS;
 
     public HexParseForge() {
+        NETWORK = new Network();
+        HELPERS = new ModHelpers();
+
         // Run our common setup.
         HexParse.init();
 
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
-
-        NETWORK = new Network();
-        HELPERS = new ModHelpers();
     }
 
     public static class Network implements ISenderClient, ISenderServer {

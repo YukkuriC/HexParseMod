@@ -55,7 +55,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
                 return maskBuilder.toString();
             } else if (opIdStr.equals("hexcasting:number")) {
                 var constInner = ((ConstMediaAction) action).execute(FOO_LIST, new CastingContext(player, InteractionHand.MAIN_HAND, CastingContext.CastSource.STAFF));
-                return displayMinimal(((DoubleIota) constInner.get(0)).getDouble());
+                return "num_" + displayMinimal(((DoubleIota) constInner.get(0)).getDouble());
             } else if (!PatternMapper.mapPattern.containsKey(opIdStr) && !PatternMapper.mapPatternWorld.containsKey(opIdStr)) {
                 throw new MishapInvalidPattern();
             }

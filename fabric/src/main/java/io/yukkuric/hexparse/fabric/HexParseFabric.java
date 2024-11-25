@@ -24,13 +24,13 @@ public final class HexParseFabric implements ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
 
+        NETWORK = new Network();
+        HELPERS = new ModHelpers();
+
         // Run our common setup.
         HexParse.init();
 
         CommandRegistrationCallback.EVENT.register((dp, foo, bar) -> HexParseCommands.register(dp));
-
-        NETWORK = new Network();
-        HELPERS = new ModHelpers();
     }
 
     static Network NETWORK;
