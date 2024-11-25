@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
+import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import net.minecraft.nbt.CompoundTag;
 
@@ -24,6 +25,10 @@ public class ToPattern implements IStr2Nbt {
 
     public static ToPattern NORMAL = new ToPattern(PatternMapper.mapPattern);
     public static ToPattern GREAT = new ToPattern(PatternMapper.mapPatternWorld) {
-        // TODO limit great spell parsing
+        @Override
+        public boolean match(String node) {
+            if (!HexParseConfig.canParseGreatPatterns()) return false;
+            return super.match(node);
+        }
     };
 }

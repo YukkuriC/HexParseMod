@@ -3,6 +3,7 @@ package io.yukkuric.hexparse.forge;
 import at.petrak.hexcasting.common.network.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
+import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.*;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -34,6 +36,9 @@ public final class HexParseForge {
 
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
+
+        var ctx = ModLoadingContext.get();
+        HexParseConfigForge.register(ctx);
     }
 
     public static class Network implements ISenderClient, ISenderServer {
