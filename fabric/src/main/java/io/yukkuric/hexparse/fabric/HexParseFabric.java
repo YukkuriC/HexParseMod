@@ -3,6 +3,7 @@ package io.yukkuric.hexparse.fabric;
 import at.petrak.hexcasting.common.network.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
+import io.yukkuric.hexparse.fabric.config.HexParseConfigFabric;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.ISenderServer;
 import io.yukkuric.hexparse.network.MsgHandlers;
@@ -29,6 +30,7 @@ public final class HexParseFabric implements ModInitializer {
 
         // Run our common setup.
         HexParse.init();
+        HexParseConfigFabric.setup();
 
         CommandRegistrationCallback.EVENT.register((dp, foo, bar) -> HexParseCommands.register(dp));
     }
