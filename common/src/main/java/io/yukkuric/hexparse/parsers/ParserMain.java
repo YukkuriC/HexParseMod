@@ -13,6 +13,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -20,6 +21,7 @@ import java.util.Stack;
 import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 
 public class ParserMain {
+    static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers;
     static List<INbt2Str> nbt2strParsers;
 
@@ -99,6 +101,14 @@ public class ParserMain {
         }
     }
 
+
+    static void makeMutableLists() {
+        if (mutableFlag) return;
+        mutableFlag = true;
+        str2nbtParsers = new ArrayList<>(str2nbtParsers);
+        nbt2strParsers = new ArrayList<>(nbt2strParsers);
+    }
+
     public static void init() {
         str2nbtParsers = Arrays.asList(
                 ToPattern.NORMAL, ToPattern.GREAT,
@@ -116,12 +126,14 @@ public class ParserMain {
         );
 
         if (HexParse.HELPERS.modLoaded("hexal")) {
+            makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_ENTITY_TYPE);
             str2nbtParsers.add(PluginConstParsers.TO_IOTA_TYPE);
             nbt2strParsers.add(StringParser.IOTA);
             nbt2strParsers.add(StringParser.ENTITY);
         }
         if (HexParse.HELPERS.modLoaded("moreiotas")) {
+            makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_STRING);
             nbt2strParsers.add(StringParser.STRING);
         }
