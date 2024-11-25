@@ -11,7 +11,7 @@ Converts custom code into (pattern or literal) list iota; requires player to hav
 
 The
 highlight [VSCode extension](https://github.com/YukkuriC/hexParse_scripts/tree/main/.vscode/extensions/hexParse_highlight)
-is in scratch, and needs to be put into `"%USERPROFILE%\.vscode\extensions\hexParse_highlight"` manually.
+has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\extensions\hexParse_highlight"` manually.
 
 ## Commands added
 
