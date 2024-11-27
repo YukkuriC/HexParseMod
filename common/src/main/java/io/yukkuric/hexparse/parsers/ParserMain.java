@@ -27,7 +27,7 @@ public class ParserMain {
 
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
         // bind caller
-        for (var p : nbt2strParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
+        for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
 
         var stack = new Stack<ListTag>();
         stack.add(new ListTag());
