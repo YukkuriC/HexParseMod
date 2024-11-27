@@ -1,6 +1,6 @@
 # Currently Supported Syntax
 
-| Type                       | Example                          | Output                                                                                                                     | Output Type      | Supports<br>`iota -> code` aprsing back |
+| Type                       | Example                          | Output                                                                                                                     | Output Type      | Supports<br>`iota -> code` parsing back |
 |----------------------------|----------------------------------|----------------------------------------------------------------------------------------------------------------------------|------------------|-----------------------------------------|
 | Nested List                | `[`, `]`                         | list literals; can be nested                                                                                               | `ListIota`       | y                                       |
 | Non-functional Pattern     | `(`, `)`, `\\` or `escape`       | `Introspection`, `Retrospection` and `Consideration`                                                                       | `PatternIota`    | y                                       |
