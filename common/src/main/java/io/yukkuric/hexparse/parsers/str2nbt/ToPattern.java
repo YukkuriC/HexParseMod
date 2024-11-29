@@ -24,6 +24,7 @@ public class ToPattern implements IStr2Nbt {
     }
 
     public static ToPattern NORMAL = new ToPattern(PatternMapper.mapPattern);
+    public static ToPattern META = new ToPattern(PatternMapper.mapPatternMeta);
     public static ToPattern GREAT = new ToPattern(PatternMapper.mapPatternWorld) {
         @Override
         public boolean match(String node) {

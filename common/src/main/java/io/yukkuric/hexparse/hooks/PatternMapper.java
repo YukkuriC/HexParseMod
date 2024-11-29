@@ -14,16 +14,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PatternMapper {
+    public static final Map<String, CompoundTag> mapPatternMeta = new HashMap<>();
     public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
     public static final Map<String, CompoundTag> mapPatternWorld = new HashMap<>();
 
-    static void loadSpecialPatterns() {
-        mapPattern.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
-        mapPattern.put("del", IotaFactory.makePattern("eeedw", HexDir.EAST));
-        mapPattern.put("pop", IotaFactory.makePattern("a", HexDir.SOUTH_WEST)); // mask_v
-        mapPattern.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
-        mapPattern.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
-        mapPattern.put("\\", mapPattern.get("escape"));
+    static {
+        mapPatternMeta.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
+        mapPatternMeta.put("del", IotaFactory.makePattern("eeedw", HexDir.EAST));
+        mapPatternMeta.put("pop", IotaFactory.makePattern("a", HexDir.SOUTH_WEST)); // mask_v
+        mapPatternMeta.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
+        mapPatternMeta.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
+        mapPatternMeta.put("\\", mapPattern.get("escape"));
     }
 
     static void _setMap(Map<String, CompoundTag> map, ResourceLocation id, String seq, HexDir dir) {
@@ -37,7 +38,6 @@ public class PatternMapper {
         // clear mapper first ...?
         mapPattern.clear();
         mapPatternWorld.clear();
-        loadSpecialPatterns();
 
         var registry = IXplatAbstractions.INSTANCE.getActionRegistry();
         var perWorldPatterns = ScrungledPatternsSave.open(level);

@@ -111,6 +111,7 @@ public class ParserMain {
 
     public static void init() {
         str2nbtParsers = Arrays.asList(
+                ToPattern.META,
                 ToPattern.NORMAL, ToPattern.GREAT,
                 TO_TAB, TO_COMMENT,
                 TO_NUM, TO_VEC,
