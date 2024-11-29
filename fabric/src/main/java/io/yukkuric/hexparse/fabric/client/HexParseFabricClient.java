@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.fabric.client;
 
-import at.petrak.hexcasting.common.network.IMessage;
+import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.network.ISenderClient;
 import io.yukkuric.hexparse.network.MsgHandlers;
 import io.yukkuric.hexparse.network.MsgPullClipboard;

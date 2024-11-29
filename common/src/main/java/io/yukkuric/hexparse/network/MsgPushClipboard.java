@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.network;
 
-import at.petrak.hexcasting.common.network.IMessage;
+import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.misc.CodeHelpers;

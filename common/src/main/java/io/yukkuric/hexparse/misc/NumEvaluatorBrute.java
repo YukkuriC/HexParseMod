@@ -1,6 +1,7 @@
 package io.yukkuric.hexparse.misc;
 
-import at.petrak.hexcasting.api.spell.iota.DoubleIota;
+
+import at.petrak.hexcasting.api.casting.iota.DoubleIota;
 
 import java.util.ArrayList;
 import java.util.Collections;

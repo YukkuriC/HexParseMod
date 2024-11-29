@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.misc;
 
-import at.petrak.hexcasting.common.items.ItemFocus;
+import at.petrak.hexcasting.common.items.storage.ItemFocus;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.ParserMain;

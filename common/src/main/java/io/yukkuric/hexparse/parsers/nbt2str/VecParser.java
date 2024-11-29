@@ -1,7 +1,7 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 
@@ -18,7 +18,7 @@ public class VecParser implements INbt2Str {
     @Override
     public String parse(CompoundTag node) {
         // use builtin
-        var iota = (Vec3Iota) HexIotaTypes.deserialize(node, null);
+        var iota = (Vec3Iota) IotaType.deserialize(node, null);
         var vec = iota.getVec3();
         var frags = new ArrayList<>(List.of("vec"));
         var vecAxes = new ArrayList<>(Arrays.asList(vec.x, vec.y, vec.z));

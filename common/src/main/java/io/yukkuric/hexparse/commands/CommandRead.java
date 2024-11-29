@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.commands;
 
-import at.petrak.hexcasting.common.items.ItemFocus;
+import at.petrak.hexcasting.common.items.storage.ItemFocus;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.CodeHelpers;
@@ -8,7 +8,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.*;
-import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -27,7 +26,7 @@ public class CommandRead {
                     var p = ctx.getSource().getPlayer();
                     if (p == null) return;
                     var item = CodeHelpers.getFocusItem(p);
-                    var iota = ((ItemFocus) item.getItem()).readIota(item, (ServerLevel) p.level);
+                    var iota = ((ItemFocus) item.getItem()).readIota(item, p.serverLevel());
                     var shared = ((MutableComponent) p.getName()).withStyle(ChatFormatting.GOLD)
                             .append(Component.literal(" shares: ").withStyle(ChatFormatting.WHITE))
                             .append(iota.display())

@@ -1,44 +1,29 @@
 package io.yukkuric.hexparse.hooks;
 
-import at.petrak.hexcasting.api.PatternRegistry;
-import at.petrak.hexcasting.api.spell.math.HexDir;
+import at.petrak.hexcasting.api.casting.math.HexDir;
+import at.petrak.hexcasting.api.mod.HexTags;
+import at.petrak.hexcasting.api.utils.HexUtils;
+import at.petrak.hexcasting.server.ScrungledPatternsSave;
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
 
 public class PatternMapper {
-    static final ConcurrentMap<String, Object> staticMapper;
-    static final Method m_opId, m_preferredStart;
-
     public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
     public static final Map<String, CompoundTag> mapPatternWorld = new HashMap<>();
 
-    static {
-        try {
-            var fStaticMapper = PatternRegistry.class.getDeclaredField("regularPatternLookup");
-            fStaticMapper.setAccessible(true);
-            staticMapper = (ConcurrentMap<String, Object>) fStaticMapper.get(null);
-            var clsRegularEntry = Class.forName("at.petrak.hexcasting.api.PatternRegistry$RegularEntry"); //RegularEntry(HexDir preferredStart, ResourceLocation opId)
-            m_opId = clsRegularEntry.getMethod("opId");
-            m_opId.setAccessible(true);
-            m_preferredStart = clsRegularEntry.getMethod("preferredStart");
-            m_preferredStart.setAccessible(true);
-
-            // init special patterns
-            mapPattern.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
-            mapPattern.put("pop", IotaFactory.makePattern("a", HexDir.SOUTH_WEST)); // mask_v
-            mapPattern.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
-            mapPattern.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
-            mapPattern.put("\\", mapPattern.get("escape"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    static void loadSpecialPatterns() {
+        mapPattern.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
+        mapPattern.put("del", IotaFactory.makePattern("eeedw", HexDir.EAST));
+        mapPattern.put("pop", IotaFactory.makePattern("a", HexDir.SOUTH_WEST)); // mask_v
+        mapPattern.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
+        mapPattern.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
+        mapPattern.put("\\", mapPattern.get("escape"));
     }
 
     static void _setMap(Map<String, CompoundTag> map, ResourceLocation id, String seq, HexDir dir) {
@@ -49,29 +34,24 @@ public class PatternMapper {
     }
 
     public static void init(ServerLevel level) {
-        // 0. reload great patterns
-        level.getServer().overworld().getDataStorage().set("hex.per-world-patterns", PatternRegistry.Save.create(level.getSeed()));
+        // clear mapper first ...?
+        mapPattern.clear();
+        mapPatternWorld.clear();
+        loadSpecialPatterns();
 
-        try {
-            // 1. map normal
-            for (var pair : staticMapper.entrySet()) {
-                var seq = pair.getKey();
-                var entry = pair.getValue();
-                var id = (ResourceLocation) m_opId.invoke(entry);
-                var dir = (HexDir) m_preferredStart.invoke(entry);
-                _setMap(mapPattern, id, seq, dir);
-            }
+        var registry = IXplatAbstractions.INSTANCE.getActionRegistry();
+        var perWorldPatterns = ScrungledPatternsSave.open(level);
 
-            // 2. per-world
-            for (var pair : PatternRegistry.getPerWorldPatterns(level).entrySet()) {
-                var seq = pair.getKey();
-                var entry = pair.getValue();
-                var id = entry.getFirst();
-                var dir = entry.getSecond();
-                _setMap(mapPatternWorld, id, seq, dir);
+        for (var entry : registry.entrySet()) {
+            var key = entry.getKey();
+            if (HexUtils.isOfTag(registry, key, HexTags.Actions.PER_WORLD_PATTERN)) {
+                var perWorldEntry = perWorldPatterns.lookupReverse(key);
+                if (perWorldEntry == null) continue;
+                _setMap(mapPatternWorld, key.location(), perWorldEntry.getFirst(), perWorldEntry.getSecond().canonicalStartDir());
+            } else {
+                var pattern = entry.getValue().prototype();
+                _setMap(mapPattern, key.location(), pattern.anglesSignature(), pattern.getStartDir());
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 }

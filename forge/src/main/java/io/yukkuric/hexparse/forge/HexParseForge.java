@@ -1,9 +1,11 @@
 package io.yukkuric.hexparse.forge;
 
-import at.petrak.hexcasting.common.network.IMessage;
+import at.petrak.hexcasting.common.lib.HexRegistries;
+import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
+import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.*;
 import net.minecraft.resources.ResourceLocation;
@@ -13,10 +15,12 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.registries.RegisterEvent;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -36,6 +40,13 @@ public final class HexParseForge {
 
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
+
+        var modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modBus.addListener((RegisterEvent event) -> {
+            var key = event.getRegistryKey();
+            if (key.equals(HexRegistries.ACTION)) CommentIotaType.registerAction();
+            else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
+        });
 
         var ctx = ModLoadingContext.get();
         HexParseConfigForge.register(ctx);

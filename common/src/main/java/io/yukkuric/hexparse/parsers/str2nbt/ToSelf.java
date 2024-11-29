@@ -1,7 +1,7 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
-import at.petrak.hexcasting.api.spell.iota.EntityIota;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import at.petrak.hexcasting.api.casting.iota.EntityIota;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,6 +23,6 @@ public class ToSelf implements IStr2Nbt, IPlayerBinder {
 
     @Override
     public CompoundTag parse(String node) {
-        return HexIotaTypes.serialize(new EntityIota(owner));
+        return IotaType.serialize(new EntityIota(owner));
     }
 }

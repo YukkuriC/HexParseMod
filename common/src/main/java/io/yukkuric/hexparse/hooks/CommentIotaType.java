@@ -1,16 +1,18 @@
 package io.yukkuric.hexparse.hooks;
 
-import at.petrak.hexcasting.api.PatternRegistry;
-import at.petrak.hexcasting.api.spell.Action;
-import at.petrak.hexcasting.api.spell.OperationResult;
-import at.petrak.hexcasting.api.spell.casting.CastingContext;
-import at.petrak.hexcasting.api.spell.casting.eval.SpellContinuation;
-import at.petrak.hexcasting.api.spell.casting.sideeffects.OperatorSideEffect;
-import at.petrak.hexcasting.api.spell.iota.Iota;
-import at.petrak.hexcasting.api.spell.iota.IotaType;
-import at.petrak.hexcasting.api.spell.iota.PatternIota;
-import at.petrak.hexcasting.api.spell.math.HexDir;
-import at.petrak.hexcasting.api.spell.math.HexPattern;
+import at.petrak.hexcasting.api.casting.ActionRegistryEntry;
+import at.petrak.hexcasting.api.casting.castables.Action;
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
+import at.petrak.hexcasting.api.casting.eval.OperationResult;
+import at.petrak.hexcasting.api.casting.eval.sideeffects.OperatorSideEffect;
+import at.petrak.hexcasting.api.casting.eval.vm.CastingImage;
+import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.api.casting.iota.PatternIota;
+import at.petrak.hexcasting.api.casting.math.HexDir;
+import at.petrak.hexcasting.api.casting.math.HexPattern;
+import at.petrak.hexcasting.common.lib.hex.HexActions;
+import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
 import net.minecraft.ChatFormatting;
@@ -18,7 +20,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,35 +31,17 @@ public class CommentIotaType extends IotaType<PatternIota> {
 
     static final HexPattern COMMENT_PATTERN = HexPattern.fromAngles("adadaqadadaaww", HexDir.SOUTH_EAST);
     static final PatternIota COMMENT_IOTA = new PatternIota(COMMENT_PATTERN);
+
     static final Action NULL_ACTION = new Action() {
-        static List<OperatorSideEffect> NO_EFFECT = new ArrayList<>();
-        static Component DISPLAY = Component.literal("comment");
+        static final List<OperatorSideEffect> NO_EFFECT = new ArrayList<>();
 
         @Override
-        public @NotNull Component getDisplayName() {
-            return DISPLAY;
-        }
-
-        @Override
-        public OperationResult operate(SpellContinuation continuation, List<Iota> stack, Iota raven, CastingContext ctx) {
-            return new OperationResult(continuation, stack, raven, NO_EFFECT);
-        }
-
-        @Override
-        public boolean isGreat() {
-            return false;
-        }
-
-        @Override
-        public boolean getAlwaysProcessGreatSpell() {
-            return false;
-        }
-
-        @Override
-        public boolean getCausesBlindDiversion() {
-            return false;
+        public @NotNull OperationResult operate(CastingEnvironment env, CastingImage img, SpellContinuation cont) {
+            return new OperationResult(img, NO_EFFECT, cont, HexEvalSounds.NOTHING);
         }
     };
+
+    public static final ActionRegistryEntry COMMENT_ACTION_ENTRY = new ActionRegistryEntry(COMMENT_PATTERN, NULL_ACTION);
 
     @Override
     public PatternIota deserialize(Tag tag, ServerLevel serverLevel) throws IllegalArgumentException {
@@ -78,13 +61,17 @@ public class CommentIotaType extends IotaType<PatternIota> {
     }
 
     public static void registerSelf() {
-        try {
-            // add action
-            PatternRegistry.mapPattern(COMMENT_PATTERN, new ResourceLocation(TYPE_ID), NULL_ACTION);
-            // add type
-            Registry.register(HexIotaTypes.REGISTRY, TYPE_ID, new CommentIotaType());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        registerIota();
+        registerAction();
+    }
+
+    public static void registerAction() {
+        // add action
+        Registry.register(HexActions.REGISTRY, TYPE_ID, COMMENT_ACTION_ENTRY);
+    }
+
+    public static void registerIota() {
+        // add type
+        Registry.register(HexIotaTypes.REGISTRY, TYPE_ID, new CommentIotaType());
     }
 }

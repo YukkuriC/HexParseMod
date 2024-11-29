@@ -13,6 +13,5 @@ public final class HexParse {
 
     public static void init() {
         ParserMain.init();
-        CommentIotaType.registerSelf();
     }
 }

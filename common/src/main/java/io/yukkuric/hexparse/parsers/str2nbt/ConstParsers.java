@@ -1,14 +1,15 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
-import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
-import at.petrak.hexcasting.api.spell.math.HexDir;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.parsers.IotaFactory;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
+import at.petrak.hexcasting.api.casting.math.HexDir;
 import io.yukkuric.hexparse.misc.NumEvaluatorBrute;
+import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
-import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.*;
+import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Prefix;
+import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Regex;
 
 public class ConstParsers {
     // prefix
@@ -42,7 +43,7 @@ public class ConstParsers {
                 } catch (NumberFormatException e) {
                 }
             }
-            return HexIotaTypes.serialize(new Vec3Iota(new Vec3(axes[0], axes[1], axes[2])));
+            return IotaType.serialize(new Vec3Iota(new Vec3(axes[0], axes[1], axes[2])));
         }
     };
     public static BaseConstParser TO_NUM_PATTERN = new Prefix("num") {

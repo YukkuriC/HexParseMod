@@ -1,7 +1,7 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.api.HexAPI;
-import at.petrak.hexcasting.api.spell.math.HexDir;
+import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import net.minecraft.nbt.*;
