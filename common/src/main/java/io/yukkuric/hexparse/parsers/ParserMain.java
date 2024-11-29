@@ -3,10 +3,7 @@ package io.yukkuric.hexparse.parsers;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
-import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt;
-import io.yukkuric.hexparse.parsers.str2nbt.PluginConstParsers;
-import io.yukkuric.hexparse.parsers.str2nbt.ToPattern;
-import io.yukkuric.hexparse.parsers.str2nbt.ToSelf;
+import io.yukkuric.hexparse.parsers.str2nbt.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -24,6 +21,13 @@ public class ParserMain {
     static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers;
     static List<INbt2Str> nbt2strParsers;
+
+    public static CompoundTag ParseSingleNode(String frag) {
+        for (var p : str2nbtParsers) {
+            if (p.match(frag)) return p.parse(frag);
+        }
+        return null;
+    }
 
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
         // bind caller
@@ -46,17 +50,10 @@ public class ParserMain {
                     break;
                 default:
                     try {
-                        var matched = false;
-                        for (var p : str2nbtParsers) {
-                            if (p.match(frag)) {
-                                stack.peek().add(p.parse(frag));
-                                matched = true;
-                                break;
-                            }
-                        }
-                        // unknown
-                        if (!matched)
+                        var parsed = ParseSingleNode(frag);
+                        if (parsed == null)
                             caller.sendSystemMessage(Component.literal(String.format("Unknown symbol: %s", frag)).withStyle(ChatFormatting.GOLD));
+                        else stack.peek().add(parsed);
                     } catch (Exception e) {
                         caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", frag, e)).withStyle(ChatFormatting.DARK_RED));
                     }
@@ -117,6 +114,7 @@ public class ParserMain {
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
                 new ToSelf(),
+                ToDialect.INSTANCE,
                 TO_RAW_PATTERN
         );
 
