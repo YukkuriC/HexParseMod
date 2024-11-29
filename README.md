@@ -1,7 +1,7 @@
 # HexParse mod
 
 JAR-ized `/hexParse` command
-in [kubejs version](https://github.com/YukkuriC/hex_playground/blob/main/server_scripts/Parser.js)
+in [kubejs version](https://github.com/YukkuriC/hex_playground/blob/1.19/server_scripts/Parser.js)
 
 Converts custom code into (pattern or literal) list iota; requires player to have a focus item in hand.
 
