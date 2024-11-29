@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import java.util.regex.Pattern;
 
 public class CommentParser implements INbt2Str {
-    static Pattern INDENT = Pattern.compile("^\\n\\s+$");
+    static Pattern INDENT = Pattern.compile("^\\n\\s*$");
 
     @Override
     public boolean match(CompoundTag node) {
