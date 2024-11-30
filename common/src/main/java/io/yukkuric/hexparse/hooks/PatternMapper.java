@@ -24,7 +24,7 @@ public class PatternMapper {
         mapPatternMeta.put("pop", IotaFactory.makePattern("a", HexDir.SOUTH_WEST)); // mask_v
         mapPatternMeta.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
         mapPatternMeta.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
-        mapPatternMeta.put("\\", mapPattern.get("escape"));
+        mapPatternMeta.put("\\", mapPatternMeta.get("escape"));
     }
 
     static void _setMap(Map<String, CompoundTag> map, ResourceLocation id, String seq, HexDir dir) {
