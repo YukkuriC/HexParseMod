@@ -8,12 +8,11 @@ import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
-import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Prefix;
-import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Regex;
+import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.*;
 
 public class ConstParsers {
     // prefix
-    public static BaseConstParser TO_TAB = new Prefix("tab") {
+    public static BaseConstParser TO_TAB = new Comment("tab") {
         @Override
         public CompoundTag parse(String node) {
             int indent = 0;
@@ -24,7 +23,7 @@ public class ConstParsers {
             return IotaFactory.makeTab(indent);
         }
     };
-    public static BaseConstParser TO_COMMENT = new Prefix("comment_") {
+    public static BaseConstParser TO_COMMENT = new Comment("comment_") {
         @Override
         public CompoundTag parse(String node) {
             return IotaFactory.makeComment(node.substring(8));

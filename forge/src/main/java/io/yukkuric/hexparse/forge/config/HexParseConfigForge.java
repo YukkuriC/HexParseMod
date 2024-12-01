@@ -12,10 +12,16 @@ public class HexParseConfigForge implements HexParseConfig.API {
         return parseGreatEnabled.get();
     }
 
-    public ForgeConfigSpec.BooleanValue parseGreatEnabled;
+    @Override
+    public boolean parseCommentsAndIndents() {
+        return parseIndentsEnabled.get();
+    }
+
+    public ForgeConfigSpec.BooleanValue parseGreatEnabled, parseIndentsEnabled;
 
     public HexParseConfigForge(ForgeConfigSpec.Builder builder) {
         parseGreatEnabled = builder.comment("can directly parse great spell patterns, without scrolls").define("ParseGreatSpells", true);
+        parseIndentsEnabled = builder.comment("enable comments and auto parse indents into comment iota for display").define("ParseCommentsIndents", true);
     }
 
     private static final Pair<HexParseConfigForge, ForgeConfigSpec> CFG_REGISTRY;

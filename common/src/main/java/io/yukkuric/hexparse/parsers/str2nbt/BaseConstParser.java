@@ -1,5 +1,7 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
+import io.yukkuric.hexparse.config.HexParseConfig;
+
 import java.util.regex.Pattern;
 
 public abstract class BaseConstParser implements IStr2Nbt {
@@ -26,6 +28,17 @@ public abstract class BaseConstParser implements IStr2Nbt {
         @Override
         public boolean match(String node) {
             return regex.matcher(node).find();
+        }
+    }
+
+    public static abstract class Comment extends Prefix {
+        Comment(String prefix) {
+            super(prefix);
+        }
+
+        @Override
+        public boolean ignored() {
+            return !HexParseConfig.parseCommentsAndIndents();
         }
     }
 }

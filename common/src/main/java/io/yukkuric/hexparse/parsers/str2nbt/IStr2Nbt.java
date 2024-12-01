@@ -6,4 +6,8 @@ public interface IStr2Nbt {
     boolean match(String node);
 
     CompoundTag parse(String node);
+
+    default boolean ignored() {
+        return false;
+    }
 }

@@ -21,10 +21,14 @@ public class ParserMain {
     static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers;
     static List<INbt2Str> nbt2strParsers;
+    static CompoundTag IGNORED = new CompoundTag();
 
     public static CompoundTag ParseSingleNode(String frag) {
         for (var p : str2nbtParsers) {
-            if (p.match(frag)) return p.parse(frag);
+            if (p.match(frag)) {
+                if (p.ignored()) return IGNORED;
+                return p.parse(frag);
+            }
         }
         return null;
     }
@@ -53,7 +57,7 @@ public class ParserMain {
                         var parsed = ParseSingleNode(frag);
                         if (parsed == null)
                             caller.sendSystemMessage(Component.literal(String.format("Unknown symbol: %s", frag)).withStyle(ChatFormatting.GOLD));
-                        else stack.peek().add(parsed);
+                        else if (parsed != IGNORED) stack.peek().add(parsed);
                     } catch (Exception e) {
                         caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", frag, e)).withStyle(ChatFormatting.DARK_RED));
                     }

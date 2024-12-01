@@ -24,12 +24,17 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
 
     @Config(name = "common")
     public static class Common implements HexParseConfig.API, ConfigData {
-        @ConfigEntry.Gui.Tooltip
         private boolean canParseGreatSpells = true;
+        private boolean parseCommentsIndents = true;
 
         @Override
         public boolean canParseGreatPatterns() {
             return canParseGreatSpells;
+        }
+
+        @Override
+        public boolean parseCommentsAndIndents() {
+            return parseCommentsIndents;
         }
     }
 }
