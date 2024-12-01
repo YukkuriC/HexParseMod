@@ -40,7 +40,12 @@ public class PatternMapper {
         mapPatternWorld.clear();
 
         var registry = IXplatAbstractions.INSTANCE.getActionRegistry();
+
+        // auto recalc great patterns
+        var overworld = level.getServer().overworld();
+        var ds = overworld.getDataStorage();
         var perWorldPatterns = ScrungledPatternsSave.open(level);
+        ds.set("hexcasting.per-world-patterns.0.1.0", perWorldPatterns);
 
         for (var entry : registry.entrySet()) {
             var key = entry.getKey();
