@@ -24,6 +24,7 @@ public class ParserMain {
     static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers;
     static List<INbt2Str> nbt2strParsers;
+    static CompoundTag IGNORED = new CompoundTag();
 
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
         // bind caller
@@ -49,7 +50,7 @@ public class ParserMain {
                         var matched = false;
                         for (var p : str2nbtParsers) {
                             if (p.match(frag)) {
-                                stack.peek().add(p.parse(frag));
+                                if (!p.ignored()) stack.peek().add(p.parse(frag));
                                 matched = true;
                                 break;
                             }

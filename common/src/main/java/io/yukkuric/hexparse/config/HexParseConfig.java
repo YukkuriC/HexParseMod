@@ -11,9 +11,15 @@ public class HexParseConfig {
         return imp.canParseGreatPatterns();
     }
 
+    public static boolean parseCommentsAndIndents() {
+        return imp.parseCommentsAndIndents();
+    }
+
     public interface API {
         boolean canParseGreatPatterns();
 
 //        boolean canParseGreatPattern(String patternId);
+
+        boolean parseCommentsAndIndents();
     }
 }

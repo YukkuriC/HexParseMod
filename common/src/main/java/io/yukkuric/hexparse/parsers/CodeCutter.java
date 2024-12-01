@@ -1,5 +1,7 @@
 package io.yukkuric.hexparse.parsers;
 
+import io.yukkuric.hexparse.config.HexParseConfig;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.MatchResult;
@@ -14,7 +16,8 @@ public class CodeCutter {
     static Pattern pLineStart = Pattern.compile("^\\s*");
 
     public static List<String> splitCode(String code) {
-        return splitCode(code, true);
+        var showIndent = HexParseConfig.parseCommentsAndIndents();
+        return splitCode(code, showIndent);
     }
 
     static String toIndent(MatchResult match) {
