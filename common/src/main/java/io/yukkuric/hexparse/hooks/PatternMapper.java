@@ -44,7 +44,7 @@ public class PatternMapper {
         // auto recalc great patterns
         var overworld = level.getServer().overworld();
         var ds = overworld.getDataStorage();
-        var perWorldPatterns = ScrungledPatternsSave.open(level);
+        var perWorldPatterns = ScrungledPatternsSave.createFromScratch(level.getSeed());
         ds.set("hexcasting.per-world-patterns.0.1.0", perWorldPatterns);
 
         for (var entry : registry.entrySet()) {
