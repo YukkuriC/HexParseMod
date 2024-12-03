@@ -6,12 +6,11 @@ license = "MIT"
 [[mods]]
 modId = "hexparse_client"
 version = "${version}"
-displayName = "HexParse"
+displayName = "HexParse_Client"
 authors = "YukkuriC"
-description = '''
-parse pattern registry name code into list iota, and vice versa
-'''
+description = '''_(:з」∠)_'''
 #logoFile = ""
+displayTest="IGNORE_ALL_VERSION"
 
 [[dependencies.hexparse_client]]
 modId = "forge"
