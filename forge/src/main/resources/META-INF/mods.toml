@@ -4,7 +4,7 @@ loaderVersion = "[43,)"
 license = "MIT"
 
 [[mods]]
-modId = "hexparse"
+modId = "hexparse_client"
 version = "${version}"
 displayName = "HexParse"
 authors = "YukkuriC"
@@ -13,21 +13,21 @@ parse pattern registry name code into list iota, and vice versa
 '''
 #logoFile = ""
 
-[[dependencies.hexparse]]
+[[dependencies.hexparse_client]]
 modId = "forge"
 mandatory = true
 versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.hexparse]]
+[[dependencies.hexparse_client]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.20.1,1.21)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.hexparse]]
+[[dependencies.hexparse_client]]
 modId = "hexcasting"
 mandatory = true
 versionRange = "[0,)"

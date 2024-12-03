@@ -38,9 +38,9 @@ nothing.
 
 ## TODOs
 
-* [x] [Commands](common/src/main/java/io/yukkuric/hexparse/commands/TODO.md)
-* [x] [Str2Nbt](common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/TODO.md)
-* [x] [Nbt2Str](common/src/main/java/io/yukkuric/hexparse/parsers/nbt2str/TODO.md)
+* [x] [Commands](common/src/main/java/io/yukkuric/hexparse_client/commands/TODO.md)
+* [x] [Str2Nbt](common/src/main/java/io/yukkuric/hexparse_client/parsers/str2nbt/TODO.md)
+* [x] [Nbt2Str](common/src/main/java/io/yukkuric/hexparse_client/parsers/nbt2str/TODO.md)
 
 ## Future plans
 
