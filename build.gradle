@@ -54,6 +54,8 @@ subprojects {
         it.options.release = 17
     }
 
+    sourceSets.main.kotlin.srcDirs += 'src/main/java'
+
     compileKotlin {
         kotlinOptions {
             jvmTarget = "17"

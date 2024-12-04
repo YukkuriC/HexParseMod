@@ -1,6 +1,7 @@
 package io.yukkuric.hexparse;
 
 import com.mojang.logging.LogUtils;
+import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import org.slf4j.Logger;
@@ -14,5 +15,6 @@ public final class HexParse {
     public static void init() {
         ParserMain.init();
         CommentIotaType.registerSelf();
+        HexParsePatterns.registerActions();
     }
 }
