@@ -15,12 +15,7 @@ import java.util.function.Consumer;
 public class CommandRead {
     public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
         cmd.then(
-                Commands.literal("read").executes(ctx -> readHand(ctx, code -> {
-                    var p = ctx.getSource().getPlayer();
-                    if (p == null) return;
-                    var display = Component.literal("Result: ").withStyle(ChatFormatting.GREEN).append(Component.literal(code).withStyle(ChatFormatting.WHITE));
-                    p.sendSystemMessage(wrapClickCopy(display, code));
-                }))
+                Commands.literal("read").executes(ctx -> readHand(ctx, code -> CodeHelpers.displayCode(ctx.getSource().getPlayer(), code)))
         ).then(
                 Commands.literal("share").executes(ctx -> readHand(ctx, code -> {
                     var p = ctx.getSource().getPlayer();
@@ -30,7 +25,7 @@ public class CommandRead {
                     var shared = ((MutableComponent) p.getName()).withStyle(ChatFormatting.GOLD)
                             .append(Component.literal(" shares: ").withStyle(ChatFormatting.WHITE))
                             .append(iota.display())
-                            .append(wrapClickCopy(
+                            .append(CodeHelpers.wrapClickCopy(
                                     Component.literal(" CLICK_COPY")
                                             .withStyle(ChatFormatting.WHITE)
                                             .withStyle(ChatFormatting.UNDERLINE),
@@ -47,13 +42,5 @@ public class CommandRead {
         if (code == null) return 0;
         then.accept(code);
         return 1919810;
-    }
-
-    static MutableComponent wrapClickCopy(MutableComponent component, String code) {
-        return component.withStyle(
-                Style.EMPTY
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
-                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal("CLICK TO COPY")))
-        );
     }
 }

@@ -4,6 +4,7 @@ import at.petrak.hexcasting.common.lib.HexRegistries;
 import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
+import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
@@ -44,8 +45,10 @@ public final class HexParseForge {
         var modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((RegisterEvent event) -> {
             var key = event.getRegistryKey();
-            if (key.equals(HexRegistries.ACTION)) CommentIotaType.registerAction();
-            else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
+            if (key.equals(HexRegistries.ACTION)) {
+                CommentIotaType.registerAction();
+                HexParsePatterns.registerActions();
+            } else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
         });
 
         var ctx = ModLoadingContext.get();

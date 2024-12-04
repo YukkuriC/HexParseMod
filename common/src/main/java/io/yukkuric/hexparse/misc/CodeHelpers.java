@@ -4,7 +4,8 @@ import at.petrak.hexcasting.common.items.storage.ItemFocus;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.ParserMain;
-import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -49,5 +50,19 @@ public interface CodeHelpers {
             PatternMapper.init(level);
             refreshedWorld.refersTo(server);
         }
+    }
+
+    static void displayCode(ServerPlayer player, String code) {
+        if (player == null) return;
+        var display = Component.literal("Result: ").withStyle(ChatFormatting.GREEN).append(Component.literal(code).withStyle(ChatFormatting.WHITE));
+        player.sendSystemMessage(wrapClickCopy(display, code));
+    }
+
+    static MutableComponent wrapClickCopy(MutableComponent component, String code) {
+        return component.withStyle(
+                Style.EMPTY
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
+                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal("CLICK TO COPY")))
+        );
     }
 }

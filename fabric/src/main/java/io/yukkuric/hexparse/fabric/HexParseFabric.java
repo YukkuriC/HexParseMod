@@ -3,6 +3,7 @@ package io.yukkuric.hexparse.fabric;
 import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
+import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.fabric.config.HexParseConfigFabric;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
@@ -33,6 +34,7 @@ public final class HexParseFabric implements ModInitializer {
         HexParse.init();
         HexParseConfigFabric.setup();
         CommentIotaType.registerSelf();
+        HexParsePatterns.registerActions();
 
         CommandRegistrationCallback.EVENT.register((dp, foo, bar) -> HexParseCommands.register(dp));
     }
