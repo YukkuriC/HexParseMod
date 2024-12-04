@@ -1,9 +1,8 @@
 # HexParse mod
 
-JAR-ized `/hexParse` command
-in [kubejs version](https://github.com/YukkuriC/hex_playground/blob/1.19/server_scripts/Parser.js)
+Provides a pair of patterns and a set of commands to convert custom code into (pattern or literal) list iota; requires player to have a focus item in hand.
 
-Converts custom code into (pattern or literal) list iota; requires player to have a focus item in hand.
+(Old KubeJS version [HERE](https://github.com/YukkuriC/hex_playground/blob/1.19/server_scripts/Parser.js))
 
 | Sample Code                           | Sample Iota                           |
 |---------------------------------------|---------------------------------------|
@@ -44,9 +43,9 @@ nothing.
 
 ## Future plans
 
-* [ ] config to control great spells parsing
-* [ ] item version
+* [x] config to control great spells parsing
+* [x] ~~item~~ spell pattern version
 * [ ] i18n lang
 * [ ] **more complex tokenizer to replace simple regex queues**
-* [ ] limited great spell parsing
-* [ ] 1.20 port after `HexCasting` publish
+* [ ] limited great spell parsing before scroll acquired
+* [x] 1.20 port after `HexCasting` publish
