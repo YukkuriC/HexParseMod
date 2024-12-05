@@ -8,7 +8,6 @@ import at.petrak.hexcasting.api.casting.eval.sideeffects.OperatorSideEffect;
 import at.petrak.hexcasting.api.casting.eval.vm.CastingImage;
 import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
-import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
@@ -17,7 +16,6 @@ import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
-import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -26,11 +24,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentIotaType extends IotaType<PatternIota> {
+public class CommentIotaType extends IotaType<CommentIota> {
+    public static CommentIotaType INSTANCE = new CommentIotaType();
+
     public static final String TYPE_ID = HexParse.MOD_ID + ":comment";
 
     static final HexPattern COMMENT_PATTERN = HexPattern.fromAngles("adadaqadadaaww", HexDir.SOUTH_EAST);
-    static final PatternIota COMMENT_IOTA = new PatternIota(COMMENT_PATTERN);
 
     static final Action NULL_ACTION = new Action() {
         static final List<OperatorSideEffect> NO_EFFECT = new ArrayList<>();
@@ -44,15 +43,13 @@ public class CommentIotaType extends IotaType<PatternIota> {
     public static final ActionRegistryEntry COMMENT_ACTION_ENTRY = new ActionRegistryEntry(COMMENT_PATTERN, NULL_ACTION);
 
     @Override
-    public PatternIota deserialize(Tag tag, ServerLevel serverLevel) throws IllegalArgumentException {
-        return COMMENT_IOTA;
+    public CommentIota deserialize(Tag tag, ServerLevel serverLevel) throws IllegalArgumentException {
+        return new CommentIota(tag.getAsString());
     }
 
     @Override
     public Component display(Tag tag) {
-        if (!(tag instanceof StringTag str))
-            throw new IllegalArgumentException(String.format("not a comment: %s", Tag.class.getName()));
-        return Component.literal(str.getAsString()).withStyle(ChatFormatting.DARK_GREEN);
+        return Component.literal(tag.getAsString()).withStyle(ChatFormatting.DARK_GREEN);
     }
 
     @Override
@@ -72,6 +69,6 @@ public class CommentIotaType extends IotaType<PatternIota> {
 
     public static void registerIota() {
         // add type
-        Registry.register(HexIotaTypes.REGISTRY, TYPE_ID, new CommentIotaType());
+        Registry.register(HexIotaTypes.REGISTRY, TYPE_ID, INSTANCE);
     }
 }
