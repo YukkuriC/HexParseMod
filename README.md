@@ -49,3 +49,4 @@ nothing.
 * [ ] **more complex tokenizer to replace simple regex queues**
 * [ ] limited great spell parsing before scroll acquired
 * [x] 1.20 port after `HexCasting` publish
+* [ ] patchouli for new pattern(s)
