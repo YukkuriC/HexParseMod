@@ -26,6 +26,16 @@ public class ParserMain {
     static List<INbt2Str> nbt2strParsers;
     static CompoundTag IGNORED = new CompoundTag();
 
+    public static CompoundTag ParseSingleNode(String frag) {
+        for (var p : str2nbtParsers) {
+            if (p.match(frag)) {
+                if (p.ignored()) return IGNORED;
+                return p.parse(frag);
+            }
+        }
+        return null;
+    }
+
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
         // bind caller
         for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
@@ -47,17 +57,10 @@ public class ParserMain {
                     break;
                 default:
                     try {
-                        var matched = false;
-                        for (var p : str2nbtParsers) {
-                            if (p.match(frag)) {
-                                if (!p.ignored()) stack.peek().add(p.parse(frag));
-                                matched = true;
-                                break;
-                            }
-                        }
-                        // unknown
-                        if (!matched)
+                        var parsed = ParseSingleNode(frag);
+                        if (parsed == null)
                             caller.sendSystemMessage(Component.literal(String.format("Unknown symbol: %s", frag)).withStyle(ChatFormatting.GOLD));
+                        else if (parsed != IGNORED) stack.peek().add(parsed);
                     } catch (Exception e) {
                         caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", frag, e)).withStyle(ChatFormatting.DARK_RED));
                     }
