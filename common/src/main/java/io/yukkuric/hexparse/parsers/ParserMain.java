@@ -102,7 +102,7 @@ public class ParserMain {
 
     public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller) {
         var res = _parseIotaNbt(node, caller, true);
-        res = res.replaceAll("(?<=\\[|]|\\(|\\)|^|\\n),|,(?=\\[|]|\\(|\\)|$|\\n)", "");
+        res = res.replaceAll("(?<=\\[|]|\\(|\\)|^|\\n|\\s),|,(?=\\[|]|\\(|\\)|$|\\n)", "");
         return res;
     }
 
