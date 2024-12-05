@@ -6,7 +6,7 @@ Provides a pair of patterns and a set of commands to convert custom code into (p
 
 | Sample Code                           | Sample Iota                           |
 |---------------------------------------|---------------------------------------|
-| ![Sample Code](img/sample%20code.png) | ![Sample Iota](img/sample%20iota.png) |
+| ![Sample Code](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20code.png) | ![Sample Iota](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20iota.png) |
 
 The
 highlight [VSCode extension](https://github.com/YukkuriC/hexParse_scripts/tree/main/.vscode/extensions/hexParse_highlight)
@@ -28,18 +28,12 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 ## Supported expressions
 
-see [this file](SYNTAX.md) for all available symbols.
+see [this file](https://github.com/YukkuriC/HexParseMod/blob/main/SYNTAX.md) for all available symbols.
 
 ## New iota: `CommentIota`
 
 `CommentIota` displays string inside, and parses into a null iota (with id: `"hexparse:comment"`) which executes doing
 nothing.
-
-## TODOs
-
-* [x] [Commands](common/src/main/java/io/yukkuric/hexparse/commands/TODO.md)
-* [x] [Str2Nbt](common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/TODO.md)
-* [x] [Nbt2Str](common/src/main/java/io/yukkuric/hexparse/parsers/nbt2str/TODO.md)
 
 ## Future plans
 
