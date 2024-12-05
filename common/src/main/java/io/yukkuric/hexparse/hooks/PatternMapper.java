@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentMap;
 
 public class PatternMapper {
     static final ConcurrentMap<String, Object> staticMapper;
+    static final ConcurrentMap<ResourceLocation, Object> greatMapper;
     static final Method m_opId, m_preferredStart;
 
     public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
@@ -24,6 +25,9 @@ public class PatternMapper {
             var fStaticMapper = PatternRegistry.class.getDeclaredField("regularPatternLookup");
             fStaticMapper.setAccessible(true);
             staticMapper = (ConcurrentMap<String, Object>) fStaticMapper.get(null);
+            fStaticMapper = PatternRegistry.class.getDeclaredField("perWorldPatternLookup");
+            fStaticMapper.setAccessible(true);
+            greatMapper = (ConcurrentMap<ResourceLocation, Object>) fStaticMapper.get(null);
             var clsRegularEntry = Class.forName("at.petrak.hexcasting.api.PatternRegistry$RegularEntry"); //RegularEntry(HexDir preferredStart, ResourceLocation opId)
             m_opId = clsRegularEntry.getMethod("opId");
             m_opId.setAccessible(true);
@@ -69,6 +73,27 @@ public class PatternMapper {
                 var id = entry.getFirst();
                 var dir = entry.getSecond();
                 _setMap(mapPatternWorld, id, seq, dir);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void initLocal() {
+        try {
+            // 1. map normal
+            for (var pair : staticMapper.entrySet()) {
+                var seq = pair.getKey();
+                var entry = pair.getValue();
+                var id = (ResourceLocation) m_opId.invoke(entry);
+                var dir = (HexDir) m_preferredStart.invoke(entry);
+                _setMap(mapPattern, id, seq, dir);
+            }
+
+            // 2. per-world fake
+            var fooSeq = CommentIotaType.COMMENT_PATTERN.anglesSignature();
+            for (var id : greatMapper.keySet()) {
+                _setMap(mapPatternWorld, id, fooSeq, HexDir.EAST);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
