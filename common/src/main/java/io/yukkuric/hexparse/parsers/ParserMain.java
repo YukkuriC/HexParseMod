@@ -5,6 +5,7 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
@@ -34,12 +35,19 @@ public class ParserMain {
     }
 
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
-        // bind caller
         for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
+        return _parseCode(CodeCutter.splitCode(code), caller);
+    }
 
+    public static synchronized CompoundTag ParseCode(List<String> nodes, ServerPlayer caller) {
+        for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
+        return _parseCode(nodes, caller);
+    }
+
+    private static CompoundTag _parseCode(List<String> nodes, ServerPlayer caller) {
         var stack = new Stack<ListTag>();
         stack.add(new ListTag());
-        for (var frag : CodeCutter.splitCode(code)) {
+        for (var frag : nodes) {
             switch (frag) {
                 // special: nested list
                 case "[":
@@ -69,6 +77,25 @@ public class ParserMain {
         }
         return IotaFactory.makeList(stack.pop());
     }
+
+    public static List<String> preMatchClipboardClient(String code) {
+        var res = new ArrayList<String>();
+        var caller = Minecraft.getInstance().player;
+        for (var frag : CodeCutter.splitCode(code)) {
+            var matched = false;
+            for (var p : str2nbtParsers) {
+                if (p.match(frag) && !p.ignored()) {
+                    res.add(frag);
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched && caller != null)
+                caller.sendSystemMessage(Component.literal(String.format("Unknown symbol: %s", frag)).withStyle(ChatFormatting.GOLD));
+        }
+        return res;
+    }
+
 
     public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller) {
         var res = _parseIotaNbt(node, caller, true);

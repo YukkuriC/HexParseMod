@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 public interface CodeHelpers {
     static ItemStack getFocusItem(ServerPlayer player) {
@@ -32,6 +33,16 @@ public interface CodeHelpers {
         if (rename != null) target.setHoverName(Component.literal(rename));
     }
 
+    static void doParse(ServerPlayer player, List<String> code, String rename) {
+        var target = getFocusItem(player);
+        if (target == null) return;
+        autoRefresh(player.getServer());
+        var nbt = ParserMain.ParseCode(code, player);
+        var tag = target.getOrCreateTag();
+        tag.put("data", nbt);
+        if (rename != null) target.setHoverName(Component.literal(rename));
+    }
+
     static String readHand(ServerPlayer player) {
         var target = getFocusItem(player);
         if (target == null) return null;
@@ -42,14 +53,21 @@ public interface CodeHelpers {
     }
 
     WeakReference<MinecraftServer> refreshedWorld = new WeakReference<>(null);
+    WeakReference<Boolean> refreshedLocal = new WeakReference<>(false);
 
     static void autoRefresh(MinecraftServer server) {
         if (server != refreshedWorld.get()) {
             var level = server.overworld();
             HexParse.LOGGER.info("auto refresh for server: %s, level: %s".formatted(server.name(), level));
             PatternMapper.init(level);
+            refreshedLocal.refersTo(true);
             refreshedWorld.refersTo(server);
         }
+    }
+
+    static void autoRefreshLocal() {
+        if (refreshedLocal.get()) return;
+        PatternMapper.initLocal();
     }
 
     static void displayCode(ServerPlayer player, String code) {

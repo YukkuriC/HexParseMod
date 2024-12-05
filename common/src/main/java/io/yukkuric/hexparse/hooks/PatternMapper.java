@@ -59,4 +59,13 @@ public class PatternMapper {
             }
         }
     }
+
+    public static void initLocal() {
+        var registry = IXplatAbstractions.INSTANCE.getActionRegistry();
+        for (var entry : registry.entrySet()) {
+            var key = entry.getKey();
+            var mapper = HexUtils.isOfTag(registry, key, HexTags.Actions.PER_WORLD_PATTERN) ? mapPatternWorld : mapPattern;
+            _setMap(mapper, key.location(), "", HexDir.EAST);
+        }
+    }
 }

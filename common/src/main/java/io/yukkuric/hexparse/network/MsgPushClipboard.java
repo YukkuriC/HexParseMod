@@ -8,12 +8,17 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-public record MsgPushClipboard(String code, String rename) implements IMessage {
+import java.util.ArrayList;
+import java.util.List;
+
+public record MsgPushClipboard(List<String> code, String rename) implements IMessage {
     public static final ResourceLocation ID = new ResourceLocation(HexParse.MOD_ID, "clipboard/push");
 
     @Override
     public void serialize(FriendlyByteBuf buf) {
-        MsgHelpers.putString(buf, code);
+        buf.writeInt(code.size());
+        for (var f : code)
+            MsgHelpers.putString(buf, f);
         MsgHelpers.putString(buf, rename);
     }
 
@@ -24,9 +29,11 @@ public record MsgPushClipboard(String code, String rename) implements IMessage {
 
     public static MsgPushClipboard deserialize(ByteBuf buffer) {
         var buf = new FriendlyByteBuf(buffer);
-        var str = MsgHelpers.getString(buf);
+        var code = new ArrayList<String>();
+        var len = buf.readInt();
+        for (int i = 0; i < len; i++) code.add(MsgHelpers.getString(buf));
         var name = MsgHelpers.getString(buf);
-        return new MsgPushClipboard(str, name);
+        return new MsgPushClipboard(code, name);
     }
 
     public static void handle(MsgPushClipboard self, ServerPlayer sender) {
