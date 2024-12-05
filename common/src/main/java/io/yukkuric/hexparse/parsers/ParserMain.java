@@ -157,15 +157,12 @@ public class ParserMain {
                 new NumParser(), new VecParser()
         );
 
-        if (HexParse.HELPERS.modLoaded("hexal")) {
+        if (HexParse.HELPERS.modLoaded("moreiotas")) {
             makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_ENTITY_TYPE);
             str2nbtParsers.add(PluginConstParsers.TO_IOTA_TYPE);
             nbt2strParsers.add(StringParser.IOTA);
             nbt2strParsers.add(StringParser.ENTITY);
-        }
-        if (HexParse.HELPERS.modLoaded("moreiotas")) {
-            makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_STRING);
             nbt2strParsers.add(StringParser.STRING);
         }

@@ -5,8 +5,8 @@ import net.minecraft.nbt.StringTag;
 
 public class PluginIotaFactory extends IotaFactory {
     // hexal iotas
-    public static final String TYPE_IOTA_TYPE = "hexal:iota_type";
-    public static final String TYPE_ENTITY_TYPE = "hexal:entity_type";
+    public static final String TYPE_IOTA_TYPE = "moreiotas:iota_type";
+    public static final String TYPE_ENTITY_TYPE = "moreiotas:entity_type";
     public static final String TYPE_STRING = "moreiotas:string";
 
     public static CompoundTag makeIotaType(String type) {
