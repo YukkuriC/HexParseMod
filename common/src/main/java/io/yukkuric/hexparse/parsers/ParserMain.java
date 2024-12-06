@@ -162,8 +162,11 @@ public class ParserMain {
             makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_ENTITY_TYPE);
             str2nbtParsers.add(PluginConstParsers.TO_IOTA_TYPE);
+            str2nbtParsers.add(PluginConstParsers.TO_ITEM_TYPE);
+            str2nbtParsers.add(PluginConstParsers.TO_BLOCK_TYPE);
             nbt2strParsers.add(StringParser.IOTA);
             nbt2strParsers.add(StringParser.ENTITY);
+            nbt2strParsers.add(new ItemTypeParser());
         }
         if (HexParse.HELPERS.modLoaded("moreiotas")) {
             makeMutableLists();

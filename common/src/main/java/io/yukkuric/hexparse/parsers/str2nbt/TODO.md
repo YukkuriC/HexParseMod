@@ -15,6 +15,7 @@
 * [x] hexal types
     * [x] iota
     * [x] entity
+    * [x] item/block
 * [x] moreiotas
     * [x] string
     * [ ] matrix???

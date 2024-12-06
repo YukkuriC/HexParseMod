@@ -4,8 +4,9 @@
 * [x] double
 * [x] vector
 * [x] hexal types
-  * [x] iota
-  * [x] entity
+    * [x] iota
+    * [x] entity
+    * [x] item/block
 * [x] moreiotas
-  * [x] string
-  * [ ] matrix?
+    * [x] string
+    * [ ] matrix?
