@@ -3,6 +3,7 @@ package io.yukkuric.hexparse.network;
 import at.petrak.hexcasting.common.network.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -47,6 +48,7 @@ public record MsgPullClipboard(String rename, boolean anglesOnly) implements IMe
                 MC.player.sendSystemMessage(Component.literal("CODE TOO LONG (%s)".formatted(code.length())));
             return;
         }
+        CodeHelpers.autoRefreshLocal();
         MsgHandlers.CLIENT.sendPacketToServer(new MsgPushClipboard(ParserMain.preMatchClipboardClient(code), self.rename));
     }
 }

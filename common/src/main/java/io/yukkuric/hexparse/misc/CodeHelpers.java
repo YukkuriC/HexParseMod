@@ -68,6 +68,7 @@ public interface CodeHelpers {
     static void autoRefreshLocal() {
         if (refreshedLocal.get()) return;
         PatternMapper.initLocal();
+        refreshedLocal.refersTo(true);
     }
 
     static void displayCode(ServerPlayer player, String code) {
