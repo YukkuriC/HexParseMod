@@ -14,10 +14,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 
@@ -86,7 +83,10 @@ public class ParserMain {
         var caller = Minecraft.getInstance().player;
         for (var frag : CodeCutter.splitCode(code)) {
             var matched = false;
-            for (var p : str2nbtParsers) {
+            if ("[]".contains(frag)) {
+                res.add(frag);
+                matched = true;
+            } else for (var p : str2nbtParsers) {
                 if (p.match(frag) && !p.ignored()) {
                     res.add(frag);
                     matched = true;
