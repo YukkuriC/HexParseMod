@@ -1,0 +1,7 @@
+{
+  "hexcasting.action.hexparse:focus2code": "编码之策略",
+  "hexcasting.action.hexparse:remove_comments": "压缩注释之纯化",
+  "hexparse.book.entry": "HexParse新增图案",
+  "book.descrip.hexparse:focus2code": "读取我手中的核心，将其内容解析为代码输出至聊天窗口。",
+  "book.descrip.hexparse:remove_comments": "清除列表内所有注释iota，返回处理后的列表。"
+}
