@@ -1,6 +1,6 @@
 {
   "hexcasting.spell.hexparse:focus2code": "Encoding Gambit",
-  "hexcasting.spell.hexparse:remove_comments": "Comment-Dropping Purification",
+  "hexcasting.spell.hexparse:remove_comments": "No-Comment Purification",
   "hexparse.book.entry": "HexParse Patterns",
   "book.descrip.hexparse:focus2code": "Reads data from my offhand focus, and print parsed code into chat menu.",
   "book.descrip.hexparse:remove_comments": "Clears all comment iotas in a list, returns processed list."
