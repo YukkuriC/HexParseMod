@@ -1,1 +1,4 @@
 *.jar
+*.json
+changelog.md
+__pycache__
