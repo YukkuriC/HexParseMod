@@ -29,7 +29,7 @@ public class CommentIotaType extends IotaType<CommentIota> {
 
     public static final String TYPE_ID = HexParse.MOD_ID + ":comment";
 
-    static final HexPattern COMMENT_PATTERN = HexPattern.fromAngles("adadaqadadaaww", HexDir.SOUTH_EAST);
+    public static final HexPattern COMMENT_PATTERN = HexPattern.fromAngles("adadaqadadaaww", HexDir.SOUTH_EAST);
 
     static final Action NULL_ACTION = new Action() {
         static final List<OperatorSideEffect> NO_EFFECT = new ArrayList<>();
