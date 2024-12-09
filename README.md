@@ -14,7 +14,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 ## Commands added
 
-- `/hexParse <code string> [rename]`: parse imput code into focus item; optional `rename` argument to rename focus item.
+- `/hexParse <code string> [rename]`: parse input code into focus item; optional `rename` argument to rename focus item.
 - `/hexParse clipboard [rename]`: read client clipboard text and parse into focus; optional `rename` argument to rename
   focus item.
 - `/hexParse clipboard_angles [rename]`: same as above, but only accept patterns input with raw angle string like
@@ -43,4 +43,4 @@ nothing.
 * [ ] **more complex tokenizer to replace simple regex queues**
 * [ ] limited great spell parsing before scroll acquired
 * [x] 1.20 port after `HexCasting` publish
-* [ ] patchouli for new pattern(s)
+* [x] patchouli for new pattern(s)
