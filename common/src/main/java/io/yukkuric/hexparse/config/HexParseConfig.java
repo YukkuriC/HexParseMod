@@ -3,11 +3,20 @@ package io.yukkuric.hexparse.config;
 public class HexParseConfig {
     static API imp;
 
+    public enum ParseGreatPatternMode {
+        ALL,
+        DISABLED,
+        BY_SCROLL,
+    }
+
+    public static final String DESCRIP_PARSE_GREAT = "can directly parse great spell patterns, without scrolls";
+    public static final String DESCRIP_ENABLE_COMMENTS = "enable comments and auto parse indents into comment iota for display";
+
     public static void bindConfigImp(API api) {
         imp = api;
     }
 
-    public static boolean canParseGreatPatterns() {
+    public static ParseGreatPatternMode canParseGreatPatterns() {
         return imp.canParseGreatPatterns();
     }
 
@@ -16,7 +25,7 @@ public class HexParseConfig {
     }
 
     public interface API {
-        boolean canParseGreatPatterns();
+        ParseGreatPatternMode canParseGreatPatterns();
 
 //        boolean canParseGreatPattern(String patternId);
 
