@@ -8,6 +8,7 @@ import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = HexParse.MOD_ID)
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
@@ -24,12 +25,14 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
 
     @Config(name = "common")
     public static class Common implements HexParseConfig.API, ConfigData {
-        private boolean canParseGreatSpells = true;
+        @Comment(HexParseConfig.DESCRIP_PARSE_GREAT)
+        private HexParseConfig.ParseGreatPatternMode parseGreatSpells = HexParseConfig.ParseGreatPatternMode.BY_SCROLL;
+        @Comment(HexParseConfig.DESCRIP_ENABLE_COMMENTS)
         private boolean parseCommentsIndents = true;
 
         @Override
-        public boolean canParseGreatPatterns() {
-            return canParseGreatSpells;
+        public HexParseConfig.ParseGreatPatternMode canParseGreatPatterns() {
+            return parseGreatSpells;
         }
 
         @Override
