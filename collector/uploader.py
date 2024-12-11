@@ -3,24 +3,38 @@ from functools import partial
 
 opentext = partial(open, encoding='utf-8')
 
+with opentext('secrets.json') as f:
+    SECRETS = json.load(f)
+
 with opentext('config.json') as f:
     CFG = json.load(f)
 
 with opentext('changelog.md') as f:
     CHANGELOG = f.read()
 
+if CFG.get('mock'):
+
+    def mock_post(*a, **kw):
+        print('POST', a, kw)
+        return mock_post
+
+    mock_post.text = 'MOCK'
+
+    requests.post = mock_post
+
 
 def push_file(file):
     filename = os.path.basename(file)
     print("UPLOADING:", filename)
     filename_body = os.path.splitext(filename)[0]
-    [_, platform, game_version, mod_version] = filename_body.split('-')
+    [mod_name, platform, game_version, mod_version] = filename_body.split('-')
     mod_version_full = f"{game_version}-{mod_version}"
 
+    # https://docs.modrinth.com/api/operations/createversion/
     if "modrinth":
         header = {
-            "Authorization": CFG['auth_mr'],
-            "User-Agent": "YukkuriC/hexParse",
+            "Authorization": SECRETS['auth_mr'],
+            "User-Agent": f"YukkuriC/{mod_name}",
             # "Content-Type": "multipart/form-data"
         }
         data = {
@@ -28,20 +42,19 @@ def push_file(file):
             "version_number": mod_version_full,
             "changelog": CHANGELOG,
             "dependencies": [{
-                "project_id": "nTW3yKrm",  # hex casting
+                "project_id": dep,
                 "dependency_type": "required"
-            }],
+            } for dep in CFG['MR']['dependencies']],
             "game_versions": [game_version],
             "version_type": "release",
             "loaders": [platform],
             "featured": True,
             "status": "listed",
-            "project_id": "WjFyIzFj",  # hexparse
+            "project_id": CFG['MR']['project_id'],
             "file_parts": [filename],
             "primary_file": filename
         }
 
-        # https://docs.modrinth.com/api/operations/createversion/
         response = requests.post("https://api.modrinth.com/v2/version",
                                  data={
                                      "data": json.dumps(data),
@@ -50,6 +63,7 @@ def push_file(file):
                                  files={filename: open(file, 'rb')})
         print("MR", response.text)
 
+    # https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api
     if "curseforge":
         data = {
             "changelog": CHANGELOG,
@@ -65,11 +79,10 @@ def push_file(file):
             "releaseType": "release",
         }
         header = {
-            "X-Api-Token": CFG['auth_cf'],
+            "X-Api-Token": SECRETS['auth_cf'],
         }
 
-        # https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api
-        response = requests.post("https://minecraft.curseforge.com/api/projects/1148731/upload-file",
+        response = requests.post(f"https://minecraft.curseforge.com/api/projects/{CFG['CF']['project_id']}/upload-file",
                                  data={
                                      "metadata": json.dumps(data),
                                  },
@@ -80,10 +93,10 @@ def push_file(file):
 
 def pick_versions():
     header = {
-        "X-Api-Token": CFG['auth_cf'],
+        "X-Api-Token": SECRETS['auth_cf'],
     }
     versions = requests.get("https://minecraft.curseforge.com/api/game/versions", headers=header)
-    with opentext('output.json', 'w') as f:
+    with opentext('versions.json', 'w') as f:
         print(versions.text, file=f)
 
     exit()
