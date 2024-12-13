@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
 
 public class PatternMapper {
     static final ConcurrentMap<String, Object> staticMapper;
-    static final ConcurrentMap<ResourceLocation, Object> greatMapper;
+    public static final ConcurrentMap<ResourceLocation, Object> greatMapper;
     static final Method m_opId, m_preferredStart;
 
     public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
