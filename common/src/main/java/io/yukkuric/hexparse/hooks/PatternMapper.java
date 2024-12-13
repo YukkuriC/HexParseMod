@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.hooks;
 
 import at.petrak.hexcasting.api.PatternRegistry;
 import at.petrak.hexcasting.api.spell.math.HexDir;
+import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -19,6 +20,7 @@ public class PatternMapper {
 
     public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
     public static final Map<String, CompoundTag> mapPatternWorld = new HashMap<>();
+    public static final Map<String, String> mapShort2Long = new HashMap<>();
 
     static {
         try {
@@ -50,6 +52,10 @@ public class PatternMapper {
         var pattern = IotaFactory.makePattern(seq, dir);
         map.put(idLong, pattern);
         map.put(idShort, pattern);
+        var replace = mapShort2Long.put(idShort, idLong);
+        if (replace != null && !replace.equals(idLong)) {
+            HexParse.LOGGER.error("Duplicate ID for {} and {}", idLong, replace);
+        }
     }
 
     public static void init(ServerLevel level) {
