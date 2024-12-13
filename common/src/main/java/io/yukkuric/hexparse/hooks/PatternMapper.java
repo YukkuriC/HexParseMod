@@ -35,7 +35,7 @@ public class PatternMapper {
         map.put(idLong, pattern);
         map.put(idShort, pattern);
         var replace = mapShort2Long.put(idShort, idLong);
-        if (replace != null) {
+        if (replace != null && !replace.equals(idLong)) {
             HexParse.LOGGER.error("Duplicate ID for {} and {}", idLong, replace);
         }
     }
