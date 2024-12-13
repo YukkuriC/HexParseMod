@@ -28,7 +28,7 @@ public class ToPattern implements IStr2Nbt {
     public static ToPattern GREAT = new ToPattern(PatternMapper.mapPatternWorld) {
         @Override
         public boolean match(String node) {
-            if (HexParseConfig.canParseGreatPatterns()== HexParseConfig.ParseGreatPatternMode.DISABLED) return false;
+            if (HexParseConfig.canParseGreatPatterns() == HexParseConfig.ParseGreatPatternMode.DISABLED) return false;
             return super.match(node);
         }
     };

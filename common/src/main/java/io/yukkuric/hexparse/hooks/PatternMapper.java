@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.mod.HexTags;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.server.ScrungledPatternsSave;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
+import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +18,7 @@ public class PatternMapper {
     public static final Map<String, CompoundTag> mapPatternMeta = new HashMap<>();
     public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
     public static final Map<String, CompoundTag> mapPatternWorld = new HashMap<>();
+    public static final Map<String, String> mapShort2Long = new HashMap<>();
 
     static {
         mapPatternMeta.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
@@ -32,12 +34,17 @@ public class PatternMapper {
         var pattern = IotaFactory.makePattern(seq, dir);
         map.put(idLong, pattern);
         map.put(idShort, pattern);
+        var replace = mapShort2Long.put(idShort, idLong);
+        if (replace != null) {
+            HexParse.LOGGER.error("Duplicate ID for {} and {}", idLong, replace);
+        }
     }
 
     public static void init(ServerLevel level) {
         // clear mapper first ...?
         mapPattern.clear();
         mapPatternWorld.clear();
+        mapShort2Long.clear();
 
         var registry = IXplatAbstractions.INSTANCE.getActionRegistry();
 
