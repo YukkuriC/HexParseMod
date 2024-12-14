@@ -5,13 +5,12 @@ import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.server.MinecraftServer;
-
-import java.lang.ref.WeakReference;
 
 public class CommandRefresh {
     public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
-        cmd.then(Commands.literal("refreshMappings").executes(CommandRefresh::doRefresh));
+        cmd.then(Commands.literal("refreshMappings")
+                .requires(s -> s.hasPermission(2))
+                .executes(CommandRefresh::doRefresh));
     }
 
     static int doRefresh(CommandContext<CommandSourceStack> ctx) {
