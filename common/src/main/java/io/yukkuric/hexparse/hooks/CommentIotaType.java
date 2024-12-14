@@ -8,10 +8,12 @@ import at.petrak.hexcasting.api.spell.casting.eval.SpellContinuation;
 import at.petrak.hexcasting.api.spell.casting.sideeffects.OperatorSideEffect;
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.IotaType;
+import at.petrak.hexcasting.api.spell.iota.PatternIota;
 import at.petrak.hexcasting.api.spell.math.HexDir;
 import at.petrak.hexcasting.api.spell.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.Tag;
@@ -67,7 +69,12 @@ public class CommentIotaType extends IotaType<CommentIota> {
 
     @Override
     public Component display(Tag tag) {
-        return Component.literal(tag.getAsString()).withStyle(ChatFormatting.DARK_GREEN);
+        var raw = tag.getAsString();
+        var content = Component.literal(raw);
+        if (raw.startsWith(IotaFactory.GREAT_PLACEHOLDER_PREFIX))
+            content.withStyle(s -> s.withColor(PatternIota.TYPE.color()));
+        else content.withStyle(ChatFormatting.DARK_GREEN);
+        return content;
     }
 
     @Override

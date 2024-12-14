@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
-import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
@@ -9,6 +8,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Map;
+
+import static io.yukkuric.hexparse.config.HexParseConfig.*;
 
 public class ToPattern implements IStr2Nbt {
     final Map<String, CompoundTag> target;
@@ -39,26 +40,24 @@ public class ToPattern implements IStr2Nbt {
 
         @Override
         public void BindPlayer(ServerPlayer p) {
-            if (HexParseConfig.canParseGreatPatterns() != HexParseConfig.ParseGreatPatternMode.BY_SCROLL) {
-                checker = null;
-                return;
+            switch (canParseGreatPatterns()) {
+                case DISABLED:
+                    checker = GreatPatternUnlocker.DENY_ALL;
+                    break;
+                case BY_SCROLL:
+                    var level = p.getLevel();
+                    checker = GreatPatternUnlocker.get(level);
+                    break;
+                default:
+                    checker = null;
+                    break;
             }
-            var level = p.getLevel();
-            checker = GreatPatternUnlocker.get(level);
-        }
-
-        @Override
-        public boolean match(String node) {
-            if (HexParseConfig.canParseGreatPatterns() == HexParseConfig.ParseGreatPatternMode.DISABLED) return false;
-            return super.match(node);
         }
 
         @Override
         public CompoundTag parse(String node) {
             if (checker == null || checker.isUnlocked(node)) return super.parse(node);
-            return IotaFactory.makeComment(String.format("<%s?>", node));
+            return IotaFactory.makeUnknownGreatPattern(node);
         }
     }
-
-    ;
 }

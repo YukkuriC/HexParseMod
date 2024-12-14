@@ -16,6 +16,9 @@ public class IotaFactory {
     public static final String TYPE_DOUBLE = HexAPI.MOD_ID + ":double";
     public static final String TYPE_VECTOR = HexAPI.MOD_ID + ":vec3";
 
+    public static final String GREAT_PLACEHOLDER_PREFIX = "<";
+    public static final String GREAT_PLACEHOLDER_POSTFIX = "?>";
+
     static final Map<Character, Byte> ANGLE_MAP = new HashMap<>() {
         {
             put('w', (byte) 0);
@@ -52,6 +55,10 @@ public class IotaFactory {
 
     public static CompoundTag makeComment(String comment) {
         return _makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
+    }
+
+    public static CompoundTag makeUnknownGreatPattern(String id) {
+        return makeComment(GREAT_PLACEHOLDER_PREFIX + id + GREAT_PLACEHOLDER_POSTFIX);
     }
 
     public static CompoundTag makeTab(int num) {
