@@ -52,7 +52,7 @@ public class PatternMapper {
         var overworld = level.getServer().overworld();
         var ds = overworld.getDataStorage();
         var perWorldPatterns = ScrungledPatternsSave.createFromScratch(level.getSeed());
-        ds.set("hexcasting.per-world-patterns.0.1.0", perWorldPatterns);
+        ds.set(ScrungledPatternsSave.TAG_SAVED_DATA, perWorldPatterns);
 
         for (var entry : registry.entrySet()) {
             var key = entry.getKey();
