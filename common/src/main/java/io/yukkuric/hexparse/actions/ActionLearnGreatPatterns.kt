@@ -1,44 +1,44 @@
 package io.yukkuric.hexparse.actions
 
-import at.petrak.hexcasting.api.PatternRegistry
-import at.petrak.hexcasting.api.spell.ConstMediaAction
-import at.petrak.hexcasting.api.spell.casting.CastingContext
-import at.petrak.hexcasting.api.spell.iota.Iota
-import at.petrak.hexcasting.api.spell.iota.ListIota
-import at.petrak.hexcasting.api.spell.iota.PatternIota
-import at.petrak.hexcasting.api.spell.math.HexPattern
-import at.petrak.hexcasting.api.spell.asActionResult
-import at.petrak.hexcasting.api.spell.mishaps.MishapDisallowedSpell
-import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidPattern
+import at.petrak.hexcasting.api.casting.PatternShapeMatch
+import at.petrak.hexcasting.api.casting.asActionResult
+import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
+import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.iota.ListIota
+import at.petrak.hexcasting.api.casting.iota.PatternIota
+import at.petrak.hexcasting.api.casting.math.HexPattern
+import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
+import at.petrak.hexcasting.common.casting.PatternRegistryManifest
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker
-import io.yukkuric.hexparse.hooks.PatternMapper
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.item.ItemStack
-import java.util.ArrayList
 
 object ActionLearnGreatPatterns : ConstMediaAction {
     override val argc = 0
 
+    lateinit var cachedEnv: CastingEnvironment
     lateinit var cachedLevel: ServerLevel
     lateinit var cachedUnlocker: GreatPatternUnlocker
 
-    override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
-        val player = ctx.caster
-        val level = ctx.world
+    override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
+        cachedEnv = env
+        val player = env.caster
+        val level = env.world
         cachedLevel = level
         cachedUnlocker = GreatPatternUnlocker.get(level)
         if (player == null) throw MishapDisallowedSpell()
 
         val returns = ArrayList<PatternIota>()
-        var item = player.getItemInHand(ctx.otherHand)
+        var item = player.getItemInHand(env.otherHand)
         var targetIotas: List<Iota>?
         if (!item.isEmpty) {
             targetIotas = extractTargetFromItem(item)
             if (targetIotas != null) processIotaList(targetIotas, returns)
         }
-        item = player.getItemInHand(ctx.castingHand)
+        item = player.getItemInHand(env.castingHand)
         if (!item.isEmpty) {
             targetIotas = extractTargetFromItem(item)
             if (targetIotas != null) processIotaList(targetIotas, returns)
@@ -74,12 +74,8 @@ object ActionLearnGreatPatterns : ConstMediaAction {
     }
 
     private fun fetchPatternGreatKey(pattern: HexPattern): ResourceLocation? {
-        try {
-            val match = PatternRegistry.matchPatternAndID(pattern, cachedLevel).second
-            if (PatternMapper.greatMapper.containsKey(match)) return match
-            return null
-        } catch (e: MishapInvalidPattern) {
-            return null
-        }
+        var matcher = PatternRegistryManifest.matchPattern(pattern, cachedEnv, false)
+        if (matcher !is PatternShapeMatch.PerWorld) return null
+        return matcher.key.location()
     }
 }
