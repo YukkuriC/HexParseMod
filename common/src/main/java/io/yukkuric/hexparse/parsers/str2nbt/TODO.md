@@ -3,7 +3,7 @@
     * [x] special: escape & paren
     * [x] normal lookup
     * [x] per-world lookup
-        * [ ] limited great spell parse
+        * [x] limited great spell parse
 * [x] myself ref
 * [x] tab & comment
 * [x] num literal
