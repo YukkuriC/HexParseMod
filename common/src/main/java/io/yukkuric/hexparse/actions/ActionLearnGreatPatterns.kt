@@ -68,9 +68,8 @@ object ActionLearnGreatPatterns : ConstMediaAction {
         if (target !is PatternIota) return
         val key = fetchPatternGreatKey(target.pattern) ?: return
         if (output.none { it.toleratesOther(target) }) {
-            output.add(target)
             // do unlock
-            cachedUnlocker.unlock(key.toString())
+            if (cachedUnlocker.unlock(key.toString())) output.add(target)
         }
     }
 

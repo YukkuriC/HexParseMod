@@ -48,9 +48,11 @@ public class GreatPatternUnlocker extends SavedData {
     }
 
     public boolean unlock(String key) {
-        doUpdate();
+        setDirty();
         key = PatternMapper.mapShort2Long.getOrDefault(key, key);
-        return _unlocked.add(key);
+        var res = _unlocked.add(key);
+        if (res) setDirty();
+        return res;
     }
 
     public int unlockAll() {
@@ -62,20 +64,15 @@ public class GreatPatternUnlocker extends SavedData {
                 if (unlock(key.location().toString())) res++;
             }
         }
-        doUpdate();
+        if (res > 0) setDirty();
         return res;
     }
 
     public boolean clear() {
         if (_unlocked.isEmpty()) return false;
-        doUpdate();
+        setDirty();
         _unlocked.clear();
         return true;
-    }
-
-    void doUpdate() {
-        setDirty();
-        _storage.set(SAVENAME, this);
     }
 
     public static GreatPatternUnlocker get(ServerLevel level) {
