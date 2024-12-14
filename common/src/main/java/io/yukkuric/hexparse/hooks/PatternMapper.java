@@ -60,7 +60,7 @@ public class PatternMapper {
 
     public static void init(ServerLevel level) {
         // 0. reload great patterns
-        level.getServer().overworld().getDataStorage().set("hex.per-world-patterns", PatternRegistry.Save.create(level.getSeed()));
+        level.getServer().overworld().getDataStorage().set(PatternRegistry.TAG_SAVED_DATA, PatternRegistry.Save.create(level.getSeed()));
 
         try {
             // 1. map normal
