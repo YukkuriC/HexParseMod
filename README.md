@@ -1,16 +1,43 @@
 # HexParse mod
 
-Provides a pair of patterns and a set of commands to convert custom code into (pattern or literal) list iota; requires player to have a focus item in hand.
+Provides a pair of patterns and a set of commands to convert custom code into (pattern or literal) list iota; requires
+player to have a focus item in hand.
 
 (Old KubeJS version [HERE](https://github.com/YukkuriC/hex_playground/blob/1.19/server_scripts/Parser.js))
 
-| Sample Code                           | Sample Iota                           |
-|---------------------------------------|---------------------------------------|
+| Example Code                                                                           | Example Iota                                                                           |
+|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | ![Sample Code](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20code.png) | ![Sample Iota](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20iota.png) |
 
 The
 highlight [VSCode extension](https://github.com/YukkuriC/hexParse_scripts/tree/main/.vscode/extensions/hexParse_highlight)
 has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\extensions\hexParse_highlight"` manually.
+
+## Limited great pattern parsing
+
+When failing to parse restricted great spells **from code to iota**, the parser leaves a placeholder comment in-place,
+which can be read as original input later.
+
+| Example                                                                                          |
+|--------------------------------------------------------------------------------------------------|
+| ![Code With Missing](https://github.com/YukkuriC/HexParseMod/raw/main/img/code_with_unknown.png) |
+| ![Iota With Missing](https://github.com/YukkuriC/HexParseMod/raw/main/img/iota_with_unknown.png) |
+
+The config entry `ParseGreatSpells` determines the mode this mod deals with great patterns.  
+Parsing iota with great patterns to code is not limited.
+
+### Normal Mode (by default): `BY_SCROLL`
+
+All great patterns are restricted at first, and have to be unlocked by a `Learn Great Patterns` pattern after acquiring
+certain items containing great patterns.
+
+### Easy Mode (by default before ver.`0.7`): `ALL`
+
+Parsing is not limited, and great patterns can be used freely regardless of world exploration and looting progress.
+
+### Hard Mode: `DISABLED`
+
+Parsing is not limited.
 
 ## Commands added
 
@@ -23,8 +50,22 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   when clicked.
 - `/hexParse share`: (experimental) same as above but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
+
+### OP-only commands
+
 - `/hexParse refreshMappings`: reload pattern mappings when plugins updated; should be auto-executed before first usage
-  of above commands in each server, and may be ignored.
+  of above commands in each server, and this command can be ignored in normal cases.
+- `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>)`: controls great pattern unlocking process of current
+  world by locking/unlocking all at once, or unlock a single great pattern each execution.
+
+## Patterns added
+
+* `code2focus`: Equivalent to `/hexParse clipboard`.
+* `focus2code`: Equivalent to `/hexParse read`.
+* `remove_comments`: Clears comment iotas from a (nested) list input.
+* `learn_patterns`: Read handheld items and learns great pattern(s) inside.
+
+*Introduction also written in `HexParse Patterns` section inside the book.*
 
 ## Supported expressions
 
@@ -37,10 +78,6 @@ nothing.
 
 ## Future plans
 
-* [x] config to control great spells parsing
-* [x] ~~item~~ spell pattern version
-* [ ] i18n lang
-* [ ] **more complex tokenizer to replace simple regex queues**
-* [ ] limited great spell parsing before scroll acquired
-* [x] 1.20 port after `HexCasting` publish
-* [x] patchouli for new pattern(s)
+* i18n lang
+* **more complex tokenizer to replace simple regex queues**
+* **legal** number pattern generator
