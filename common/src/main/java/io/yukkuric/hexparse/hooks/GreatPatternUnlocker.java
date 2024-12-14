@@ -14,6 +14,7 @@ import java.util.Set;
 public class GreatPatternUnlocker extends SavedData {
     static final String KEY_UNLOCK_SET = "unlocks";
     static final String SAVENAME = "hexparse.great.pattern.unlocks";
+    public static GreatPatternUnlocker DENY_ALL = new GreatPatternUnlocker(null);
 
     Set<String> _unlocked;
     DimensionDataStorage _storage;
