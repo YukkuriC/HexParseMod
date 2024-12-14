@@ -1,9 +1,11 @@
 {
   "hexcasting.spell.hexparse:focus2code": "Encoding Gambit",
   "hexcasting.spell.hexparse:code2focus": "Decoding Gambit",
+  "hexcasting.spell.hexparse:learn_patterns": "Learn Great Patterns",
   "hexcasting.spell.hexparse:remove_comments": "No-Comment Purification",
   "hexparse.book.entry": "HexParse Patterns",
   "book.descrip.hexparse:focus2code": "Reads data from the focus I'm holding, and prints parsed code into chat menu.$(br)Can only be casted by staff.",
   "book.descrip.hexparse:code2focus": "Reads code from my local clipboard, then parse it into the focus I'm holding.$(br)Can only be casted by staff.",
+  "book.descrip.hexparse:learn_patterns": "Extract great patterns from handheld items (ancient scrolls, focuses, compiled casting items, etc.), and returns a list of newly learned ones by the parser.",
   "book.descrip.hexparse:remove_comments": "Clears all comment iotas in a list, returns processed list."
 }
