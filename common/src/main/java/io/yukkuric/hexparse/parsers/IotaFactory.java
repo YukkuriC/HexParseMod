@@ -57,8 +57,16 @@ public class IotaFactory {
         return _makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
     }
 
+    public static boolean isGreatPatternPlaceholder(String node) {
+        return node.startsWith(GREAT_PLACEHOLDER_PREFIX) && node.endsWith(GREAT_PLACEHOLDER_POSTFIX);
+    }
+
+    public static String makeUnknownGreatPatternText(String id) {
+        return GREAT_PLACEHOLDER_PREFIX + id + GREAT_PLACEHOLDER_POSTFIX;
+    }
+
     public static CompoundTag makeUnknownGreatPattern(String id) {
-        return makeComment(GREAT_PLACEHOLDER_PREFIX + id + GREAT_PLACEHOLDER_POSTFIX);
+        return makeComment(makeUnknownGreatPatternText(id));
     }
 
     public static CompoundTag makeTab(int num) {

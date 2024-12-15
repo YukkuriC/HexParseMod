@@ -11,9 +11,12 @@ import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
+import at.petrak.hexcasting.api.mod.HexTags;
+import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.ChatFormatting;
@@ -24,6 +27,7 @@ import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CommentIotaType extends IotaType<CommentIota> {
@@ -52,11 +56,26 @@ public class CommentIotaType extends IotaType<CommentIota> {
     @Override
     public Component display(Tag tag) {
         var raw = tag.getAsString();
-        var content = Component.literal(raw);
-        if (raw.startsWith(IotaFactory.GREAT_PLACEHOLDER_PREFIX))
-            content.withStyle(s -> s.withColor(PatternIota.TYPE.color()));
-        else content.withStyle(ChatFormatting.DARK_GREEN);
-        return content;
+        if (!IotaFactory.isGreatPatternPlaceholder(raw))
+            return Component.literal(raw).withStyle(ChatFormatting.DARK_GREEN);
+        var len = raw.length();
+        var loopSize = (int) Math.floor(len * Math.PI * 2);
+        var ticker = (System.currentTimeMillis() / 20);
+        var looper = (int) (ticker % loopSize);
+        if (looper >= len * 2) return Component.literal(raw).withStyle(s -> s.withColor(PatternIota.TYPE.color()));
+        ticker -= looper;
+        var filledStr = pickRandomGreatPatternKey(ticker, len - IotaFactory.GREAT_PLACEHOLDER_PREFIX.length() - IotaFactory.GREAT_PLACEHOLDER_POSTFIX.length());
+        filledStr = IotaFactory.makeUnknownGreatPatternText(filledStr);
+        if (looper <= len) {
+            return Component.literal(filledStr.substring(0, looper)).withStyle(ChatFormatting.LIGHT_PURPLE).append(
+                    Component.literal(raw.substring(looper)).withStyle(s -> s.withColor(PatternIota.TYPE.color()))
+            );
+        } else {
+            looper -= len;
+            return Component.literal(raw.substring(0, looper)).withStyle(s -> s.withColor(PatternIota.TYPE.color())).append(
+                    Component.literal(filledStr.substring(looper)).withStyle(ChatFormatting.LIGHT_PURPLE)
+            );
+        }
     }
 
     @Override
@@ -77,5 +96,41 @@ public class CommentIotaType extends IotaType<CommentIota> {
     public static void registerIota() {
         // add type
         Registry.register(HexIotaTypes.REGISTRY, TYPE_ID, INSTANCE);
+    }
+
+    static String cachedGreatPatternKeys;
+
+    static String pickRandomGreatPatternKey(long from, int size) {
+        // get cache
+        if (cachedGreatPatternKeys == null) {
+            var randList = new ArrayList<>();
+            // get keys
+            {
+                var registry = IXplatAbstractions.INSTANCE.getActionRegistry();
+                for (var entry : registry.entrySet()) {
+                    var key = entry.getKey();
+                    if (HexUtils.isOfTag(registry, key, HexTags.Actions.PER_WORLD_PATTERN)) {
+                        var regKey = key.location();
+                        for (int i = 0; i < 3; i++) {
+                            randList.add(regKey.getPath());
+                        }
+                    }
+                }
+            }
+            Collections.shuffle(randList);
+            var sb = new StringBuilder();
+            for (var k : randList) {
+                sb.append(k);
+                sb.append("---");
+            }
+            cachedGreatPatternKeys = sb.toString();
+        }
+
+        var startIdx = (int) (from % cachedGreatPatternKeys.length());
+        var endIdx = startIdx + size;
+        if (endIdx <= cachedGreatPatternKeys.length()) return cachedGreatPatternKeys.substring(startIdx, endIdx);
+        else {
+            return cachedGreatPatternKeys.substring(startIdx) + cachedGreatPatternKeys.substring(0, endIdx - cachedGreatPatternKeys.length());
+        }
     }
 }
