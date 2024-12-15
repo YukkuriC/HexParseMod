@@ -24,6 +24,7 @@ object ActionRemoveComments : ConstMediaAction {
         for (sub in target) {
             if (sub is ListIota) {
                 res.add(ListIota(filterComments(sub.list)))
+                continue
             } else if (sub is CommentIota) continue
             else if (sub is PatternIota && sub.pattern.sigsEqual(CommentIotaType.COMMENT_PATTERN)) continue
             res.add(sub)
