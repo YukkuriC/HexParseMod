@@ -25,6 +25,6 @@ public class CommentIota extends PatternIota {
     }
 
     public CastResult execute(CastingVM vm, ServerLevel world, SpellContinuation continuation) {
-        return new CastResult(this, continuation, vm.getImage(), List.of(), ResolvedPatternType.ESCAPED, HexEvalSounds.NOTHING);
+        return new CastResult(this, continuation, null, List.of(), ResolvedPatternType.ESCAPED, HexEvalSounds.NOTHING);
     }
 }
