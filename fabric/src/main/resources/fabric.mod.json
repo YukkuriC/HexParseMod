@@ -8,10 +8,12 @@
     "YukkuriC"
   ],
   "contact": {
-    "homepage": "https://github.com/YukkuriC/"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/hexparse",
+    "sources": "https://github.com/YukkuriC/HexParseMod",
+    "issues": "https://github.com/YukkuriC/HexParseMod/issues"
   },
   "license": "MIT",
-  "icon": "assets/hexparse/icon.png",
+  "icon": "logo.png",
   "environment": "*",
   "entrypoints": {
     "main": [
