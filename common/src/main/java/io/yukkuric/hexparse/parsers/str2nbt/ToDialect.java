@@ -30,19 +30,19 @@ public record ToDialect(Map<String, String> mapper) implements IStr2Nbt {
         {
             // pop one
             put("pop", "mask_v");
-            // 1.19 registry
-            put("list_size", "abs");
-            put("concat", "add");
-            put("to_set", "unique");
-            put("teleport", "teleport/great");
-            put("list_remove", "remove_from");
-            put("modify_in_place", "replace");
+            // 1.19 registry reverse (without operation overload)
+            /*put("abs", "list_size");
+            put("add", "concat");*/
+            put("unique", "to_set");
+            put("teleport/great", "teleport");
+            put("remove_from", "list_remove");
+            put("replace", "modify_in_place");
             for (var old_long : new String[]{
                     "mul_dot", "div_cross", "abs_len", "pow_proj",
                     "and_bit", "or_bit", "xor_bit", "not_bit",
                     "reverse_list",
             })
-                put(old_long, old_long.split("_")[0]);
+                put(old_long.split("_")[0], old_long);
         }
     });
 }
