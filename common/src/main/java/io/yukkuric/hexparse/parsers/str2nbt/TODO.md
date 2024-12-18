@@ -12,6 +12,8 @@
 * [x] mask pattern parser
 * [x] vector literal
 * [x] raw pattern angle seq
+* [x] dialect
+    * [x] configurable
 * [x] hexal types
     * [x] iota
     * [x] entity

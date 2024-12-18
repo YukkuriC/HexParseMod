@@ -23,7 +23,6 @@ public class PatternMapper {
     static {
         mapPatternMeta.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
         mapPatternMeta.put("del", IotaFactory.makePattern("eeedw", HexDir.EAST));
-        mapPatternMeta.put("pop", IotaFactory.makePattern("a", HexDir.SOUTH_WEST)); // mask_v
         mapPatternMeta.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
         mapPatternMeta.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
         mapPatternMeta.put("\\", mapPatternMeta.get("escape"));

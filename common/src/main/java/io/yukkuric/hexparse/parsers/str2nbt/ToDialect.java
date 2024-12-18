@@ -28,6 +28,8 @@ public record ToDialect(Map<String, String> mapper) implements IStr2Nbt {
 
     public static final ToDialect INSTANCE = new ToDialect(new HashMap<>() {
         {
+            // pop one
+            put("pop", "mask_v");
             // 1.19 registry
             put("list_size", "abs");
             put("concat", "add");
