@@ -3,10 +3,7 @@ package io.yukkuric.hexparse.parsers;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
-import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt;
-import io.yukkuric.hexparse.parsers.str2nbt.PluginConstParsers;
-import io.yukkuric.hexparse.parsers.str2nbt.ToPattern;
-import io.yukkuric.hexparse.parsers.str2nbt.ToSelf;
+import io.yukkuric.hexparse.parsers.str2nbt.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -149,6 +146,7 @@ public class ParserMain {
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
                 new ToSelf(),
+                ToDialect.INSTANCE,
                 TO_RAW_PATTERN
         );
 
