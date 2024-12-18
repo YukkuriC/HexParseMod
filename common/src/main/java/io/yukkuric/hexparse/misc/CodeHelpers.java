@@ -72,7 +72,7 @@ public interface CodeHelpers {
     }
 
     static void displayCode(ServerPlayer player, String code) {
-        if (player == null) return;
+        if (player == null || code == null) return;
         var display = Component.literal("Result: ").withStyle(ChatFormatting.GREEN).append(Component.literal(code).withStyle(ChatFormatting.WHITE));
         player.sendSystemMessage(wrapClickCopy(display, code));
     }
