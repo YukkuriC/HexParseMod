@@ -145,7 +145,7 @@ public class ParserMain {
                 TO_TAB, TO_COMMENT,
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
-                new ToSelf(),
+                new ToEntity(), new ToSelf(),
                 ToDialect.INSTANCE,
                 TO_RAW_PATTERN
         );
@@ -153,7 +153,8 @@ public class ParserMain {
         nbt2strParsers = Arrays.asList(
                 new PatternParser(),
                 new CommentParser(),
-                new NumParser(), new VecParser()
+                new NumParser(), new VecParser(),
+                new EntityParser()
         );
 
         if (HexParse.HELPERS.modLoaded("hexal")) {

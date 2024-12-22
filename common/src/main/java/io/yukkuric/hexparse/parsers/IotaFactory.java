@@ -15,6 +15,7 @@ public class IotaFactory {
     public static final String TYPE_PATTERN = HexAPI.MOD_ID + ":pattern";
     public static final String TYPE_DOUBLE = HexAPI.MOD_ID + ":double";
     public static final String TYPE_VECTOR = HexAPI.MOD_ID + ":vec3";
+    public static final String TYPE_ENTITY = HexAPI.MOD_ID + ":entity";
 
     public static final String GREAT_PLACEHOLDER_PREFIX = "<";
     public static final String GREAT_PLACEHOLDER_POSTFIX = "?>";
