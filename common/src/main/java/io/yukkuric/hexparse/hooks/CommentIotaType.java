@@ -20,6 +20,7 @@ import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -56,8 +57,10 @@ public class CommentIotaType extends IotaType<CommentIota> {
     @Override
     public Component display(Tag tag) {
         var raw = tag.getAsString();
-        if (!IotaFactory.isGreatPatternPlaceholder(raw))
+        if (!IotaFactory.isGreatPatternPlaceholder(raw)) {
+            if (Screen.hasShiftDown()) return Component.empty();
             return Component.literal(raw).withStyle(ChatFormatting.DARK_GREEN);
+        }
         var len = raw.length();
         var loopSize = (int) Math.floor(len * Math.PI * 2);
         var ticker = (System.currentTimeMillis() / 20);

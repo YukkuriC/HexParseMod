@@ -74,9 +74,11 @@ see [this file](https://github.com/YukkuriC/HexParseMod/blob/main/SYNTAX.md) for
 ## New iota: `CommentIota`
 
 `CommentIota` displays string inside, and parses into a null iota (with id: `"hexparse:comment"`) which executes doing
-nothing.
+nothing.  
+Comment iotas includes text comments, line-breaks & indents, and unknown great spell placeholders.  
+When player holds `Shift` key, all comments will be hidden.
 
-## Future plans
+## Future plans 
 
 * i18n lang
 * **more complex tokenizer to replace simple regex queues**
