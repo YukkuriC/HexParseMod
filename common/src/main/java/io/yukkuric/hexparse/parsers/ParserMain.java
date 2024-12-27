@@ -63,8 +63,8 @@ public class ParserMain {
                         if (parsed == null)
                             caller.sendSystemMessage(Component.literal(String.format("Unknown symbol: %s", frag)).withStyle(ChatFormatting.GOLD));
                         else if (parsed != IGNORED) stack.peek().add(parsed);
-                    } catch (Exception e) {
-                        caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", frag, e)).withStyle(ChatFormatting.DARK_RED));
+                    } catch (Throwable e) {
+                        caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", frag, e.getLocalizedMessage())).withStyle(ChatFormatting.DARK_RED));
                     }
                     break;
             }
@@ -125,8 +125,8 @@ public class ParserMain {
                 if (p.match(node)) return p.parse(node);
             }
             return "UNKNOWN";
-        } catch (Exception e) {
-            caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", node, e)).withStyle(ChatFormatting.DARK_RED));
+        } catch (Throwable e) {
+            caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", node, e.getLocalizedMessage())).withStyle(ChatFormatting.DARK_RED));
             return "ERROR";
         }
     }
