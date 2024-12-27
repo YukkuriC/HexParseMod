@@ -171,4 +171,14 @@ public class ParserMain {
             nbt2strParsers.add(StringParser.STRING);
         }
     }
+
+    public static void AddForthParser(IStr2Nbt p) {
+        makeMutableLists();
+        str2nbtParsers.add(p);
+    }
+
+    public static void AddBackParser(INbt2Str p) {
+        makeMutableLists();
+        nbt2strParsers.add(p);
+    }
 }
