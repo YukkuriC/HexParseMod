@@ -73,7 +73,7 @@ public interface CodeHelpers {
 
     static void displayCode(ServerPlayer player, String code) {
         if (player == null || code == null) return;
-        var display = Component.literal("Result: ").withStyle(ChatFormatting.GREEN).append(Component.literal(code).withStyle(ChatFormatting.WHITE));
+        var display = Component.translatable("hexparse.cmd.read.display", Component.literal(code).withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.GREEN);
         player.sendSystemMessage(wrapClickCopy(display, code));
     }
 
@@ -81,7 +81,7 @@ public interface CodeHelpers {
         return component.withStyle(
                 Style.EMPTY
                         .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
-                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal("CLICK TO COPY")))
+                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.translatable("chat.copy.click")))
         );
     }
 }

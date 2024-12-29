@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.parsers.ParserMain;
+import net.minecraft.network.chat.Component;
 import org.slf4j.Logger;
 
 public final class HexParse {
@@ -16,5 +17,9 @@ public final class HexParse {
         ParserMain.init();
         CommentIotaType.registerSelf();
         HexParsePatterns.registerActions();
+    }
+
+    public static String doTranslate(String key, Object... args) {
+        return Component.translatable(key, args).getString();
     }
 }

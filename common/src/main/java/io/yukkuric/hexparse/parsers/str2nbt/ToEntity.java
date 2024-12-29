@@ -5,9 +5,9 @@ import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.NullIota;
 import at.petrak.hexcasting.api.spell.mishaps.MishapOthersName;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -41,7 +41,7 @@ public class ToEntity extends BaseConstParser.Prefix implements IPlayerBinder {
             }
             res = new EntityIota(entity);
         } catch (MishapOthersName e) {
-            var msg = Component.translatable("hexcasting.mishap.others_name", entity.getName()).getString();
+            var msg = HexParse.doTranslate("hexcasting.mishap.others_name", entity.getName());
             throw new RuntimeException(msg);
         } catch (Exception e) {
             res = new NullIota();

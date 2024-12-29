@@ -45,7 +45,7 @@ public record MsgPullClipboard(String rename, boolean anglesOnly) implements IMe
         }
         if (code.length() > MAX_LENGTH) {
             if (MC.player != null)
-                MC.player.sendSystemMessage(Component.literal("CODE TOO LONG (%s)".formatted(code.length())));
+                MC.player.sendSystemMessage(Component.translatable("hexparse.msg.error.code_too_long", code.length()));
             return;
         }
         CodeHelpers.autoRefreshLocal();

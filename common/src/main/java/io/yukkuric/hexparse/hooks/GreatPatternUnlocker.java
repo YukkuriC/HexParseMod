@@ -45,9 +45,15 @@ public class GreatPatternUnlocker extends SavedData {
     }
 
     public boolean unlock(String key) {
-        setDirty();
         key = PatternMapper.mapShort2Long.getOrDefault(key, key);
         var res = _unlocked.add(key);
+        if (res) setDirty();
+        return res;
+    }
+
+    public boolean lock(String key) {
+        key = PatternMapper.mapShort2Long.getOrDefault(key, key);
+        var res = _unlocked.remove(key);
         if (res) setDirty();
         return res;
     }

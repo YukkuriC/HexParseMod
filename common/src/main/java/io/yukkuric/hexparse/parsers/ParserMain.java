@@ -32,8 +32,7 @@ public class ParserMain {
     }
 
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
-        for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
-        return _parseCode(CodeCutter.splitCode(code), caller);
+        return ParseCode(CodeCutter.splitCode(code), caller);
     }
 
     public static synchronized CompoundTag ParseCode(List<String> nodes, ServerPlayer caller) {
@@ -44,33 +43,43 @@ public class ParserMain {
     private static CompoundTag _parseCode(List<String> nodes, ServerPlayer caller) {
         var stack = new Stack<ListTag>();
         stack.add(new ListTag());
-        for (var frag : nodes) {
-            switch (frag) {
-                // special: nested list
-                case "[":
-                    stack.push(new ListTag());
-                    break;
-                case "]":
-                    var inner = IotaFactory.makeList(stack.pop());
-                    if (stack.isEmpty()) {
-                        throw new RuntimeException("too many closed bracket");
-                    }
-                    stack.peek().add(inner);
-                    break;
-                default:
-                    try {
-                        var parsed = ParseSingleNode(frag);
-                        if (parsed == null)
-                            caller.sendSystemMessage(Component.literal(String.format("Unknown symbol: %s", frag)).withStyle(ChatFormatting.GOLD));
-                        else if (parsed != IGNORED) stack.peek().add(parsed);
-                    } catch (Throwable e) {
-                        caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", frag, e.getLocalizedMessage())).withStyle(ChatFormatting.DARK_RED));
-                    }
-                    break;
+        try {
+            for (var frag : nodes) {
+                switch (frag) {
+                    // special: nested list
+                    case "[":
+                        stack.push(new ListTag());
+                        break;
+                    case "]":
+                        var inner = IotaFactory.makeList(stack.pop());
+                        if (stack.isEmpty()) {
+                            throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.closed"));
+                        }
+                        stack.peek().add(inner);
+                        break;
+                    default:
+                        try {
+                            var parsed = ParseSingleNode(frag);
+                            if (parsed == null)
+                                caller.sendSystemMessage(Component.translatable("hexparse.msg.error.unknown_symbol", frag).withStyle(ChatFormatting.GOLD));
+                            else if (parsed != IGNORED) stack.peek().add(parsed);
+                        } catch (Throwable e) {
+                            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", frag, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
+                        }
+                        break;
+                }
             }
-        }
-        if (stack.size() > 1) {
-            throw new RuntimeException("too many open bracket");
+            if (stack.size() > 1) {
+                throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.open"));
+            }
+        } catch (Throwable e) {
+            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()));
+            // try fix data anyway
+            while (stack.size() > 1) {
+                var sub = stack.pop();
+                stack.peek().add(sub);
+            }
+            return IotaFactory.makeList(stack.isEmpty() ? new ListTag() : stack.pop());
         }
         return IotaFactory.makeList(stack.pop());
     }
@@ -91,7 +100,7 @@ public class ParserMain {
                 }
             }
             if (!matched && caller != null)
-                caller.sendSystemMessage(Component.literal(String.format("Unknown symbol: %s", frag)).withStyle(ChatFormatting.GOLD));
+                caller.sendSystemMessage(Component.translatable("hexparse.msg.error.unknown_symbol", frag).withStyle(ChatFormatting.GOLD));
         }
         return res;
     }
@@ -126,7 +135,7 @@ public class ParserMain {
             }
             return "UNKNOWN";
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.literal(String.format("Error when parsing %s: %s", node, e.getLocalizedMessage())).withStyle(ChatFormatting.DARK_RED));
+            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
             return "ERROR";
         }
     }
