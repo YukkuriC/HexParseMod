@@ -68,11 +68,12 @@ public class GreatPatternUnlocker extends SavedData {
         return res;
     }
 
-    public boolean clear() {
-        if (_unlocked.isEmpty()) return false;
+    public int clear() {
+        if (_unlocked.isEmpty()) return 0;
         setDirty();
+        var res = _unlocked.size();
         _unlocked.clear();
-        return true;
+        return res;
     }
 
     public static GreatPatternUnlocker get(ServerLevel level) {

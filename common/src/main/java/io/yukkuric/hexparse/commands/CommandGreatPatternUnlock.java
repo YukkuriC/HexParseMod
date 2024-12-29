@@ -24,8 +24,8 @@ public class CommandGreatPatternUnlock {
             return HexParse.doTranslate("hexparse.cmd.unlocker.unlock.all", res);
         })));
         sub.then(Commands.literal("lockAll").executes(saveOp((save, ctx) -> {
-            save.clear();
-            return HexParse.doTranslate("hexparse.cmd.unlocker.lock.all");
+            var res = save.clear();
+            return HexParse.doTranslate("hexparse.cmd.unlocker.lock.all", res);
         })));
         sub.then(Commands.literal("unlock").then(Commands.argument("patternKey", PatternResLocArgument.id()).executes(saveOp((save, ctx) -> {
             var key = ResourceLocationArgument.getId(ctx, "patternKey").toString();
