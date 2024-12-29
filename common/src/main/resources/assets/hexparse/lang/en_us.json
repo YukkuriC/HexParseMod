@@ -1,8 +1,8 @@
 {
-  "hexparse.cmd.unlocker.unlock.all": "Unlocked %s types",
-  "hexparse.cmd.unlocker.lock.all": "Unlocked %s types",
+  "hexparse.cmd.unlocker.unlock.all": "Unlocked %s great patterns",
+  "hexparse.cmd.unlocker.lock.all": "Locked %s great patterns",
   "hexparse.cmd.unlocker.unlock.one": "Unlocked %s",
-  "hexparse.cmd.unlocker.lock.one": "Unlocked %s types",
+  "hexparse.cmd.unlocker.lock.one": "Locked %s",
   "hexparse.cmd.read.display": "Result: %s",
   "hexparse.cmd.read.share": "%s shares: %s (%s)",
   "hexparse.msg.parse_error": "Error when parsing: %s",
