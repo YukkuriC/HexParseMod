@@ -73,10 +73,10 @@ public class ParserMain {
                 throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.open"));
             }
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()));
+            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
             // try fix data anyway
             while (stack.size() > 1) {
-                var sub = stack.pop();
+                var sub = IotaFactory.makeList(stack.pop());
                 stack.peek().add(sub);
             }
             return IotaFactory.makeList(stack.isEmpty() ? new ListTag() : stack.pop());
