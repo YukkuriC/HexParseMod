@@ -22,15 +22,12 @@ public class CommandRead {
                     if (p == null) return;
                     var item = CodeHelpers.getFocusItem(p);
                     var iota = ((ItemFocus) item.getItem()).readIota(item, p.serverLevel());
-                    var shared = ((MutableComponent) p.getName()).withStyle(ChatFormatting.GOLD)
-                            .append(Component.literal(" shares: ").withStyle(ChatFormatting.WHITE))
-                            .append(iota.display())
-                            .append(CodeHelpers.wrapClickCopy(
-                                    Component.literal(" CLICK_COPY")
-                                            .withStyle(ChatFormatting.WHITE)
-                                            .withStyle(ChatFormatting.UNDERLINE),
-                                    code
-                            ));
+                    if (iota == null) return;
+                    var shared = Component.translatable("hexparse.cmd.read.share",
+                            ((MutableComponent) p.getName()).withStyle(ChatFormatting.GOLD),
+                            iota.display(),
+                            CodeHelpers.wrapClickCopy(Component.translatable("chat.copy.click"), code)
+                    );
                     for (var pp : p.server.getPlayerList().getPlayers())
                         pp.sendSystemMessage(shared);
                 }))
