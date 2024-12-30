@@ -7,6 +7,8 @@
     * [x] iota
     * [x] entity
     * [x] item/block
+    * [ ] mote
+    * [x] gate
 * [x] moreiotas
     * [x] string
     * [ ] matrix?

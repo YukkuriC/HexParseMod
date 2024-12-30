@@ -167,6 +167,12 @@ public class ParserMain {
                 new EntityParser()
         );
 
+        if (HexParse.HELPERS.modLoaded("hexal")) {
+            makeMutableLists();
+            str2nbtParsers.add(new ToGate());
+            nbt2strParsers.add(new GateParser());
+        }
+
         if (HexParse.HELPERS.modLoaded("moreiotas")) {
             makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_ENTITY_TYPE);

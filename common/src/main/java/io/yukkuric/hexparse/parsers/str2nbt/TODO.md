@@ -19,7 +19,7 @@
     * [x] entity
     * [x] item/block
     * [ ] mote
-    * [ ] gate
+    * [x] gate
 * [x] moreiotas
     * [x] string
     * [ ] matrix???
