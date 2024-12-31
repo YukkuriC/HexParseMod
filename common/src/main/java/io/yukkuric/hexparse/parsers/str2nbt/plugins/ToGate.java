@@ -1,10 +1,10 @@
-package io.yukkuric.hexparse.parsers.str2nbt;
+package io.yukkuric.hexparse.parsers.str2nbt.plugins;
 
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
+import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -46,7 +46,7 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
             }
             try {
                 var uuid = UUID.fromString(f);
-                entity = ((ServerLevel) self.level()).getEntity(uuid);
+                entity = self.getLevel().getEntity(uuid); // fine
             } catch (IllegalArgumentException e) {
                 throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.unknown_symbol", f));
             }

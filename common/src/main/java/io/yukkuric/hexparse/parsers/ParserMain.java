@@ -3,7 +3,10 @@ package io.yukkuric.hexparse.parsers;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
+import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
+import io.yukkuric.hexparse.parsers.str2nbt.plugins.PluginConstParsers;
+import io.yukkuric.hexparse.parsers.str2nbt.plugins.ToGate;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -140,14 +143,6 @@ public class ParserMain {
         }
     }
 
-
-    static void makeMutableLists() {
-        if (mutableFlag) return;
-        mutableFlag = true;
-        str2nbtParsers = new ArrayList<>(str2nbtParsers);
-        nbt2strParsers = new ArrayList<>(nbt2strParsers);
-    }
-
     public static void init() {
         str2nbtParsers = Arrays.asList(
                 ToPattern.NORMAL, ToPattern.GREAT,
@@ -166,8 +161,11 @@ public class ParserMain {
                 new EntityParser()
         );
 
+        // mutable anyway
+        str2nbtParsers = new ArrayList<>(str2nbtParsers);
+        nbt2strParsers = new ArrayList<>(nbt2strParsers);
+
         if (HexParse.HELPERS.modLoaded("hexal")) {
-            makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_ENTITY_TYPE);
             str2nbtParsers.add(PluginConstParsers.TO_IOTA_TYPE);
             str2nbtParsers.add(PluginConstParsers.TO_ITEM_TYPE);
@@ -179,19 +177,16 @@ public class ParserMain {
             nbt2strParsers.add(new GateParser());
         }
         if (HexParse.HELPERS.modLoaded("moreiotas")) {
-            makeMutableLists();
             str2nbtParsers.add(PluginConstParsers.TO_STRING);
             nbt2strParsers.add(StringParser.STRING);
         }
     }
 
     public static void AddForthParser(IStr2Nbt p) {
-        makeMutableLists();
         str2nbtParsers.add(p);
     }
 
     public static void AddBackParser(INbt2Str p) {
-        makeMutableLists();
         nbt2strParsers.add(p);
     }
 }

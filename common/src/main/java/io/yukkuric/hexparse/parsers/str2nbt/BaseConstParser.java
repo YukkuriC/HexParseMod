@@ -8,7 +8,7 @@ public abstract class BaseConstParser implements IStr2Nbt {
     public static abstract class Prefix extends BaseConstParser {
         String prefix;
 
-        Prefix(String prefix) {
+        protected Prefix(String prefix) {
             this.prefix = prefix;
         }
 
@@ -21,7 +21,7 @@ public abstract class BaseConstParser implements IStr2Nbt {
     public static abstract class Regex extends BaseConstParser {
         Pattern regex;
 
-        Regex(String regex) {
+        protected Regex(String regex) {
             this.regex = Pattern.compile(regex);
         }
 
