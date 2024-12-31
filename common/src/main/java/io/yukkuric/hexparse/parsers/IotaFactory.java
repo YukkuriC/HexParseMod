@@ -7,9 +7,7 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import net.minecraft.nbt.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class IotaFactory {
     public static final String TYPE_LIST = HexAPI.MOD_ID + ":list";

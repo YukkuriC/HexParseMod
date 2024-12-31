@@ -1,8 +1,9 @@
-package io.yukkuric.hexparse.parsers.nbt2str;
+package io.yukkuric.hexparse.parsers.nbt2str.plugins;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
+import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 
