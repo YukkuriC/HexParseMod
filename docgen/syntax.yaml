@@ -1,0 +1,95 @@
+Currently Supported Syntax:
+  data:
+  - Example: '`[`, `]`'
+    Output: list literals; can be nested
+    Output Type: '`ListIota`'
+    Type: Nested List
+  - Example: '`(`, `)`, `\\` or `escape`'
+    Output: '`Introspection`, `Retrospection` and `Consideration`'
+    Output Type: '`PatternIota`'
+    Type: Non-functional Pattern
+  - Example: '`get_caster`, `entity_pos/eye`'
+    Output: normal static patterns matched by registration key
+    Output Type: '`PatternIota`'
+    Type: Normal Pattern
+  - Example: '`lightning` , `brainsweep`'
+    Output: great (per-world) patterns; currently not limited `TODO`
+    Output Type: '`PatternIota`'
+    Type: Great Spell
+  - Example: '`mask_--vv--`'
+    Output: '`Bookkeeper''s Gambit`'
+    Output Type: '`PatternIota`'
+    Type: Mask Pattern
+  - Example: '`num_1.375`'
+    Output: '`Numerical Reflection`'
+    Output Type: '`PatternIota`'
+    Type: Number Literal Pattern
+  - Example: '`_wedsaq`'
+    Output: Patterns with given angle signatures
+    Output Type: '`PatternIota`'
+    Type: Raw Pattern
+  - Example: '`entity_<uuidString>`'
+    Output: the `EntityIota` of the entity with certain UUID
+    Output Type: '`EntityIota`'
+    Type: Entity Reference
+  - Example: '`self`, `myself`'
+    Output: the `EntityIota` of the player
+    Output Type: '`EntityIota`'
+    Type: Caster Reference
+  - Example: '`114514`'
+    Output: corresponding `DoubleIota`
+    Output Type: '`DoubleIota`'
+    Type: Number Literal
+  - Example: '`vec`, `vec_5_1_4`, `vec_19_19`'
+    Output: corresponding `Vec3Iota`; unassigned axes will be 0s
+    Output Type: '`Vec3Iota`'
+    Type: Vector Literal
+  - Example: '`comment_meow`'
+    Output: comment which displays as text but won't be executed; same limitation
+      as `String Literal`s
+    Output Type: '`CommentIota`'
+    Type: Iota Comments
+  - Example: '`tab_4`, `tab_8`, `tab`'
+    Output: special comment which contains linebreak and leading spaces of given amount;<br>>will
+      be auto-added if input is multi-line
+    Output Type: '`CommentIota`'
+    Type: Iota Indents
+  headers:
+  - Type
+  - Example
+  - Output
+  - Output Type
+Plugin Parser Installed:
+  data:
+  - Addon: MoreIotas (1.20)<br>/ Hexal (1.19)
+    Example: '`type_pattern`, `type/iota_moreiotas:string`'
+    Output: iota type with given ID; namespace `hexcasting:` can be omitted
+    Output Type: '`IotaTypeIota`'
+    Type: Iota Type
+  - Addon: MoreIotas (1.20)<br>/ Hexal (1.19)
+    Example: '`type/entity_minecraft:warden`'
+    Output: entity type with given ID; namespace `minecraft:` can be omitted
+    Output Type: '`EntityTypeIota`'
+    Type: Entity Type
+  - Addon: MoreIotas (1.20)<br>/ Hexal (1.19)
+    Example: '`type/item_golden_apple`'
+    Output: item type with given ID; namespace `minecraft:` can be omitted
+    Output Type: '`ItemTypeIota`'
+    Type: Item Type
+  - Addon: MoreIotas (1.20)<br>/ Hexal (1.19)
+    Example: '`type/block_amethyst_block`'
+    Output: block type with given ID; namespace `minecraft:` can be omitted
+    Output Type: '`ItemTypeIota`'
+    Type: Block Type
+  - Addon: MoreIotas
+    Example: '`str_foobar`'
+    Output: string with given content; currently not supporting spaces, escaping,
+      non-alphabetical char, etc. `TODO`
+    Output Type: '`StringIota`'
+    Type: String Literal
+  headers:
+  - Addon
+  - Type
+  - Example
+  - Output
+  - Output Type
