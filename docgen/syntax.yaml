@@ -87,6 +87,11 @@ Plugin Parser Installed:
       non-alphabetical char, etc. `TODO`
     Output Type: '`StringIota`'
     Type: String Literal
+  - Addon: Hexal
+    Example: '`gate`, `gate_114_514_1919`, `gate_0_1_0_self`, `gate_0_deadbeef-c0de-cafe-babe-114514191981`'
+    Output: '`gate` for unbinded gates; with vec3 axes for position-binded ones; with entity UUID or `self` (and/or vec3 axes) for entity-binded ones'
+    Output Type: '`GateIota`'
+    Type: Gate Literal
   headers:
   - Addon
   - Type

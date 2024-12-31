@@ -24,3 +24,4 @@ MoreIotas (1.20)<br>/ Hexal (1.19)|Entity Type|`type/entity_minecraft:warden`|en
 MoreIotas (1.20)<br>/ Hexal (1.19)|Item Type|`type/item_golden_apple`|item type with given ID; namespace `minecraft:` can be omitted|`ItemTypeIota`
 MoreIotas (1.20)<br>/ Hexal (1.19)|Block Type|`type/block_amethyst_block`|block type with given ID; namespace `minecraft:` can be omitted|`ItemTypeIota`
 MoreIotas|String Literal|`str_foobar`|string with given content; currently not supporting spaces, escaping, non-alphabetical char, etc. `TODO`|`StringIota`
+Hexal|Gate Literal|`gate`, `gate_114_514_1919`, `gate_0_1_0_self`, `gate_0_deadbeef-c0de-cafe-babe-114514191981`|`gate` for unbinded gates; with vec3 axes for position-binded ones; with entity UUID or `self` (and/or vec3 axes) for entity-binded ones|`GateIota`
