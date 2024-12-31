@@ -1,11 +1,9 @@
 package io.yukkuric.hexparse.parsers;
 
-import io.yukkuric.hexparse.HexParse;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import ram.talia.hexal.api.config.HexalConfig;
 
 public class PluginIotaFactory extends IotaFactory {
     // hexal iotas
@@ -46,9 +44,6 @@ public class PluginIotaFactory extends IotaFactory {
         if (binder != null) {
             type = 2;
             if (pos == null) pos = Vec3.ZERO;
-            if (pos.length() > HexalConfig.getServer().getMaxGateOffset())
-                throw new IllegalArgumentException(HexParse.doTranslate("hexcasting.mishap.invalid_value",
-                        HexParse.doTranslate("hexcasting.mishap.invalid_value.gate.offset"), 0, pos));
         } else if (pos != null) {
             type = 1;
         }

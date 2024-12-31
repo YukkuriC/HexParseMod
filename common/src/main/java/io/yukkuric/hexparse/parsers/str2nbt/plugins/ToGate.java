@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+import ram.talia.hexal.api.config.HexalConfig;
 
 import java.util.UUID;
 
@@ -54,6 +55,14 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
         }
         Vec3 pos = null;
         if (ptr > 0) pos = new Vec3(vecRaw[0], vecRaw[1], vecRaw[2]);
+        // check and raise here
+        if (entity != null && pos != null) {
+            var maxDist = HexalConfig.getServer().getMaxGateOffset();
+            if (pos.length() > maxDist) {
+                var expected = HexParse.doTranslate("hexcasting.mishap.invalid_value.gate.offset", maxDist);
+                throw new IllegalArgumentException(HexParse.doTranslate("hexcasting.mishap.invalid_value", "", expected, 0, pos));
+            }
+        }
         return PluginIotaFactory.makeGate(orderId--, pos, entity);
     }
 }
