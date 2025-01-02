@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerPlayer
 
 object CostTracker : AutoCloseable {
     var player: ServerPlayer? = null
-    var totalCost = 0
+    var totalCost: Long = 0
 
     fun beginTrack(target: ServerPlayer): CostTracker {
         totalCost = 0
