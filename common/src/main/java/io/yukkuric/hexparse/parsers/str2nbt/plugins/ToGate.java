@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import ram.talia.hexal.api.config.HexalConfig;
 
-import java.util.UUID;
+import java.util.*;
 
 public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
     public ToGate() {
@@ -19,21 +19,35 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
 
     ServerPlayer self;
     int orderId;
+    Map<Entity, Map<Vec3, Integer>> usedGates = new HashMap<>();
+    boolean costPardonedThisTurn = false;
+
+    int getGateOrder(Entity target, Vec3 pos) {
+        if (target != null && pos == null) pos = Vec3.ZERO;
+        if (!usedGates.containsKey(target)) usedGates.put(target, new HashMap<>());
+        var innerMap = usedGates.get(target);
+        costPardonedThisTurn = innerMap.containsKey(pos);
+        if (!costPardonedThisTurn) innerMap.put(pos, orderId--);
+        return innerMap.get(pos);
+    }
 
     @Override
     public int getCost() {
-        return super.getCost() + (int) HexalConfig.getServer().getMakeGateCost();
+        var res = super.getCost();
+        if (!costPardonedThisTurn) res += (int) HexalConfig.getServer().getMakeGateCost();
+        return res;
     }
 
     @Override
     public void BindPlayer(ServerPlayer p) {
         self = p;
         orderId = -1;
+        usedGates.clear();
     }
 
     @Override
     public CompoundTag parse(String node) {
-        if (node.length() <= 5) return PluginIotaFactory.makeGate(orderId--, null, null);
+        if (node.length() <= 5) return PluginIotaFactory.makeGate(getGateOrder(null, null), null, null);
         var frags = node.substring(5).split("_");
         double[] vecRaw = new double[]{0, 0, 0};
         byte ptr = 0;
@@ -67,6 +81,6 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
                 throw new IllegalArgumentException(HexParse.doTranslate("hexcasting.mishap.invalid_value", "", expected, 0, pos));
             }
         }
-        return PluginIotaFactory.makeGate(orderId--, pos, entity);
+        return PluginIotaFactory.makeGate(getGateOrder(entity, pos), pos, entity);
     }
 }
