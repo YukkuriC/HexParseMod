@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.fabric.config;
 
 import io.yukkuric.hexparse.HexParse;
-import io.yukkuric.hexparse.config.HexParseConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
@@ -9,6 +8,8 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
+
+import static io.yukkuric.hexparse.config.HexParseConfig.*;
 
 @Config(name = HexParse.MOD_ID)
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
@@ -20,24 +21,31 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
     public static void setup() {
         AutoConfig.register(HexParseConfigFabric.class, PartitioningSerializer.wrap(JanksonConfigSerializer::new));
         var instance = AutoConfig.getConfigHolder(HexParseConfigFabric.class).getConfig();
-        HexParseConfig.bindConfigImp(instance.common);
+        bindConfigImp(instance.common);
     }
 
     @Config(name = "common")
-    public static class Common implements HexParseConfig.API, ConfigData {
-        @Comment(HexParseConfig.DESCRIP_PARSE_GREAT)
-        private HexParseConfig.ParseGreatPatternMode parseGreatSpells = HexParseConfig.ParseGreatPatternMode.BY_SCROLL;
-        @Comment(HexParseConfig.DESCRIP_ENABLE_COMMENTS)
+    public static class Common implements API, ConfigData {
+        @Comment(DESCRIP_PARSE_GREAT)
+        private ParseGreatPatternMode parseGreatSpells = ParseGreatPatternMode.BY_SCROLL;
+        @Comment(DESCRIP_ENABLE_COMMENTS)
         private boolean parseCommentsIndents = true;
+        @Comment(DESCRIP_PARSER_BASE_COST)
+        private int parserBaseCost = 0;
 
         @Override
-        public HexParseConfig.ParseGreatPatternMode canParseGreatPatterns() {
+        public ParseGreatPatternMode canParseGreatPatterns() {
             return parseGreatSpells;
         }
 
         @Override
         public boolean parseCommentsAndIndents() {
             return parseCommentsIndents;
+        }
+
+        @Override
+        public int parserBaseCost() {
+            return parserBaseCost;
         }
     }
 }

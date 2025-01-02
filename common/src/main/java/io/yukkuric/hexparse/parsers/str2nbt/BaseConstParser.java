@@ -37,6 +37,11 @@ public abstract class BaseConstParser implements IStr2Nbt {
         }
 
         @Override
+        public int getCost() {
+            return 0;
+        }
+
+        @Override
         public boolean ignored() {
             return !HexParseConfig.parseCommentsAndIndents();
         }
