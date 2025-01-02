@@ -48,6 +48,7 @@ Parsing is not limited.
   `"wedsaq"`.
 - `/hexParse read`: read handheld focus item's iota, parse into code and show in chat window; the result will be copied
   when clicked.
+- `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
 - `/hexParse share`: (experimental) same as above but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
 
@@ -55,8 +56,8 @@ Parsing is not limited.
 
 - `/hexParse refreshMappings`: reload pattern mappings when plugins updated; should be auto-executed before first usage
   of above commands in each server, and this command can be ignored in normal cases.
-- `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>)`: controls great pattern unlocking process of current
-  world by locking/unlocking all at once, or unlock a single great pattern each execution.
+- `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>|lock <pattern id>)`: controls great pattern unlocking process of current
+  world by locking/unlocking all at once, or a single great pattern each execution.
 
 ## Patterns added
 
