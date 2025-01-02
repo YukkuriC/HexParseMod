@@ -1,6 +1,7 @@
 package io.yukkuric.hexparse.misc;
 
 import at.petrak.hexcasting.common.items.ItemFocus;
+import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.ParserMain;
@@ -8,12 +9,18 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 public interface CodeHelpers {
+    static void doExtractMedia(ServerPlayer caster, int amount) {
+        var harness = IXplatAbstractions.INSTANCE.getHarness(caster, InteractionHand.MAIN_HAND);
+        harness.withdrawMedia(amount, false);
+    }
+
     static ItemStack getFocusItem(ServerPlayer player) {
         if (player == null) return null;
         var checkHand = player.getMainHandItem();

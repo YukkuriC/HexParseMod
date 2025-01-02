@@ -14,6 +14,7 @@ public class HexParseCommands {
         CommandRead.init(mainCmd);
         CommandWrite.init(mainCmd);
         CommandGreatPatternUnlock.init(mainCmd);
+        CommandDonate.init(mainCmd);
 
         dispatcher.register(mainCmd);
     }
