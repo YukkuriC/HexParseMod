@@ -39,6 +39,13 @@ Parsing is not limited, and great patterns can be used freely regardless of worl
 
 Parsing is not limited.
 
+## Other configs
+
+| Entry                   | Type   | Description                                            |
+|-------------------------|--------|--------------------------------------------------------|
+| parseCommentsAndIndents | `bool` | Whether to enable comment iotas (as comments and tabs) |
+| parserBaseCost          | `int`  | Base cost for each iota (except comments/tabs)         |
+
 ## Commands added
 
 - `/hexParse <code string> [rename]`: parse input code into focus item; optional `rename` argument to rename focus item.
@@ -56,7 +63,8 @@ Parsing is not limited.
 
 - `/hexParse refreshMappings`: reload pattern mappings when plugins updated; should be auto-executed before first usage
   of above commands in each server, and this command can be ignored in normal cases.
-- `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>|lock <pattern id>)`: controls great pattern unlocking process of current
+- `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>|lock <pattern id>)`: controls great pattern unlocking
+  process of current
   world by locking/unlocking all at once, or a single great pattern each execution.
 
 ## Patterns added
@@ -79,8 +87,7 @@ nothing.
 Comment iotas includes text comments, line-breaks & indents, and unknown great spell placeholders.  
 When player holds `Shift` key, all comments will be hidden.
 
-## Future plans 
+## Future plans
 
-* i18n lang
 * **more complex tokenizer to replace simple regex queues**
 * **legal** number pattern generator

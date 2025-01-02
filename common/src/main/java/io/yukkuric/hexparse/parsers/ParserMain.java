@@ -28,7 +28,9 @@ public class ParserMain {
         for (var p : str2nbtParsers) {
             if (p.match(frag)) {
                 if (p.ignored()) return IGNORED;
-                return p.parse(frag);
+                var res = p.parse(frag);
+                CostTracker.INSTANCE.addCost(p.getCost());
+                return res;
             }
         }
         return null;
@@ -40,7 +42,9 @@ public class ParserMain {
 
     public static synchronized CompoundTag ParseCode(List<String> nodes, ServerPlayer caller) {
         for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
-        return _parseCode(nodes, caller);
+        try (var ignored = CostTracker.INSTANCE.beginTrack(caller)) {
+            return _parseCode(nodes, caller);
+        }
     }
 
     private static CompoundTag _parseCode(List<String> nodes, ServerPlayer caller) {

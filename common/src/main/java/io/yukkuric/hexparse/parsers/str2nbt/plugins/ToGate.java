@@ -21,6 +21,11 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
     int orderId;
 
     @Override
+    public int getCost() {
+        return super.getCost() + (int) HexalConfig.getServer().getMakeGateCost();
+    }
+
+    @Override
     public void BindPlayer(ServerPlayer p) {
         self = p;
         orderId = -1;
