@@ -35,8 +35,6 @@ dependencies {
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionForge')
-
-    modImplementation("at.petra-k.hexcasting:hexcasting-forge-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
 }
 
 processResources {

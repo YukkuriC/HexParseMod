@@ -32,12 +32,15 @@ subprojects {
         // See https://docs.gradle.org/current/userguide/declaring_repositories.html
         // for more information about repositories.
         mavenLocal()
-        maven { url "https://maven.blamejared.com/"}
+        maven { url "https://maven.blamejared.com/" }
     }
 
+    var nameForRef = project.name.equals("common") ? "forge" : project.name
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
+
+        modImplementation("at.petra-k.hexcasting:hexcasting-${nameForRef}-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
     }
 
     java {
