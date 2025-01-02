@@ -1,12 +1,11 @@
 package io.yukkuric.hexparse.commands;
 
-import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import io.yukkuric.hexparse.misc.CodeHelpers;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.world.InteractionHand;
 
 public class CommandDonate {
     public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
@@ -18,8 +17,8 @@ public class CommandDonate {
     static int doDonate(CommandContext<CommandSourceStack> ctx) {
         var caster = ctx.getSource().getPlayer();
         if (caster == null) return 0;
-        var amount = LongArgumentType.getLong(ctx, "amount");
-        var harness = IXplatAbstractions.INSTANCE.getStaffcastVM(caster, InteractionHand.MAIN_HAND);
-        return (int) harness.getEnv().extractMedia(amount, false);
+        var amount = LongArgumentType.getLong(ctx, "amount") * 10000; // as dust unit
+        CodeHelpers.doExtractMedia(caster, amount);
+        return 1;
     }
 }
