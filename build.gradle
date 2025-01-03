@@ -33,6 +33,7 @@ subprojects {
         // for more information about repositories.
         mavenLocal()
         maven { url "https://maven.blamejared.com/" }
+        flatDir { dir 'libs' }
     }
 
     var nameForRef = project.name.equals("common") ? "forge" : project.name
@@ -41,6 +42,8 @@ subprojects {
         mappings loom.officialMojangMappings()
 
         modImplementation("at.petra-k.hexcasting:hexcasting-${nameForRef}-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
+
+        implementation fileTree(dir: 'libs', include: '*.jar')
     }
 
     java {
