@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'hexparse'
+rootProject.name = "$archives_name"
 
 include 'common'
 include 'fabric'
