@@ -30,6 +30,7 @@
     "hexcasting": ">=0"
   },
   "suggests": {
-    "another-mod": "*"
+    "hexal": "*",
+    "moreiotas": "*"
   }
 }
