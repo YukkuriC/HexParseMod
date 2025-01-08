@@ -43,6 +43,8 @@ subprojects {
 
         modImplementation("at.petra-k.hexcasting:hexcasting-${nameForRef}-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
 
+        modImplementation("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouliVersion}-${nameForRef.toUpperCase()}")
+
         implementation fileTree(dir: "libs/$minecraft_version", include: '*.jar')
     }
 
