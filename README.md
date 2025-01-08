@@ -56,6 +56,7 @@ Parsing is not limited.
 - `/hexParse read`: read handheld focus item's iota, parse into code and show in chat window; the result will be copied
   when clicked.
 - `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
+- `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input should be separated with space.
 - `/hexParse share`: (experimental) same as above but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
 
