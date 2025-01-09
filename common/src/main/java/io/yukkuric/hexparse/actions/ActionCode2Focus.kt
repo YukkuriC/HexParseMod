@@ -14,7 +14,7 @@ object ActionCode2Focus : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         if (env !is StaffCastEnv) throw MishapDisallowedSpell()
-        MsgHandlers.SERVER.sendPacketToPlayer(env.caster, MsgPullClipboard(null, false));
+        MsgHandlers.SERVER.sendPacketToPlayer(env.caster, MsgPullClipboard(null, false))
         return listOf()
     }
 }

@@ -3,9 +3,11 @@
   "package": "io.yukkuric.hexparse.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
+  "plugin": "io.yukkuric.hexparse.mixin_interface.HexParseMixinPlugin",
   "client": [
   ],
   "mixins": [
+    "iota.MixinListIotaDisplay",
     "patchouli.MixinPatternRenderer",
     "patchouli.MixinPatternRenderer$AccessorLookup"
   ],
