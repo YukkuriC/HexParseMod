@@ -5,6 +5,8 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.7.20"
 }
 
+project.mod_version = "${minecraft_version}-${mod_version_base}"
+
 architectury {
     minecraft = project.minecraft_version
 }

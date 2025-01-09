@@ -6,8 +6,8 @@
   "client": [
   ],
   "mixins": [
-    "MixinPatternRenderer",
-    "MixinPatternRenderer$AccessorLookup"
+    "patchouli.MixinPatternRenderer",
+    "patchouli.MixinPatternRenderer$AccessorLookup"
   ],
   "injectors": {
     "defaultRequire": 1
