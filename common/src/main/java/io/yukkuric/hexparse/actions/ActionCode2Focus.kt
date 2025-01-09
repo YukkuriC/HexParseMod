@@ -12,7 +12,7 @@ object ActionCode2Focus : ConstMediaAction {
 
     override fun execute(args: List<Iota>, ctx: CastingContext): List<Iota> {
         if (ctx.source != CastingContext.CastSource.STAFF) throw MishapDisallowedSpell()
-        MsgHandlers.SERVER.sendPacketToPlayer(ctx.caster, MsgPullClipboard(null, false));
+        MsgHandlers.SERVER.sendPacketToPlayer(ctx.caster, MsgPullClipboard(null, false))
         return listOf()
     }
 }
