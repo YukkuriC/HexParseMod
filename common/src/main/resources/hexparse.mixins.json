@@ -8,6 +8,7 @@
   ],
   "mixins": [
     "iota.MixinListIotaDisplay",
+    "iota.MixinListIotaButWhyNotWorkingWithAtWrapOperation",
     "patchouli.MixinPatternRenderer",
     "patchouli.MixinPatternRenderer$AccessorLookup"
   ],
