@@ -1,4 +1,4 @@
-package io.yukkuric.hexparse.mixin;
+package io.yukkuric.hexparse.mixin.patchouli;
 
 import at.petrak.hexcasting.interop.patchouli.AbstractPatternComponent;
 import at.petrak.hexcasting.interop.patchouli.LookupPatternComponent;
