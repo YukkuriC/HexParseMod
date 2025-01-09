@@ -24,7 +24,7 @@ public abstract class MixinPatternRenderer implements ICustomComponent {
         if (!Screen.hasShiftDown()) return;
         if (!(this instanceof IGetOpName getter)) return;
         var opName = getter.getOpName();
-        Component toRender = Component.literal(opName.toString()).append(((LookupPatternComponent)(Object)this).opNameRaw)
+        Component toRender = Component.literal(opName.toString())
                 .setStyle(context.getFont().withColor(ChatFormatting.BLACK));
         graphics.drawString(Minecraft.getInstance().font, toRender, 5, 10, -1, false);
     }
