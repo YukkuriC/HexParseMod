@@ -3,6 +3,7 @@ package io.yukkuric.hexparse.mixin.iota;
 import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.api.casting.math.HexAngle;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
+import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.mixin_interface.NestedCounter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -26,6 +27,7 @@ public class MixinPatternIota {
 
     @Inject(method = "display", at = @At("RETURN"))
     private static void hookParens(HexPattern pat, CallbackInfoReturnable<Component> cir) {
+        if (!HexParseConfig.colorfulNested()) return;
         var angles = pat.getAngles();
         if (angles.size() != 3) return;
         boolean isLeft = true, isRight = true;

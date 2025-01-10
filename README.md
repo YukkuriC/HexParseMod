@@ -9,9 +9,9 @@ player to have a focus item in hand.
 
 (Old KubeJS version [HERE](https://github.com/YukkuriC/hex_playground/blob/1.19/server_scripts/Parser.js))
 
-| Example Code                                                                           | Example Iota                                                                           |
-|----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| ![Sample Code](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20code.png) | ![Sample Iota](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20iota.png) |
+| Example Code                                                                    | Example Iota                                                                                                                                                                         |
+|---------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ![Code](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20code.png) | ![Iota](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20iota.png)![Iota (Colorful)](https://github.com/YukkuriC/HexParseMod/raw/main/img/colorful%20nested%20iota.png) |
 
 _The
 highlight [VSCode extension](https://github.com/YukkuriC/hexParse_scripts/tree/main/.vscode/extensions/hexParse_highlight)
@@ -104,10 +104,11 @@ Parsing is not limited.
 
 ### Other configs
 
-| Entry                   | Type   | Description                                            |
-|-------------------------|--------|--------------------------------------------------------|
-| parseCommentsAndIndents | `bool` | Whether to enable comment iotas (as comments and tabs) |
-| parserBaseCost          | `int`  | Base cost for each iota (except comments/tabs)         |
+| Entry                   | Type   | Description                                                |
+|-------------------------|--------|------------------------------------------------------------|
+| parseCommentsAndIndents | `bool` | Whether to enable comment iotas (as comments and tabs)     |
+| parserBaseCost          | `int`  | Base cost for each iota (except comments/tabs)             |
+| showColorfulNested      | `bool` | Whether to colorize nested list (and intro/retros in 1.20) |
 
 ## New iota: `CommentIota`
 

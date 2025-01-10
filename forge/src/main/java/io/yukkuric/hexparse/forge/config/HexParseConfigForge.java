@@ -10,27 +10,34 @@ import static io.yukkuric.hexparse.config.HexParseConfig.*;
 public class HexParseConfigForge implements API {
     @Override
     public ParseGreatPatternMode canParseGreatPatterns() {
-        return parseGreatEnabled.get();
+        return CfgParseGreatSpells.get();
     }
 
     @Override
     public boolean parseCommentsAndIndents() {
-        return parseIndentsEnabled.get();
+        return CfgParseIndentsEnabled.get();
+    }
+
+    @Override
+    public boolean showColorfulNested() {
+        return CfgShowColorfulNested.get();
     }
 
     @Override
     public int parserBaseCost() {
-        return parserBaseCostCfg.get();
+        return CfgParserBaseCost.get();
     }
 
-    public ForgeConfigSpec.BooleanValue parseIndentsEnabled;
-    public ForgeConfigSpec.EnumValue<ParseGreatPatternMode> parseGreatEnabled;
-    public ForgeConfigSpec.IntValue parserBaseCostCfg;
+    public final ForgeConfigSpec.BooleanValue CfgParseIndentsEnabled;
+    public final ForgeConfigSpec.BooleanValue CfgShowColorfulNested;
+    public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
+    public final ForgeConfigSpec.IntValue CfgParserBaseCost;
 
     public HexParseConfigForge(ForgeConfigSpec.Builder builder) {
-        parseGreatEnabled = builder.comment(DESCRIP_PARSE_GREAT).defineEnum("ParseGreatSpells", ParseGreatPatternMode.BY_SCROLL);
-        parseIndentsEnabled = builder.comment(DESCRIP_ENABLE_COMMENTS).define("ParseCommentsIndents", true);
-        parserBaseCostCfg = builder.comment(DESCRIP_PARSER_BASE_COST).defineInRange("ParserBaseCost", 0, 0, 100000);
+        CfgParseGreatSpells = builder.comment(DESCRIP_PARSE_GREAT).defineEnum("ParseGreatSpells", ParseGreatPatternMode.BY_SCROLL);
+        CfgParseIndentsEnabled = builder.comment(DESCRIP_ENABLE_COMMENTS).define("ParseCommentsIndents", true);
+        CfgParserBaseCost = builder.comment(DESCRIP_PARSER_BASE_COST).defineInRange("ParserBaseCost", 0, 0, 100000);
+        CfgShowColorfulNested = builder.comment(DESCRIP_COLORFUL_NESTED).define("ShowColorfulNested", true);
     }
 
     private static final Pair<HexParseConfigForge, ForgeConfigSpec> CFG_REGISTRY;
