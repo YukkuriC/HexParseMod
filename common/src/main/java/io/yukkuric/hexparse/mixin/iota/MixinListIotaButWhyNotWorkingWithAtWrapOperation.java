@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.mixin.iota;
 
+import io.yukkuric.hexparse.mixin_interface.NestedCounter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -17,24 +18,23 @@ public class MixinListIotaButWhyNotWorkingWithAtWrapOperation {
     private static final List<ChatFormatting> COLORS = List.of(
             ChatFormatting.DARK_PURPLE,
             ChatFormatting.GOLD,
+            ChatFormatting.DARK_BLUE,
             ChatFormatting.DARK_RED,
-            ChatFormatting.BLUE,
-            ChatFormatting.LIGHT_PURPLE,
-            ChatFormatting.YELLOW,
-            ChatFormatting.AQUA,
-            ChatFormatting.GREEN
+            ChatFormatting.DARK_GREEN,
+            ChatFormatting.DARK_AQUA
     );
-    private static int parenCounter = 0;
 
     @Inject(method = "display", at = @At("HEAD"))
     void coloredParen_Pre(Tag tag, CallbackInfoReturnable<Component> cir) {
-        parenCounter++;
+        NestedCounter.EnterNested();
     }
 
     @Inject(method = "display", at = @At("RETURN"))
     void coloredParen_Post(Tag tag, CallbackInfoReturnable<Component> cir) {
         var res = (MutableComponent) cir.getReturnValue();
-        res.withStyle(COLORS.get((parenCounter - 1) % COLORS.size()));
-        parenCounter = Math.max(0, parenCounter - 1);
+        var cnt = NestedCounter.GetNestedCount();
+        if (cnt < 0) return; // but why?
+        res.withStyle(COLORS.get(cnt % COLORS.size()));
+        NestedCounter.LeaveNested();
     }
 }
