@@ -7,6 +7,7 @@
   "client": [
   ],
   "mixins": [
+    "inline.MixinInlinePatternMatcher",
     "iota.MixinListIotaButWhyNotWorkingWithAtWrapOperation",
     "iota.MixinListIotaDisplay",
     "iota.MixinPatternIota",
