@@ -32,6 +32,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         private boolean parseCommentsIndents = true;
         @Comment(DESCRIP_PARSER_BASE_COST)
         private int parserBaseCost = 0;
+        @Comment(DESCRIP_COLORFUL_NESTED)
+        private boolean showColorfulNested = true;
 
         @Override
         public ParseGreatPatternMode canParseGreatPatterns() {
@@ -41,6 +43,11 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public boolean parseCommentsAndIndents() {
             return parseCommentsIndents;
+        }
+
+        @Override
+        public boolean showColorfulNested() {
+            return showColorfulNested;
         }
 
         @Override

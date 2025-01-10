@@ -7,6 +7,7 @@
   "client": [
   ],
   "mixins": [
+    "iota.MixinListIotaButWhyNotWorkingWithAtWrapOperation",
     "iota.MixinListIotaDisplay",
     "patchouli.MixinPatternRenderer",
     "patchouli.MixinPatternRenderer$AccessorLookup"
