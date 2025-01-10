@@ -16,12 +16,12 @@ public class MixinListIotaButWhyNotWorkingWithAtWrapOperation {
 
     private static final List<ChatFormatting> COLORS = List.of(
             ChatFormatting.DARK_PURPLE,
+            ChatFormatting.GOLD,
             ChatFormatting.DARK_RED,
             ChatFormatting.BLUE,
             ChatFormatting.LIGHT_PURPLE,
-            ChatFormatting.GOLD,
-            ChatFormatting.AQUA,
             ChatFormatting.YELLOW,
+            ChatFormatting.AQUA,
             ChatFormatting.GREEN
     );
     private static int parenCounter = 0;
