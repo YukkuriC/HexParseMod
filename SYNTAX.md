@@ -13,6 +13,9 @@ Entity Reference|`entity_<uuidString>`|the `EntityIota` of the entity with certa
 Caster Reference|`self`, `myself`|the `EntityIota` of the player|`EntityIota`
 Number Literal|`114514`|corresponding `DoubleIota`|`DoubleIota`
 Vector Literal|`vec`, `vec_5_1_4`, `vec_19_19`|corresponding `Vec3Iota`; unassigned axes will be 0s|`Vec3Iota`
+Boolean Literal|`true`, `False`, `vec_19_19`|corresponding `BooleanIota` (case insensitive)|`BooleanIota`
+Null Literal|`null`, `NULL`|`NullIota` (case insensitive)|`NullIota`
+Const Garbage|`garbage`|`GarbageIota` (case insensitive)|`GarbageIota`
 Iota Comments|`comment_meow`|comment which displays as text but won't be executed; same limitation as `String Literal`s|`CommentIota`
 Iota Indents|`tab_4`, `tab_8`, `tab`|special comment which contains linebreak and leading spaces of given amount;<br>>will be auto-added if input is multi-line|`CommentIota`
 # Plugin Parser Installed

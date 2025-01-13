@@ -44,6 +44,18 @@ Currently Supported Syntax:
     Output: corresponding `Vec3Iota`; unassigned axes will be 0s
     Output Type: '`Vec3Iota`'
     Type: Vector Literal
+  - Example: '`true`, `False`, `vec_19_19`'
+    Output: corresponding `BooleanIota` (case insensitive)
+    Output Type: '`BooleanIota`'
+    Type: Boolean Literal
+  - Example: '`null`, `NULL`'
+    Output: '`NullIota` (case insensitive)'
+    Output Type: '`NullIota`'
+    Type: Null Literal
+  - Example: '`garbage`'
+    Output: '`GarbageIota` (case insensitive)'
+    Output Type: '`GarbageIota`'
+    Type: Const Garbage
   - Example: '`comment_meow`'
     Output: comment which displays as text but won't be executed; same limitation
       as `String Literal`s
@@ -89,7 +101,9 @@ Plugin Parser Installed:
     Type: String Literal
   - Addon: Hexal
     Example: '`gate`, `gate_114_514_1919`, `gate_0_1_0_self`, `gate_0_deadbeef-c0de-cafe-babe-114514191981`'
-    Output: '`gate` for unbinded gates; with vec3 axes for position-binded ones; with entity UUID or `self` (and/or vec3 axes) for entity-binded ones;<br>**NOTE: EXTRA COST FOR MAKING GATES**'
+    Output: '`gate` for unbinded gates; with vec3 axes for position-binded ones; with
+      entity UUID or `self` (and/or vec3 axes) for entity-binded ones;<br>**NOTE:
+      EXTRA COST FOR MAKING GATES**'
     Output Type: '`GateIota`'
     Type: Gate Literal
   headers:

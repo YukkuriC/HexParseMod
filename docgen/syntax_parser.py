@@ -6,9 +6,8 @@ if 'PATHS':
     DEST_MD = "../SYNTAX.md"
     SRC = "syntax.yaml"
 
-MODE = 'OUT_MD'
 
-if MODE == "INPUT":
+def MODE_INPUT():
     with open(DEST_MD, 'r', encoding='utf-8') as f:
         lines = f.read().split('\n')
     pool = {}
@@ -40,7 +39,8 @@ if MODE == "INPUT":
     with open(SRC, 'w', encoding='utf-8') as f:
         yaml.dump(pool, f)
 
-if MODE == 'OUT_MD':
+
+def MODE_OUT_MD():
     with open(SRC, 'r', encoding='utf-8') as f:
         pool = yaml.load(f, yaml.Loader)
     with open(DEST_MD, 'w', encoding='utf-8') as f:
@@ -56,3 +56,7 @@ if MODE == 'OUT_MD':
             pt(*(['---'] * len(headers)))
             for e in data:
                 pt(*(e[h] for h in headers))
+
+
+for MODE in ['OUT_MD', 'INPUT']:
+    globals()[f'MODE_{MODE}']()
