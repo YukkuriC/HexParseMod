@@ -37,10 +37,9 @@ public class PatternMapper {
             m_preferredStart.setAccessible(true);
 
             // init special patterns
-            mapPattern.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
+            mapPattern.put("\\", IotaFactory.makePattern("qqqaw", HexDir.WEST));
             mapPattern.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
             mapPattern.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
-            mapPattern.put("\\", mapPattern.get("escape"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

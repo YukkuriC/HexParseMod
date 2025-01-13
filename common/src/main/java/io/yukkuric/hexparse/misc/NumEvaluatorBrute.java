@@ -7,7 +7,7 @@ import java.util.Collections;
 
 public class NumEvaluatorBrute {
     static double TOLERANCE = DoubleIota.TOLERANCE / 10;
-    static double MAX_VALUE = Integer.MAX_VALUE;
+    static double MAX_VALUE = Long.MAX_VALUE;
     static int MAX_DECIMAL_REACH = 100;
 
     public static String getAnglesFromNum(double target) {
