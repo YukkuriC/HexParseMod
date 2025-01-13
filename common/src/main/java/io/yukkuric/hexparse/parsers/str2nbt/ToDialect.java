@@ -30,6 +30,10 @@ public record ToDialect(Map<String, String> mapper) implements IStr2Nbt {
         {
             // pop one
             put("pop", "mask_v");
+            // special pattern dialect
+            put("open_paren", "(");
+            put("close_paren", ")");
+            put("escape", "\\");
             // 1.19 registry
             put("list_size", "abs");
             put("concat", "add");

@@ -21,11 +21,10 @@ public class PatternMapper {
     public static final Map<String, String> mapShort2Long = new HashMap<>();
 
     static {
-        mapPatternMeta.put("escape", IotaFactory.makePattern("qqqaw", HexDir.WEST));
+        mapPatternMeta.put("\\", IotaFactory.makePattern("qqqaw", HexDir.WEST));
         mapPatternMeta.put("del", IotaFactory.makePattern("eeedw", HexDir.EAST));
         mapPatternMeta.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
         mapPatternMeta.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
-        mapPatternMeta.put("\\", mapPatternMeta.get("escape"));
     }
 
     static void _setMap(Map<String, CompoundTag> map, ResourceLocation id, String seq, HexDir dir) {
