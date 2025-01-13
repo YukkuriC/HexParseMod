@@ -50,8 +50,8 @@ public class ConstParsers {
         public CompoundTag parse(String node) {
             double num = 0;
             try {
-                num = Double.parseDouble(node.substring(4));
-            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                num = Double.parseDouble(node.split("_")[1]);
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
             }
             var seq = NumEvaluatorBrute.getAnglesFromNum(num);
             return IotaFactory.makePattern(seq, num < 0 ? HexDir.NORTH_EAST : HexDir.SOUTH_EAST);
