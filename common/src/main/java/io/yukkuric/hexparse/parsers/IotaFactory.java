@@ -15,6 +15,9 @@ public class IotaFactory {
     public static final String TYPE_DOUBLE = HexAPI.MOD_ID + ":double";
     public static final String TYPE_VECTOR = HexAPI.MOD_ID + ":vec3";
     public static final String TYPE_ENTITY = HexAPI.MOD_ID + ":entity";
+    public static final String TYPE_BOOLEAN = HexAPI.MOD_ID + ":boolean";
+    public static final String TYPE_NULL = HexAPI.MOD_ID + ":null";
+    public static final String TYPE_GARBAGE = HexAPI.MOD_ID + ":garbage";
 
     public static final String GREAT_PLACEHOLDER_PREFIX = "<";
     public static final String GREAT_PLACEHOLDER_POSTFIX = "?>";
@@ -30,7 +33,7 @@ public class IotaFactory {
         }
     };
 
-    static CompoundTag _makeType(String type, Tag data) {
+    public static CompoundTag makeType(String type, Tag data) {
         var res = new CompoundTag();
         res.putString(HexIotaTypes.KEY_TYPE, type);
         res.put(HexIotaTypes.KEY_DATA, data);
@@ -38,23 +41,24 @@ public class IotaFactory {
     }
 
     public static CompoundTag makeList(ListTag data) {
-        return _makeType(TYPE_LIST, data);
+        return makeType(TYPE_LIST, data);
     }
 
     public static CompoundTag makePattern(String angles, HexDir start) {
         var angleArray = new ArrayList<Byte>();
         for (var chr : angles.toCharArray()) { // skip fromAngles check
             if (ANGLE_MAP.containsKey(chr)) angleArray.add(ANGLE_MAP.get(chr));
-            else throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
+            else
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
         }
         var pattern = new CompoundTag();
         pattern.putByte("start_dir", (byte) (start.ordinal()));
         pattern.putByteArray("angles", angleArray);
-        return _makeType(TYPE_PATTERN, pattern);
+        return makeType(TYPE_PATTERN, pattern);
     }
 
     public static CompoundTag makeComment(String comment) {
-        return _makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
+        return makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
     }
 
     public static boolean isGreatPatternPlaceholder(String node) {
@@ -74,6 +78,6 @@ public class IotaFactory {
     }
 
     public static CompoundTag makeNum(Double num) {
-        return _makeType(TYPE_DOUBLE, DoubleTag.valueOf(num));
+        return makeType(TYPE_DOUBLE, DoubleTag.valueOf(num));
     }
 }

@@ -14,17 +14,17 @@ public class PluginIotaFactory extends IotaFactory {
     public static final String TYPE_GATE = "hexal:gate";
 
     public static CompoundTag makeIotaType(String type) {
-        return _makeType(TYPE_IOTA_TYPE, StringTag.valueOf(type));
+        return makeType(TYPE_IOTA_TYPE, StringTag.valueOf(type));
     }
 
     public static CompoundTag makeEntityType(String type) {
-        return _makeType(TYPE_ENTITY_TYPE, StringTag.valueOf(type));
+        return makeType(TYPE_ENTITY_TYPE, StringTag.valueOf(type));
     }
 
     public static CompoundTag makeItemType(String type, boolean isBlock) {
         var body = new CompoundTag();
         body.putString(isBlock ? "block" : "item", type);
-        return _makeType(TYPE_ITEM_TYPE, body);
+        return makeType(TYPE_ITEM_TYPE, body);
     }
 
     public static CompoundTag makeItemType(String type) {
@@ -36,7 +36,7 @@ public class PluginIotaFactory extends IotaFactory {
     }
 
     public static CompoundTag makeString(String data) {
-        return _makeType(TYPE_STRING, StringTag.valueOf(data));
+        return makeType(TYPE_STRING, StringTag.valueOf(data));
     }
 
     public static CompoundTag makeGate(int id, Vec3 pos, Entity binder) {
@@ -59,6 +59,6 @@ public class PluginIotaFactory extends IotaFactory {
             payload.putUUID("target_uuid", binder.getUUID());
             payload.putString("target_name", binder.getName().getString());
         }
-        return _makeType(TYPE_GATE, payload);
+        return makeType(TYPE_GATE, payload);
     }
 }
