@@ -1,8 +1,6 @@
 package io.yukkuric.hexparse.commands;
 
-import at.petrak.hexcasting.common.command.PatternResLocArgument;
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
@@ -12,33 +10,33 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
 
-import java.util.function.BiFunction;
+import java.util.function.*;
+
+import static io.yukkuric.hexparse.hooks.HexParseCommands.registerLine;
 
 public class CommandGreatPatternUnlock {
-    public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
+    public static void init() {
         var sub = Commands.literal("unlock_great").requires(s -> s.hasPermission(2) && HexParseConfig.canParseGreatPatterns() == HexParseConfig.ParseGreatPatternMode.BY_SCROLL);
 
-        // unlock
-        sub.then(Commands.literal("unlockAll").executes(saveOp((save, ctx) -> {
-            var res = save.unlockAll();
-            return HexParse.doTranslate("hexparse.cmd.unlocker.unlock.all", res);
-        })));
-        sub.then(Commands.literal("lockAll").executes(saveOp((save, ctx) -> {
-            var res = save.clear();
-            return HexParse.doTranslate("hexparse.cmd.unlocker.lock.all", res);
-        })));
-        sub.then(Commands.literal("unlock").then(Commands.argument("patternKey", PatternResLocArgument.id()).executes(saveOp((save, ctx) -> {
-            var key = ResourceLocationArgument.getId(ctx, "patternKey").toString();
-            save.unlock(key);
-            return HexParse.doTranslate("hexparse.cmd.unlocker.unlock.one", key);
-        }))));
-        sub.then(Commands.literal("lock").then(Commands.argument("patternKey", PatternResLocArgument.id()).executes(saveOp((save, ctx) -> {
-            var key = ResourceLocationArgument.getId(ctx, "patternKey").toString();
-            save.lock(key);
-            return HexParse.doTranslate("hexparse.cmd.unlocker.lock.one", key);
-        }))));
+        registerLine(saveOp((save, ctx) -> opBatch(save::unlockAll, "hexparse.cmd.unlocker.unlock.all")),
+                sub, Commands.literal("unlockAll"));
+        registerLine(saveOp((save, ctx) -> opBatch(save::clear, "hexparse.cmd.unlocker.lock.all")),
+                sub, Commands.literal("lockAll"));
+        registerLine(saveOp((save, ctx) -> opSingle(ctx, save::unlock, "hexparse.cmd.unlocker.unlock.one")),
+                sub, Commands.literal("unlock"));
+        registerLine(saveOp((save, ctx) -> opSingle(ctx, save::lock, "hexparse.cmd.unlocker.lock.one")),
+                sub, Commands.literal("lock"));
+    }
 
-        cmd.then(sub);
+    static String opBatch(Supplier<Integer> op, final String msg) {
+        var res = op.get();
+        return HexParse.doTranslate(msg, res);
+    }
+
+    static String opSingle(CommandContext<CommandSourceStack> ctx, Function<String, Boolean> op, final String msg) {
+        var key = ResourceLocationArgument.getId(ctx, "patternKey").toString();
+        op.apply(key);
+        return HexParse.doTranslate(msg, key);
     }
 
     static Command<CommandSourceStack> saveOp(BiFunction<GreatPatternUnlocker, CommandContext<CommandSourceStack>, String> callback) {

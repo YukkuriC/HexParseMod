@@ -1,17 +1,19 @@
 package io.yukkuric.hexparse.commands;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.CodeHelpers;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
+import static io.yukkuric.hexparse.hooks.HexParseCommands.registerLine;
+
 public class CommandDonate {
-    public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
-        cmd.then(Commands.literal("donate").then(
-                Commands.argument("amount", IntegerArgumentType.integer(1, Integer.MAX_VALUE / 10000)).executes(CommandDonate::doDonate)
-        ));
+    public static void init() {
+        registerLine(CommandDonate::doDonate,
+                Commands.literal("donate"),
+                Commands.argument("amount", IntegerArgumentType.integer(1))
+        );
     }
 
     static int doDonate(CommandContext<CommandSourceStack> ctx) {
