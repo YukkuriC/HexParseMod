@@ -1,21 +1,18 @@
 package io.yukkuric.hexparse.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.CodeHelpers;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
+import static io.yukkuric.hexparse.hooks.HexParseCommands.registerLine;
+
 public class CommandWrite {
-    public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
-        cmd.then(
-                Commands.argument("code", StringArgumentType.string())
-                        .executes(CommandWrite::doParse)
-                        .then(
-                                Commands.argument("rename", StringArgumentType.string())
-                                        .executes(CommandWrite::doParse)
-                        )
+    public static void init() {
+        registerLine(CommandWrite::doParse, 2,
+                Commands.argument("code", StringArgumentType.string()),
+                Commands.argument("rename", StringArgumentType.string())
         );
     }
 

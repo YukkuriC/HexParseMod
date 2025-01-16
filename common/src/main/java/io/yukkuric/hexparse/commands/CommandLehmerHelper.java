@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.misc.CodeHelpers;
@@ -11,15 +10,15 @@ import net.minecraft.commands.Commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.yukkuric.hexparse.hooks.HexParseCommands.registerLine;
+
 public class CommandLehmerHelper {
     static final int MAX_COUNT = 20;
 
-    public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
-        cmd.then(
-                Commands.literal("lehmer").then(
-                        Commands.argument("input", StringArgumentType.greedyString())
-                                .executes(CommandLehmerHelper::CalcLehmer)
-                )
+    public static void init() {
+        registerLine(CommandLehmerHelper::CalcLehmer,
+                Commands.literal("lehmer"),
+                Commands.argument("input", StringArgumentType.greedyString())
         );
     }
 
