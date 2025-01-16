@@ -36,6 +36,7 @@ subprojects {
         mavenLocal()
         maven { url "https://maven.blamejared.com/" }
         flatDir { dir "libs/$minecraft_version" }
+        flatDir { dir "../libs/$minecraft_version" }
     }
 
     var nameForRef = project.name.equals("common") ? "fabric" : project.name
@@ -48,6 +49,7 @@ subprojects {
         modImplementation("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouliVersion}")
 
         implementation fileTree(dir: "libs/$minecraft_version", include: '*.jar')
+        implementation fileTree(dir: "../libs/$minecraft_version", include: '*.jar')
     }
 
     java {
