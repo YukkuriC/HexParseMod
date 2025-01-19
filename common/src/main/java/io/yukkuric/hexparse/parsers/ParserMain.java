@@ -58,10 +58,10 @@ public class ParserMain {
                         stack.push(new ListTag());
                         break;
                     case "]":
-                        var inner = IotaFactory.makeList(stack.pop());
-                        if (stack.isEmpty()) {
+                        if (stack.size() <= 1) {
                             throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.closed"));
                         }
+                        var inner = IotaFactory.makeList(stack.pop());
                         stack.peek().add(inner);
                         break;
                     default:
