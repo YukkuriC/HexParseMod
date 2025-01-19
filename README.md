@@ -119,5 +119,19 @@ When player holds `Shift` key, all comments will be hidden.
 
 ## Future plans
 
+* [ ] customizable dialects & macros
+  * [ ] C/S sync (like everbook)
+  * [ ] parser integration
+    * [ ] dialect
+    * [ ] macro
+    * [ ] inf. recursion guard
+  * [ ] commands
+    * [ ] dialects
+    * [ ] macros
+    * ----------
+    * [ ] set
+    * [ ] list all
+    * [ ] remove
+    * [ ] clear
 * **more complex tokenizer to replace simple regex queues**
 * **legal** number pattern generator
