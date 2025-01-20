@@ -2,6 +2,8 @@
 
 Type|Example|Output|Output Type
 ---|---|---|---
+Any Single Token|`thoth`, `iris`|dialect for tokens (player defined & [builtin](https://github.com/YukkuriC/HexParseMod/blob/main/common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/ToDialect.java))|`ListIota`
+Any Code Fragment|`#aimed`, `#read_circle_corners`|macros defined by player|`ListIota`
 Nested List|`[`, `]`|list literals; can be nested|`ListIota`
 Non-functional Pattern|`(`, `)`, `\\` or `escape`|`Introspection`, `Retrospection` and `Consideration`|`PatternIota`
 Normal Pattern|`get_caster`, `entity_pos/eye`|normal static patterns matched by registration key|`PatternIota`
