@@ -14,6 +14,7 @@ public class MacroProcessor implements Iterator<String> {
     MacroProcessor inner;
     String innerMacroName;
     String cachedNext;
+    RuntimeException cachedError;
     int count;
 
     public MacroProcessor(Iterator<String> source, ServerPlayer player) {
@@ -36,8 +37,10 @@ public class MacroProcessor implements Iterator<String> {
         if (!source.hasNext()) return null;
         var raw = source.next();
         var isMacro = MacroManager.isMacro(raw);
-        if (isMacro && usedMacros.contains(raw))
-            throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.used_macro", raw));
+        if (isMacro && usedMacros.contains(raw)) {
+            cachedError = new RuntimeException(HexParse.doTranslate("hexparse.msg.error.used_macro", raw));
+            return "ERROR";
+        }
         var mapped = MacroManager.getMacro(player, raw);
         if (mapped == null) return raw;
         else if (!isMacro) return mapped;
@@ -54,8 +57,9 @@ public class MacroProcessor implements Iterator<String> {
 
     @Override
     public String next() {
+        if (cachedError != null) throw cachedError;
         count++;
-        if (count > HexIotaTypes.MAX_SERIALIZATION_TOTAL)
+        if (count >= HexIotaTypes.MAX_SERIALIZATION_TOTAL)
             throw new RuntimeException(HexParse.doTranslate("hexcasting.mishap.stack_size"));
         var res = cachedNext;
         cachedNext = calcCache();
