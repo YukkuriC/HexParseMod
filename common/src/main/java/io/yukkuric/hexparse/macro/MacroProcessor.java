@@ -12,6 +12,7 @@ public class MacroProcessor implements Iterator<String> {
     final Set<String> usedMacros;
     final ServerPlayer player;
     MacroProcessor inner;
+    String innerMacroName;
     String cachedNext;
     int count;
 
@@ -28,6 +29,10 @@ public class MacroProcessor implements Iterator<String> {
 
     String calcCache() {
         if (inner != null && inner.hasNext()) return inner.next();
+        if (inner != null) {
+            usedMacros.remove(innerMacroName);
+            inner = null;
+        }
         if (!source.hasNext()) return null;
         var raw = source.next();
         var isMacro = MacroManager.isMacro(raw);
@@ -38,6 +43,7 @@ public class MacroProcessor implements Iterator<String> {
         else if (!isMacro) return mapped;
         usedMacros.add(raw);
         inner = new MacroProcessor(CodeCutter.splitCode(mapped).iterator(), player, usedMacros);
+        innerMacroName = raw;
         return calcCache();
     }
 
