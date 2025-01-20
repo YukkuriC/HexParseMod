@@ -44,7 +44,7 @@ Currently Supported Syntax:
     Output: corresponding `Vec3Iota`; unassigned axes will be 0s
     Output Type: '`Vec3Iota`'
     Type: Vector Literal
-  - Example: '`true`, `False`, `vec_19_19`'
+  - Example: '`true`, `False`'
     Output: corresponding `BooleanIota` (case insensitive)
     Output Type: '`BooleanIota`'
     Type: Boolean Literal
