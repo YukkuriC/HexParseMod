@@ -120,18 +120,20 @@ When player holds `Shift` key, all comments will be hidden.
 ## Future plans
 
 * [ ] customizable dialects & macros
-  * [ ] C/S sync (like everbook)
-  * [ ] parser integration
-    * [ ] dialect
-    * [ ] macro
-    * [ ] inf. recursion guard
-  * [ ] commands
-    * [ ] dialects
-    * [ ] macros
+  * [x] C/S sync (like everbook)
+    * [x] forge
+    * [ ] fabric
+  * [x] parser integration
+    * [x] dialect
+    * [x] macro
+    * [x] inf. recursion guard
+  * [x] commands
+    * [x] dialects
+    * [x] macros
     * ----------
-    * [ ] set
-    * [ ] list all
-    * [ ] remove
-    * [ ] clear
+    * [x] set
+    * [x] list all
+    * [x] remove
+    * ~~[ ] clear~~
 * **more complex tokenizer to replace simple regex queues**
 * **legal** number pattern generator

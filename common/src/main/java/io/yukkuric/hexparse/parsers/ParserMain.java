@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.macro.MacroProcessor;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
@@ -51,7 +52,8 @@ public class ParserMain {
         var stack = new Stack<ListTag>();
         stack.add(new ListTag());
         try {
-            for (var frag : nodes) {
+            for (MacroProcessor it = new MacroProcessor(nodes.iterator(), caller); it.hasNext(); ) {
+                var frag = it.next();
                 switch (frag) {
                     // special: nested list
                     case "[":
