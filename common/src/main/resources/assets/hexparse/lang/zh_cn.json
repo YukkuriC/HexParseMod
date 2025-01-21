@@ -20,7 +20,7 @@
   "hexparse.msg.error.illegal_pattern_angle": "在序列\"%2$s\"中包含非法字符'%1$s'",
   "hexparse.msg.error.code_too_long": "代码过长（%s）",
   "hexparse.msg.error.used_macro": "宏%s已使用",
-  "hexparse.msg.error.invalid_macro_type": "宏/别名类型混淆",
+  "hexparse.msg.error.invalid_dialect_key": "别名不可以'#'开头（%s）",
   "hexcasting.action.hexparse:focus2code": "编码之策略",
   "hexcasting.action.hexparse:code2focus": "解码之策略",
   "hexcasting.action.hexparse:learn_patterns": "内化卓越法术",

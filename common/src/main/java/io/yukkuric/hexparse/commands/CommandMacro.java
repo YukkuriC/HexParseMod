@@ -45,8 +45,12 @@ public class CommandMacro {
             if (self == null) return 0;
             var key = StringArgumentType.getString(ctx, "key");
             if (isMacro != MacroManager.isMacro(key)) {
-                self.sendSystemMessage(Component.translatable("hexparse.msg.error.invalid_macro_type").withStyle(ChatFormatting.DARK_RED));
-                return 0;
+                if (isMacro) {
+                    key = '#' + key;
+                } else {
+                    self.sendSystemMessage(Component.translatable("hexparse.msg.error.invalid_dialect_key").withStyle(ChatFormatting.DARK_RED));
+                    return 0;
+                }
             }
             if (isDefine) {
                 var value = StringArgumentType.getString(ctx, "value");
