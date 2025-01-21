@@ -13,6 +13,7 @@ import net.minecraft.network.chat.MutableComponent;
 import java.util.function.BiFunction;
 
 import static io.yukkuric.hexparse.hooks.HexParseCommands.registerLine;
+import static io.yukkuric.hexparse.macro.MacroManager.MAX_SINGLE_MACRO_SIZE;
 
 public class CommandMacro {
     public static void init() {
@@ -53,7 +54,19 @@ public class CommandMacro {
                 }
             }
             if (isDefine) {
+                if (MacroManager.willThisExceedLimit(self, key)) {
+                    self.sendSystemMessage(Component.translatable("hexparse.msg.error.macro.too_many.single").withStyle(ChatFormatting.DARK_RED));
+                    return 0;
+                }
+                if (key.length() > MAX_SINGLE_MACRO_SIZE) {
+                    self.sendSystemMessage(Component.translatable("hexparse.msg.error.macro.too_long.key").withStyle(ChatFormatting.DARK_RED));
+                    return 0;
+                }
                 var value = StringArgumentType.getString(ctx, "value");
+                if (value.length() > MAX_SINGLE_MACRO_SIZE) {
+                    self.sendSystemMessage(Component.translatable("hexparse.msg.error.macro.too_long", value.length() - MAX_SINGLE_MACRO_SIZE).withStyle(ChatFormatting.GOLD));
+                    value = value.substring(0, MAX_SINGLE_MACRO_SIZE);
+                }
                 MacroManager.modifyMacro(self, true, key, value);
                 self.sendSystemMessage(Component.translatable("hexparse.cmd.macro.define",
                         showGold(key), showGold(value)));

@@ -10,6 +10,9 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.*;
 
 public class MacroManager {
+    public static final int MAX_MACRO_COUNT = 1024;
+    public static final int MAX_SINGLE_MACRO_SIZE = 1024;
+
     static final Map<ServerPlayer, CompoundTag> playerMacros = new HashMap<>();
 
     public static void receivePlayerMacros(ServerPlayer player, CompoundTag pack) {
@@ -40,6 +43,13 @@ public class MacroManager {
         if (pool == null) return null;
         if (!pool.contains(key, Tag.TAG_STRING)) return null;
         return pool.getString(key);
+    }
+
+    public static boolean willThisExceedLimit(ServerPlayer player, String key) {
+        var pool = getPool(player);
+        if (pool == null) return false;
+        if (pool.contains(key)) return false;
+        return pool.size() >= MAX_MACRO_COUNT;
     }
 
     public static void modifyMacro(ServerPlayer player, boolean isDefine, String key, String value) {

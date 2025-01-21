@@ -2,13 +2,18 @@ package io.yukkuric.hexparse.macro;
 
 import com.google.gson.Gson;
 import io.yukkuric.hexparse.HexParse;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
+
+import static io.yukkuric.hexparse.macro.MacroManager.MAX_MACRO_COUNT;
+import static io.yukkuric.hexparse.macro.MacroManager.MAX_SINGLE_MACRO_SIZE;
 
 public class MacroClient {
     static final Gson GSON = new Gson();
@@ -53,9 +58,31 @@ public class MacroClient {
     static boolean tryLoad(File f) {
         if (!f.exists()) return false;
         try (var fs = new FileInputStream(f); var sr = new InputStreamReader(fs, StandardCharsets.UTF_8); var br = new BufferedReader(sr)) {
+            var caller = Minecraft.getInstance().player;
             HashMap<String, Object> raw = GSON.fromJson(br, HashMap.class);
-            for (var pair : raw.entrySet())
-                macros.put(pair.getKey(), String.valueOf(pair.getValue()));
+            int tmpSize;
+            if ((tmpSize = raw.size()) > MAX_MACRO_COUNT) {
+                if (caller != null)
+                    caller.sendSystemMessage(Component.translatable("hexparse.msg.error.macro.too_many", tmpSize - MAX_MACRO_COUNT).withStyle(ChatFormatting.DARK_RED));
+            }
+            int cnt = 0;
+            for (var pair : raw.entrySet()) {
+                var key = pair.getKey();
+                if (key.length() > MAX_SINGLE_MACRO_SIZE) {
+                    if (caller != null)
+                        caller.sendSystemMessage(Component.translatable("hexparse.msg.error.macro.too_long.key").withStyle(ChatFormatting.DARK_RED));
+                    continue;
+                }
+                var val = String.valueOf(pair.getValue());
+                if ((tmpSize = val.length()) > MAX_SINGLE_MACRO_SIZE) {
+                    if (caller != null)
+                        caller.sendSystemMessage(Component.translatable("hexparse.msg.error.macro.too_long", tmpSize - MAX_SINGLE_MACRO_SIZE).withStyle(ChatFormatting.GOLD));
+                    val = val.substring(0, MAX_SINGLE_MACRO_SIZE);
+                }
+                macros.put(key, val);
+                cnt++;
+                if (cnt >= MAX_MACRO_COUNT) break;
+            }
             return true;
         } catch (Throwable e) {
             HexParse.LOGGER.error(e.toString());
