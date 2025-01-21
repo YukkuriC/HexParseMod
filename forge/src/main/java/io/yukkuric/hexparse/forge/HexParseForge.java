@@ -4,8 +4,12 @@ import at.petrak.hexcasting.common.network.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
+import io.yukkuric.hexparse.forge.events.MacroForgeHandler;
+import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.*;
+import io.yukkuric.hexparse.network.macro.MsgPushMacro;
+import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,6 +40,7 @@ public final class HexParseForge {
 
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
+        evBus.register(MacroForgeHandler.class);
 
         var ctx = ModLoadingContext.get();
         HexParseConfigForge.register(ctx);
@@ -72,6 +77,7 @@ public final class HexParseForge {
             // packets
             int idx = 0;
 
+            // clipboard
             // from server
             CHANNEL.registerMessage(idx++, MsgPullClipboard.class, MsgPullClipboard::serialize,
                     MsgPullClipboard::deserialize, makeClientBoundHandler(MsgPullClipboard::handle));
@@ -79,6 +85,12 @@ public final class HexParseForge {
             // from client
             CHANNEL.registerMessage(idx++, MsgPushClipboard.class, MsgPushClipboard::serialize,
                     MsgPushClipboard::deserialize, makeServerBoundHandler(MsgPushClipboard::handle));
+
+            // macro
+            CHANNEL.registerMessage(idx++, MsgUpdateClientMacro.class, MsgUpdateClientMacro::serialize,
+                    MsgUpdateClientMacro::deserialize, makeClientBoundHandler(MsgUpdateClientMacro::handle));
+            CHANNEL.registerMessage(idx++, MsgPushMacro.class, MsgPushMacro::serialize,
+                    MsgPushMacro::deserialize, makeServerBoundHandler(MsgPushMacro::handle));
         }
 
         @Override

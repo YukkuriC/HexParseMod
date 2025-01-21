@@ -8,6 +8,7 @@ import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.ISenderServer;
 import io.yukkuric.hexparse.network.MsgHandlers;
 import io.yukkuric.hexparse.network.MsgPushClipboard;
+import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -49,6 +50,8 @@ public final class HexParseFabric implements ModInitializer {
 
             ServerPlayNetworking.registerGlobalReceiver(
                     MsgPushClipboard.ID, makeServerBoundHandler(MsgPushClipboard::deserialize, MsgPushClipboard::handle));
+            ServerPlayNetworking.registerGlobalReceiver(
+                    MsgPushMacro.ID, makeServerBoundHandler(MsgPushMacro::deserialize, MsgPushMacro::handle));
         }
 
         @Override

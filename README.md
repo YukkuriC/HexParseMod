@@ -41,6 +41,11 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   focus item.
 - `/hexParse clipboard_angles [rename]`: same as above, but only accept patterns input with raw angle string like
   `"wedsaq"`.
+- `/hexParse (macro/dialect) ...`: edit client-saved code dialects (1-on-1 mapping, not starting with `#`) and macros (
+  mapped to code segments, starting with `#`)
+    - `... list`: list all saved macros/dialects.
+    - `... define <key> <value>`: define a macro/dialect mapping; could be fresh-new or overriding existed one.
+    - `... remove <key>`: remove mapping entry with given key (if exists)
 - `/hexParse read`: read handheld focus item's iota, parse into code and show in chat window; the result will be copied
   when clicked.
 - `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
@@ -119,5 +124,21 @@ When player holds `Shift` key, all comments will be hidden.
 
 ## Future plans
 
+* [ ] customizable dialects & macros
+    * [x] C/S sync (like everbook)
+        * [x] forge
+        * [ ] fabric
+    * [x] parser integration
+        * [x] dialect
+        * [x] macro
+        * [x] inf. recursion guard
+    * [x] commands
+        * [x] dialects
+        * [x] macros
+        * ----------
+        * [x] set
+        * [x] list all
+        * [x] remove
+        * ~~[ ] clear~~
 * **more complex tokenizer to replace simple regex queues**
 * **legal** number pattern generator

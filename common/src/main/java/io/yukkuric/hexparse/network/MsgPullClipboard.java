@@ -1,6 +1,7 @@
 package io.yukkuric.hexparse.network;
 
 import at.petrak.hexcasting.common.network.IMessage;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.misc.CodeHelpers;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
 public record MsgPullClipboard(String rename, boolean anglesOnly) implements IMessage {
     public static final ResourceLocation ID = new ResourceLocation(HexParse.MOD_ID, "clipboard/pull");
     static Pattern ANGLES = Pattern.compile("(?<=\")[wedsaq]*(?=\")");
-    static int MAX_LENGTH = 1048576;
+    static int MAX_LENGTH = 100 * HexIotaTypes.MAX_SERIALIZATION_TOTAL;
 
     @Override
     public void serialize(FriendlyByteBuf buf) {
