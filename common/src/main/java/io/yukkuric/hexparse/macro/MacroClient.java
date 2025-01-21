@@ -90,6 +90,11 @@ public class MacroClient {
         macros.put("#hello_world", "(print)(comment_Hello,comment_World)for_each,pop");
     }
 
+    // ========== LOCAL MATCH ==========
+    public static boolean preMatch(String key) {
+        return macros.containsKey(key);
+    }
+
     // ========== SYNC ==========
     public static CompoundTag serialize() {
         var pack = new CompoundTag();

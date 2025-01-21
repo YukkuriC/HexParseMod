@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
@@ -98,7 +99,7 @@ public class ParserMain {
         var caller = Minecraft.getInstance().player;
         for (var frag : CodeCutter.splitCode(code)) {
             var matched = false;
-            if ("[]".contains(frag)) {
+            if ("[]".contains(frag) || MacroClient.preMatch(frag)) {
                 res.add(frag);
                 matched = true;
             } else for (var p : str2nbtParsers) {
