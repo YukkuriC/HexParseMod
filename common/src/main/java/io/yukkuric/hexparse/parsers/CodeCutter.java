@@ -11,7 +11,7 @@ public class CodeCutter {
     static Pattern pCommentLine = Pattern.compile("//.*");
     static Pattern pLineBreak = Pattern.compile("[\\r\\n]");
     static Pattern pCommentBlock = Pattern.compile("/\\*.*?\\*/");
-    static Pattern pTokens = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:]+");
+    static Pattern pTokens = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:#]+");
 
     static Pattern pLineStart = Pattern.compile("^\\s*");
 

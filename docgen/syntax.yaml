@@ -1,5 +1,13 @@
 Currently Supported Syntax:
   data:
+  - Example: '`thoth`, `iris`'
+    Output: dialect for tokens (player defined & [builtin](https://github.com/YukkuriC/HexParseMod/blob/main/common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/ToDialect.java))
+    Output Type: '`ListIota`'
+    Type: Any Single Token
+  - Example: '`#aimed`, `#read_circle_corners`'
+    Output: macros defined by player
+    Output Type: '`ListIota`'
+    Type: Any Code Fragment
   - Example: '`[`, `]`'
     Output: list literals; can be nested
     Output Type: '`ListIota`'
@@ -44,7 +52,7 @@ Currently Supported Syntax:
     Output: corresponding `Vec3Iota`; unassigned axes will be 0s
     Output Type: '`Vec3Iota`'
     Type: Vector Literal
-  - Example: '`true`, `False`, `vec_19_19`'
+  - Example: '`true`, `False`'
     Output: corresponding `BooleanIota` (case insensitive)
     Output Type: '`BooleanIota`'
     Type: Boolean Literal
