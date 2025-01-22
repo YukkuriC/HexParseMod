@@ -12,6 +12,7 @@ public class PluginIotaFactory extends IotaFactory {
     public static final String TYPE_ITEM_TYPE = "moreiotas:item_type";
     public static final String TYPE_STRING = "moreiotas:string";
     public static final String TYPE_GATE = "hexal:gate";
+    public static final String TYPE_PROP = "hexcellular:property";
 
     public static CompoundTag makeIotaType(String type) {
         return makeType(TYPE_IOTA_TYPE, StringTag.valueOf(type));
@@ -37,6 +38,10 @@ public class PluginIotaFactory extends IotaFactory {
 
     public static CompoundTag makeString(String data) {
         return makeType(TYPE_STRING, StringTag.valueOf(data));
+    }
+
+    public static CompoundTag makeProperty(CompoundTag packed) {
+        return makeType(TYPE_PROP, packed);
     }
 
     public static CompoundTag makeGate(int id, Vec3 pos, Entity binder) {

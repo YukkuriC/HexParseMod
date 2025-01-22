@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.parsers.str2nbt.plugins;
 
+import at.petrak.hexcasting.api.misc.MediaConstants;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
 import net.minecraft.nbt.CompoundTag;
@@ -27,6 +28,21 @@ public class PluginConstParsers {
         public CompoundTag parse(String node) {
             var str = node.substring(node.indexOf('_') + 1);
             return PluginIotaFactory.makeString(str);
+        }
+    };
+
+    public static BaseConstParser TO_PROPERTY = new Regex("^prop(erty)?_") {
+        @Override
+        public CompoundTag parse(String node) {
+            var str = node.substring(node.indexOf('_') + 1);
+            var packed = new CompoundTag();
+            packed.putString("name", str);
+            return PluginIotaFactory.makeProperty(packed);
+        }
+
+        @Override
+        public int getCost() {
+            return super.getCost() + (int) MediaConstants.CRYSTAL_UNIT;
         }
     };
 
