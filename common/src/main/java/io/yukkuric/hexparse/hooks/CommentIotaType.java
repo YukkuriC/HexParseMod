@@ -30,13 +30,23 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CommentIotaType extends IotaType<CommentIota> {
     public static CommentIotaType INSTANCE = new CommentIotaType();
-
     public static final String TYPE_ID = HexParse.MOD_ID + ":comment";
-
     public static final HexPattern COMMENT_PATTERN = HexPattern.fromAngles("adadaqadadaaww", HexDir.SOUTH_EAST);
+    static final Supplier<Boolean> getShiftKeyDown;
+
+    static {
+        Supplier<Boolean> getter;
+        try {
+            getter = Screen::hasShiftDown;
+        } catch (Throwable e) {
+            getter = () -> false;
+        }
+        getShiftKeyDown = getter;
+    }
 
     static final Action NULL_ACTION = new Action() {
         static final List<OperatorSideEffect> NO_EFFECT = new ArrayList<>();
@@ -58,7 +68,7 @@ public class CommentIotaType extends IotaType<CommentIota> {
     public Component display(Tag tag) {
         var raw = tag.getAsString();
         if (!IotaFactory.isGreatPatternPlaceholder(raw)) {
-            if (Screen.hasShiftDown()) return Component.empty();
+            if (getShiftKeyDown.get()) return Component.empty();
             return Component.literal(raw).withStyle(ChatFormatting.DARK_GREEN);
         }
         var len = raw.length();
