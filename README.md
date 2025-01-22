@@ -123,22 +123,5 @@ Comment iotas includes text comments, line-breaks & indents, and unknown great s
 When player holds `Shift` key, all comments will be hidden.
 
 ## Future plans
-
-* [ ] customizable dialects & macros
-    * [x] C/S sync (like everbook)
-        * [x] forge
-        * [ ] fabric
-    * [x] parser integration
-        * [x] dialect
-        * [x] macro
-        * [x] inf. recursion guard
-    * [x] commands
-        * [x] dialects
-        * [x] macros
-        * ----------
-        * [x] set
-        * [x] list all
-        * [x] remove
-        * ~~[ ] clear~~
 * **more complex tokenizer to replace simple regex queues**
 * **legal** number pattern generator
