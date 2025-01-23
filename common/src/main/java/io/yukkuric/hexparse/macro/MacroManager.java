@@ -1,10 +1,14 @@
 package io.yukkuric.hexparse.macro;
 
+import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.network.MsgHandlers;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import it.unimi.dsi.fastutil.Pair;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
@@ -61,5 +65,15 @@ public class MacroManager {
             pool.remove(key);
         }
         MsgHandlers.SERVER.sendPacketToPlayer(player, new MsgUpdateClientMacro(isDefine, key, value));
+
+        // msg
+        if (isDefine)
+            player.sendSystemMessage(Component.translatable("hexparse.cmd.macro.define", showGold(key), showGold(value)));
+        else player.sendSystemMessage(Component.translatable("hexparse.cmd.macro.remove", showGold(key)));
+    }
+
+    // helpers
+    public static MutableComponent showGold(String val) {
+        return CodeHelpers.wrapClickCopy(Component.literal(val).withStyle(ChatFormatting.GOLD), val);
     }
 }
