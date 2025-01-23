@@ -111,9 +111,18 @@ Plugin Parser Installed:
     Example: '`gate`, `gate_114_514_1919`, `gate_0_1_0_self`, `gate_0_deadbeef-c0de-cafe-babe-114514191981`'
     Output: '`gate` for unbinded gates; with vec3 axes for position-binded ones; with
       entity UUID or `self` (and/or vec3 axes) for entity-binded ones;<br>**NOTE:
-      EXTRA COST FOR MAKING GATES**'
+      Extra cost for making gates**<br>**NOTE2: All parsed gates have negative IDs
+      and may conflict with other parsed ones; make sure to generate your own for
+      security usages**'
     Output Type: '`GateIota`'
     Type: Gate Literal
+  - Addon: Hexcellular
+    Example: '`prop_imaprop`, `property_ImAPropToo`'
+    Output: 'property iota with certain name;<br>**NOTE: Extra cost for making properties**<br>**NOTE2:
+      All parsed properties start with an underline and may confilict with other parsed
+      ones; make sure to generate your own for security usages**'
+    Output Type: '`PropertyIota`'
+    Type: Property Literal
   headers:
   - Addon
   - Type

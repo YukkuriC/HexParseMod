@@ -30,7 +30,7 @@ public class IotaFactory {
         }
     };
 
-    static CompoundTag _makeType(String type, Tag data) {
+    static CompoundTag makeType(String type, Tag data) {
         var res = new CompoundTag();
         res.putString(HexIotaTypes.KEY_TYPE, type);
         res.put(HexIotaTypes.KEY_DATA, data);
@@ -38,7 +38,7 @@ public class IotaFactory {
     }
 
     public static CompoundTag makeList(ListTag data) {
-        return _makeType(TYPE_LIST, data);
+        return makeType(TYPE_LIST, data);
     }
 
     public static CompoundTag makePattern(String angles, HexDir start) {
@@ -50,11 +50,11 @@ public class IotaFactory {
         var pattern = new CompoundTag();
         pattern.putByte("start_dir", (byte) (start.ordinal()));
         pattern.putByteArray("angles", angleArray);
-        return _makeType(TYPE_PATTERN, pattern);
+        return makeType(TYPE_PATTERN, pattern);
     }
 
     public static CompoundTag makeComment(String comment) {
-        return _makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
+        return makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
     }
 
     public static boolean isGreatPatternPlaceholder(String node) {
@@ -74,6 +74,6 @@ public class IotaFactory {
     }
 
     public static CompoundTag makeNum(Double num) {
-        return _makeType(TYPE_DOUBLE, DoubleTag.valueOf(num));
+        return makeType(TYPE_DOUBLE, DoubleTag.valueOf(num));
     }
 }

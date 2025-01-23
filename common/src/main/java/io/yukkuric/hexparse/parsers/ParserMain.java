@@ -187,6 +187,11 @@ public class ParserMain {
             str2nbtParsers.add(PluginConstParsers.TO_STRING);
             nbt2strParsers.add(StringParser.STRING);
         }
+
+        if (HexParse.HELPERS.modLoaded("hexcellular")) {
+            str2nbtParsers.add(PluginConstParsers.TO_PROPERTY);
+            nbt2strParsers.add(PropertyParser.INSTANCE);
+        }
     }
 
     public static void AddForthParser(IStr2Nbt p) {
