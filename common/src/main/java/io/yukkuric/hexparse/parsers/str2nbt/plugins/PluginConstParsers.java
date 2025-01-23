@@ -32,11 +32,16 @@ public class PluginConstParsers {
     };
 
     public static BaseConstParser TO_PROPERTY = new Regex("^prop(erty)?_") {
+        static String wrapName(String raw) {
+            if (!raw.startsWith("_")) raw = "_" + raw;
+            return raw;
+        }
+
         @Override
         public CompoundTag parse(String node) {
             var str = node.substring(node.indexOf('_') + 1);
             var packed = new CompoundTag();
-            packed.putString("name", str);
+            packed.putString("name", wrapName(str));
             return PluginIotaFactory.makeProperty(packed);
         }
 
