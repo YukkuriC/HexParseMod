@@ -9,11 +9,11 @@ import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class HexParsePatterns {
     static Map<ResourceLocation, Pair<HexPattern, Action>> CACHED = new HashMap<>();
+    static final Set<String> GREAT_SPELLS = new HashSet<>();
 
     public static final ActionRegistryEntry
             CODE2FOCUS = wrap("code2focus", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwweeeeed", HexDir.EAST), ActionCode2Focus.INSTANCE),
@@ -32,11 +32,17 @@ public class HexParsePatterns {
         try {
             for (var pair : CACHED.entrySet()) {
                 var entry = pair.getValue();
-                PatternRegistry.mapPattern(entry.key(), pair.getKey(), entry.value());
+                var key = pair.getKey();
+                PatternRegistry.mapPattern(entry.key(), key, entry.value(), GREAT_SPELLS.contains(key.getPath()));
             }
         } catch (PatternRegistry.RegisterPatternException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static ActionRegistryEntry wrapGreat(String name, HexPattern pattern, Action action) {
+        GREAT_SPELLS.add(name);
+        return wrap(name, pattern, action);
     }
 
     static ActionRegistryEntry wrap(String name, HexPattern pattern, Action action) {
