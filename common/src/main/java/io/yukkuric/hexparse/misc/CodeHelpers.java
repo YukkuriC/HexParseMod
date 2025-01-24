@@ -1,5 +1,12 @@
 package io.yukkuric.hexparse.misc;
 
+import at.petrak.hexcasting.api.advancements.HexAdvancementTriggers;
+import at.petrak.hexcasting.api.misc.DiscoveryHandlers;
+import at.petrak.hexcasting.api.misc.HexDamageSources;
+import at.petrak.hexcasting.api.mod.HexConfig;
+import at.petrak.hexcasting.api.mod.HexStatistics;
+import at.petrak.hexcasting.api.spell.mishaps.Mishap;
+import at.petrak.hexcasting.api.utils.MediaHelper;
 import at.petrak.hexcasting.common.items.ItemFocus;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
@@ -13,12 +20,35 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 import java.util.List;
 
 public interface CodeHelpers {
     static void doExtractMedia(ServerPlayer caster, int amount) {
         var harness = IXplatAbstractions.INSTANCE.getHarness(caster, InteractionHand.MAIN_HAND);
-        harness.withdrawMedia(amount, false);
+        // picked from CastingHarness.withdrawMedia
+        // https://github.com/FallingColors/HexMod/blob/1.19/Common/src/main/java/at/petrak/hexcasting/api/spell/casting/CastingHarness.kt#L548-L575
+        {
+            var costLeft = amount;
+            var mediaSources = DiscoveryHandlers.collectMediaHolders(harness);
+            mediaSources.sort(Collections.reverseOrder(MediaHelper::compareMediaItem));
+            for (var source : mediaSources) {
+                costLeft -= MediaHelper.extractMedia(source, costLeft, true, false);
+                if (costLeft <= 0) break;
+            }
+            if (costLeft > 0) {
+                // Cast from HP!
+                var mediaToHealth = HexConfig.common().mediaToHealthRate();
+                var healthToRemove = Math.max(costLeft / mediaToHealth, 0.5);
+                var mediaAbleToCastFromHP = caster.getHealth() * mediaToHealth;
+
+                Mishap.Companion.trulyHurt(caster, HexDamageSources.OVERCAST, (float) healthToRemove);
+                var actuallyTaken = (int) Math.ceil(mediaAbleToCastFromHP - (caster.getHealth() * mediaToHealth));
+
+                HexAdvancementTriggers.OVERCAST_TRIGGER.trigger(caster, actuallyTaken);
+                caster.awardStat(HexStatistics.MEDIA_OVERCAST, amount - costLeft);
+            }
+        }
     }
 
     static ItemStack getFocusItem(ServerPlayer player) {
