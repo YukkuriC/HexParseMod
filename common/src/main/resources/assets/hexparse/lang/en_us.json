@@ -29,6 +29,7 @@
   "hexcasting.spell.hexparse:code2focus": "Decoding Gambit",
   "hexcasting.spell.hexparse:learn_patterns": "Learn Great Patterns",
   "hexcasting.spell.hexparse:remove_comments": "No-Comment Purification",
+  "hexcasting.spell.hexparse:compile": "Compile",
   "hexparse.book.entry": "HexParse Patterns",
   "book.descrip.hexparse:focus2code": "Reads data from the focus I'm holding, and prints parsed code into chat menu.$(br)Can only be casted by staff.",
   "book.descrip.hexparse:code2focus": "Reads code from my local clipboard, then parse it into the focus I'm holding.$(br)Can only be casted by staff.",
