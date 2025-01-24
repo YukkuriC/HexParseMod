@@ -102,7 +102,7 @@ public class CommandMacro {
         if (isMacro) {
             return '#' + key;
         } else {
-            self.sendSystemMessage(Component.translatable("hexparse.msg.error.invalid_dialect_key").withStyle(ChatFormatting.DARK_RED));
+            self.sendSystemMessage(Component.translatable("hexparse.msg.error.invalid_dialect_key", key).withStyle(ChatFormatting.DARK_RED));
             return null;
         }
     }

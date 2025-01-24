@@ -4,6 +4,7 @@ import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
+import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
@@ -43,6 +44,8 @@ public class ParserMain {
     }
 
     public static synchronized CompoundTag ParseCode(List<String> nodes, ServerPlayer caller) {
+        if (caller == null) return IotaFactory.makeList(new ListTag());
+        CodeHelpers.autoRefresh(caller.getServer());
         for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
         try (var ignored = CostTracker.INSTANCE.beginTrack(caller)) {
             return _parseCode(nodes, caller);

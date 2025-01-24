@@ -45,6 +45,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   mapped to code segments, starting with `#`)
     - `... list`: list all saved macros/dialects.
     - `... define <key> <value>`: define a macro/dialect mapping; could be fresh-new or overriding existed one.
+    - `macro define_clipboard <key>`: same as above, but only for macros, and reads player's clipboard
     - `... remove <key>`: remove mapping entry with given key (if exists)
 - `/hexParse read`: read handheld focus item's iota, parse into code and show in chat window; the result will be copied
   when clicked.
@@ -56,8 +57,6 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 ### OP-only commands
 
-- `/hexParse refreshMappings`: reload pattern mappings when plugins updated; should be auto-executed before first usage
-  of above commands in each server, and this command can be ignored in normal cases.
 - `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>|lock <pattern id>)`: controls great pattern unlocking
   process of current
   world by locking/unlocking all at once, or a single great pattern each execution.
