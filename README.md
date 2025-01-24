@@ -67,6 +67,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 * `focus2code`: Equivalent to `/hexParse read`.
 * `remove_comments`: Clears comment iotas from a (nested) list input.
 * `learn_patterns`: Read handheld items and learns great pattern(s) inside.
+* (great spell) `compile`: takes in a MoreIotas string iota, and parses it into a code list.
 
 *Introduction also written in `HexParse Patterns` section inside the book.*
 
