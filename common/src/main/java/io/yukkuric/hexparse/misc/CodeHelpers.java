@@ -33,7 +33,7 @@ public interface CodeHelpers {
             var mediaSources = DiscoveryHandlers.collectMediaHolders(harness);
             mediaSources.sort(Collections.reverseOrder(MediaHelper::compareMediaItem));
             for (var source : mediaSources) {
-                costLeft -= MediaHelper.extractMedia(source, costLeft, true, false);
+                costLeft -= MediaHelper.extractMedia(source, costLeft, false, false);
                 if (costLeft <= 0) break;
             }
             if (costLeft > 0) {
