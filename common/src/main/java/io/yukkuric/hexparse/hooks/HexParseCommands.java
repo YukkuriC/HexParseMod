@@ -13,7 +13,6 @@ public class HexParseCommands {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         CommandClipboard.init();
-        CommandRefresh.init();
         CommandRead.init(MAIN_CMD); // no, this doesn't save lines
         CommandWrite.init();
         CommandGreatPatternUnlock.init();

@@ -57,8 +57,6 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 ### OP-only commands
 
-- `/hexParse refreshMappings`: reload pattern mappings when plugins updated; should be auto-executed before first usage
-  of above commands in each server, and this command can be ignored in normal cases.
 - `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>|lock <pattern id>)`: controls great pattern unlocking
   process of current
   world by locking/unlocking all at once, or a single great pattern each execution.

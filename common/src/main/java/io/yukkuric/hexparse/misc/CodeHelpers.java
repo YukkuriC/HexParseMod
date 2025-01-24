@@ -33,7 +33,6 @@ public interface CodeHelpers {
     static void doParse(ServerPlayer player, String code, String rename) {
         var target = getFocusItem(player);
         if (target == null) return;
-        autoRefresh(player.getServer());
         var nbt = ParserMain.ParseCode(code, player);
         var tag = target.getOrCreateTag();
         tag.put("data", nbt);
@@ -43,7 +42,6 @@ public interface CodeHelpers {
     static void doParse(ServerPlayer player, List<String> code, String rename) {
         var target = getFocusItem(player);
         if (target == null) return;
-        autoRefresh(player.getServer());
         var nbt = ParserMain.ParseCode(code, player);
         var tag = target.getOrCreateTag();
         tag.put("data", nbt);
