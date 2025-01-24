@@ -20,6 +20,8 @@ public class HexParsePatterns {
             FOCUS2CODE = wrap("focus2code", HexPattern.fromAngles("aqqqqqwwewewewewewdqeeeeed", HexDir.EAST), ActionFocus2Code.INSTANCE);
     public static final ActionRegistryEntry REMOVE_COMMENTS = wrap("remove_comments", HexPattern.fromAngles("dadadedadadwqaeaqeww", HexDir.NORTH_EAST), ActionRemoveComments.INSTANCE);
     public static final ActionRegistryEntry LEARN_GREAT_PATTERNS = wrap("learn_patterns", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwwqqeqqeqqeqqeqqeqqdqeeeeed", HexDir.EAST), ActionLearnGreatPatterns.INSTANCE);
+    public static final ActionRegistryEntry COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), ActionCompile.INSTANCE);
+
 
     public static void registerActions() {
         var reg = HexActions.REGISTRY;
