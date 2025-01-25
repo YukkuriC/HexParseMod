@@ -183,6 +183,8 @@ public class ParserMain {
         if (HexParse.HELPERS.modLoaded("hexal")) {
             str2nbtParsers.add(new ToGate());
             nbt2strParsers.add(new GateParser());
+            str2nbtParsers.add(PluginConstParsers.TO_MOTE);
+            nbt2strParsers.add(new MoteParser());
         }
 
         if (HexParse.HELPERS.modLoaded("moreiotas")) {
