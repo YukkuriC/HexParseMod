@@ -1,10 +1,14 @@
 package io.yukkuric.hexparse.parsers.str2nbt.plugins;
 
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
 import net.minecraft.nbt.CompoundTag;
+import ram.talia.hexal.api.mediafieditems.MediafiedItemManager;
+import ram.talia.hexal.api.spell.iota.MoteIota;
 
+import java.util.UUID;
 import java.util.function.Function;
 
 import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Prefix;
@@ -48,6 +52,17 @@ public class PluginConstParsers {
         @Override
         public int getCost() {
             return super.getCost() + (int) MediaConstants.CRYSTAL_UNIT;
+        }
+    };
+
+    public static BaseConstParser TO_MOTE = new Prefix("mote_") {
+        @Override
+        public CompoundTag parse(String node) {
+            var raw = node.split("_");
+            var uuid = UUID.fromString(raw[1]);
+            var idx = Integer.valueOf(raw[2]);
+            var mote = new MoteIota(new MediafiedItemManager.Index(uuid, idx));
+            return HexIotaTypes.serialize(mote);
         }
     };
 

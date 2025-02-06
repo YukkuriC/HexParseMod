@@ -15,6 +15,9 @@ public class IotaFactory {
     public static final String TYPE_DOUBLE = HexAPI.MOD_ID + ":double";
     public static final String TYPE_VECTOR = HexAPI.MOD_ID + ":vec3";
     public static final String TYPE_ENTITY = HexAPI.MOD_ID + ":entity";
+    public static final String TYPE_BOOLEAN = HexAPI.MOD_ID + ":boolean";
+    public static final String TYPE_NULL = HexAPI.MOD_ID + ":null";
+    public static final String TYPE_GARBAGE = HexAPI.MOD_ID + ":garbage";
 
     public static final String GREAT_PLACEHOLDER_PREFIX = "<";
     public static final String GREAT_PLACEHOLDER_POSTFIX = "?>";
@@ -30,7 +33,7 @@ public class IotaFactory {
         }
     };
 
-    static CompoundTag makeType(String type, Tag data) {
+    public static CompoundTag makeType(String type, Tag data) {
         var res = new CompoundTag();
         res.putString(HexIotaTypes.KEY_TYPE, type);
         res.put(HexIotaTypes.KEY_DATA, data);
@@ -45,7 +48,8 @@ public class IotaFactory {
         var angleArray = new ArrayList<Byte>();
         for (var chr : angles.toCharArray()) { // skip fromAngles check
             if (ANGLE_MAP.containsKey(chr)) angleArray.add(ANGLE_MAP.get(chr));
-            else throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
+            else
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
         }
         var pattern = new CompoundTag();
         pattern.putByte("start_dir", (byte) (start.ordinal()));

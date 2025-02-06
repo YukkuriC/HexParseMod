@@ -159,7 +159,8 @@ public class ParserMain {
                 TO_TAB, TO_COMMENT,
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
-                new ToEntity(), new ToSelf(),
+                new ToEntity(),
+                ToMiscConst.INSTANCE,
                 ToDialect.INSTANCE,
                 TO_RAW_PATTERN
         );
@@ -168,7 +169,10 @@ public class ParserMain {
                 new PatternParser(),
                 new CommentParser(),
                 new NumParser(), new VecParser(),
-                new EntityParser()
+                new EntityParser(),
+                new BoolParser(),
+                new NullParser(),
+                new GarbageParser()
         );
 
         // mutable anyway
@@ -185,6 +189,8 @@ public class ParserMain {
             nbt2strParsers.add(StringParser.ENTITY);
             nbt2strParsers.add(new ItemTypeParser());
             nbt2strParsers.add(new GateParser());
+            str2nbtParsers.add(PluginConstParsers.TO_MOTE);
+            nbt2strParsers.add(new MoteParser());
         }
         if (HexParse.HELPERS.modLoaded("moreiotas")) {
             str2nbtParsers.add(PluginConstParsers.TO_STRING);
