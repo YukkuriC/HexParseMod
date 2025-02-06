@@ -116,6 +116,11 @@ Plugin Parser Installed:
       security usages**'
     Output Type: '`GateIota`'
     Type: Gate Literal
+  - Addon: Hexal
+    Example: '`mote_<UUID>_<idx>`, `mote_deadbeef-c0de-cafe-babe-114514191981_0`'
+    Output: the corresponding mote from certain nexus in the world
+    Output Type: '`MoteIota`'
+    Type: Mote Literal
   - Addon: Hexcellular
     Example: '`prop_imaprop`, `property_ImAPropToo`'
     Output: 'property iota with certain name;<br>**NOTE: Extra cost for making properties**<br>**NOTE2:
