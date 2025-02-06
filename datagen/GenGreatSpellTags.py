@@ -5,7 +5,7 @@ os.chdir(os.path.dirname(__file__))
 spells = ['compile']
 
 if 'prepare':
-    spells = ['hexparse:' + x for x in spells]
+    spells = [{"id": 'hexparse:' + x, "required": False} for x in spells]
     tags = ['can_start_enlighten', 'per_world_pattern', 'requires_enlightenment']
     tags = [f'action/{x}.json' for x in tags]
     tags = [*tags, *('hexcasting/' + x for x in tags)]
