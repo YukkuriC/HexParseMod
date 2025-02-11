@@ -39,7 +39,7 @@ subprojects {
         flatDir { dir "../libs/$minecraft_version" }
     }
 
-    var nameForRef = project.name.equals("common") ? "fabric" : project.name
+    var nameForRef = project.name.equals("common") ? "forge" : project.name
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
