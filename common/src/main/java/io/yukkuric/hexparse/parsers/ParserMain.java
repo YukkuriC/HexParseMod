@@ -23,8 +23,8 @@ import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 
 public class ParserMain {
     static boolean mutableFlag = false;
-    static List<IStr2Nbt> str2nbtParsers;
-    static List<INbt2Str> nbt2strParsers;
+    static List<IStr2Nbt> str2nbtParsers = new ArrayList<>();
+    static List<INbt2Str> nbt2strParsers = new ArrayList<>();
     static CompoundTag IGNORED = new CompoundTag();
 
     public static CompoundTag ParseSingleNode(String frag) {
@@ -154,7 +154,7 @@ public class ParserMain {
     }
 
     public static void init() {
-        str2nbtParsers = Arrays.asList(
+        str2nbtParsers.addAll(List.of(
                 ToPattern.META,
                 ToPattern.NORMAL, ToPattern.GREAT,
                 TO_TAB, TO_COMMENT,
@@ -164,9 +164,9 @@ public class ParserMain {
                 ToMiscConst.INSTANCE,
                 ToDialect.INSTANCE,
                 TO_RAW_PATTERN
-        );
+        ));
 
-        nbt2strParsers = Arrays.asList(
+        nbt2strParsers.addAll(List.of(
                 new PatternParser(),
                 new CommentParser(),
                 new NumParser(), new VecParser(),
@@ -174,11 +174,7 @@ public class ParserMain {
                 new BoolParser(),
                 new NullParser(),
                 new GarbageParser()
-        );
-
-        // mutable anyway
-        str2nbtParsers = new ArrayList<>(str2nbtParsers);
-        nbt2strParsers = new ArrayList<>(nbt2strParsers);
+        ));
 
         if (HexParse.HELPERS.modLoaded("hexal")) {
             str2nbtParsers.add(new ToGate());
