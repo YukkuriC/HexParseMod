@@ -2,10 +2,10 @@ package io.yukkuric.hexparse.parsers.nbt2str.plugins;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 
 public class ItemTypeParser implements INbt2Str {
     @Override
@@ -25,7 +25,6 @@ public class ItemTypeParser implements INbt2Str {
             key = tag.getString(typeSub);
         }
         if (key.isEmpty()) key = "air";
-        if (key.startsWith("minecraft:")) key = new ResourceLocation(key).getPath();
-        return "type/%s_%s".formatted(typeSub, key);
+        return "type/%s_%s".formatted(typeSub, StringProcessors.OMIT_MC.apply(key));
     }
 }
