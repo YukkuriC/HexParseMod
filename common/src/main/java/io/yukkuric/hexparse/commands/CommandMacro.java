@@ -61,11 +61,8 @@ public class CommandMacro {
                     value = value.substring(0, MAX_SINGLE_MACRO_SIZE);
                 }
                 MacroManager.modifyMacro(self, true, key, value);
-                self.sendSystemMessage(Component.translatable("hexparse.cmd.macro.define",
-                        showGold(key), showGold(value)));
             } else {
                 MacroManager.modifyMacro(self, false, key, null);
-                self.sendSystemMessage(Component.translatable("hexparse.cmd.macro.remove", showGold(key)));
             }
             return 1;
         };
