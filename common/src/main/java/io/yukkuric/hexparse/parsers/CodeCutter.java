@@ -11,7 +11,7 @@ public class CodeCutter {
     static Pattern pCommentLine = Pattern.compile("//.*");
     static Pattern pLineBreak = Pattern.compile("[\\r\\n]");
     static Pattern pCommentBlock = Pattern.compile("/\\*.*?\\*/");
-    static Pattern pTokens = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:#]+");
+    static Pattern pTokens = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:#\u0100-\uffff]+");
 
     static Pattern pLineStart = Pattern.compile("^\\s*");
 
@@ -42,6 +42,6 @@ public class CodeCutter {
 
         code = pLineBreak.matcher(code).replaceAll(" ");
         code = pCommentBlock.matcher(code).replaceAll(" ");
-        return pTokens.matcher(code).results().map(x -> x.group()).toList();
+        return pTokens.matcher(code).results().map(MatchResult::group).toList();
     }
 }
