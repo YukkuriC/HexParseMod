@@ -16,7 +16,11 @@ public interface MsgHelpers {
             buf.writeInt(-1);
             return;
         }
-        buf.writeInt(str.length());
+        int posBeforeLen = buf.writerIndex();
+        buf.writeInt(114514);
+        int posBeforeStr = buf.writerIndex();
         buf.writeCharSequence(str, StandardCharsets.UTF_8);
+        int posAfterStr = buf.writerIndex();
+        buf.setInt(posBeforeLen, posAfterStr - posBeforeStr);
     }
 }

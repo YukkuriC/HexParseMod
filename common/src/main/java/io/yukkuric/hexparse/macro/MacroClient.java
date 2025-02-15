@@ -116,7 +116,7 @@ public class MacroClient {
         macros.put("#is_sneaking", "get_caster,get_entity_height,num_1.75,less");
         macros.put("#hello_world", "(print)(comment_Hello,comment_World)for_each,pop");
         macros.put("#debug", "stack_len,last_n_list,print,splat");
-        macros.put("#break", "(())splat,pop,eval");
+        macros.put("#return", "(())splat,pop,eval");
     }
 
     // ========== LOCAL MATCH ==========
