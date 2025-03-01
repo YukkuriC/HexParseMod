@@ -49,12 +49,15 @@ public interface CodeHelpers {
     }
 
     static String readHand(ServerPlayer player) {
+        return readHand(player, StringProcessors.READ_DEFAULT);
+    }
+    static String readHand(ServerPlayer player, StringProcessors.F post) {
         var target = getFocusItem(player);
         if (target == null) return null;
         var iotaRoot = ((ItemFocus) (target.getItem())).readIotaTag(target);
         if (iotaRoot == null) return null;
         autoRefresh(player.getServer());
-        return ParserMain.ParseIotaNbt(iotaRoot, player);
+        return ParserMain.ParseIotaNbt(iotaRoot, player, post);
     }
 
     WeakReference<MinecraftServer> refreshedWorld = new WeakReference<>(null);

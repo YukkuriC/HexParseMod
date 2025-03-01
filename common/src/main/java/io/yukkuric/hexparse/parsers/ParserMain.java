@@ -5,6 +5,7 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
 import io.yukkuric.hexparse.misc.CodeHelpers;
+import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
@@ -118,10 +119,9 @@ public class ParserMain {
         return res;
     }
 
-
-    public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller) {
+    public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller, StringProcessors.F post) {
         var res = _parseIotaNbt(node, caller, true);
-        res = res.replaceAll("(?<=\\[|]|\\(|\\)|^|\\n|\\s),|,(?=\\[|]|\\(|\\)|$|\\n)", "");
+        res = post.apply(res);
         return res;
     }
 

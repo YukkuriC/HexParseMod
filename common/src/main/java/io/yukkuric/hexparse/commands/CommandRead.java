@@ -4,6 +4,7 @@ import at.petrak.hexcasting.common.items.storage.ItemFocus;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.CodeHelpers;
+import io.yukkuric.hexparse.misc.StringProcessors;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -16,6 +17,8 @@ public class CommandRead {
     public static void init(LiteralArgumentBuilder<CommandSourceStack> cmd) {
         cmd.then(
                 Commands.literal("read").executes(ctx -> readHand(ctx, code -> CodeHelpers.displayCode(ctx.getSource().getPlayer(), code)))
+        ).then(
+                Commands.literal("read_hexbug").executes(ctx -> readHand(ctx, StringProcessors.READ_HEXBOT_VARIANT, code -> CodeHelpers.displayCode(ctx.getSource().getPlayer(), code)))
         ).then(
                 Commands.literal("share").executes(ctx -> readHand(ctx, code -> {
                     var p = ctx.getSource().getPlayer();
@@ -35,7 +38,11 @@ public class CommandRead {
     }
 
     static int readHand(CommandContext<CommandSourceStack> ctx, @NotNull Consumer<String> then) {
-        var code = CodeHelpers.readHand(ctx.getSource().getPlayer());
+        return readHand(ctx, StringProcessors.READ_DEFAULT, then);
+    }
+
+    static int readHand(CommandContext<CommandSourceStack> ctx, StringProcessors.F post, @NotNull Consumer<String> then) {
+        var code = CodeHelpers.readHand(ctx.getSource().getPlayer(), post);
         if (code == null) return 0;
         then.accept(code);
         return 1919810;
