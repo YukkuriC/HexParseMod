@@ -52,8 +52,10 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 - `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
 - `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input
   should be separated with space.
-- `/hexParse share`: (experimental) same as above but broadcasts iota's raw content and click-copy-able parsed code to
+- `/hexParse share`: (experimental) same as `read` but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
+- `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
+  non-pattern constants and some old registry names still need to be handled manually_
 
 ### OP-only commands
 
@@ -123,5 +125,6 @@ Comment iotas includes text comments, line-breaks & indents, and unknown great s
 When player holds `Shift` key, all comments will be hidden.
 
 ## Future plans
+
 * **more complex tokenizer to replace simple regex queues**
 * **legal** number pattern generator
