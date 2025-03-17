@@ -29,10 +29,12 @@
   "hexcasting.spell.hexparse:code2focus": "解码之策略",
   "hexcasting.spell.hexparse:learn_patterns": "内化卓越法术",
   "hexcasting.spell.hexparse:remove_comments": "压缩注释之纯化",
+  "hexcasting.spell.hexparse:create_linebreak": "换行之纯化",
   "hexcasting.spell.hexparse:compile": "编译术",
   "hexparse.book.entry": "HexParse新增图案",
   "book.descrip.hexparse:focus2code": "读取我手中的核心，将其内容解析为代码输出至聊天窗口。$(br)只能在法杖内施放。",
   "book.descrip.hexparse:code2focus": "从剪贴板读取代码，并将其解析至我手持的核心。$(br)只能在法杖内施放。",
   "book.descrip.hexparse:learn_patterns": "从手持物品（远古卷轴、核心、制成的施法道具等）内提取卓越法术图案，返回装有解码器本次学习内容的列表。",
-  "book.descrip.hexparse:remove_comments": "清除列表内所有注释iota，返回处理后的列表。"
+  "book.descrip.hexparse:remove_comments": "清除列表内所有注释iota，返回处理后的列表。",
+  "book.descrip.hexparse:create_linebreak": "在栈内添加一个具有给定数目空格缩进的换行注释iota。"
 }
