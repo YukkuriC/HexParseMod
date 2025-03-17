@@ -34,6 +34,14 @@
 			"input": "list",
 			"output": "list",
 			"text": "book.descrip.hexparse:remove_comments"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexparse:create_linebreak",
+			"anchor": "hexparse:create_linebreak",
+			"input": "num",
+			"output": "comment",
+			"text": "book.descrip.hexparse:create_linebreak"
 		}
 	]
 }
