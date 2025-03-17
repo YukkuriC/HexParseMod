@@ -24,7 +24,7 @@ public class HexParsePatterns {
 
     static {
         if (HexParse.HELPERS.modLoaded("moreiotas"))
-            COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), ActionCompile.INSTANCE);
+            COMPILE = wrapGreat("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), ActionCompile.INSTANCE);
         else COMPILE = null;
     }
 
