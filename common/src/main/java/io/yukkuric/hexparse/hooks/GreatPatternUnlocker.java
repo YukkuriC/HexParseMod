@@ -3,7 +3,6 @@ package io.yukkuric.hexparse.hooks;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.level.storage.DimensionDataStorage;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,15 +13,12 @@ public class GreatPatternUnlocker extends SavedData {
     public static GreatPatternUnlocker DENY_ALL = new GreatPatternUnlocker(null);
 
     Set<String> _unlocked;
-    DimensionDataStorage _storage;
 
-    public GreatPatternUnlocker(DimensionDataStorage ds) {
+    public GreatPatternUnlocker() {
         _unlocked = new HashSet<>();
-        _storage = ds;
     }
 
-    public GreatPatternUnlocker(DimensionDataStorage ds, CompoundTag save) {
-        _storage = ds;
+    public GreatPatternUnlocker(CompoundTag save) {
         try {
             var recorder = save.getCompound(KEY_UNLOCK_SET);
             _unlocked = new HashSet<>(recorder.getAllKeys());
@@ -79,6 +75,6 @@ public class GreatPatternUnlocker extends SavedData {
     public static GreatPatternUnlocker get(ServerLevel level) {
         level = level.getServer().overworld();
         var ds = level.getDataStorage();
-        return ds.computeIfAbsent((data) -> new GreatPatternUnlocker(ds, data), () -> new GreatPatternUnlocker(ds), SAVENAME);
+        return ds.computeIfAbsent(GreatPatternUnlocker::new, GreatPatternUnlocker::new, SAVENAME);
     }
 }
