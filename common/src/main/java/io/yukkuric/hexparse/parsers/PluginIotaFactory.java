@@ -1,14 +1,9 @@
 package io.yukkuric.hexparse.parsers;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import ram.talia.hexal.api.mediafieditems.MediafiedItemManager;
-import ram.talia.hexal.api.spell.iota.MoteIota;
-
-import java.util.UUID;
 
 public class PluginIotaFactory extends IotaFactory {
     // hexal iotas
@@ -71,13 +66,5 @@ public class PluginIotaFactory extends IotaFactory {
             payload.putString("target_name", binder.getName().getString());
         }
         return makeType(TYPE_GATE, payload);
-    }
-
-    public static CompoundTag makeMote(int i, UUID src) {
-        var payload = new CompoundTag();
-        if (src == null) return makeType(TYPE_NULL, payload);
-        var index = new MediafiedItemManager.Index(src, i);
-        var mote = new MoteIota(index);
-        return HexIotaTypes.serialize(mote);
     }
 }

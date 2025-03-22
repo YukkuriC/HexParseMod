@@ -1,4 +1,4 @@
-package io.yukkuric.hexparse.parsers.str2nbt.plugins;
+package io.yukkuric.hexparse.parsers.str2nbt.unsafe.hexal;
 
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
@@ -13,7 +13,8 @@ import ram.talia.hexal.api.config.HexalConfig;
 import java.util.*;
 
 public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
-    public ToGate() {
+    public static ToGate INSTANCE=new ToGate();
+    private ToGate() {
         super("^gate(_?)");
     }
 

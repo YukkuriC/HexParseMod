@@ -1,4 +1,4 @@
-package io.yukkuric.hexparse.parsers.nbt2str.plugins;
+package io.yukkuric.hexparse.parsers.nbt2str.unsafe.hexal;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
@@ -19,4 +19,6 @@ public class MoteParser implements INbt2Str {
         var i = node.getInt(MediafiedItemManager.Index.TAG_INDEX);
         return "mote_%s_%s".formatted(uuid, i);
     }
+
+    public static MoteParser INSTANCE = new MoteParser();
 }
