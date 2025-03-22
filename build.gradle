@@ -48,8 +48,8 @@ subprojects {
 
         modImplementation("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouliVersion}-${nameForRef.toUpperCase()}")
 
-        modImplementation fileTree(dir: "libs/$minecraft_version", include: '*.jar')
-        modImplementation fileTree(dir: "../libs/$minecraft_version", include: '*.jar')
+        implementation fileTree(dir: "libs/$minecraft_version", include: '*.jar')
+        implementation fileTree(dir: "../libs/$minecraft_version", include: '*.jar')
     }
 
     java {
