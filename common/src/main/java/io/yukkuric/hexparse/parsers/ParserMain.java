@@ -10,7 +10,6 @@ import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
 import io.yukkuric.hexparse.parsers.str2nbt.plugins.PluginConstParsers;
-import io.yukkuric.hexparse.parsers.str2nbt.plugins.ToGate;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -153,6 +152,16 @@ public class ParserMain {
         }
     }
 
+    public static <T> T loadUnsafe(Class<T> target, String subPath) {
+        try {
+            var clazz = Class.forName("io.yukkuric.hexparse.parsers." + subPath);
+            var inst = clazz.getDeclaredField("INSTANCE").get(null);
+            return target.cast(inst);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void init() {
         str2nbtParsers.addAll(List.of(
                 ToPattern.META,
@@ -177,10 +186,10 @@ public class ParserMain {
         ));
 
         if (HexParse.HELPERS.modLoaded("hexal")) {
-            str2nbtParsers.add(new ToGate());
+            str2nbtParsers.add(loadUnsafe(IStr2Nbt.class, "str2nbt.unsafe.hexal.ToGate"));
             nbt2strParsers.add(new GateParser());
-            str2nbtParsers.add(PluginConstParsers.TO_MOTE);
-            nbt2strParsers.add(new MoteParser());
+            str2nbtParsers.add(loadUnsafe(IStr2Nbt.class, "str2nbt.unsafe.hexal.ToMote"));
+            nbt2strParsers.add(loadUnsafe(INbt2Str.class, "nbt2str.unsafe.hexal.MoteParser"));
         }
 
         if (HexParse.HELPERS.modLoaded("moreiotas")) {
