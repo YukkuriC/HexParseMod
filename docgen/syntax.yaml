@@ -128,6 +128,12 @@ Plugin Parser Installed:
       ones; make sure to generate your own for security usages**'
     Output Type: '`PropertyIota`'
     Type: Property Literal
+  - Addon: Hex-Ars-Linker
+    Example: '`glyph_touch`, `glyph_ars_nouveau:glyph_projectile`, `glyph_hex_ars_link:hex_callback`'
+    Output: glyph iota with certain name; `ars_nouveau` namespace and `glyph_` path
+      prefix could be omitted.
+    Output Type: '`GlyphIota`'
+    Type: Glyph Reference Literal
   headers:
   - Addon
   - Type
