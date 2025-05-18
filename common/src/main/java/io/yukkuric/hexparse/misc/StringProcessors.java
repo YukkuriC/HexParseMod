@@ -30,10 +30,14 @@ public class StringProcessors {
     public static F omitPrefix(String prefix) {
         return s -> s.startsWith(prefix) ? s.substring(prefix.length()) : s;
     }
+    public static F appendPrefix(String prefix) {
+        return s -> s.startsWith(prefix) ? s : prefix + s;
+    }
 
     // ID processors
     public static F OMIT_MC = omitPrefix("minecraft:");
     public static F OMIT_HEX = omitPrefix("hexcasting:");
+    public static F APPEND_UNDERLINE = appendPrefix("_");
 
     // code processors
     public static F READ_DEFAULT = res -> res.replaceAll("(?<=\\[|]|\\(|\\)|^|\\n|\\s),|,(?=\\[|]|\\(|\\)|$|\\n)", "");
