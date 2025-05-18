@@ -5,4 +5,5 @@ public enum ClipboardMsgMode {
     ANGLES_ONLY,
     MACRO_DEFINE,
     INVALID,
+    WRITE_PROPERTY, // hexcellular
 }

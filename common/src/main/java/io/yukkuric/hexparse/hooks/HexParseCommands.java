@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.commands.*;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -19,6 +20,8 @@ public class HexParseCommands {
         CommandDonate.init();
         CommandLehmerHelper.init();
         CommandMacro.init();
+
+        if (HexParse.HELPERS.modLoaded("hexcellular")) CommandPropertyIO.init();
 
         dispatcher.register(MAIN_CMD);
     }
