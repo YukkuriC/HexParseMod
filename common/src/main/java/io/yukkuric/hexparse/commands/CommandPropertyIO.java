@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.commands;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.CodeHelpers;
@@ -47,14 +47,14 @@ public class CommandPropertyIO {
     static void readProp(String propName, CommandContext<CommandSourceStack> ctx) {
         var data = StateStorage.Companion.getProperty(ctx.getSource().getLevel(), propName);
         var player = ctx.getSource().getPlayer();
-        var code = ParserMain.ParseIotaNbt(IotaType.serialize(data), player, StringProcessors.READ_DEFAULT);
+        var code = ParserMain.ParseIotaNbt(HexIotaTypes.serialize(data), player, StringProcessors.READ_DEFAULT);
         CodeHelpers.displayCode(player, code);
     }
     static void writeProp(String propName, CommandContext<CommandSourceStack> ctx) {
         var code = StringArgumentType.getString(ctx, "code");
         var nbt = ParserMain.ParseCode(code, ctx.getSource().getPlayer());
         var world = ctx.getSource().getLevel();
-        StateStorage.Companion.setProperty(world, propName, IotaType.deserialize(nbt, world));
+        StateStorage.Companion.setProperty(world, propName, HexIotaTypes.deserialize(nbt, world));
     }
     static void pullClipboard(String propName, CommandContext<CommandSourceStack> ctx) {
         MsgHandlers.SERVER.sendPacketToPlayer(ctx.getSource().getPlayer(), new MsgPullClipboard(propName, ClipboardMsgMode.WRITE_PROPERTY));
