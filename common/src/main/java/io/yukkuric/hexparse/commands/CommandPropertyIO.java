@@ -25,7 +25,8 @@ public class CommandPropertyIO {
         registerLine(ctx -> propertyOp(ctx, CommandPropertyIO::writeProp),
                 entry,
                 Commands.literal("write"),
-                Commands.argument("propName", StringArgumentType.string())
+                Commands.argument("propName", StringArgumentType.string()),
+                Commands.argument("code", StringArgumentType.string())
         );
     }
 
