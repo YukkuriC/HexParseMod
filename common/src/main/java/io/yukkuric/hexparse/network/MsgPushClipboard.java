@@ -1,10 +1,13 @@
 package io.yukkuric.hexparse.network;
 
+import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.macro.MacroManager;
 import io.yukkuric.hexparse.misc.CodeHelpers;
+import io.yukkuric.hexparse.parsers.ParserMain;
+import miyucomics.hexcellular.StateStorage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,6 +54,10 @@ public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMod
         else if (self.mode == ClipboardMsgMode.MACRO_DEFINE) {
             var macro = String.join(",", self.code);
             MacroManager.modifyMacro(sender, true, self.rename, macro);
+        } else if (self.mode == ClipboardMsgMode.WRITE_PROPERTY) {
+            var nbt = ParserMain.ParseCode(self.code, sender);
+            var world = sender.serverLevel();
+            StateStorage.Companion.setProperty(world, self.rename, IotaType.deserialize(nbt, world));
         } else CodeHelpers.doParse(sender, self.code, self.rename);
     }
 }
