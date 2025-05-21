@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.misc.StringProcessors;
+import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import miyucomics.hexcellular.StateStorage;
 import net.minecraft.commands.CommandSourceStack;
@@ -17,16 +18,21 @@ import static io.yukkuric.hexparse.hooks.HexParseCommands.registerLine;
 
 public class CommandPropertyIO {
     public static void init() {
-        var entry = registerLine(ctx -> propertyOp(ctx, CommandPropertyIO::readProp),
+        var sub_property = registerLine(ctx -> propertyOp(ctx, CommandPropertyIO::readProp),
                 Commands.literal("property"),
                 Commands.literal("read"),
                 Commands.argument("propName", StringArgumentType.string())
         );
         registerLine(ctx -> propertyOp(ctx, CommandPropertyIO::writeProp),
-                entry,
+                sub_property,
                 Commands.literal("write"),
                 Commands.argument("propName", StringArgumentType.string()),
                 Commands.argument("code", StringArgumentType.string())
+        );
+        registerLine(ctx -> propertyOp(ctx, CommandPropertyIO::pullClipboard),
+                sub_property,
+                Commands.literal("clipboard"),
+                Commands.argument("propName", StringArgumentType.string())
         );
     }
 
@@ -49,5 +55,8 @@ public class CommandPropertyIO {
         var nbt = ParserMain.ParseCode(code, ctx.getSource().getPlayer());
         var world = ctx.getSource().getLevel();
         StateStorage.Companion.setProperty(world, propName, IotaType.deserialize(nbt, world));
+    }
+    static void pullClipboard(String propName, CommandContext<CommandSourceStack> ctx) {
+        MsgHandlers.SERVER.sendPacketToPlayer(ctx.getSource().getPlayer(), new MsgPullClipboard(propName, ClipboardMsgMode.WRITE_PROPERTY));
     }
 }
