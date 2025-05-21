@@ -55,6 +55,10 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   every player in the server.
 - `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
   non-pattern constants and some old registry names still need to be handled manually_
+- `/hexParse property ...`: (Hexcellular interop) get/set data for PropertyIota; used property names all force-added leading `_` for security reason
+    - `... read <propName>`: read and parse from certain property
+    - `... write <propName> <code>`: write code into certain property
+    - `... clipboard <propName>`: same as above, but code comes from clipboard
 
 ### OP-only commands
 
