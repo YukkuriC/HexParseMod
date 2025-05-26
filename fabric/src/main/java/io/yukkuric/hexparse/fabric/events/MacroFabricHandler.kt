@@ -7,7 +7,7 @@ class MacroFabricHandler : MacroClientHandler() {
     companion object {
         fun init() {
             ClientPlayConnectionEvents.JOIN.register { _, _, _ -> load() }
-            ClientPlayConnectionEvents.DISCONNECT.register { _, _ -> load() }
+            ClientPlayConnectionEvents.DISCONNECT.register { _, _ -> save() }
         }
     }
 }
