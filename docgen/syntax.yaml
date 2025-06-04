@@ -2,12 +2,12 @@ Currently Supported Syntax:
   data:
   - Example: '`thoth`, `iris`'
     Output: dialect for tokens (player defined & [builtin](https://github.com/YukkuriC/HexParseMod/blob/main/common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/ToDialect.java))
-    Output Type: '`ListIota`'
-    Type: Any Single Token
+    Output Type: any
+    Type: Defined Dialect for Single Token
   - Example: '`#aimed`, `#read_circle_corners`'
     Output: macros defined by player
-    Output Type: '`ListIota`'
-    Type: Any Code Fragment
+    Output Type: any[]
+    Type: Defined Macro for Code Fragment
   - Example: '`[`, `]`'
     Output: list literals; can be nested
     Output Type: '`ListIota`'
@@ -21,7 +21,7 @@ Currently Supported Syntax:
     Output Type: '`PatternIota`'
     Type: Normal Pattern
   - Example: '`lightning` , `brainsweep`'
-    Output: great (per-world) patterns; currently not limited `TODO`
+    Output: great (per-world) patterns; controlled by `ParseGreatSpells` config entry
     Output Type: '`PatternIota`'
     Type: Great Spell
   - Example: '`mask_--vv--`'
