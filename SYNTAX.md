@@ -2,12 +2,12 @@
 
 Type|Example|Output|Output Type
 ---|---|---|---
-Any Single Token|`thoth`, `iris`|dialect for tokens (player defined & [builtin](https://github.com/YukkuriC/HexParseMod/blob/main/common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/ToDialect.java))|`ListIota`
-Any Code Fragment|`#aimed`, `#read_circle_corners`|macros defined by player|`ListIota`
+Defined Dialect for Single Token|`thoth`, `iris`|dialect for tokens (player defined & [builtin](https://github.com/YukkuriC/HexParseMod/blob/main/common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/ToDialect.java))|any
+Defined Macro for Code Fragment|`#aimed`, `#read_circle_corners`|macros defined by player|any[]
 Nested List|`[`, `]`|list literals; can be nested|`ListIota`
 Non-functional Pattern|`(`, `)`, `\\` or `escape`|`Introspection`, `Retrospection` and `Consideration`|`PatternIota`
 Normal Pattern|`get_caster`, `entity_pos/eye`|normal static patterns matched by registration key|`PatternIota`
-Great Spell|`lightning` , `brainsweep`|great (per-world) patterns; currently not limited `TODO`|`PatternIota`
+Great Spell|`lightning` , `brainsweep`|great (per-world) patterns; controlled by `ParseGreatSpells` config entry|`PatternIota`
 Mask Pattern|`mask_--vv--`|`Bookkeeper's Gambit`|`PatternIota`
 Number Literal Pattern|`num_1.375`|`Numerical Reflection`|`PatternIota`
 Raw Pattern|`_wedsaq`|Patterns with given angle signatures|`PatternIota`
