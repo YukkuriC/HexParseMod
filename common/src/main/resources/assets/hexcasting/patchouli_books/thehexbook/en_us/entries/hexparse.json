@@ -2,6 +2,7 @@
 	"name": "hexparse.book.entry",
 	"category": "hexcasting:patterns",
 	"icon": "minecraft:command_block",
+	"advancement": "hexcasting:root",
 	"pages": [
 		{
 			"type": "hexcasting:pattern",
