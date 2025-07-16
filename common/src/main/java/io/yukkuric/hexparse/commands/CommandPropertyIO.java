@@ -39,7 +39,6 @@ public class CommandPropertyIO {
     static int propertyOp(CommandContext<CommandSourceStack> ctx, @NotNull BiConsumer<String, CommandContext<CommandSourceStack>> action) {
         var propName = StringArgumentType.getString(ctx, "propName");
         propName = StringProcessors.APPEND_UNDERLINE.apply(propName);
-        if (!propName.startsWith("_")) propName = "_" + propName;
         action.accept(propName, ctx);
         return 1;
     }
