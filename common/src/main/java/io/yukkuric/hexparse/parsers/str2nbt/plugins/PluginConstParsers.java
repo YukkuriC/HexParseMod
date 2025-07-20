@@ -47,6 +47,44 @@ public class PluginConstParsers {
         }
     };
 
+    public static BaseConstParser TO_STRING_LIT = new Prefix("\"") {
+        @Override
+        public CompoundTag parse(String node) {
+            // remove the quotes
+            node = node.substring(1, node.length() - 1);
+
+
+            var unescapedString = new StringBuilder();
+            var currentPartStartIndex = 0;
+
+
+            // node.length() - 1 so that the charAt(index + 1) is always safe
+            for (var index = 0; index < node.length() - 1; index++) {
+                if (node.charAt(index) == '\\') {
+                    unescapedString.append(node, currentPartStartIndex, index);
+                    unescapedString.append(switch (node.charAt(index + 1)) {
+                        case 'n' -> '\n';
+                        case '\\' -> '\\';
+                        case '"' -> '"';
+                        default -> throw new IllegalArgumentException("invalid escape sequence");
+                    });
+                    currentPartStartIndex = index + 2;
+                    // skip the escaped char
+                    index++;
+                }
+            }
+            unescapedString.append(node, currentPartStartIndex, node.length());
+
+            if (node.charAt(node.length() - 1) == '\\') {
+                throw new IllegalArgumentException("illegal escape pattern, trailing backslash");
+                // illegal escape
+            }
+
+
+            return PluginIotaFactory.makeString(unescapedString.toString());
+        }
+    };
+
     static class Resource extends Prefix {
         Function<String, CompoundTag> subParse;
 

@@ -40,7 +40,13 @@ public class ParserMain {
     }
 
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
-        return ParseCode(CodeCutter.splitCode(code), caller);
+        try {
+            return ParseCode(CodeCutter.splitCode(code), caller);
+        } catch (Throwable e) {
+            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()).withStyle(
+                ChatFormatting.DARK_RED));
+            return IotaFactory.makeList(new ListTag());
+        }
     }
 
     public static synchronized CompoundTag ParseCode(List<String> nodes, ServerPlayer caller) {
@@ -100,7 +106,21 @@ public class ParserMain {
     public static List<String> preMatchClipboardClient(String code) {
         var res = new ArrayList<String>();
         var caller = Minecraft.getInstance().player;
-        for (var frag : CodeCutter.splitCode(code)) {
+        List<String> frags;
+        try {
+            frags = CodeCutter.splitCode(code);
+        } catch (Throwable e) {
+            if (caller != null)
+                caller.sendSystemMessage(
+                    Component.translatable(
+                    "hexparse.msg.parse_error", e.getLocalizedMessage()
+                    )
+                    .withStyle(ChatFormatting.DARK_RED)
+                );
+            return res;
+        }
+
+        for (var frag : frags) {
             var matched = false;
             if ("[]".contains(frag) || MacroClient.preMatch(frag)) {
                 res.add(frag);
@@ -201,7 +221,8 @@ public class ParserMain {
             nbt2strParsers.add(StringParser.ENTITY);
             nbt2strParsers.add(new ItemTypeParser());
             str2nbtParsers.add(PluginConstParsers.TO_STRING);
-            nbt2strParsers.add(StringParser.STRING);
+            str2nbtParsers.add(PluginConstParsers.TO_STRING_LIT);
+            nbt2strParsers.add(new StringLitParser());
         }
 
         if (HexParse.HELPERS.modLoaded("hexcellular")) {
