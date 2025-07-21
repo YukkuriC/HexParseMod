@@ -125,7 +125,6 @@ object CodeCutter {
                 list.add(token)
             }
         }
-        LogUtils.getLogger().debug("hero")
         return list
     }
 }
