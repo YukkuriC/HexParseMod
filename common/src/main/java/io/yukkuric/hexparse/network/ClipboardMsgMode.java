@@ -6,4 +6,5 @@ public enum ClipboardMsgMode {
     MACRO_DEFINE,
     INVALID,
     WRITE_PROPERTY, // hexcellular
+    PUSH_MIND, // staff env
 }
