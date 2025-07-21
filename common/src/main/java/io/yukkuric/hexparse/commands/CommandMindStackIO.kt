@@ -67,11 +67,11 @@ object CommandMindStackIO {
         val newIota = IotaType.deserialize(iotaTag, player.serverLevel())
         var img = IXplatAbstractions.INSTANCE.getStaffcastVM(player, InteractionHand.MAIN_HAND).image
         var stack = img.stack
-        if (stack !is ArrayList<*>) { // in case inner changed
+        if (stack !is MutableList<*>) { // in case inner changed
             stack = ArrayList(stack)
             img = img.copy(stack = stack)
         }
-        (stack as ArrayList).add(newIota)
+        (stack as MutableList).add(newIota)
         IXplatAbstractions.INSTANCE.setStaffcastImage(player, img)
     }
 }
