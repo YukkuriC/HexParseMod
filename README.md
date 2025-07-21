@@ -18,20 +18,22 @@ highlight [VSCode extension](https://github.com/YukkuriC/hexParse_scripts/tree/m
 has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\extensions\hexParse_highlight"` manually._
 
 <!-- TOC -->
+
 * [HexParse mod](#hexparse-mod)
-  * [Commands added](#commands-added)
-    * [OP-only commands](#op-only-commands)
-  * [Patterns added](#patterns-added)
-  * [Supported expressions](#supported-expressions)
-  * [Misc. Features](#misc-features)
-  * [Available Configs](#available-configs)
-    * [Limited great pattern parsing](#limited-great-pattern-parsing)
-      * [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
-      * [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
-      * [Hard Mode: `DISABLED`](#hard-mode-disabled)
-    * [Other configs](#other-configs)
-  * [New iota: `CommentIota`](#new-iota-commentiota)
-  * [Future plans](#future-plans)
+    * [Commands added](#commands-added)
+        * [OP-only commands](#op-only-commands)
+    * [Patterns added](#patterns-added)
+    * [Supported expressions](#supported-expressions)
+    * [Misc. Features](#misc-features)
+    * [Available Configs](#available-configs)
+        * [Limited great pattern parsing](#limited-great-pattern-parsing)
+            * [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
+            * [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
+            * [Hard Mode: `DISABLED`](#hard-mode-disabled)
+        * [Other configs](#other-configs)
+    * [New iota: `CommentIota`](#new-iota-commentiota)
+    * [Future plans](#future-plans)
+
 <!-- TOC -->
 
 ## Commands added
@@ -56,6 +58,10 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   every player in the server.
 - `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
   non-pattern constants and some old registry names still need to be handled manually_
+- `/hexParse mind_stack ...`: read/write iota from player's mind (staff casting VM)
+    - `... peek`: read the last iota inside mind stack; gets `null` if stack is empty
+    - `... push <code>`: parse code and push into mind stack
+    - `... push_clipboard`: same as above, but code comes from clipboard
 - `/hexParse property ...`: (Hexcellular interop) get/set data for PropertyIota; used property names all force-added leading `_` for security reason
     - `... read <propName>`: read and parse from certain property
     - `... write <propName> <code>`: write code into certain property

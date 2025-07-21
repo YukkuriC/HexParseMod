@@ -4,6 +4,7 @@ import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import at.petrak.hexcasting.common.network.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.commands.CommandMindStackIO;
 import io.yukkuric.hexparse.macro.MacroManager;
 import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.parsers.ParserMain;
@@ -58,6 +59,9 @@ public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMod
             var nbt = ParserMain.ParseCode(self.code, sender);
             var world = sender.getLevel();
             StateStorage.Companion.setProperty(world, self.rename, HexIotaTypes.deserialize(nbt, world));
+        } else if (self.mode == ClipboardMsgMode.PUSH_MIND) {
+            var nbt = ParserMain.ParseCode(self.code, sender);
+            CommandMindStackIO.INSTANCE.writeStackWithIota(sender, nbt);
         } else CodeHelpers.doParse(sender, self.code, self.rename);
     }
 }
