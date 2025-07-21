@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.parsers
 
+import com.mojang.logging.LogUtils
 import io.yukkuric.hexparse.config.HexParseConfig
 import java.util.regex.MatchResult
 import java.util.regex.Pattern
@@ -74,10 +75,14 @@ object CodeCutter {
     private fun consumeString(code: String): Pair<String, String> {
         var index = 1 // skip first '"'
         while (code[index] != '"') {
-            if (code[index] == '\\' && code.getOrNull(index + 1) == '"') {
-                index++ // skip escaped '"'
+            if (code[index] == '\\') {
+                index++ // skip any escaped character '"'
             }
             index++
+
+            if (index >= code.length) {
+                throw IllegalArgumentException("unclosed string literal: $code")
+            }
         }
 
         return Pair(code.substring(0..index), code.substring(index + 1))
@@ -91,7 +96,7 @@ object CodeCutter {
             '/' -> {
                 consumeLineComment(code)
             }
-            else -> throw IllegalArgumentException()
+            else -> throw IllegalArgumentException("invalid comment: $code")
         }
     }
 
@@ -120,7 +125,7 @@ object CodeCutter {
                 list.add(token)
             }
         }
-
+        LogUtils.getLogger().debug("hero")
         return list
     }
 }

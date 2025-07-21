@@ -75,7 +75,7 @@ public class PluginConstParsers {
             }
             unescapedString.append(node, currentPartStartIndex, node.length());
 
-            if (node.charAt(node.length() - 1) == '\\') {
+            if (node.charAt(node.length() - 1) == '\\' && (node.length() < 2 ||  node.charAt(node.length() - 2) != '\\')) {
                 throw new IllegalArgumentException("illegal escape pattern, trailing backslash");
                 // illegal escape
             }
