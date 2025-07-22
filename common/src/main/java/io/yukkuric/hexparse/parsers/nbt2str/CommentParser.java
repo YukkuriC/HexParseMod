@@ -18,6 +18,7 @@ public class CommentParser implements INbt2Str {
     @Override
     public String parse(CompoundTag node) {
         var content = node.getString(HexIotaTypes.KEY_DATA);
+        if (content.startsWith("\"")) return "/*" + content.substring(1, content.length() - 1) + "*/";
         if (INDENT.matcher(content).find()) return content;
         if (content.startsWith(IotaFactory.GREAT_PLACEHOLDER_PREFIX) && content.endsWith(IotaFactory.GREAT_PLACEHOLDER_POSTFIX))
             return content.substring(IotaFactory.GREAT_PLACEHOLDER_PREFIX.length(), content.length() - IotaFactory.GREAT_PLACEHOLDER_POSTFIX.length());
