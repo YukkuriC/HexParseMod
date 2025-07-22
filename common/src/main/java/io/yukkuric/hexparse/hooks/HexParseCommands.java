@@ -20,6 +20,7 @@ public class HexParseCommands {
         CommandDonate.init();
         CommandLehmerHelper.init();
         CommandMacro.init();
+        CommandMindStackIO.INSTANCE.init();
 
         if (HexParse.HELPERS.modLoaded("hexcellular")) CommandPropertyIO.init();
 
