@@ -1,6 +1,7 @@
 package io.yukkuric.hexparse.parsers.str2nbt.plugins;
 
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import io.yukkuric.hexparse.misc.StringEscaper;
 import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
@@ -54,34 +55,10 @@ public class PluginConstParsers {
             node = node.substring(1, node.length() - 1);
 
 
-            var unescapedString = new StringBuilder();
-            var currentPartStartIndex = 0;
+            var string = StringEscaper.Companion.unescape(node);
 
 
-            // node.length() - 1 so that the charAt(index + 1) is always safe
-            for (var index = 0; index < node.length() - 1; index++) {
-                if (node.charAt(index) == '\\') {
-                    unescapedString.append(node, currentPartStartIndex, index);
-                    unescapedString.append(switch (node.charAt(index + 1)) {
-                        case 'n' -> '\n';
-                        case '\\' -> '\\';
-                        case '"' -> '"';
-                        default -> throw new IllegalArgumentException("invalid escape sequence");
-                    });
-                    currentPartStartIndex = index + 2;
-                    // skip the escaped char
-                    index++;
-                }
-            }
-            unescapedString.append(node, currentPartStartIndex, node.length());
-
-            if (node.charAt(node.length() - 1) == '\\' && (node.length() < 2 ||  node.charAt(node.length() - 2) != '\\')) {
-                throw new IllegalArgumentException("illegal escape pattern, trailing backslash");
-                // illegal escape
-            }
-
-
-            return PluginIotaFactory.makeString(unescapedString.toString());
+            return PluginIotaFactory.makeString(string);
         }
     };
 

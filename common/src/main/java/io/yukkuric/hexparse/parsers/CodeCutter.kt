@@ -1,12 +1,13 @@
 package io.yukkuric.hexparse.parsers
 
 import io.yukkuric.hexparse.config.HexParseConfig
+import io.yukkuric.hexparse.misc.StringEscaper
 import java.util.regex.Pattern
 
 object CodeCutter {
     var pCommentLine: Pattern = Pattern.compile("//.*")
     var pLineBreak: Pattern = Pattern.compile("\\r?\\n")
-    var pCommentBlock: Pattern = Pattern.compile("/\\*.*?\\*/")
+    var pCommentBlock: Pattern = Pattern.compile("(?s)/\\*.*?\\*/")
     var pTokens: Pattern = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:#\u0100-\uffff]+")
 
     var pLineStart: Pattern = Pattern.compile("^\\s*")
@@ -25,25 +26,46 @@ object CodeCutter {
     }
 
     /** (Token, Remaining) */
-    private fun tokenizeToken(input: String): Pair<String, String> {
-        val matcher = pTokens.matcher(input)
+    private fun consumeToken(code: String): Pair<String, String> {
+        val matcher = pTokens.matcher(code)
         require(matcher.find())
 
 
 
-        return Pair(matcher.group(), input.substring(matcher.end()))
+        return Pair(matcher.group(), code.substring(matcher.end()))
     }
 
-    private fun consumeLineComment(input: String): Pair<String?, String> {
-        val matcher = pCommentLine.matcher(input)
-        matcher.find()
-        return Pair(null ,input.substring(matcher.end()))
+    private fun commentToCommentString(comment: String): String {
+        return "c\"${StringEscaper.escape(comment)}\""
     }
 
-    private fun consumeBlockComment(input: String): Pair<String?, String> {
-        val matcher = pCommentBlock.matcher(input)
+    private fun consumeLineComment(code: String, commentsToIota: Boolean): Pair<String?, String> {
+        val matcher = pCommentLine.matcher(code)
         matcher.find()
-        return Pair(null ,input.substring(matcher.end()))
+        val commentContents = matcher.group().substring(2)
+        val commentTokenIfRequested = if (commentsToIota) commentToCommentString(commentContents) else null
+        return Pair(commentTokenIfRequested,code.substring(matcher.end()))
+    }
+
+    private fun consumeBlockComment(code: String, commentsToIota: Boolean): Pair<String?, String> {
+        val matcher = pCommentBlock.matcher(code)
+        matcher.find()
+
+        return if (commentsToIota) {
+            var match = matcher.group()
+            match = match.substring(2, match.length - 2)
+
+
+            Pair(
+                commentToCommentString(match),
+                code.substring(matcher.end())
+            )
+        } else {
+            Pair(
+                null,
+                code.substring(matcher.end())
+            )
+        }
     }
 
     private var VALID_WHITESPACE = hashSetOf(
@@ -52,15 +74,15 @@ object CodeCutter {
         ' ',
         '\t',
     )
-    private fun consumeWhiteSpace(input: String): Pair<String?, String> {
+    private fun consumeWhiteSpace(code: String): Pair<String?, String> {
         var index = 0
 
-        while (VALID_WHITESPACE.contains(input.getOrNull(index))) index++
+        while (VALID_WHITESPACE.contains(code.getOrNull(index))) index++
 
-        return Pair(null, input.substring(index))
+        return Pair(null, code.substring(index))
     }
-    private fun consumeNewline(input: String, addIndent: Boolean): Pair<String?, String> {
-        val input = pLineBreak.matcher(input).replaceFirst("") // remove newline
+    private fun consumeNewline(code: String, addIndent: Boolean): Pair<String?, String> {
+        val input = pLineBreak.matcher(code).replaceFirst("") // remove newline
 
         return (if (addIndent) {
                 val matcher = pLineStart.matcher(input)
@@ -91,29 +113,29 @@ object CodeCutter {
         return Pair(code.substring(0..index), code.substring(index + 1))
     }
 
-    private fun consumeComment(code: String): Pair<String?, String> {
+    private fun consumeComment(code: String, commentsToIota: Boolean): Pair<String?, String> {
         return when (code.getOrNull(1)) {
             '*' -> {
-                consumeBlockComment(code)
+                consumeBlockComment(code, commentsToIota)
             }
             '/' -> {
-                consumeLineComment(code)
+                consumeLineComment(code, commentsToIota)
             }
             else -> throw IllegalArgumentException("invalid comment: $code")
         }
     }
 
     @Throws(IllegalArgumentException::class)
-    private fun splitCode(code: String, addIndent: Boolean): MutableList<String> {
+    private fun splitCode(code: String, addIndent: Boolean, commentsToIota: Boolean = true): MutableList<String> {
         var code = code
         val list = mutableListOf<String>()
         while (code.isNotEmpty()) {
             var (token, newCode) = (when(code[0]) {
-                '/' -> consumeComment(code)
+                '/' -> consumeComment(code, commentsToIota)
                 '"' -> consumeString(code)
                 in VALID_WHITESPACE -> consumeWhiteSpace(code)
                 '\r', '\n' -> consumeNewline(code, addIndent)
-                else -> tokenizeToken(code)
+                else -> consumeToken(code)
             })
             if (code == newCode) {
 

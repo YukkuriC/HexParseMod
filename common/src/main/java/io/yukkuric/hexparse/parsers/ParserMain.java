@@ -186,7 +186,7 @@ public class ParserMain {
         str2nbtParsers.addAll(List.of(
                 ToPattern.META,
                 ToPattern.NORMAL, ToPattern.GREAT,
-                TO_TAB, TO_COMMENT,
+                TO_TAB, TO_COMMENT, TO_SCOMMENT,
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
                 new ToEntity(),
