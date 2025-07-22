@@ -8,6 +8,11 @@ public class HexParseConfig {
         DISABLED,
         BY_SCROLL,
     }
+    public enum CommentParsingMode {
+        DISABLED,
+        MANUAL,
+        ALL,
+    }
 
     public static final String DESCRIP_PARSE_GREAT = "can directly parse great spell patterns, without scrolls";
     public static final String DESCRIP_ENABLE_COMMENTS = "enable comments and auto parse indents into comment iota for display";
@@ -23,7 +28,10 @@ public class HexParseConfig {
     }
 
     public static boolean parseCommentsAndIndents() {
-        return imp.parseCommentsAndIndents();
+        return imp.getCommentParsingMode() != CommentParsingMode.DISABLED;
+    }
+    public static CommentParsingMode getCommentParsingMode() {
+        return imp.getCommentParsingMode();
     }
 
     public static boolean colorfulNested() {
@@ -39,7 +47,7 @@ public class HexParseConfig {
 
 //        boolean canParseGreatPattern(String patternId);
 
-        boolean parseCommentsAndIndents();
+        CommentParsingMode getCommentParsingMode();
 
         boolean showColorfulNested();
 

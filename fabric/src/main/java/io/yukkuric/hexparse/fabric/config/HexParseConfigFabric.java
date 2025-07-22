@@ -29,6 +29,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Comment(DESCRIP_PARSE_GREAT)
         private ParseGreatPatternMode parseGreatSpells = ParseGreatPatternMode.BY_SCROLL;
         @Comment(DESCRIP_ENABLE_COMMENTS)
+        private CommentParsingMode commentParsingMode = CommentParsingMode.MANUAL;
+        @Comment(DESCRIP_ENABLE_COMMENTS)
         private boolean parseCommentsIndents = true;
         @Comment(DESCRIP_PARSER_BASE_COST)
         private int parserBaseCost = 0;
@@ -41,8 +43,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         }
 
         @Override
-        public boolean parseCommentsAndIndents() {
-            return parseCommentsIndents;
+        public CommentParsingMode getCommentParsingMode() {
+            return commentParsingMode;
         }
 
         @Override
