@@ -1,13 +1,11 @@
 package io.yukkuric.hexparse.parsers
 
-import com.mojang.logging.LogUtils
 import io.yukkuric.hexparse.config.HexParseConfig
-import java.util.regex.MatchResult
 import java.util.regex.Pattern
 
 object CodeCutter {
     var pCommentLine: Pattern = Pattern.compile("//.*")
-    var pLineBreak: Pattern = Pattern.compile("[\\r\\n]")
+    var pLineBreak: Pattern = Pattern.compile("\\r?\\n")
     var pCommentBlock: Pattern = Pattern.compile("/\\*.*?\\*/")
     var pTokens: Pattern = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:#\u0100-\uffff]+")
 
@@ -22,8 +20,8 @@ object CodeCutter {
 
     }
 
-    private fun toIndent(match: MatchResult): String {
-        return "tab_%d ".format(match.group().length)
+    private fun toIndent(match: String): String {
+        return "tab_%d ".format(match.length)
     }
 
     /** (Token, Remaining) */
@@ -62,14 +60,19 @@ object CodeCutter {
         return Pair(null, input.substring(index))
     }
     private fun consumeNewline(input: String, addIndent: Boolean): Pair<String?, String> {
-        val input = input.substring(1) // remove newline
-        return Pair(null, if (addIndent) {
-            pLineStart.matcher(input).replaceFirst(CodeCutter::toIndent)
-        } else {
-            val matcher = pLineStart.matcher(input)
-            matcher.find()
-            input.substring(matcher.end())
-        })
+        val input = pLineBreak.matcher(input).replaceFirst("") // remove newline
+
+        return (if (addIndent) {
+                val matcher = pLineStart.matcher(input)
+                matcher.find()
+
+                Pair(toIndent(matcher.group()), input.substring(matcher.end()))
+            }
+            else {
+                val matcher = pLineStart.matcher(input)
+                matcher.find()
+                Pair(null, input.substring(matcher.end()))
+            })
     }
 
     private fun consumeString(code: String): Pair<String, String> {
@@ -109,7 +112,7 @@ object CodeCutter {
                 '/' -> consumeComment(code)
                 '"' -> consumeString(code)
                 in VALID_WHITESPACE -> consumeWhiteSpace(code)
-                '\n' -> consumeNewline(code, addIndent)
+                '\r', '\n' -> consumeNewline(code, addIndent)
                 else -> tokenizeToken(code)
             })
             if (code == newCode) {
