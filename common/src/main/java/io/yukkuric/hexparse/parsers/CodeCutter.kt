@@ -17,8 +17,11 @@ object CodeCutter {
     fun splitCode(code: String): MutableList<String> {
 
         val showIndent = HexParseConfig.parseCommentsAndIndents()
-        return splitCode(code, showIndent)
-
+        return splitCode(
+            code,
+            showIndent != HexParseConfig.CommentParsingMode.DISABLED,
+            showIndent == HexParseConfig.CommentParsingMode.ALL
+        )
     }
 
     private fun toIndent(match: String): String {

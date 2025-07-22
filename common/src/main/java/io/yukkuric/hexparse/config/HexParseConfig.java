@@ -27,8 +27,8 @@ public class HexParseConfig {
         return imp.canParseGreatPatterns();
     }
 
-    public static boolean parseCommentsAndIndents() {
-        return imp.getCommentParsingMode() != CommentParsingMode.DISABLED;
+    public static CommentParsingMode parseCommentsAndIndents() {
+        return imp.getCommentParsingMode();
     }
     public static CommentParsingMode getCommentParsingMode() {
         return imp.getCommentParsingMode();
