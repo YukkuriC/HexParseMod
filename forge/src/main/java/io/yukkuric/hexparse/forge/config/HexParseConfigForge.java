@@ -17,6 +17,10 @@ public class HexParseConfigForge implements API {
     public CommentParsingMode getCommentParsingMode() {
         return CfgCommentParsingMode.get();
     }
+    @Override
+    public CommentParsingMode getIndentParsingMode() {
+        return null;
+    }
 
     @Override
     public boolean showColorfulNested() {
@@ -28,16 +32,15 @@ public class HexParseConfigForge implements API {
         return CfgParserBaseCost.get();
     }
 
-    public final ForgeConfigSpec.BooleanValue CfgParseIndentsEnabled;
     public final ForgeConfigSpec.BooleanValue CfgShowColorfulNested;
     public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
-    public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode;
+    public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
     public final ForgeConfigSpec.IntValue CfgParserBaseCost;
 
     public HexParseConfigForge(ForgeConfigSpec.Builder builder) {
         CfgParseGreatSpells = builder.comment(DESCRIP_PARSE_GREAT).defineEnum("ParseGreatSpells", ParseGreatPatternMode.BY_SCROLL);
         CfgCommentParsingMode = builder.comment(DESCRIP_ENABLE_COMMENTS).defineEnum("CommentParsingMode", CommentParsingMode.MANUAL);
-        CfgParseIndentsEnabled = builder.comment(DESCRIP_ENABLE_COMMENTS).define("ParseCommentsIndents", true);
+        CfgIndentParsingMode = builder.comment(DESCRIP_ENABLE_INDENTS).defineEnum("IndentParsingMode", CommentParsingMode.ALL);
         CfgParserBaseCost = builder.comment(DESCRIP_PARSER_BASE_COST).defineInRange("ParserBaseCost", 0, 0, 100000);
         CfgShowColorfulNested = builder.comment(DESCRIP_COLORFUL_NESTED).define("ShowColorfulNested", true);
     }

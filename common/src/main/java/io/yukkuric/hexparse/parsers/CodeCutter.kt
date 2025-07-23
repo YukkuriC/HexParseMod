@@ -16,11 +16,12 @@ object CodeCutter {
     @JvmStatic
     fun splitCode(code: String): MutableList<String> {
 
-        val showIndent = HexParseConfig.parseCommentsAndIndents()
+        val commentMode = HexParseConfig.getCommentParsingMode()
+        val indentMode = HexParseConfig.getIndentParsingMode()
         return splitCode(
             code,
-            showIndent != HexParseConfig.CommentParsingMode.DISABLED,
-            showIndent == HexParseConfig.CommentParsingMode.ALL
+            indentMode == HexParseConfig.CommentParsingMode.ALL,
+            commentMode == HexParseConfig.CommentParsingMode.ALL
         )
     }
 

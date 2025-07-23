@@ -43,7 +43,7 @@ public abstract class BaseConstParser implements IStr2Nbt {
 
         @Override
         public boolean ignored() {
-            return HexParseConfig.parseCommentsAndIndents() == HexParseConfig.CommentParsingMode.DISABLED;
+            return HexParseConfig.getCommentParsingMode() == HexParseConfig.CommentParsingMode.DISABLED;
         }
     }
 }
