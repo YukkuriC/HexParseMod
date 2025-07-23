@@ -32,7 +32,7 @@ public class HexParseConfig {
         return imp.getCommentParsingMode();
     }
     public static CommentParsingMode getIndentParsingMode() {
-        return imp.getCommentParsingMode();
+        return imp.getIndentParsingMode();
     }
 
     public static boolean colorfulNested() {

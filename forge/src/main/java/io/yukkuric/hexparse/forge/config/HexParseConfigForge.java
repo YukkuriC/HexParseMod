@@ -19,7 +19,7 @@ public class HexParseConfigForge implements API {
     }
     @Override
     public CommentParsingMode getIndentParsingMode() {
-        return null;
+        return CfgIndentParsingMode.get();
     }
 
     @Override
