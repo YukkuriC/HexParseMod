@@ -26,7 +26,7 @@ object CodeCutter {
     }
 
     private fun toIndent(match: String): String {
-        return "tab_%d ".format(match.length)
+        return "tab_%d".format(match.length)
     }
 
     /** (Token, Remaining) */
@@ -88,15 +88,12 @@ object CodeCutter {
     private fun consumeNewline(code: String, addIndent: Boolean): Pair<String?, String> {
         val input = pLineBreak.matcher(code).replaceFirst("") // remove newline
 
+        val matcher = pLineStart.matcher(input)
+        matcher.find()
         return (if (addIndent) {
-                val matcher = pLineStart.matcher(input)
-                matcher.find()
-
                 Pair(toIndent(matcher.group()), input.substring(matcher.end()))
             }
             else {
-                val matcher = pLineStart.matcher(input)
-                matcher.find()
                 Pair(null, input.substring(matcher.end()))
             })
     }
