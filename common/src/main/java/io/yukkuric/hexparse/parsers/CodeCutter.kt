@@ -10,7 +10,11 @@ object CodeCutter {
     var pCommentBlock: Pattern = Pattern.compile("(?s)/\\*.*?\\*/")
     var pTokens: Pattern = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:#\u0100-\uffff]+")
 
-    var pLineStart: Pattern = Pattern.compile("^\\s*")
+    var pLineStart: Pattern = Pattern.compile("^[ \\t]*")
+
+    // continuous blank check
+    var newLineThisTurn = false
+    var seqNewLineCount = 0
 
     @Throws(IllegalArgumentException::class)
     @JvmStatic
@@ -80,22 +84,22 @@ object CodeCutter {
     )
     private fun consumeWhiteSpace(code: String): Pair<String?, String> {
         var index = 0
-
         while (VALID_WHITESPACE.contains(code.getOrNull(index))) index++
 
         return Pair(null, code.substring(index))
     }
     private fun consumeNewline(code: String, addIndent: Boolean): Pair<String?, String> {
         val input = pLineBreak.matcher(code).replaceFirst("") // remove newline
-
+        newLineThisTurn = true
         val matcher = pLineStart.matcher(input)
         matcher.find()
-        return (if (addIndent) {
-                Pair(toIndent(matcher.group()), input.substring(matcher.end()))
-            }
-            else {
-                Pair(null, input.substring(matcher.end()))
-            })
+        return Pair(
+            if (addIndent) {
+                toIndent(matcher.group())
+            } else {
+                null
+            }, input.substring(matcher.end())
+        )
     }
 
     private fun consumeString(code: String): Pair<String, String> {
@@ -130,7 +134,9 @@ object CodeCutter {
     private fun splitCode(code: String, addIndent: Boolean, commentsToIota: Boolean = true): MutableList<String> {
         var code = code
         val list = mutableListOf<String>()
+        seqNewLineCount = 0
         while (code.isNotEmpty()) {
+            newLineThisTurn = false
             var (token, newCode) = (when(code[0]) {
                 '/' -> consumeComment(code, commentsToIota)
                 '"' -> consumeString(code)
@@ -138,6 +144,15 @@ object CodeCutter {
                 '\r', '\n' -> consumeNewline(code, addIndent)
                 else -> consumeToken(code)
             })
+            // trim blank line seq
+            if (token != null) {
+                if (newLineThisTurn) {
+                    seqNewLineCount++
+                    if (seqNewLineCount > HexParseConfig.getMaxBlankLineCount()) token = null
+                } else {
+                    seqNewLineCount = -1
+                }
+            }
             if (code == newCode) {
 
                 // nothing is getting consumed, infinite loop!

@@ -41,6 +41,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         private int parserBaseCost = 0;
         @Comment(DESCRIP_COLORFUL_NESTED)
         private boolean showColorfulNested = true;
+        @Comment(DESCRIP_MAX_BLANK_LINES)
+        private int maxBlankLineCount = 0;
 
         @Override
         public ParseGreatPatternMode canParseGreatPatterns() {
@@ -54,6 +56,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public CommentParsingMode getIndentParsingMode() {
             return indentParsingMode;
+        }
+        @Override
+        public int getMaxBlankLineCount() {
+            return maxBlankLineCount;
         }
 
         @Override

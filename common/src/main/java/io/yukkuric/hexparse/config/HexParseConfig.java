@@ -32,13 +32,12 @@ public class HexParseConfig {
         }
     }
 
-
-
     public static final String DESCRIP_PARSE_GREAT = "can directly parse great spell patterns, without scrolls";
     public static final String DESCRIP_ENABLE_COMMENTS = "how comments get parsed into iotas\nALL: including `comment_%s`s and `/* */`s & `//`s;\nMANUAL(default): only `comment_%s`s;\nDISABLED: no comments at all";
     public static final String DESCRIP_ENABLE_INDENTS = "how indents get parsed into iotas\nALL(default): coding indents will be auto-converted into `tab_%d`;\nMANUAL: only `tab_%d`s accepted;\nDISABLED: no indents at all";
     public static final String DESCRIP_PARSER_BASE_COST = "cost to parse single keyword into iota";
     public static final String DESCRIP_COLORFUL_NESTED = "display colorful nested lists and intro/retros";
+    public static final String DESCRIP_MAX_BLANK_LINES = "how many continuous blank lines are allowed in parsed spell; excess ones will be ignored";
 
     public static void bindConfigImp(API api) {
         imp = api;
@@ -53,6 +52,9 @@ public class HexParseConfig {
     }
     public static CommentParsingMode getIndentParsingMode() {
         return imp.getIndentParsingMode();
+    }
+    public static int getMaxBlankLineCount() {
+        return imp.getMaxBlankLineCount();
     }
 
     public static boolean colorfulNested() {
@@ -70,6 +72,7 @@ public class HexParseConfig {
 
         CommentParsingMode getCommentParsingMode();
         CommentParsingMode getIndentParsingMode();
+        int getMaxBlankLineCount();
 
         boolean showColorfulNested();
 
