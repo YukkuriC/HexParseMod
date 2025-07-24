@@ -17,6 +17,14 @@ public class HexParseConfigForge implements API {
     public CommentParsingMode getCommentParsingMode() {
         return CfgCommentParsingMode.get();
     }
+    @Override
+    public CommentParsingMode getIndentParsingMode() {
+        return CfgIndentParsingMode.get();
+    }
+    @Override
+    public int getMaxBlankLineCount() {
+        return CfgMaxBlankLine.get();
+    }
 
     @Override
     public boolean showColorfulNested() {
@@ -28,16 +36,16 @@ public class HexParseConfigForge implements API {
         return CfgParserBaseCost.get();
     }
 
-    public final ForgeConfigSpec.BooleanValue CfgParseIndentsEnabled;
     public final ForgeConfigSpec.BooleanValue CfgShowColorfulNested;
     public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
-    public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode;
-    public final ForgeConfigSpec.IntValue CfgParserBaseCost;
+    public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
+    public final ForgeConfigSpec.IntValue CfgParserBaseCost, CfgMaxBlankLine;
 
     public HexParseConfigForge(ForgeConfigSpec.Builder builder) {
         CfgParseGreatSpells = builder.comment(DESCRIP_PARSE_GREAT).defineEnum("ParseGreatSpells", ParseGreatPatternMode.BY_SCROLL);
         CfgCommentParsingMode = builder.comment(DESCRIP_ENABLE_COMMENTS).defineEnum("CommentParsingMode", CommentParsingMode.MANUAL);
-        CfgParseIndentsEnabled = builder.comment(DESCRIP_ENABLE_COMMENTS).define("ParseCommentsIndents", true);
+        CfgIndentParsingMode = builder.comment(DESCRIP_ENABLE_INDENTS).defineEnum("IndentParsingMode", CommentParsingMode.ALL);
+        CfgMaxBlankLine = builder.comment(DESCRIP_MAX_BLANK_LINES).defineInRange("MaxBlankLines", 0, 0, Integer.MAX_VALUE);
         CfgParserBaseCost = builder.comment(DESCRIP_PARSER_BASE_COST).defineInRange("ParserBaseCost", 0, 0, 100000);
         CfgShowColorfulNested = builder.comment(DESCRIP_COLORFUL_NESTED).define("ShowColorfulNested", true);
     }

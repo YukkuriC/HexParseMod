@@ -21,6 +21,9 @@
     ],
     "client": [
       "io.yukkuric.hexparse.fabric.client.HexParseFabricClient"
+    ],
+    "modmenu": [
+      "io.yukkuric.hexparse.fabric.config.ModMenuEntry"
     ]
   },
   "mixins": [

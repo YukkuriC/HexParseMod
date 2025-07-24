@@ -69,6 +69,7 @@ public class CommentIotaType extends IotaType<CommentIota> {
         var raw = tag.getAsString();
         if (!IotaFactory.isGreatPatternPlaceholder(raw)) {
             if (getShiftKeyDown.get()) return Component.empty();
+            if (!raw.isEmpty() && raw.charAt(0) == '\"') return  Component.literal(raw.substring(1, raw.length() - 1)).withStyle(ChatFormatting.DARK_GREEN);
             return Component.literal(raw).withStyle(ChatFormatting.DARK_GREEN);
         }
         var len = raw.length();

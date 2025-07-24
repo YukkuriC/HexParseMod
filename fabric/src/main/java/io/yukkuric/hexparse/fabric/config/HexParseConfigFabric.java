@@ -5,6 +5,8 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui;
+import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler.EnumDisplayOption;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
@@ -15,7 +17,7 @@ import static io.yukkuric.hexparse.config.HexParseConfig.*;
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
     @ConfigEntry.Category("common")
-    @ConfigEntry.Gui.TransitiveObject
+    @Gui.TransitiveObject
     private final Common common = new Common();
 
     public static void setup() {
@@ -27,15 +29,20 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
     @Config(name = "common")
     public static class Common implements API, ConfigData {
         @Comment(DESCRIP_PARSE_GREAT)
+        @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
         private ParseGreatPatternMode parseGreatSpells = ParseGreatPatternMode.BY_SCROLL;
         @Comment(DESCRIP_ENABLE_COMMENTS)
+        @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
         private CommentParsingMode commentParsingMode = CommentParsingMode.MANUAL;
-        @Comment(DESCRIP_ENABLE_COMMENTS)
-        private boolean parseCommentsIndents = true;
+        @Comment(DESCRIP_ENABLE_INDENTS)
+        @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
+        private CommentParsingMode indentParsingMode = CommentParsingMode.MANUAL;
         @Comment(DESCRIP_PARSER_BASE_COST)
         private int parserBaseCost = 0;
         @Comment(DESCRIP_COLORFUL_NESTED)
         private boolean showColorfulNested = true;
+        @Comment(DESCRIP_MAX_BLANK_LINES)
+        private int maxBlankLineCount = 0;
 
         @Override
         public ParseGreatPatternMode canParseGreatPatterns() {
@@ -45,6 +52,14 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public CommentParsingMode getCommentParsingMode() {
             return commentParsingMode;
+        }
+        @Override
+        public CommentParsingMode getIndentParsingMode() {
+            return indentParsingMode;
+        }
+        @Override
+        public int getMaxBlankLineCount() {
+            return maxBlankLineCount;
         }
 
         @Override

@@ -45,7 +45,14 @@ public class MacroProcessor implements Iterator<String> {
         if (mapped == null) return raw;
         else if (!isMacro) return mapped;
         usedMacros.add(raw);
-        inner = new MacroProcessor(CodeCutter.splitCode(mapped).iterator(), player, usedMacros);
+
+        try {
+            inner = new MacroProcessor(CodeCutter.splitCode(mapped).iterator(), player, usedMacros);
+        } catch (Throwable e) {
+            cachedError = new RuntimeException(e);
+            return "ERROR";
+        }
+
         innerMacroName = raw;
         return calcCache();
     }
