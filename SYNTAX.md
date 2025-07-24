@@ -28,7 +28,8 @@ MoreIotas (1.20)<br>/ Hexal (1.19)|Iota Type|`type_pattern`, `type/iota_moreiota
 MoreIotas (1.20)<br>/ Hexal (1.19)|Entity Type|`type/entity_minecraft:warden`|entity type with given ID; namespace `minecraft:` can be omitted|`EntityTypeIota`
 MoreIotas (1.20)<br>/ Hexal (1.19)|Item Type|`type/item_golden_apple`|item type with given ID; namespace `minecraft:` can be omitted|`ItemTypeIota`
 MoreIotas (1.20)<br>/ Hexal (1.19)|Block Type|`type/block_amethyst_block`|block type with given ID; namespace `minecraft:` can be omitted|`ItemTypeIota`
-MoreIotas|String Literal|`str_foobar`|string with given content; currently not supporting spaces, escaping, non-alphabetical char, etc. `TODO`|`StringIota`
+MoreIotas|String Literal|`str_foobar`|string token with given content; not supporting spaces, escaping, non-alphabetical char, etc.|`StringIota`
+MoreIotas|String Literal|`"foo"; "\"bar\""`|double-quoted string with given content; supporting common character escapings|`StringIota`
 Hexal|Gate Literal|`gate`, `gate_114_514_1919`, `gate_0_1_0_self`, `gate_0_deadbeef-c0de-cafe-babe-114514191981`|`gate` for unbinded gates; with vec3 axes for position-binded ones; with entity UUID or `self` (and/or vec3 axes) for entity-binded ones;<br>**NOTE: Extra cost for making gates**<br>**NOTE2: All parsed gates have negative IDs and may conflict with other parsed ones; make sure to generate your own for security usages**|`GateIota`
 Hexal|Mote Literal|`mote_<UUID>_<idx>`, `mote_deadbeef-c0de-cafe-babe-114514191981_0`|the corresponding mote from certain nexus in the world|`MoteIota`
 Hexcellular|Property Literal|`prop_imaprop`, `property_ImAPropToo`|property iota with certain name;<br>**NOTE: Extra cost for making properties**<br>**NOTE2: All parsed properties start with an underline and may confilict with other parsed ones; make sure to generate your own for security usages**|`PropertyIota`
