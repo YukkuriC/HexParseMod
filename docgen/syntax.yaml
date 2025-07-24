@@ -103,8 +103,13 @@ Plugin Parser Installed:
     Type: Block Type
   - Addon: MoreIotas
     Example: '`str_foobar`'
-    Output: string with given content; currently not supporting spaces, escaping,
-      non-alphabetical char, etc. `TODO`
+    Output: string token with given content; not supporting spaces, escaping, non-alphabetical
+      char, etc.
+    Output Type: '`StringIota`'
+    Type: String Literal
+  - Addon: MoreIotas
+    Example: '`"foo"; "\"bar\""`'
+    Output: double-quoted string with given content; supporting common character escapings
     Output Type: '`StringIota`'
     Type: String Literal
   - Addon: Hexal
