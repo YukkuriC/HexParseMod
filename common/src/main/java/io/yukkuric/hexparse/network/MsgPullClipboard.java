@@ -43,19 +43,21 @@ public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements 
 
     public static void handle(MsgPullClipboard self) {
         var MC = Minecraft.getInstance();
-        var code = MC.keyboardHandler.getClipboard();
-        if (code.isBlank()) return;
-        if (self.mode == ClipboardMsgMode.ANGLES_ONLY) {
-            var matched = ANGLES.matcher(code).results().map(x -> '_' + x.group());
-            code = String.join(" ", matched.toList());
-        }
-        if (code.length() > MAX_LENGTH) {
-            if (MC.player != null)
-                MC.player.sendSystemMessage(Component.translatable("hexparse.msg.error.code_too_long", code.length()));
-            return;
-        }
-        CodeHelpers.autoRefreshLocal();
-        if (self.mode != ClipboardMsgMode.INVALID)
-            MsgHandlers.CLIENT.sendPacketToServer(new MsgPushClipboard(ParserMain.preMatchClipboardClient(code), self.rename, self.mode));
+        MC.execute(() -> {
+            var code = MC.keyboardHandler.getClipboard();
+            if (code.isBlank()) return;
+            if (self.mode == ClipboardMsgMode.ANGLES_ONLY) {
+                var matched = ANGLES.matcher(code).results().map(x -> '_' + x.group());
+                code = String.join(" ", matched.toList());
+            }
+            if (code.length() > MAX_LENGTH) {
+                if (MC.player != null)
+                    MC.player.sendSystemMessage(Component.translatable("hexparse.msg.error.code_too_long", code.length()));
+                return;
+            }
+            CodeHelpers.autoRefreshLocal();
+            if (self.mode != ClipboardMsgMode.INVALID)
+                MsgHandlers.CLIENT.sendPacketToServer(new MsgPushClipboard(ParserMain.preMatchClipboardClient(code), self.rename, self.mode));
+        });
     }
 }

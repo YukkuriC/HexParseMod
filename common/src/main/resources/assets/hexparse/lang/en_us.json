@@ -36,5 +36,10 @@
   "book.descrip.hexparse:code2focus": "Reads code from my local clipboard, then parse it into the focus I'm holding.$(br)Can only be casted by staff.",
   "book.descrip.hexparse:learn_patterns": "Extract great patterns from handheld items (ancient scrolls, focuses, compiled casting items, etc.), and returns a list of newly learned ones by the parser.",
   "book.descrip.hexparse:remove_comments": "Clears all comment iotas in a list, returns processed list.",
-  "book.descrip.hexparse:create_linebreak": "Adds a line-break comment iota with space-indents of given number to the stack."
+  "book.descrip.hexparse:create_linebreak": "Adds a line-break comment iota with space-indents of given number to the stack.",
+  "text.autoconfig.hexparse.option.common.parseGreatSpells": "Parse Great Spells",
+  "text.autoconfig.hexparse.option.common.commentParsingMode": "Comment parsing mode",
+  "text.autoconfig.hexparse.option.common.indentParsingMode": "Indent parsing mode",
+  "text.autoconfig.hexparse.option.common.parserBaseCost": "Base cost of parsing a pattern",
+  "text.autoconfig.hexparse.option.common.showColorfulNested": "Colorful nested introspections"
 }

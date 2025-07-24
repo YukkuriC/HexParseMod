@@ -3,8 +3,10 @@ package io.yukkuric.hexparse.parsers.str2nbt;
 import at.petrak.hexcasting.api.spell.iota.Vec3Iota;
 import at.petrak.hexcasting.api.spell.math.HexDir;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.parsers.IotaFactory;
+import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.misc.NumEvaluatorBrute;
+import io.yukkuric.hexparse.misc.StringEscaper;
+import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,11 +24,25 @@ public class ConstParsers {
             }
             return IotaFactory.makeTab(indent);
         }
+
+        @Override
+        public boolean ignored() {
+            return HexParseConfig.getIndentParsingMode() == HexParseConfig.CommentParsingMode.DISABLED;
+        }
     };
     public static BaseConstParser TO_COMMENT = new Comment("comment_") {
         @Override
         public CompoundTag parse(String node) {
             return IotaFactory.makeComment(node.substring(8));
+        }
+    };
+    public static BaseConstParser TO_SCOMMENT = new Comment("c\"") {
+        @Override
+        public CompoundTag parse(String node) {
+            return IotaFactory.makeComment(
+                    // c"<escaped comment contents>"
+                    StringEscaper.Companion.unescape(node.substring(1))
+            );
         }
     };
     public static BaseConstParser TO_VEC = new Prefix("vec") {

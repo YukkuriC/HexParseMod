@@ -1,6 +1,7 @@
 package io.yukkuric.hexparse.parsers.str2nbt.plugins;
 
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import io.yukkuric.hexparse.misc.StringEscaper;
 import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
@@ -44,6 +45,20 @@ public class PluginConstParsers {
         @Override
         public int getCost() {
             return super.getCost() + (int) MediaConstants.CRYSTAL_UNIT;
+        }
+    };
+
+    public static BaseConstParser TO_STRING_LIT = new Prefix("\"") {
+        @Override
+        public CompoundTag parse(String node) {
+            // remove the quotes
+            node = node.substring(1, node.length() - 1);
+
+
+            var string = StringEscaper.Companion.unescape(node);
+
+
+            return PluginIotaFactory.makeString(string);
         }
     };
 
