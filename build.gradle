@@ -35,6 +35,7 @@ subprojects {
         // for more information about repositories.
         mavenLocal()
         maven { url "https://maven.blamejared.com/" }
+        maven { url "https://maven.terraformersmc.com/releases/" }
         flatDir { dir "libs/$minecraft_version" }
         flatDir { dir "../libs/$minecraft_version" }
     }
@@ -43,7 +44,6 @@ subprojects {
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
-
         modImplementation("at.petra-k.hexcasting:hexcasting-${nameForRef}-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
 
         modImplementation("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouliVersion}-${nameForRef.toUpperCase()}")
