@@ -5,6 +5,8 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui;
+import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler.EnumDisplayOption;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
@@ -15,7 +17,7 @@ import static io.yukkuric.hexparse.config.HexParseConfig.*;
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
     @ConfigEntry.Category("common")
-    @ConfigEntry.Gui.TransitiveObject
+    @Gui.TransitiveObject
     private final Common common = new Common();
 
     public static void setup() {
@@ -27,10 +29,13 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
     @Config(name = "common")
     public static class Common implements API, ConfigData {
         @Comment(DESCRIP_PARSE_GREAT)
+        @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
         private ParseGreatPatternMode parseGreatSpells = ParseGreatPatternMode.BY_SCROLL;
         @Comment(DESCRIP_ENABLE_COMMENTS)
+        @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
         private CommentParsingMode commentParsingMode = CommentParsingMode.MANUAL;
         @Comment(DESCRIP_ENABLE_INDENTS)
+        @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
         private CommentParsingMode indentParsingMode = CommentParsingMode.MANUAL;
         @Comment(DESCRIP_PARSER_BASE_COST)
         private int parserBaseCost = 0;

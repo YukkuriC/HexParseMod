@@ -6,13 +6,33 @@ public class HexParseConfig {
     public enum ParseGreatPatternMode {
         ALL,
         DISABLED,
-        BY_SCROLL,
+        BY_SCROLL;
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case DISABLED -> "Disabled";
+                case BY_SCROLL -> "By scroll";
+                case ALL -> "All";
+            };
+        }
     }
     public enum CommentParsingMode {
         DISABLED,
         MANUAL,
-        ALL,
+        ALL;
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case DISABLED -> "Disabled";
+                case MANUAL -> "Manual";
+                case ALL -> "All";
+            };
+        }
     }
+
+
 
     public static final String DESCRIP_PARSE_GREAT = "can directly parse great spell patterns, without scrolls";
     public static final String DESCRIP_ENABLE_COMMENTS = "how comments get parsed into iotas\nALL: including `comment_%s`s and `/* */`s & `//`s;\nMANUAL(default): only `comment_%s`s;\nDISABLED: no comments at all";
