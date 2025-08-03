@@ -2,10 +2,10 @@ package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
-import io.yukkuric.hexparse.misc.CodeHelpers;
-import io.yukkuric.hexparse.misc.StringProcessors;
+import io.yukkuric.hexparse.misc.*;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
@@ -44,7 +44,7 @@ public class ParserMain {
             return ParseCode(CodeCutter.splitCode(code), caller);
         } catch (Throwable e) {
             caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()).withStyle(
-                ChatFormatting.DARK_RED));
+                    ChatFormatting.DARK_RED));
             return IotaFactory.makeList(new ListTag());
         }
     }
@@ -112,10 +112,10 @@ public class ParserMain {
         } catch (Throwable e) {
             if (caller != null)
                 caller.sendSystemMessage(
-                    Component.translatable(
-                    "hexparse.msg.parse_error", e.getLocalizedMessage()
-                    )
-                    .withStyle(ChatFormatting.DARK_RED)
+                        Component.translatable(
+                                        "hexparse.msg.parse_error", e.getLocalizedMessage()
+                                )
+                                .withStyle(ChatFormatting.DARK_RED)
                 );
             return res;
         }
@@ -165,6 +165,8 @@ public class ParserMain {
             for (var p : nbt2strParsers) {
                 if (p.match(node)) return p.parse(node);
             }
+            if (HexParseConfig.showUnknownNBT())
+                return "UNKNOWN(%s)".formatted(StringEscaper.Companion.escape(node.toString()));
             return "UNKNOWN";
         } catch (Throwable e) {
             caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
