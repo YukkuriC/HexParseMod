@@ -166,7 +166,7 @@ public class ParserMain {
                 if (p.match(node)) return p.parse(node);
             }
             if (HexParseConfig.showUnknownNBT())
-                return "UNKNOWN(%s)".formatted(StringEscaper.Companion.escape(node.toString()));
+                return "UNKNOWN(%s)".formatted(node.toString());
             return "UNKNOWN";
         } catch (Throwable e) {
             caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
