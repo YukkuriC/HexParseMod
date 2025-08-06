@@ -151,7 +151,7 @@ object CodeCutter {
                     if (seqNewLineCount > HexParseConfig.getMaxBlankLineCount()) {
                         // replace last indent instead of dropping this one
                         if (list.isEmpty()) token = null
-                        else list.removeLast()
+                        else list.removeLastOrNull()
                     }
                 } else {
                     seqNewLineCount = -1
