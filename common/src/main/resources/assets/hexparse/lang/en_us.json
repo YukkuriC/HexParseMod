@@ -41,5 +41,6 @@
   "text.autoconfig.hexparse.option.common.commentParsingMode": "Comment parsing mode",
   "text.autoconfig.hexparse.option.common.indentParsingMode": "Indent parsing mode",
   "text.autoconfig.hexparse.option.common.parserBaseCost": "Base cost of parsing a pattern",
-  "text.autoconfig.hexparse.option.common.showColorfulNested": "Colorful nested introspections"
+  "text.autoconfig.hexparse.option.common.showColorfulNested": "Colorful nested introspections",
+  "text.autoconfig.hexparse.option.common.showUnknownNBT": "Display content of unsupported iotas"
 }

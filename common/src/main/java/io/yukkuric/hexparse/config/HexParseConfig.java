@@ -38,6 +38,7 @@ public class HexParseConfig {
     public static final String DESCRIP_PARSER_BASE_COST = "cost to parse single keyword into iota";
     public static final String DESCRIP_COLORFUL_NESTED = "display colorful nested lists and intro/retros";
     public static final String DESCRIP_MAX_BLANK_LINES = "how many continuous blank lines are allowed in parsed spell; excess ones will be ignored";
+    public static final String DESCRIP_SHOW_UNKNOWN_NBT = "display unsupported iota's inner data as `UNKNOWN(serialized NBT)` rather than simple `UNKNOWN`";
 
     public static void bindConfigImp(API api) {
         imp = api;
@@ -60,6 +61,9 @@ public class HexParseConfig {
     public static boolean colorfulNested() {
         return imp.showColorfulNested();
     }
+    public static boolean showUnknownNBT() {
+        return imp.showUnknownNBT();
+    }
 
     public static int parserBaseCost() {
         return imp.parserBaseCost();
@@ -75,6 +79,7 @@ public class HexParseConfig {
         int getMaxBlankLineCount();
 
         boolean showColorfulNested();
+        boolean showUnknownNBT();
 
         int parserBaseCost();
     }
