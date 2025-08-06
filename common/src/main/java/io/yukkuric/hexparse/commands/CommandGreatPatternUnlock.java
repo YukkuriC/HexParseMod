@@ -6,6 +6,7 @@ import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
+import io.yukkuric.hexparse.mixin_interface.IPatternUnlockArgument;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
@@ -19,15 +20,24 @@ public class CommandGreatPatternUnlock {
     public static void init() {
         var sub = Commands.literal("unlock_great").requires(s -> s.hasPermission(2) && HexParseConfig.canParseGreatPatterns() == HexParseConfig.ParseGreatPatternMode.BY_SCROLL);
 
-        registerLine(saveOp((save, ctx) -> opBatch(save::unlockAll, "hexparse.cmd.unlocker.unlock.all")),
-                sub, Commands.literal("unlockAll"));
-        registerLine(saveOp((save, ctx) -> opBatch(save::clear, "hexparse.cmd.unlocker.lock.all")),
-                sub, Commands.literal("lockAll"));
-        registerLine(saveOp((save, ctx) -> opSingle(ctx, save::unlock, "hexparse.cmd.unlocker.unlock.one")),
-                sub, Commands.literal("unlock"), Commands.argument("patternKey", PatternResLocArgument.id()));
-        registerLine(saveOp((save, ctx) -> opSingle(ctx, save::lock, "hexparse.cmd.unlocker.lock.one")),
-                sub, Commands.literal("lock"), Commands.argument("patternKey", PatternResLocArgument.id()));
+        registerLine(saveOp((save, ctx) -> opBatch(save::unlockAll, "hexparse.cmd.unlocker.unlock.all")), sub, Commands.literal("unlockAll"));
+        registerLine(saveOp((save, ctx) -> opBatch(save::clear, "hexparse.cmd.unlocker.lock.all")), sub, Commands.literal("lockAll"));
+        registerLine(saveOp((save, ctx) -> opSingle(ctx, save::unlock, "hexparse.cmd.unlocker.unlock.one")), sub, Commands.literal("unlock"), Commands.argument("patternKey", ALL_LOCKED));
+        registerLine(saveOp((save, ctx) -> opSingle(ctx, save::lock, "hexparse.cmd.unlocker.lock.one")), sub, Commands.literal("lock"), Commands.argument("patternKey", ALL_UNLOCKED));
     }
+
+    // arg suggest filters
+    private static IPatternUnlockArgument.UnlockPredicateType filterPatterns(boolean unlocked) {
+        return (ctx, id) -> {
+            var srcRaw = ctx.getSource();
+            if (!(srcRaw instanceof CommandSourceStack src)) return true;
+            var save = GreatPatternUnlocker.get(src.getLevel());
+            var unlockedThis = save.isUnlocked(id);
+            return unlockedThis == unlocked;
+        };
+    }
+    private static PatternResLocArgument ALL_LOCKED = IPatternUnlockArgument.get(filterPatterns(false));
+    private static PatternResLocArgument ALL_UNLOCKED = IPatternUnlockArgument.get(filterPatterns(true));
 
     static String opBatch(Supplier<Integer> op, final String msg) {
         var res = op.get();
