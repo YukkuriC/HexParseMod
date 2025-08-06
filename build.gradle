@@ -42,6 +42,10 @@ subprojects {
 
     var nameForRef = project.name.equals("common") ? "fabric" : project.name
     dependencies {
+        compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
+        if (project.name == 'forge')
+            implementation(include("io.github.llamalad7:mixinextras-${project.name}:0.4.1"))
+
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
         modImplementation("at.petra-k.hexcasting:hexcasting-${nameForRef}-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
