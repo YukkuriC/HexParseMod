@@ -19,6 +19,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 <!-- TOC -->
 
 * [HexParse mod](#hexparse-mod)
+    * [Supported IO Item Types](#supported-io-item-types)
     * [Commands added](#commands-added)
         * [OP-only commands](#op-only-commands)
     * [Patterns added](#patterns-added)
@@ -35,11 +36,17 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 <!-- TOC -->
 
+## Supported IO Item Types
+
+- Focuses
+- Spell Books
+- (1.20) Thought Knots
+
 ## Commands added
 
-- `/hexParse <code string> [rename]`: parse input code into focus item; optional `rename` argument to rename focus item.
-- `/hexParse clipboard [rename]`: read client clipboard text and parse into focus; optional `rename` argument to rename
-  focus item.
+- `/hexParse <code string> [rename]`: parse input code into supported held item; optional `rename` argument to rename the item.
+- `/hexParse clipboard [rename]`: read client clipboard text and parse into supported held item; optional `rename` argument to rename
+  the item.
 - `/hexParse clipboard_angles [rename]`: same as above, but only accept patterns input with raw angle string like
   `"wedsaq"`.
 - `/hexParse (macro/dialect) ...`: edit client-saved code dialects (1-on-1 mapping, not starting with `#`) and macros (
@@ -48,7 +55,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
     - `... define <key> <value>`: define a macro/dialect mapping; could be fresh-new or overriding existed one.
     - `macro define_clipboard <key>`: same as above, but only for macros, and reads player's clipboard
     - `... remove <key>`: remove mapping entry with given key (if exists)
-- `/hexParse read`: read handheld focus item's iota, parse into code and show in chat window; the result will be copied
+- `/hexParse read`: read handheld item's iota, parse into code and show in chat window; the result will be copied
   when clicked.
 - `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
 - `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input
@@ -74,7 +81,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 ## Patterns added
 
-* `code2focus`: Equivalent to `/hexParse clipboard`.
+* `code2focus`: Equivalent to `/hexParse clipboard` (now not only focuses).
 * `focus2code`: Equivalent to `/hexParse read`.
 * `remove_comments`: Clears comment iotas from a (nested) list input.
 * `learn_patterns`: Read handheld items and learns great pattern(s) inside.
