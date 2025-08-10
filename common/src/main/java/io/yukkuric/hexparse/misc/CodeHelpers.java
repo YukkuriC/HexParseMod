@@ -9,7 +9,9 @@ import at.petrak.hexcasting.api.mod.HexStatistics;
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.mishaps.Mishap;
 import at.petrak.hexcasting.api.utils.MediaHelper;
+import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.ItemFocus;
+import at.petrak.hexcasting.common.items.ItemSpellbook;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.PatternMapper;
@@ -27,6 +29,9 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import static at.petrak.hexcasting.common.items.ItemSpellbook.TAG_PAGES;
+
 
 public interface CodeHelpers {
     class IOMethod {
@@ -68,7 +73,14 @@ public interface CodeHelpers {
         }
 
         static {
-            new IOMethod(ItemFocus.class, (target, nbt) -> target.getOrCreateTag().put("data", nbt), null);
+            BiConsumer<ItemStack, CompoundTag> simpleWrite = (target, nbt) -> target.getOrCreateTag().put("data", nbt);
+            new IOMethod(ItemFocus.class, simpleWrite, null);
+            // new IOMethod(ItemThoughtKnot.class, simpleWrite, null); // not in 1.19
+            new IOMethod(ItemSpellbook.class, (stack, nbt) -> {
+                int idx = ItemSpellbook.getPage(stack, 1);
+                String pageKey = String.valueOf(idx);
+                NBTHelper.getOrCreateCompound(stack, TAG_PAGES).put(pageKey, nbt);
+            }, null);
         }
     }
 
