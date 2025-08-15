@@ -1,9 +1,8 @@
 package io.yukkuric.hexparse;
 
 import com.mojang.logging.LogUtils;
-import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.parsers.ParserMain;
-import net.minecraft.network.chat.Component;
+import net.minecraft.locale.Language;
 import org.slf4j.Logger;
 
 public final class HexParse {
@@ -17,6 +16,6 @@ public final class HexParse {
     }
 
     public static String doTranslate(String key, Object... args) {
-        return Component.translatable(key, args).getString();
+        return Language.getInstance().getOrDefault(key).formatted(args);
     }
 }
