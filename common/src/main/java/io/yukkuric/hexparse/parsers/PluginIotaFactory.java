@@ -1,16 +1,16 @@
 package io.yukkuric.hexparse.parsers;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.StringTag;
+import io.yukkuric.hexparse.HexParse;
+import net.minecraft.nbt.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 public class PluginIotaFactory extends IotaFactory {
-    // hexal iotas
     public static final String TYPE_IOTA_TYPE = "hexal:iota_type";
     public static final String TYPE_ENTITY_TYPE = "hexal:entity_type";
     public static final String TYPE_ITEM_TYPE = "hexal:item_type";
     public static final String TYPE_STRING = "moreiotas:string";
+    public static final String TYPE_MATRIX = "moreiotas:matrix";
     public static final String TYPE_GATE = "hexal:gate";
     public static final String TYPE_MOTE = "hexal:item";
     public static final String TYPE_PROP = "hexcellular:property";
@@ -39,6 +39,56 @@ public class PluginIotaFactory extends IotaFactory {
 
     public static CompoundTag makeString(String data) {
         return makeType(TYPE_STRING, StringTag.valueOf(data));
+    }
+
+    public static CompoundTag makeMatrix(String[] raw) {
+        var body = new CompoundTag();
+        int ptr = 1, // (mat_)...
+                targetSize = 3;
+
+        // pre-check size 1
+        if (raw.length < targetSize)
+            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length, targetSize));
+
+        // row & col
+        int nrow, ncol;
+        try {
+            nrow = Integer.parseInt(raw[ptr]);
+            if (nrow <= 0)
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", nrow));
+            ptr++;
+            body.putInt("rows", nrow);
+            ncol = Integer.parseInt(raw[ptr]);
+            if (ncol <= 0)
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", ncol));
+            ptr++;
+            body.putInt("cols", ncol);
+        } catch (Throwable e) {
+            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", raw[ptr]));
+        }
+
+        // pre-check data length 2
+        targetSize = nrow * ncol;
+        if (raw.length - 3 < targetSize)
+            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length - 3, targetSize));
+
+        // data
+        var data = new ListTag();
+        try {
+            for (var i = 0; i < nrow; i++) {
+                var row = new ListTag();
+                for (var j = 0; j < ncol; j++) {
+                    row.add(DoubleTag.valueOf(Double.parseDouble(raw[ptr])));
+                    ptr++;
+                }
+                data.add(row);
+            }
+        } catch (Throwable e) {
+            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.value", raw[ptr]));
+        }
+        body.put("mat", data);
+
+        return makeType(TYPE_MATRIX, body);
     }
 
     public static CompoundTag makeProperty(CompoundTag packed) {

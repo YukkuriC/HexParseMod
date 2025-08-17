@@ -223,6 +223,8 @@ public class ParserMain {
             str2nbtParsers.add(PluginConstParsers.TO_STRING);
             str2nbtParsers.add(PluginConstParsers.TO_STRING_LIT);
             nbt2strParsers.add(new StringLitParser());
+            str2nbtParsers.add(PluginConstParsers.TO_MATRIX);
+            nbt2strParsers.add(MatrixParser.INSTANCE);
         }
 
         if (HexParse.HELPERS.modLoaded("hexcellular")) {
