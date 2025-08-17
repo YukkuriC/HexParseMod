@@ -9,7 +9,7 @@ Currently Supported Syntax:
     Output Type: any[]
     Type: Defined Macro for Code Fragment
   - Example: '`[`, `]`'
-    Output: list literals; can be nested
+    Output: lists; can be nested
     Output Type: '`ListIota`'
     Type: Nested List
   - Example: '`(`, `)`, `\\` or `escape`'
@@ -31,7 +31,7 @@ Currently Supported Syntax:
   - Example: '`num_1.375`'
     Output: '`Numerical Reflection`'
     Output Type: '`PatternIota`'
-    Type: Number Literal Pattern
+    Type: Number Pattern
   - Example: '`_wedsaq`'
     Output: Patterns with given angle signatures
     Output Type: '`PatternIota`'
@@ -47,26 +47,26 @@ Currently Supported Syntax:
   - Example: '`114514`'
     Output: corresponding `DoubleIota`
     Output Type: '`DoubleIota`'
-    Type: Number Literal
+    Type: Number
   - Example: '`vec`, `vec_5_1_4`, `vec_19_19`'
     Output: corresponding `Vec3Iota`; unassigned axes will be 0s
     Output Type: '`Vec3Iota`'
-    Type: Vector Literal
+    Type: Vector
   - Example: '`true`, `False`'
     Output: corresponding `BooleanIota` (case insensitive)
     Output Type: '`BooleanIota`'
-    Type: Boolean Literal
+    Type: Boolean
   - Example: '`null`, `NULL`'
     Output: '`NullIota` (case insensitive)'
     Output Type: '`NullIota`'
-    Type: Null Literal
+    Type: None
   - Example: '`garbage`'
     Output: '`GarbageIota` (case insensitive)'
     Output Type: '`GarbageIota`'
     Type: Const Garbage
   - Example: '`comment_meow`'
     Output: comment which displays as text but won't be executed; same limitation
-      as `String Literal`s
+      as `String`s
     Output Type: '`CommentIota`'
     Type: Iota Comments
   - Example: '`tab_4`, `tab_8`, `tab`'
@@ -106,12 +106,17 @@ Plugin Parser Installed:
     Output: string token with given content; not supporting spaces, escaping, non-alphabetical
       char, etc.
     Output Type: '`StringIota`'
-    Type: String Literal
+    Type: String
   - Addon: MoreIotas
-    Example: '`"foo"; "\"bar\""`'
-    Output: double-quoted string with given content; supporting common character escapings
+    Example: '`"foo"`; `"\"bar\""`'
+    Output: double-quoted string with given content; supporting common character escaping
     Output Type: '`StringIota`'
-    Type: String Literal
+    Type: String
+  - Addon: MoreIotas
+    Example: '`matrix_1_1_0`; `mat_2_2_114_514_19.19_810`'
+    Output: matrix with given row & col, followed by all numbers by row
+    Output Type: '`MatrixIota`'
+    Type: Matrix
   - Addon: Hexal
     Example: '`gate`, `gate_114_514_1919`, `gate_0_1_0_self`, `gate_0_deadbeef-c0de-cafe-babe-114514191981`'
     Output: '`gate` for unbinded gates; with vec3 axes for position-binded ones; with
@@ -120,25 +125,25 @@ Plugin Parser Installed:
       and may conflict with other parsed ones; make sure to generate your own for
       security usages**'
     Output Type: '`GateIota`'
-    Type: Gate Literal
+    Type: Gate
   - Addon: Hexal
     Example: '`mote_<UUID>_<idx>`, `mote_deadbeef-c0de-cafe-babe-114514191981_0`'
     Output: the corresponding mote from certain nexus in the world
     Output Type: '`MoteIota`'
-    Type: Mote Literal
+    Type: Mote
   - Addon: Hexcellular
     Example: '`prop_imaprop`, `property_ImAPropToo`'
     Output: 'property iota with certain name;<br>**NOTE: Extra cost for making properties**<br>**NOTE2:
       All parsed properties start with an underline and may confilict with other parsed
       ones; make sure to generate your own for security usages**'
     Output Type: '`PropertyIota`'
-    Type: Property Literal
+    Type: Property
   - Addon: Hex-Ars-Linker
     Example: '`glyph_touch`, `glyph_ars_nouveau:glyph_projectile`, `glyph_hex_ars_link:hex_callback`'
     Output: glyph iota with certain name; `ars_nouveau` namespace and `glyph_` path
       prefix could be omitted.
     Output Type: '`GlyphIota`'
-    Type: Glyph Reference Literal
+    Type: Glyph Reference
   headers:
   - Addon
   - Type

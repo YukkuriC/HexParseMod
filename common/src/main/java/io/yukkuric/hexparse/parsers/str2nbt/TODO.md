@@ -18,8 +18,8 @@
     * [x] iota
     * [x] entity
     * [x] item/block
-    * [ ] mote
+    * [x] mote
     * [x] gate
 * [x] moreiotas
     * [x] string
-    * [ ] matrix???
+    * [x] matrix

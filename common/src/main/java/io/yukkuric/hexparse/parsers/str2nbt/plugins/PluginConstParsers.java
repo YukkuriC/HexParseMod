@@ -32,6 +32,12 @@ public class PluginConstParsers {
             return PluginIotaFactory.makeString(str);
         }
     };
+    public static BaseConstParser TO_MATRIX = new Regex("^mat(rix)?_") {
+        @Override
+        public CompoundTag parse(String node) {
+            return PluginIotaFactory.makeMatrix(node.split("_"));
+        }
+    };
 
     public static BaseConstParser TO_PROPERTY = new Regex("^prop(erty)?_") {
         @Override
