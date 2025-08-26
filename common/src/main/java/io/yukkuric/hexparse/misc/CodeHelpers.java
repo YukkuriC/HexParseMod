@@ -1,11 +1,13 @@
 package io.yukkuric.hexparse.misc;
 
 import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.item.IotaHolderItem;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.storage.*;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.ChatFormatting;
@@ -156,8 +158,22 @@ public interface CodeHelpers {
         );
     }
 
-    static MutableComponent getPatternDisplay(ResourceLocation id) {
-        // pick pattern from reg TODO
-        return Component.literal("TODO");
+    static Component getPatternDisplay(ResourceLocation id, ServerLevel level) {
+        var longName = id.toString();
+
+        // check great pattern display
+        if (PatternMapper.mapPatternWorld.containsKey(longName)) {
+            if (!GreatPatternUnlocker.get(level).isUnlocked(longName)) return Component.literal("???");
+        }
+
+        CompoundTag rawIota = null;
+        for (var map : PatternMapper.ShortNameTracker.modifyTargets) {
+            if (map.containsKey(longName)) {
+                rawIota = map.get(longName);
+                break;
+            }
+        }
+        if (rawIota == null) return Component.literal("NULL");
+        return IotaType.getDisplay(rawIota);
     }
 }

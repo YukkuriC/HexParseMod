@@ -72,7 +72,7 @@ public class PatternMapper {
     }
 
     public static class ShortNameTracker {
-        static final Map<String, CompoundTag>[] modifyTargets = new Map[]{mapPattern, mapPatternWorld};
+        public static final Map<String, CompoundTag>[] modifyTargets = new Map[]{mapPattern, mapPatternWorld};
         public static final Map<String, Set<ResourceLocation>> allPointed = new HashMap<>();
         public static final Map<String, ResourceLocation> mapActiveShortName = new HashMap<>();
         public static final Set<String> shortNameWithConflicts = new HashSet<>();

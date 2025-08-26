@@ -72,7 +72,7 @@ object CommandConflictResolver {
             val msg = Component.translatable(
                 "hexparse.cmd.conflict.list.entry",
                 Component.literal(id.toString()).gold,
-                CodeHelpers.getPatternDisplay(id),
+                CodeHelpers.getPatternDisplay(id, ctx.source.level),
             )
             ctx.source.sendSystemMessage(CodeHelpers.wrapClickSuggest(msg, "/hexParse conflict set $name $id"))
         }
@@ -91,7 +91,7 @@ object CommandConflictResolver {
                 "hexparse.cmd.conflict.edited",
                 Component.literal(name).aqua,
                 Component.literal(id.toString()).gold,
-                CodeHelpers.getPatternDisplay(id),
+                CodeHelpers.getPatternDisplay(id, ctx.source.level),
             )
         )
         return 1
