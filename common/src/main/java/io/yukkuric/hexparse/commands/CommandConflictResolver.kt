@@ -16,8 +16,7 @@ object CommandConflictResolver {
     fun init() {
         val subCmd = HexParseCommands.registerLine(
             ::listAll,
-            Commands.literal("conflict"),
-            Commands.literal("list")
+            Commands.literal("conflict")
         )
         HexParseCommands.registerLine(
             ::listName,
