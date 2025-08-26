@@ -39,19 +39,19 @@ public class GreatPatternUnlocker extends SavedData {
     }
 
     public boolean isUnlocked(String key) {
-        key = PatternMapper.mapShort2Long.getOrDefault(key, key);
+        key = PatternMapper.ShortNameTracker.getActiveLongName(key);
         return _unlocked.contains(key);
     }
 
     public boolean unlock(String key) {
-        key = PatternMapper.mapShort2Long.getOrDefault(key, key);
+        key = PatternMapper.ShortNameTracker.getActiveLongName(key);
         var res = _unlocked.add(key);
         if (res) setDirty();
         return res;
     }
 
     public boolean lock(String key) {
-        key = PatternMapper.mapShort2Long.getOrDefault(key, key);
+        key = PatternMapper.ShortNameTracker.getActiveLongName(key);
         var res = _unlocked.remove(key);
         if (res) setDirty();
         return res;
