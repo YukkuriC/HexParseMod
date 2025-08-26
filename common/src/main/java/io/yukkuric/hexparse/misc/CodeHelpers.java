@@ -11,6 +11,7 @@ import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -146,5 +147,17 @@ public interface CodeHelpers {
                         .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
                         .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.translatable("chat.copy.click")))
         );
+    }
+    static MutableComponent wrapClickSuggest(MutableComponent component, String command) {
+        return component.withStyle(
+                Style.EMPTY
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command))
+                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal(command)))
+        );
+    }
+
+    static MutableComponent getPatternDisplay(ResourceLocation id) {
+        // pick pattern from reg TODO
+        return Component.literal("TODO");
     }
 }

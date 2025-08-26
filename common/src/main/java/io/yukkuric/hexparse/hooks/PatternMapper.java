@@ -129,6 +129,11 @@ public class PatternMapper {
                     map.put(shortName, tryLongEntry);
                 }
             }
+            if (!found)
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.cmd.conflict.error", shortName, "excuse me WTF?"));
+
+            // set active target
+            mapActiveShortName.put(shortName, newId);
         }
     }
 }
