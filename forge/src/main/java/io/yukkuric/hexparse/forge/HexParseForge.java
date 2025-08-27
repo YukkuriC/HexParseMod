@@ -14,10 +14,10 @@ import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkEvent;
@@ -118,13 +118,19 @@ public final class HexParseForge {
     }
 
     public static class ModHelpers implements IModHelpers {
+        private boolean isClient = false;
         ModHelpers() {
             HexParse.HELPERS = this;
+            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> isClient = true);
         }
 
         @Override
         public boolean modLoaded(String modId) {
             return ModList.get().isLoaded(modId);
+        }
+        @Override
+        public boolean isPhysicalClient() {
+            return isClient;
         }
     }
 }
