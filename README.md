@@ -65,7 +65,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 - `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
   non-pattern constants and some old registry names still need to be handled manually_
 - `/hexParse conflict`: conflict resolver for multiple patterns with same short name (ID path)
-    - list all short names pointed by multiple long IDs
+    - `...` or `... list`: list all short names pointed by multiple long IDs
     - `... list <short_name>`: list all conflicting IDs under certain short name
     - `... set <short_name> <long_ID>`: redirect certain short name to input pattern ID
 - `/hexParse mind_stack ...`: read/write iota from player's mind (staff casting VM)

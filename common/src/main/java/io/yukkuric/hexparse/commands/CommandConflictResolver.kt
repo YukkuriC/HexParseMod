@@ -19,6 +19,11 @@ object CommandConflictResolver {
             Commands.literal("conflict")
         )
         HexParseCommands.registerLine(
+            ::listAll,
+            subCmd,
+            Commands.literal("list"),
+        )
+        HexParseCommands.registerLine(
             ::listName,
             subCmd,
             Commands.literal("list"),
