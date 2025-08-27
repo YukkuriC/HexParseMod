@@ -12,13 +12,16 @@ import at.petrak.hexcasting.api.utils.MediaHelper;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.ItemFocus;
 import at.petrak.hexcasting.common.items.ItemSpellbook;
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,8 +36,8 @@ import java.util.function.Function;
 import static at.petrak.hexcasting.common.items.ItemSpellbook.TAG_PAGES;
 
 
-public interface CodeHelpers {
-    class IOMethod {
+public class CodeHelpers {
+    public static class IOMethod {
         private final BiConsumer<ItemStack, CompoundTag> writer;
         private final Function<ItemStack, CompoundTag> reader;
         private ItemStack current;
@@ -84,7 +87,7 @@ public interface CodeHelpers {
         }
     }
 
-    static void doExtractMedia(ServerPlayer caster, int amount) {
+    public static void doExtractMedia(ServerPlayer caster, int amount) {
         var harness = IXplatAbstractions.INSTANCE.getHarness(caster, InteractionHand.MAIN_HAND);
         // picked from CastingHarness.withdrawMedia
         // https://github.com/FallingColors/HexMod/blob/1.19/Common/src/main/java/at/petrak/hexcasting/api/spell/casting/CastingHarness.kt#L548-L575
@@ -111,14 +114,14 @@ public interface CodeHelpers {
         }
     }
 
-    static IOMethod getItemIO(ServerPlayer player) {
+    public static IOMethod getItemIO(ServerPlayer player) {
         if (player == null) return null;
         var ret = IOMethod.get(player.getMainHandItem());
         if (ret == null) ret = IOMethod.get(player.getOffhandItem());
         return ret;
     }
 
-    static void doParse(ServerPlayer player, String code, String rename) {
+    public static void doParse(ServerPlayer player, String code, String rename) {
         var target = getItemIO(player);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
@@ -126,7 +129,7 @@ public interface CodeHelpers {
         if (rename != null) target.rename(rename);
     }
 
-    static void doParse(ServerPlayer player, List<String> code, String rename) {
+    public static void doParse(ServerPlayer player, List<String> code, String rename) {
         var target = getItemIO(player);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
@@ -134,10 +137,10 @@ public interface CodeHelpers {
         if (rename != null) target.rename(rename);
     }
 
-    static String readHand(ServerPlayer player) {
+    public static String readHand(ServerPlayer player) {
         return readHand(player, StringProcessors.READ_DEFAULT);
     }
-    static String readHand(ServerPlayer player, StringProcessors.F post) {
+    public static String readHand(ServerPlayer player, StringProcessors.F post) {
         var target = getItemIO(player);
         if (target == null) return null;
         var iotaRoot = target.read();
@@ -146,36 +149,62 @@ public interface CodeHelpers {
         return ParserMain.ParseIotaNbt(iotaRoot, player, post);
     }
 
-    WeakReference<MinecraftServer> refreshedWorld = new WeakReference<>(null);
-    WeakReference<Boolean> refreshedLocal = new WeakReference<>(false);
+    static WeakReference<MinecraftServer> refreshedWorld = new WeakReference<>(null);
+    static boolean refreshedLocal = false;
 
-    static void autoRefresh(MinecraftServer server) {
-        if (server != refreshedWorld.get()) {
+    public static void autoRefresh(MinecraftServer server) {
+        if (!refreshedWorld.refersTo(server)) {
             var level = server.overworld();
-            HexParse.LOGGER.info("auto refresh for server: %s, level: %s".formatted(server.name(), level));
+            HexParse.LOGGER.info("auto refresh for server: {}, level: {}", server.name(), level);
             PatternMapper.init(level);
-            refreshedLocal.refersTo(true);
-            refreshedWorld.refersTo(server);
+            refreshedLocal = true;
+            refreshedWorld = new WeakReference<>(server);
         }
     }
 
-    static void autoRefreshLocal() {
-        if (refreshedLocal.get()) return;
+    public static void autoRefreshLocal() {
+        if (refreshedLocal) return;
         PatternMapper.initLocal();
-        refreshedLocal.refersTo(true);
+        refreshedLocal = true;
     }
 
-    static void displayCode(ServerPlayer player, String code) {
+    public static void displayCode(ServerPlayer player, String code) {
         if (player == null || code == null) return;
         var display = Component.translatable("hexparse.cmd.read.display", Component.literal(code).withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.GREEN);
         player.sendSystemMessage(wrapClickCopy(display, code));
     }
 
-    static MutableComponent wrapClickCopy(MutableComponent component, String code) {
+    public static MutableComponent wrapClickCopy(MutableComponent component, String code) {
         return component.withStyle(
                 Style.EMPTY
                         .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
                         .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.translatable("chat.copy.click")))
         );
+    }
+    public static MutableComponent wrapClickSuggest(MutableComponent component, String command) {
+        return component.withStyle(
+                Style.EMPTY
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command))
+                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal(command)))
+        );
+    }
+
+    public static Component getPatternDisplay(ResourceLocation id, ServerLevel level) {
+        var longName = id.toString();
+
+        // check great pattern display
+        if (PatternMapper.mapPatternWorld.containsKey(longName)) {
+            if (!GreatPatternUnlocker.get(level).isUnlocked(longName)) return Component.literal("???");
+        }
+
+        CompoundTag rawIota = null;
+        for (var map : PatternMapper.ShortNameTracker.modifyTargets) {
+            if (map.containsKey(longName)) {
+                rawIota = map.get(longName);
+                break;
+            }
+        }
+        if (rawIota == null) return Component.literal("NULL");
+        return HexIotaTypes.getDisplay(rawIota);
     }
 }

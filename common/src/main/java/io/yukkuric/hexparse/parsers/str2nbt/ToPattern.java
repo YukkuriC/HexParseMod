@@ -9,8 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Map;
 
-import static io.yukkuric.hexparse.config.HexParseConfig.*;
-
 public class ToPattern implements IStr2Nbt {
     final Map<String, CompoundTag> target;
 
@@ -40,18 +38,8 @@ public class ToPattern implements IStr2Nbt {
 
         @Override
         public void BindPlayer(ServerPlayer p) {
-            switch (canParseGreatPatterns()) {
-                case DISABLED:
-                    checker = GreatPatternUnlocker.DENY_ALL;
-                    break;
-                case BY_SCROLL:
-                    var level = p.getLevel();
-                    checker = GreatPatternUnlocker.get(level);
-                    break;
-                default:
-                    checker = null;
-                    break;
-            }
+            var level = p.getLevel();
+            checker = GreatPatternUnlocker.get(level);
         }
 
         @Override

@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.hooks;
 
 import at.petrak.hexcasting.api.PatternRegistry;
 import at.petrak.hexcasting.api.spell.math.HexDir;
+import at.petrak.hexcasting.api.HexAPI;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
@@ -12,6 +13,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.*;
 
 public class PatternMapper {
     static final ConcurrentMap<String, Object> staticMapper;
@@ -20,7 +22,6 @@ public class PatternMapper {
 
     public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
     public static final Map<String, CompoundTag> mapPatternWorld = new HashMap<>();
-    public static final Map<String, String> mapShort2Long = new HashMap<>();
 
     static {
         try {
@@ -49,14 +50,14 @@ public class PatternMapper {
         String idLong = id.toString(), idShort = id.getPath();
         var pattern = IotaFactory.makePattern(seq, dir);
         map.put(idLong, pattern);
-        map.put(idShort, pattern);
-        var replace = mapShort2Long.put(idShort, idLong);
-        if (replace != null && !replace.equals(idLong)) {
-            HexParse.LOGGER.error("Duplicate ID for {} and {}", idLong, replace);
+        if (ShortNameTracker.recordNewShortName(id)) {
+            map.put(idShort, pattern);
         }
     }
 
     public static void init(ServerLevel level) {
+        ShortNameTracker.clear();
+        
         // 0. reload great patterns
         level.getServer().overworld().getDataStorage().set(PatternRegistry.TAG_SAVED_DATA, PatternRegistry.Save.create(level.getSeed()));
 
@@ -101,6 +102,72 @@ public class PatternMapper {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static class ShortNameTracker {
+        public static final Map<String, CompoundTag>[] modifyTargets = new Map[]{mapPattern, mapPatternWorld};
+        public static final Map<String, Set<ResourceLocation>> allPointed = new HashMap<>();
+        public static final Map<String, ResourceLocation> mapActiveShortName = new HashMap<>();
+        public static final Set<String> shortNameWithConflicts = new HashSet<>();
+
+        // ==================== inner handles ====================
+        /**
+         * @return if this should be added as short name
+         */
+        static boolean recordNewShortName(ResourceLocation id) {
+            var shortName = id.getPath();
+
+            // add to all map
+            var locList = allPointed.computeIfAbsent(shortName, (k) -> new HashSet<>());
+            locList.add(id);
+            if (locList.size() > 1) shortNameWithConflicts.add(shortName);
+
+            // base mod with highest priority
+            var idExist = mapActiveShortName.get(shortName);
+            var imBoss = id.getNamespace().equals(HexAPI.MOD_ID);
+            if (idExist == null || imBoss) {
+                mapActiveShortName.put(shortName, id);
+                return true;
+            }
+            return false;
+        }
+        static void clear() {
+            allPointed.clear();
+            mapActiveShortName.clear();
+            shortNameWithConflicts.clear();
+        }
+
+        // ==================== APIs ====================
+        public static String getActiveLongName(String shortName) {
+            var id = mapActiveShortName.get(shortName);
+            return id == null ? shortName : id.toString();
+        }
+        public static void redirectShortName(String shortName, ResourceLocation newId) {
+            // check exist
+            var validIdSet = allPointed.get(shortName);
+            if (validIdSet == null || !shortNameWithConflicts.contains(shortName))
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.cmd.conflict.error", shortName, HexParse.doTranslate("hexparse.cmd.conflict.error.name")));
+            else if (!validIdSet.contains(newId))
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.cmd.conflict.error", shortName, HexParse.doTranslate("hexparse.cmd.conflict.error.id", newId)));
+
+            // edit short name from all maps
+            var longName = newId.toString();
+            var found = false;
+            for (var map : modifyTargets) {
+                map.remove(shortName);
+                if (found) continue;
+                var tryLongEntry = map.get(longName);
+                if (tryLongEntry != null) {
+                    found = true;
+                    map.put(shortName, tryLongEntry);
+                }
+            }
+            if (!found)
+                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.cmd.conflict.error", shortName, "excuse me WTF?"));
+
+            // set active target
+            mapActiveShortName.put(shortName, newId);
         }
     }
 }

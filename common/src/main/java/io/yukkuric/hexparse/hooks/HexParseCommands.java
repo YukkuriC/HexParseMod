@@ -21,6 +21,7 @@ public class HexParseCommands {
         CommandLehmerHelper.init();
         CommandMacro.init();
         CommandMindStackIO.INSTANCE.init();
+        CommandConflictResolver.INSTANCE.init();
 
         if (HexParse.HELPERS.modLoaded("hexcellular")) CommandPropertyIO.init();
 

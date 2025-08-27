@@ -1,10 +1,9 @@
 package io.yukkuric.hexparse.fabric.client;
 
 import at.petrak.hexcasting.common.network.IMessage;
+import io.yukkuric.hexparse.fabric.HexParseFabric;
 import io.yukkuric.hexparse.fabric.events.MacroFabricHandler;
-import io.yukkuric.hexparse.network.ISenderClient;
-import io.yukkuric.hexparse.network.MsgHandlers;
-import io.yukkuric.hexparse.network.MsgPullClipboard;
+import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -19,6 +18,7 @@ public final class HexParseFabricClient implements ClientModInitializer {
         // This entrypoint is suitable for setting up client-specific logic, such as rendering.
         NETWORK = new Network();
         MacroFabricHandler.Companion.init();
+        HexParseFabric.markPhysicalClient();
     }
 
     static Network NETWORK;
