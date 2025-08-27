@@ -64,14 +64,23 @@ public final class HexParseFabric implements ModInitializer {
         }
     }
 
+    public static void markPhysicalClient() {
+        ModHelpers.markClient = true;
+    }
+
     static class ModHelpers implements IModHelpers {
         ModHelpers() {
             HexParse.HELPERS = this;
         }
+        static boolean markClient = false;
 
         @Override
         public boolean modLoaded(String modId) {
             return FabricLoader.getInstance().isModLoaded(modId);
+        }
+        @Override
+        public boolean isPhysicalClient() {
+            return markClient;
         }
     }
 }

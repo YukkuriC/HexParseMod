@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.utils.aqua
 import at.petrak.hexcasting.api.utils.darkRed
 import at.petrak.hexcasting.api.utils.gold
 import com.mojang.brigadier.context.CommandContext
+import io.yukkuric.hexparse.HexParse
 import io.yukkuric.hexparse.hooks.HexParseCommands
 import io.yukkuric.hexparse.hooks.PatternMapper
 import io.yukkuric.hexparse.misc.CodeHelpers
@@ -14,9 +15,14 @@ import net.minecraft.network.chat.Component
 
 object CommandConflictResolver {
     fun init() {
-        val subCmd = HexParseCommands.registerLine(
+
+        val subCmd = Commands.literal("conflict").requires { s: CommandSourceStack ->
+            if (HexParse.HELPERS.isPhysicalClient) return@requires true
+            return@requires s.hasPermission(2)
+        }
+        HexParseCommands.registerLine(
             ::listAll,
-            Commands.literal("conflict")
+            subCmd,
         )
         HexParseCommands.registerLine(
             ::listAll,
