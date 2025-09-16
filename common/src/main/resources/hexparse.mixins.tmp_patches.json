@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "package": "io.yukkuric.hexparse.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
@@ -7,11 +7,7 @@
   "client": [
   ],
   "mixins": [
-    "iota.MixinListIotaButWhyNotWorkingWithAtWrapOperation",
-    "iota.MixinListIotaDisplay",
-    "iota.MixinPatternIota",
-    "patchouli.MixinPatternRenderer",
-    "patchouli.MixinPatternRenderer$AccessorLookup"
+    "inline.MixinInlinePatternMatcher"
   ],
   "injectors": {
     "defaultRequire": 1

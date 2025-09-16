@@ -5,6 +5,7 @@ plugins {
 loom {
     forge {
         mixinConfig "hexparse.mixins.json"
+        mixinConfig "hexparse.mixins.tmp_patches.json"
     }
 }
 

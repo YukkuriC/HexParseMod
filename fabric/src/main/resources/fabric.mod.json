@@ -27,7 +27,8 @@
     ]
   },
   "mixins": [
-    "hexparse.mixins.json"
+    "hexparse.mixins.json",
+    "hexparse.mixins.tmp_patches.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.9",
