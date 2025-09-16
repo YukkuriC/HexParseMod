@@ -8,6 +8,9 @@ import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.StringUtil;
+import net.minecraft.world.level.saveddata.SavedData;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -56,7 +59,7 @@ public class PatternMapper {
     }
 
     public static void init(ServerLevel level) {
-        ShortNameTracker.clear();
+        ShortNameTracker.clear(level);
         
         // 0. reload great patterns
         level.getServer().overworld().getDataStorage().set(PatternRegistry.TAG_SAVED_DATA, PatternRegistry.Save.create(level.getSeed()));
@@ -110,6 +113,7 @@ public class PatternMapper {
         public static final Map<String, Set<ResourceLocation>> allPointed = new HashMap<>();
         public static final Map<String, ResourceLocation> mapActiveShortName = new HashMap<>();
         public static final Set<String> shortNameWithConflicts = new HashSet<>();
+        private static ShortNameTrackerPersistent manualTargets;
 
         // ==================== inner handles ====================
         /**
@@ -117,6 +121,7 @@ public class PatternMapper {
          */
         static boolean recordNewShortName(ResourceLocation id) {
             var shortName = id.getPath();
+            var longName = id.toString();
 
             // add to all map
             var locList = allPointed.computeIfAbsent(shortName, (k) -> new HashSet<>());
@@ -125,17 +130,24 @@ public class PatternMapper {
 
             // base mod with highest priority
             var idExist = mapActiveShortName.get(shortName);
-            var imBoss = id.getNamespace().equals(HexAPI.MOD_ID);
+            boolean manualSelected = false, manualOld = false;
+            if (manualTargets != null) {
+                var selectedLong = manualTargets.get(shortName);
+                manualSelected = longName.equals(selectedLong);
+                manualOld = !StringUtil.isNullOrEmpty(selectedLong);
+            }
+            var imBoss = manualSelected || (!manualOld && id.getNamespace().equals(HexAPI.MOD_ID));
             if (idExist == null || imBoss) {
                 mapActiveShortName.put(shortName, id);
                 return true;
             }
             return false;
         }
-        static void clear() {
+        static void clear(ServerLevel level) {
             allPointed.clear();
             mapActiveShortName.clear();
             shortNameWithConflicts.clear();
+            manualTargets = ShortNameTrackerPersistent.get(level);
         }
 
         // ==================== APIs ====================
@@ -168,6 +180,36 @@ public class PatternMapper {
 
             // set active target
             mapActiveShortName.put(shortName, newId);
+
+            // update persistent
+            if (manualTargets != null) manualTargets.put(shortName, longName);
+        }
+    }
+
+    private static class ShortNameTrackerPersistent extends SavedData {
+        static final String SAVENAME = "hexparse.short_name.settings";
+        static final CompoundTag settings = new CompoundTag();
+
+        ShortNameTrackerPersistent() {
+        }
+        ShortNameTrackerPersistent(CompoundTag load) {
+            settings.merge(load);
+        }
+        static ShortNameTrackerPersistent get(ServerLevel level) {
+            var ds = level.getDataStorage();
+            return ds.computeIfAbsent(ShortNameTrackerPersistent::new, ShortNameTrackerPersistent::new, SAVENAME);
+        }
+        @Override
+        public @NotNull CompoundTag save(CompoundTag body) {
+            body.merge(settings);
+            return body;
+        }
+
+        public String get(String shortName) {
+            return settings.getString(shortName);
+        }
+        public void put(String shortName, String longName) {
+            settings.putString(shortName, longName);
         }
     }
 }
