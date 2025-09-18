@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 // temp fix until dev has alternative way
 @Mixin(HexPatternMatcher.class)
 public class MixinInlinePatternMatcher {
-    @WrapOperation(method = "getMatchAndGroup", at = @At(value = "INVOKE", target = "Lat/petrak/hexcasting/api/casting/math/HexPattern;fromAngles(Ljava/lang/String;Lat/petrak/hexcasting/api/casting/math/HexDir;)Lat/petrak/hexcasting/api/casting/math/HexPattern;", remap = false))
+    @WrapOperation(method = "getMatchAndGroup", at = @At(value = "INVOKE", target = "Lat/petrak/hexcasting/api/casting/math/HexPattern;fromAngles(Ljava/lang/String;Lat/petrak/hexcasting/api/casting/math/HexDir;)Lat/petrak/hexcasting/api/casting/math/HexPattern;", remap = false), require = 0)
     HexPattern skipChecks(String signature, HexDir startDir, Operation<HexPattern> original) {
         return HexPattern.fromNBT(IotaFactory.makePattern(signature, startDir).getCompound(HexIotaTypes.KEY_DATA));
     }
