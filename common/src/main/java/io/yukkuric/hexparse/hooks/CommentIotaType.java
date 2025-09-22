@@ -44,7 +44,7 @@ public class CommentIotaType extends IotaType<CommentIota> {
         getShiftKeyDown = getter;
     }
 
-    static final Action NULL_ACTION = new Action() {
+    public static final Action NULL_ACTION = new Action() {
         static List<OperatorSideEffect> NO_EFFECT = new ArrayList<>();
         static Component DISPLAY = Component.literal("comment");
 

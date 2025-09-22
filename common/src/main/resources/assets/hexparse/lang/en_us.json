@@ -48,6 +48,7 @@
   "book.descrip.hexparse:learn_patterns": "Extract great patterns from handheld items (ancient scrolls, focuses, compiled casting items, etc.), and returns a list of newly learned ones by the parser.",
   "book.descrip.hexparse:remove_comments": "Clears all comment iotas in a list, returns processed list.",
   "book.descrip.hexparse:create_linebreak": "Adds a line-break comment iota with space-indents of given number to the stack.",
+  "book.descrip.hexparse:compile": "Compiles accepted string iota into an iota list; has no effect if $(bold)$(thing)MoreIotas/$ not installed.",
   "text.autoconfig.hexparse.option.common.parseGreatSpells": "Parse Great Spells",
   "text.autoconfig.hexparse.option.common.commentParsingMode": "Comment parsing mode",
   "text.autoconfig.hexparse.option.common.indentParsingMode": "Indent parsing mode",
