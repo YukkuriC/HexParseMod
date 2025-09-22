@@ -1,0 +1,27 @@
+# Changes here will be overwritten by Copier. NEVER EDIT MANUALLY
+# See: https://copier.readthedocs.io/en/stable/configuring/#the-copier-answersyml-file
+_commit: f634156
+_src_path: gh:YukkuriC/hexdoc-hexcasting-template
+author: YukkuriC
+book_id: hexcasting:thehexbook
+default_branch: main
+github_repo: HexParseMod
+gradle_mod_version_key: mod_version_base
+hexdoc_mod_plugin_classname: HexParseModPlugin
+hexdoc_plugin_classname: HexParsePlugin
+java_lang:
+    ext: kt
+    src: java
+java_package: io/yukkuric/hexparse
+mod_display_name: HexParse
+modid: hexparse
+multiloader: true
+package_export_root: doc/src/hexdoc_hexparse/_export
+package_name: hexdoc-hexparse
+package_slug: hexdoc_hexparse
+package_src: doc/src/hexdoc_hexparse
+pages_url: https://yukkuric.github.io/HexParseMod/
+pattern_regex:
+    per_world_value: 'true'
+    regex: wrap\(\s*"(?P<name>[a-zA-Z0-9_\/]+)",\s*"(?P<signature>[aqweds]+)",\s*HexDir.(?P<startdir>\w+)
+pattern_registry: actions/HexParsePatterns.java
