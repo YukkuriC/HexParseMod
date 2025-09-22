@@ -18,7 +18,7 @@ resource_dirs = [  # top takes priority
 export_dir = "src/hexdoc_hexparse/_export/generated"
 
 [template]
-icon = "icon.png"
+icon = "{$_common.src}/main/resources/logo.png"
 include = [
     "hexparse",
     "hexcasting",
