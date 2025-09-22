@@ -7,6 +7,8 @@ CurseForge](https://www.curseforge.com/minecraft/mc-mods/hexparse)
 Provides a pair of patterns and a set of commands to convert custom code into (pattern or literal) list iota; requires
 player to have a focus item in hand.
 
+[Online HexBook](https://yukkuric.github.io/HexParseMod)
+
 (Old KubeJS version [HERE](https://github.com/YukkuriC/hex_playground/blob/1.19/server_scripts/Parser.js))
 
 | Example Code                                                                    | Example Iota                                                                    | Example Iota (Colorful Nested)                                                                        |
