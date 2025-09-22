@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.hooks.CommentIotaType;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
@@ -24,9 +25,8 @@ public class HexParsePatterns {
     public static final ActionRegistryEntry COMPILE;
 
     static {
-        if (HexParse.HELPERS.modLoaded("moreiotas"))
-            COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), ActionCompile.INSTANCE);
-        else COMPILE = null;
+        var action = HexParse.HELPERS.modLoaded("moreiotas") ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION;
+        COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), action);
     }
 
     public static void registerActions() {
