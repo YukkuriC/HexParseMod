@@ -138,6 +138,12 @@ Plugin Parser Installed:
       ones; make sure to generate your own for security usages**'
     Output Type: '`PropertyIota`'
     Type: Property
+  - Addon: Hexcellular
+    Example: '`myprop_imaprop`, `myprop_ImAPropToo`'
+    Output: 'same as above, but with specific player''s name as prefix;<br>**NOTE:
+      Extra cost for making properties**'
+    Output Type: '`PropertyIota`'
+    Type: Property (player specific)
   - Addon: Hex-Ars-Linker
     Example: '`glyph_touch`, `glyph_ars_nouveau:glyph_projectile`, `glyph_hex_ars_link:hex_callback`'
     Output: glyph iota with certain name; `ars_nouveau` namespace and `glyph_` path

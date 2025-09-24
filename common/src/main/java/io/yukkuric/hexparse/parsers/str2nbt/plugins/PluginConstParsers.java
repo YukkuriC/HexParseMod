@@ -3,9 +3,11 @@ package io.yukkuric.hexparse.parsers.str2nbt.plugins;
 import at.petrak.hexcasting.api.misc.MediaConstants;
 import io.yukkuric.hexparse.misc.StringEscaper;
 import io.yukkuric.hexparse.misc.StringProcessors;
+import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.function.Function;
 
@@ -39,20 +41,43 @@ public class PluginConstParsers {
         }
     };
 
-    public static BaseConstParser TO_PROPERTY = new Regex("^prop(erty)?_") {
+    public static class ToProperty extends Regex {
+        protected ToProperty(String regex) {
+            super(regex);
+        }
+        String getPropValue(String str) {
+            return StringProcessors.APPEND_UNDERLINE.apply(str);
+        }
         @Override
         public CompoundTag parse(String node) {
             var str = node.substring(node.indexOf('_') + 1);
             var packed = new CompoundTag();
-            packed.putString("name", StringProcessors.APPEND_UNDERLINE.apply(str));
+            packed.putString("name", getPropValue(str));
             return PluginIotaFactory.makeProperty(packed);
         }
-
         @Override
         public int getCost() {
             return super.getCost() + (int) MediaConstants.CRYSTAL_UNIT;
         }
-    };
+
+        public static class Private extends ToProperty implements IPlayerBinder {
+            private ServerPlayer owner;
+
+            protected Private(String regex) {
+                super(regex);
+            }
+            @Override
+            public void BindPlayer(ServerPlayer p) {
+                owner = p;
+            }
+            @Override
+            String getPropValue(String str) {
+                return "[face:%s]@%s".formatted(owner.getScoreboardName(), str);
+            }
+        }
+    }
+    public static BaseConstParser TO_PROPERTY = new ToProperty("^prop(erty)?_");
+    public static BaseConstParser TO_MY_PROPERTY = new ToProperty.Private("^myprop_");
 
     public static BaseConstParser TO_STRING_LIT = new Prefix("\"") {
         @Override

@@ -13,6 +13,10 @@ object PropertyParser : INbt2Str {
     override fun parse(node: CompoundTag?): String {
         val pack = node!!.getCompound(HexIotaTypes.KEY_DATA)
         val name = pack.getString("name")
-        return "prop_${unwrapName(name)}";
+        if (name.contains("@")) {
+            val sub = name.substring(name.indexOf('@') + 1)
+            return "myprop_${sub}"
+        }
+        return "prop_${unwrapName(name)}"
     }
 }
