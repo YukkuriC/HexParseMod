@@ -1,0 +1,7 @@
+{
+  "name": "hexparse.category.commands",
+  "icon": "minecraft:command_block",
+  "description": "hexparse.category.commands.desc",
+  "parent": "hexcasting:casting",
+  "sortnum": 0
+}
