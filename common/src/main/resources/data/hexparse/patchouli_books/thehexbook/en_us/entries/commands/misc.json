@@ -1,0 +1,10 @@
+{
+  "name": "hexparse.book.entry.commands.misc",
+  "category": "hexparse:commands",
+  "icon": "minecraft:command_block",
+  "advancement": "hexcasting:root",
+  "sortnum": 2,
+  "pages": [
+    "pass"
+  ]
+}
