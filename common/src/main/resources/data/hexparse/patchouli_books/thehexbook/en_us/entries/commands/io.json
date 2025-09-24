@@ -5,6 +5,10 @@
   "advancement": "hexcasting:root",
   "sortnum": 0,
   "pages": [
-    "pass"
+    "hexparse.book.entry.commands.io.base",
+    "hexparse.book.entry.commands.io.clipboard",
+    "hexparse.book.entry.commands.io.read.2",
+    "hexparse.book.entry.commands.io.mind",
+    "hexparse.book.entry.commands.io.prop"
   ]
 }
