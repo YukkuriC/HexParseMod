@@ -231,6 +231,7 @@ public class ParserMain {
 
         if (HexParse.HELPERS.modLoaded("hexcellular")) {
             str2nbtParsers.add(PluginConstParsers.TO_PROPERTY);
+            str2nbtParsers.add(PluginConstParsers.TO_MY_PROPERTY);
             nbt2strParsers.add(PropertyParser.INSTANCE);
         }
     }
