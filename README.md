@@ -53,12 +53,12 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 ### Reading & Writing
 
 - `/hexParse <code string> [rename]`: parse input code into supported held item; optional `rename` argument to rename the item.
+- `/hexParse read`: read handheld item's iota, parse into code and show in chat window; the result will be copied
+  when clicked.
 - `/hexParse clipboard [rename]`: read client clipboard text and parse into supported held item; optional `rename` argument to rename
   the item.
 - `/hexParse clipboard_angles [rename]`: same as `clipboard`, but only accept patterns input with raw angle string like
   `"wedsaq"`.
-- `/hexParse read`: read handheld item's iota, parse into code and show in chat window; the result will be copied
-  when clicked.
 - `/hexParse share`: (experimental) same as `read` but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
 - `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
@@ -67,7 +67,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
     - `... peek`: read the last iota inside mind stack; gets `null` if stack is empty
     - `... push <code>`: parse code and push into mind stack
     - `... push_clipboard`: same as above, but code comes from clipboard
-- `/hexParse property ...`: (Hexcellular interop) get/set data for PropertyIota; used property names all force-added leading `_` for security reason
+- `/hexParse property ...`: (`Hexcellular` interop) get/set data for PropertyIota; used property names all force-added leading `_` for security reason
     - `... read <propName>`: read and parse from certain property
     - `... write <propName> <code>`: write code into certain property
     - `... clipboard <propName>`: same as above, but code comes from clipboard
