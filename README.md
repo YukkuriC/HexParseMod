@@ -24,7 +24,10 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 * [HexParse mod](#hexparse-mod)
     * [Supported IO Item Types](#supported-io-item-types)
     * [Commands added](#commands-added)
-        * [OP-only commands](#op-only-commands)
+        * [Reading & Writing](#reading--writing)
+        * [Configs](#configs)
+        * [Misc. & Helpers](#misc--helpers)
+        * [OP-Only Commands](#op-only-commands)
     * [Patterns added](#patterns-added)
     * [Supported expressions](#supported-expressions)
     * [Misc. Features](#misc-features)
@@ -47,31 +50,19 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 ## Commands added
 
+### Reading & Writing
+
 - `/hexParse <code string> [rename]`: parse input code into supported held item; optional `rename` argument to rename the item.
 - `/hexParse clipboard [rename]`: read client clipboard text and parse into supported held item; optional `rename` argument to rename
   the item.
-- `/hexParse clipboard_angles [rename]`: same as above, but only accept patterns input with raw angle string like
+- `/hexParse clipboard_angles [rename]`: same as `clipboard`, but only accept patterns input with raw angle string like
   `"wedsaq"`.
-- `/hexParse (macro/dialect) ...`: edit client-saved code dialects (1-on-1 mapping, not starting with `#`) and macros (
-  mapped to code segments, starting with `#`)
-    - `... list`: list all saved macros/dialects.
-    - `... define <key> <value>`: define a macro/dialect mapping; could be fresh-new or overriding existed one.
-    - `macro define_clipboard <key>`: same as above, but only for macros, and reads player's clipboard
-    - `... remove <key>`: remove mapping entry with given key (if exists)
 - `/hexParse read`: read handheld item's iota, parse into code and show in chat window; the result will be copied
   when clicked.
-- `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
-- `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input
-  should be separated with space.
 - `/hexParse share`: (experimental) same as `read` but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
 - `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
   non-pattern constants and some old registry names still need to be handled manually_
-- `/hexParse conflict`: conflict resolver for multiple patterns with same short name (ID path)
-    - _only enables during singleplayer, local multiplayer host or with OP permission_
-    - `...` or `... list`: list all short names pointed by multiple long IDs
-    - `... list <short_name>`: list all conflicting IDs under certain short name
-    - `... set <short_name> <long_ID>`: redirect certain short name to input pattern ID
 - `/hexParse mind_stack ...`: read/write iota from player's mind (staff casting VM)
     - `... peek`: read the last iota inside mind stack; gets `null` if stack is empty
     - `... push <code>`: parse code and push into mind stack
@@ -81,7 +72,27 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
     - `... write <propName> <code>`: write code into certain property
     - `... clipboard <propName>`: same as above, but code comes from clipboard
 
-### OP-only commands
+### Configs
+
+- `/hexParse (macro/dialect) ...`: edit client-saved code dialects (1-on-1 mapping, not starting with `#`) and macros (
+  mapped to code segments, starting with `#`)
+    - `... list`: list all saved macros/dialects.
+    - `... define <key> <value>`: define a macro/dialect mapping; could be fresh-new or overriding existed one.
+    - `macro define_clipboard <key>`: same as above, but only for macros, and reads player's clipboard
+    - `... remove <key>`: remove mapping entry with given key (if exists)
+- `/hexParse conflict`: conflict resolver for multiple patterns with same short name (ID path)
+    - _only enables during singleplayer, local multiplayer host or with OP permission_
+    - `...` or `... list`: list all short names pointed by multiple long IDs
+    - `... list <short_name>`: list all conflicting IDs under certain short name
+    - `... set <short_name> <long_ID>`: redirect certain short name to input pattern ID
+
+### Misc. & Helpers
+
+- `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
+- `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input
+  should be separated with space.
+
+### OP-Only Commands
 
 - `/hexParse unlock_great (unlockAll|lockAll|unlock <pattern id>|lock <pattern id>)`: controls great pattern unlocking
   process of current
