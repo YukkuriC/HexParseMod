@@ -5,6 +5,6 @@
   "advancement": "hexcasting:root",
   "sortnum": 3,
   "pages": [
-    "pass"
+    "hexparse.book.entry.commands.op.1"
   ]
 }
