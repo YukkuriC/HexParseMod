@@ -77,7 +77,7 @@
       <ul class="nav navbar-nav navbar-right">
             <li>
     <a
-      href="https://github.com/YukkuriC/HexParseMod/tree/e8e25906aa00b01831c80c271d626404877d605f"
+      href="https://github.com/YukkuriC/HexParseMod/tree/8807efb0bbbf52effb9c4a33bd3d4891494a3faa"
         target="_blank"
       class="navbar-link"
       role="button"
@@ -138,6 +138,45 @@
   ><i class="bi bi-link-45deg"></i></a></span>
   </h2>
     <details class="toc-category">
+      <summary><a href="#hexparse/commands" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > HexParse Commands</a></summary>
+      <ul>
+          <li><a href="#commands/io" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Reading &amp; Writing</a></li>
+          <li><a href="#commands/config" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Configs</a></li>
+          <li><a href="#commands/misc" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Misc. &amp; Helpers</a></li>
+          <li><a href="#commands/op" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > OP-Only Commands</a></li>
+      </ul>
+    </details>
+    <details class="toc-category">
       <summary><a href="#patterns" class="toc-elem "><img
       title="Bookshelf"
       alt="Bookshelf"
@@ -146,7 +185,7 @@
       class="item-texture  texture "
     > Patterns</a></summary>
       <ul>
-          <li><a href="#hexparse" class="toc-elem "><img
+          <li><a href="#patterns/hexparse" class="toc-elem "><img
       title="Command Block"
       alt="Command Block"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
@@ -157,6 +196,119 @@
     </details>
 </nav>
   <main class="book-body">
+<section id="hexparse/commands">
+    <h2 class="category-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >HexParse Commands<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#hexparse/commands"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>How I make use of the exotic power of <span style="color: #8d6acc">HexParse</span>.</p>
+<div id="commands/io" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Reading &amp; Writing<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/io"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse &lt;code string&gt; [rename]</strong>: parse input code into supported held item; optional rename argument to rename the item.</p><p class="fake-li " style="--level: 1;"><strong>/hexParse read</strong>: read handheld item&#39;s iota, parse into code and show in chat window; the result will be copied when clicked.</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse clipboard [rename]</strong>: read client clipboard text and parse into supported held item; optional <strong>rename</strong> argument to rename the item.</p><p class="fake-li " style="--level: 1;"><strong>/hexParse clipboard_angles [rename]</strong>: same as <strong>clipboard</strong>, but only accept patterns input with raw angle string like <strong>&#34;wedsaq&#34;</strong>.</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse read_hexbug</strong>: same as <strong>read</strong> but translates the result to the format used by discord HexBug&#39;s <strong>/patterns hex</strong> command. <i>note: non-pattern constants and some old registry names still need to be handled manually</i></p><p class="fake-li " style="--level: 1;"><strong>/hexParse share</strong>: (experimental) same as <strong>read</strong> but broadcasts iota&#39;s raw content and click-copy-able parsed code to every player in the server.</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse mind_stack ...</strong>: read/write iota from player&#39;s mind (staff casting VM)</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... peek</strong>: read the last iota inside mind stack; gets <strong>null</strong> if stack is empty</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... push &lt;code&gt;</strong>: parse code and push into mind stack</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... push_clipboard</strong>: same as above, but code comes from clipboard</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse property ...</strong>: (<strong><span style="color: #8d6acc">Hexcellular</span></strong> interop) get/set data for PropertyIota; used property names all force-added leading <strong>_</strong> for security reason</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... read &lt;propName&gt;</strong>: read and parse from certain property</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... write &lt;propName&gt; &lt;code&gt;</strong>: write code into certain property</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... clipboard &lt;propName&gt;</strong>: same as above, but code comes from clipboard</p>
+<br />
+</div>
+<div id="commands/config" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Configs<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/config"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse (macro/dialect) ...</strong>: edit client-saved code dialects (1-on-1 mapping, not starting with <strong>#</strong>) and macros (mapped to code segments, starting with <strong>#</strong>)</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... list</strong>: list all saved macros/dialects.</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
+<br />
+    <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... define &lt;key&gt; &lt;value&gt;</strong>: define a macro/dialect mapping; could be fresh-new or overriding existed one.</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>macro define_clipboard &lt;key&gt;</strong>: same as above, but only for macros, and reads player&#39;s clipboard</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... remove &lt;key&gt;</strong>: remove mapping entry with given key (if exists)</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse conflict</strong>: conflict resolver for multiple patterns with same short name (ID path)</p><p class="fake-li fake-li-alt" style="--level: 2;"><i>only enables during singleplayer, local multiplayer host or with OP permission</i></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>...</strong> or <strong>... list</strong>: list all short names pointed by multiple long IDs</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
+<br />
+    <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... list &lt;short_name&gt;</strong>: list all conflicting IDs under certain short name</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... set &lt;short_name&gt; &lt;long_ID&gt;</strong>: redirect certain short name to input pattern ID</p>
+<br />
+</div>
+<div id="commands/misc" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Misc. &amp; Helpers<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/misc"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse donate [amount]</strong>: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)</p><p class="fake-li " style="--level: 1;"><strong>/hexParse lehmer [...nums]</strong>: calculate lehmer code for given permutation (from ascending, e.g. <strong>0 1 2 3 4</strong>); input should be separated with space.</p>
+<br />
+</div>
+<div id="commands/op" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >OP-Only Commands<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/op"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse unlock_great</strong></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>(unlockAll|lockAll|unlock &lt;pattern id&gt;|lock &lt;pattern id&gt;)</strong></p><p class="fake-li fake-li-alt" style="--level: 2;">controls great pattern unlocking process of current world by locking/unlocking all at once, or a single great pattern each execution.</p>
+<br />
+</div>
+</section>
 <section id="patterns">
     <h2 class="category-title page-header">
     <img
@@ -175,7 +327,7 @@
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h2>
     <p>A list of all the patterns I&#39;ve discovered, as well as what they do.</p>
-<div id="hexparse" class="entry">
+<div id="patterns/hexparse" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="Command Block"
@@ -188,13 +340,13 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#hexparse"
+    href="#patterns/hexparse"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
-  <div id="hexparse@hexparse:focus2code" class="">
+  <div id="patterns/hexparse@hexparse:focus2code" class="">
 <h4 class="pattern-title">Encoding Gambit<a
-    href="#hexparse@hexparse:focus2code"
+    href="#patterns/hexparse@hexparse:focus2code"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
@@ -248,9 +400,9 @@
       <p>Reads data from the focus I&#39;m holding, and prints parsed code into chat menu.<br />Can only be casted by staff.</p>
   </div>
 <br />
-  <div id="hexparse@hexparse:code2focus" class="">
+  <div id="patterns/hexparse@hexparse:code2focus" class="">
 <h4 class="pattern-title">Decoding Gambit<a
-    href="#hexparse@hexparse:code2focus"
+    href="#patterns/hexparse@hexparse:code2focus"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
@@ -304,9 +456,9 @@
       <p>Reads code from my local clipboard, then parse it into the focus I&#39;m holding.<br />Can only be casted by staff.</p>
   </div>
 <br />
-  <div id="hexparse@hexparse:learn_patterns" class="">
+  <div id="patterns/hexparse@hexparse:learn_patterns" class="">
 <h4 class="pattern-title">Learn Great Patterns (→ list)<a
-    href="#hexparse@hexparse:learn_patterns"
+    href="#patterns/hexparse@hexparse:learn_patterns"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
@@ -360,9 +512,9 @@
       <p>Extract great patterns from handheld items (ancient scrolls, focuses, compiled casting items, etc.), and returns a list of newly learned ones by the parser.</p>
   </div>
 <br />
-  <div id="hexparse@hexparse:remove_comments" class="">
+  <div id="patterns/hexparse@hexparse:remove_comments" class="">
 <h4 class="pattern-title">No-Comment Purification (list → list)<a
-    href="#hexparse@hexparse:remove_comments"
+    href="#patterns/hexparse@hexparse:remove_comments"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
@@ -416,9 +568,9 @@
       <p>Clears all comment iotas in a list, returns processed list.</p>
   </div>
 <br />
-  <div id="hexparse@hexparse:create_linebreak" class="">
+  <div id="patterns/hexparse@hexparse:create_linebreak" class="">
 <h4 class="pattern-title">Line-Break Prfn. (num → comment)<a
-    href="#hexparse@hexparse:create_linebreak"
+    href="#patterns/hexparse@hexparse:create_linebreak"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
@@ -472,9 +624,9 @@
       <p>Adds a line-break comment iota with space-indents of given number to the stack.</p>
   </div>
 <br />
-  <div id="hexparse@hexparse:compile" class="">
+  <div id="patterns/hexparse@hexparse:compile" class="">
 <h4 class="pattern-title">Compile (str → list)<a
-    href="#hexparse@hexparse:compile"
+    href="#patterns/hexparse@hexparse:compile"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h4>
