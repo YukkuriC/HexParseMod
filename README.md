@@ -81,7 +81,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
     - `macro define_clipboard <key>`: same as above, but only for macros, and reads player's clipboard
     - `... remove <key>`: remove mapping entry with given key (if exists)
 - `/hexParse conflict`: conflict resolver for multiple patterns with same short name (ID path)
-    - _only enables during singleplayer, local multiplayer host or with OP permission_
+    - _only enables in physical client (singleplayer, local multiplayer) or with OP permission_
     - `...` or `... list`: list all short names pointed by multiple long IDs
     - `... list <short_name>`: list all conflicting IDs under certain short name
     - `... set <short_name> <long_ID>`: redirect certain short name to input pattern ID
@@ -90,7 +90,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 - `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
 - `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input
-  should be separated with space.
+  should be separated with space; the result number can be used for **Swindler's Gambit**.
 
 ### OP-Only Commands
 
