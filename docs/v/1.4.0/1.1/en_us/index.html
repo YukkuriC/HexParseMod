@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>HexParse Book</title>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="description" content="The HexParse Book, all in one place." />
+      <meta name="author" content="YukkuriC" />
+        <link rel="None" type="image/ico" href="favicon.ico" />
+        <link rel="icon" type="image/png" href="favicon-16x16.png" />
+        <link rel="icon" type="image/png" href="favicon-32x32.png" />
+        <link rel="icon" type="image/png" href="favicon-64x64.png" />
+        <link rel="icon" type="image/png" href="favicon-96x96.png" />
+        <link rel="icon" type="image/png" href="favicon-180x180.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-60x60.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-76x76.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-120x120.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-152x152.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-167x167.png" />
+        <link rel="apple-touch-icon" type="image/png" href="apple-touch-icon-180x180.png" />
+        <link rel="None" type="image/png" href="mstile-70x70.png" />
+        <link rel="None" type="image/png" href="mstile-270x270.png" />
+        <link rel="None" type="image/png" href="mstile-310x310.png" />
+        <link rel="None" type="image/png" href="mstile-310x150.png" />
+        <link rel="shortcut icon" type="image/png" href="favicon-196x196.png" />
+      <link rel="mask-icon" href="https://raw.githubusercontent.com/hexdoc-dev/hexdoc/main/media/safari-pinned-tab.svg" color="#332233">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="HexParse Book" />
+<meta property="og:image" content="https://yukkuric.github.io/HexParseMod/v/1.4.0/1.1/en_us/logo.png" />
+<meta property="og:url" content="https://yukkuric.github.io/HexParseMod/v/1.4.0/1.1/en_us" />
+<meta property="og:description" content="The HexParse Book, all in one place." />
+<meta property="og:site_name" content="HexParse (1.4.0)" />
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="index.css">
+      <link rel="stylesheet" href="textures.css">
+      <noscript>
+        <style>
+          /* for accessibility */
+          .spoilered {
+            filter: none !important;
+          }
+        </style>
+      </noscript>
+        <script type="module" src="index.js"></script>
+  <script type="module" src="hexcasting.js"></script>
+  <script type="module" src="hexcasting_render.js"></script>
+  </head>
+  <body>
+<nav class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        data-toggle="collapse"
+        data-target="#navbar-collapse"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../../..">HexParse Book</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+            <li>
+    <a
+      href="https://github.com/YukkuriC/HexParseMod/tree/8e491aa8f48a030616df42ed0619587557516f2f"
+        target="_blank"
+      class="navbar-link"
+      role="button"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >GitHub <i class="bi bi-box-arrow-up-right external-link-icon"></i></a>
+  </li>
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >1.4.0 <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="version-dropdown"></ul>
+        </li>
+        <li class="dropdown">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >English (United States) <span class="caret"></span></a>
+          <ul class="dropdown-menu dropdown-menu-left" id="lang-dropdown"></ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container" style="margin-top: 3em;">
+  <blockquote>
+      <h1><p>This is the online version of the HexParse documentation.</p></h1>
+      <p><strong>Entries which are blurred are spoilers</strong>. Click to reveal them, but be aware that they may spoil endgame progression. Alternatively, click <a href="?nospoiler">here</a> to get a version with all spoilers showing.</p>
+      <span id="old-version-notice" class="hidden">
+        <br />
+        <p><i>The past is a foreign country; they do things differently there.</i></p>
+      </span>
+  </blockquote>
+</div>
+<div class="container">
+<div id="table-of-contents"></div>
+<nav class="toc-container">
+  <h2 class="page-header">
+    Table of <span class="nobr">Contents<a
+      href="javascript:void(0)"
+      class="permalink toggle-link small"
+      data-target="toc-category"
+      title="Toggle all"
+    ><i class="bi bi-list-nested"></i></a><a
+    href="#table-of-contents"
+    class="permalink small toc-permalink"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></span>
+  </h2>
+    <details class="toc-category">
+      <summary><a href="#hexparse/commands" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > HexParse Commands</a></summary>
+      <ul>
+          <li><a href="#commands/io" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Reading &amp; Writing</a></li>
+          <li><a href="#commands/config" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Configs</a></li>
+          <li><a href="#commands/misc" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Misc. &amp; Helpers</a></li>
+          <li><a href="#commands/op" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > OP-Only Commands</a></li>
+      </ul>
+    </details>
+    <details class="toc-category">
+      <summary><a href="#patterns" class="toc-elem "><img
+      title="Bookshelf"
+      alt="Bookshelf"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/bookshelf.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > Patterns</a></summary>
+      <ul>
+          <li><a href="#patterns/hexparse" class="toc-elem "><img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    > HexParse Patterns</a></li>
+      </ul>
+    </details>
+</nav>
+  <main class="book-body">
+<section id="hexparse/commands">
+    <h2 class="category-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >HexParse Commands<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#hexparse/commands"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>How I make use of the exotic power of <span style="color: #8d6acc">HexParse</span>.</p>
+<div id="commands/io" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Reading &amp; Writing<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/io"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse &lt;code string&gt; [rename]</strong>: parse input code into supported held item; optional rename argument to rename the item.</p><p class="fake-li " style="--level: 1;"><strong>/hexParse read</strong>: read handheld item&#39;s iota, parse into code and show in chat window; the result will be copied when clicked.</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse clipboard [rename]</strong>: read client clipboard text and parse into supported held item; optional <strong>rename</strong> argument to rename the item.</p><p class="fake-li " style="--level: 1;"><strong>/hexParse clipboard_angles [rename]</strong>: same as <strong>clipboard</strong>, but only accept patterns input with raw angle string like <strong>&#34;wedsaq&#34;</strong>.</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse read_hexbug</strong>: same as <strong>read</strong> but translates the result to the format used by discord HexBug&#39;s <strong>/patterns hex</strong> command. <i>note: non-pattern constants and some old registry names still need to be handled manually</i></p><p class="fake-li " style="--level: 1;"><strong>/hexParse share</strong>: (experimental) same as <strong>read</strong> but broadcasts iota&#39;s raw content and click-copy-able parsed code to every player in the server.</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse mind_stack ...</strong>: read/write iota from player&#39;s mind (staff casting VM)</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... peek</strong>: read the last iota inside mind stack; gets <strong>null</strong> if stack is empty</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... push &lt;code&gt;</strong>: parse code and push into mind stack</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... push_clipboard</strong>: same as above, but code comes from clipboard</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse property ...</strong>: (<strong><span style="color: #8d6acc">Hexcellular</span></strong> interop) get/set data for PropertyIota; used property names all force-added leading <strong>_</strong> for security reason</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... read &lt;propName&gt;</strong>: read and parse from certain property</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... write &lt;propName&gt; &lt;code&gt;</strong>: write code into certain property</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... clipboard &lt;propName&gt;</strong>: same as above, but code comes from clipboard</p>
+<br />
+</div>
+<div id="commands/config" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Configs<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/config"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse (macro/dialect) ...</strong>: edit client-saved code dialects (1-on-1 mapping, not starting with <strong>#</strong>) and macros (mapped to code segments, starting with <strong>#</strong>)</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... list</strong>: list all saved macros/dialects.</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
+<br />
+    <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... define &lt;key&gt; &lt;value&gt;</strong>: define a macro/dialect mapping; could be fresh-new or overriding existed one.</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>macro define_clipboard &lt;key&gt;</strong>: same as above, but only for macros, and reads player&#39;s clipboard</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... remove &lt;key&gt;</strong>: remove mapping entry with given key (if exists)</p>
+<br />
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse conflict</strong>: conflict resolver for multiple patterns with same short name (ID path)</p><p class="fake-li fake-li-alt" style="--level: 2;"><i>only enables in physical client (singleplayer, local multiplayer) or with OP permission</i></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>...</strong> or <strong>... list</strong>: list all short names pointed by multiple long IDs</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
+<br />
+    <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... list &lt;short_name&gt;</strong>: list all conflicting IDs under certain short name</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... set &lt;short_name&gt; &lt;long_ID&gt;</strong>: redirect certain short name to input pattern ID</p>
+<br />
+</div>
+<div id="commands/misc" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Misc. &amp; Helpers<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/misc"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse donate [amount]</strong>: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)</p><p class="fake-li " style="--level: 1;"><strong>/hexParse lehmer [...nums]</strong>: calculate Lehmer Code for given permutation (from ascending, e.g. <strong>0 1 2 3 4</strong>); input should be separated with space; the result number can be used for <a href="https://hexcasting.hexxy.media/v/0.11.2/1.0/en_us#patterns/stackmanip@hexcasting:swizzle"><span style="color: #fc77be">Swindler&#39;s Gambit</span></a></p>
+<br />
+</div>
+<div id="commands/op" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >OP-Only Commands<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#commands/op"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse unlock_great</strong></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>(unlockAll|lockAll|unlock &lt;pattern id&gt;|lock &lt;pattern id&gt;)</strong></p><p class="fake-li fake-li-alt" style="--level: 2;">controls great pattern unlocking process of current world by locking/unlocking all at once, or a single great pattern each execution.</p>
+<br />
+</div>
+</section>
+<section id="patterns">
+    <h2 class="category-title page-header">
+    <img
+      title="Bookshelf"
+      alt="Bookshelf"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/bookshelf.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >Patterns<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h2>
+    <p>A list of all the patterns I&#39;ve discovered, as well as what they do.</p>
+<div id="patterns/hexparse" class="entry">
+    <h3 class="entry-title page-header">
+    <img
+      title="Command Block"
+      alt="Command Block"
+      src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
+      loading="lazy"
+      class="item-texture  texture "
+    >HexParse Patterns<a
+    href="#table-of-contents"
+    class="permalink small"
+    title="Jump to top"
+  ><i class="bi bi-box-arrow-up"></i></a><a
+    href="#patterns/hexparse"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h3>
+  <div id="patterns/hexparse@hexparse:focus2code" class="">
+<h4 class="pattern-title">Encoding Gambit<a
+    href="#patterns/hexparse@hexparse:focus2code"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aqqqqqwwewewewewewdqeeeeed"
+        data-start="east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: aqqqqqwwewewewewewdqeeeeed</canvas>
+  </details>
+      <p>Reads data from the focus I&#39;m holding, and prints parsed code into chat menu.<br />Can only be casted by staff.</p>
+  </div>
+<br />
+  <div id="patterns/hexparse@hexparse:code2focus" class="">
+<h4 class="pattern-title">Decoding Gambit<a
+    href="#patterns/hexparse@hexparse:code2focus"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aqqqqqeawqwqwqwqwqwweeeeed"
+        data-start="east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: aqqqqqeawqwqwqwqwqwweeeeed</canvas>
+  </details>
+      <p>Reads code from my local clipboard, then parse it into the focus I&#39;m holding.<br />Can only be casted by staff.</p>
+  </div>
+<br />
+  <div id="patterns/hexparse@hexparse:learn_patterns" class="">
+<h4 class="pattern-title">Learn Great Patterns (→ list)<a
+    href="#patterns/hexparse@hexparse:learn_patterns"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aqqqqqeawqwqwqwqwqwwqqeqqeqqeqqeqqeqqdqeeeeed"
+        data-start="east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: aqqqqqeawqwqwqwqwqwwqqeqqeqqeqqeqqeqqdqeeeeed</canvas>
+  </details>
+      <p>Extract great patterns from handheld items (ancient scrolls, focuses, compiled casting items, etc.), and returns a list of newly learned ones by the parser.</p>
+  </div>
+<br />
+  <div id="patterns/hexparse@hexparse:remove_comments" class="">
+<h4 class="pattern-title">No-Comment Purification (list → list)<a
+    href="#patterns/hexparse@hexparse:remove_comments"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="dadadedadadwqaeaqeww"
+        data-start="north_east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: dadadedadadwqaeaqeww</canvas>
+  </details>
+      <p>Clears all comment iotas in a list, returns processed list.</p>
+  </div>
+<br />
+  <div id="patterns/hexparse@hexparse:create_linebreak" class="">
+<h4 class="pattern-title">Line-Break Prfn. (num → comment)<a
+    href="#patterns/hexparse@hexparse:create_linebreak"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="dadadedadaddwwwa"
+        data-start="north_east"
+        data-per-world="False"
+      >Your browser does not support visualizing patterns. Pattern code: dadadedadaddwwwa</canvas>
+  </details>
+      <p>Adds a line-break comment iota with space-indents of given number to the stack.</p>
+  </div>
+<br />
+  <div id="patterns/hexparse@hexparse:compile" class="">
+<h4 class="pattern-title">Compile (str → list)<a
+    href="#patterns/hexparse@hexparse:compile"
+    class="permalink small"
+    title="Permalink"
+  ><i class="bi bi-link-45deg"></i></a></h4>
+  <details class="details-collapsible">
+    <summary class="collapse-details collapse-spell"></summary>
+    <div class="dropdown spell-settings-dropdown">
+      <span
+        href=""
+        class="dropdown-toggle spell-settings-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="bi bi-gear-fill"></i>
+      </span>
+      <ul class="dropdown-menu">
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Renders</a>
+          <ul class="dropdown-menu dropdown-menu-left render-dropdowns"></ul>
+        </li>
+        <li class="dropdown-submenu">
+          <a
+            href=""
+            class="dropdown-toggle"
+            data-toggle="dropdown"
+            role="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Palettes</a>
+          <ul class="dropdown-menu dropdown-menu-left palette-dropdowns"></ul>
+        </li>
+      </ul>
+    </div>
+      <canvas
+        class="spell-viz"
+        width="216"
+        height="216"
+        data-string="aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe"
+        data-start="east"
+        data-per-world="True"
+      >Your browser does not support visualizing patterns. Pattern code: aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe</canvas>
+  </details>
+      <p>Compiles accepted string iota into an iota list; has no effect if <strong><span style="color: #8d6acc">MoreIotas</span></strong> not installed.</p>
+  </div>
+<br />
+</div>
+</section>
+  </main>
+</div>
+      <footer class="footer">
+        <div class="container text-muted">
+          <p>Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p><p>Minecraft content and materials are the intellectual property of their respective owners.</p><p>Made with ❤️ using <a href="https://pypi.org/project/hexdoc/" target="_blank">hexdoc</a>.</p>
+        </div>
+      </footer>
+  </body>
+</html>
