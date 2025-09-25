@@ -72,7 +72,7 @@ public class PluginConstParsers {
             }
             @Override
             String getPropValue(String str) {
-                return "[face:%s]@%s".formatted(owner.getScoreboardName(), str);
+                return "[%s]@%s".formatted(owner.getScoreboardName(), str); // 1.19 no inline :(
             }
         }
     }
