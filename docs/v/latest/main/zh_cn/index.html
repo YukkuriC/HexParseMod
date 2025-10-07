@@ -77,7 +77,7 @@
       <ul class="nav navbar-nav navbar-right">
             <li>
     <a
-      href="https://github.com/YukkuriC/HexParseMod/tree/8807efb0bbbf52effb9c4a33bd3d4891494a3faa"
+      href="https://github.com/YukkuriC/HexParseMod/tree/daaca7ea0da15c22bea0806cf739608720515e31"
         target="_blank"
       class="navbar-link"
       role="button"
@@ -146,28 +146,28 @@
       class="item-texture  texture "
     > HexParse指令</a></summary>
       <ul>
-          <li><a href="#commands/io" class="toc-elem "><img
+          <li><a href="#hexparse_commands/io" class="toc-elem "><img
       title="命令方块"
       alt="命令方块"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
       loading="lazy"
       class="item-texture  texture "
     > 读写</a></li>
-          <li><a href="#commands/config" class="toc-elem "><img
+          <li><a href="#hexparse_commands/config" class="toc-elem "><img
       title="命令方块"
       alt="命令方块"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
       loading="lazy"
       class="item-texture  texture "
     > 配置</a></li>
-          <li><a href="#commands/misc" class="toc-elem "><img
+          <li><a href="#hexparse_commands/misc" class="toc-elem "><img
       title="命令方块"
       alt="命令方块"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
       loading="lazy"
       class="item-texture  texture "
     > 杂项 &amp; 帮手</a></li>
-          <li><a href="#commands/op" class="toc-elem "><img
+          <li><a href="#hexparse_commands/op" class="toc-elem "><img
       title="命令方块"
       alt="命令方块"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
@@ -214,7 +214,7 @@
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h2>
     <p>我如何利用来自<span style="color: #8d6acc">HexParse</span>的异端之力</p>
-<div id="commands/io" class="entry">
+<div id="hexparse_commands/io" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="命令方块"
@@ -227,7 +227,7 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/io"
+    href="#hexparse_commands/io"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
@@ -242,7 +242,7 @@
     <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse property ...</strong>：（<strong><span style="color: #8d6acc">Hexcellular</span></strong>联动）向质性Iota读写数据；出于安全性考虑，使用的质性名称会强制添加“_”前缀</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... read &lt;质性名&gt;</strong>：从指定质性读取内容</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... write &lt;质性名&gt; &lt;代码&gt;</strong>：解析代码并写入指定质性</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... clipboard &lt;质性名&gt;</strong>：同上，但代码来自读取剪贴板</p>
 <br />
 </div>
-<div id="commands/config" class="entry">
+<div id="hexparse_commands/config" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="命令方块"
@@ -255,7 +255,7 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/config"
+    href="#hexparse_commands/config"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
@@ -263,12 +263,12 @@
 <br />
     <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... define &lt;名称&gt; &lt;内容&gt;</strong>：定义一组宏/别名，可以为新定义或覆盖已有</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>macro define_clipboard &lt;名称&gt;</strong>：同上，但仅对宏可用，读取剪贴板作为宏内容</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... remove &lt;名称&gt;</strong>：移除一个保存的宏/别名（若存在）</p>
 <br />
-    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse conflict</strong>：在不同图案拥有相同短名称（ID路径）时解决冲突</p><p class="fake-li fake-li-alt" style="--level: 2;"><i>仅在单人游戏、本地联机主机与OP权限下启用</i></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>...</strong> 或 <strong>... list</strong>：列出全部对应多个长ID的短名称</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse conflict</strong>：在不同图案拥有相同短名称（ID路径）时解决冲突</p><p class="fake-li fake-li-alt" style="--level: 2;"><i>仅在物理客户端（单人游戏、本地联机）或拥有OP权限时启用</i></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>...</strong> 或 <strong>... list</strong>：列出全部对应多个长ID的短名称</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
 <br />
     <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... list &lt;短名称&gt;</strong>：列出给定短名称下相互冲突的所有长ID</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... set &lt;短名称&gt; &lt;长ID&gt;</strong>：重定向给定短名称至长图案ID</p>
 <br />
 </div>
-<div id="commands/misc" class="entry">
+<div id="hexparse_commands/misc" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="命令方块"
@@ -281,14 +281,14 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/misc"
+    href="#hexparse_commands/misc"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
-    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse donate [amount]</strong>：向自然捐赠等价于指定数量紫水晶粉的媒质；使用于为了使用此mod而产生负罪感的场合 ::)</p><p class="fake-li " style="--level: 1;"><strong>/hexParse lehmer [...数字列表]</strong>：计算给定排列（从升序出发，如<strong>0 1 2 3 4</strong>）对应的Lehmer Code；输入之间需要以空格分隔</p>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse donate [amount]</strong>：向自然捐赠等价于指定数量紫水晶粉的媒质；使用于为了使用此mod而产生负罪感的场合 ::)</p><p class="fake-li " style="--level: 1;"><strong>/hexParse lehmer [...数字列表]</strong>：计算给定排列（从升序出发，如<strong>0 1 2 3 4</strong>）对应的Lehmer Code；输入之间需要以空格分隔；所得结果可用于<a href="https://hexcasting.hexxy.media/v/0.11.2/1.0/en_us#patterns/stackmanip@hexcasting:swizzle"><span style="color: #fc77be">骗徒之策略</span></a></p>
 <br />
 </div>
-<div id="commands/op" class="entry">
+<div id="hexparse_commands/op" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="命令方块"
@@ -301,7 +301,7 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/op"
+    href="#hexparse_commands/op"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>

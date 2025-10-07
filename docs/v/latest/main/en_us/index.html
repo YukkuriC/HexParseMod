@@ -77,7 +77,7 @@
       <ul class="nav navbar-nav navbar-right">
             <li>
     <a
-      href="https://github.com/YukkuriC/HexParseMod/tree/8807efb0bbbf52effb9c4a33bd3d4891494a3faa"
+      href="https://github.com/YukkuriC/HexParseMod/tree/daaca7ea0da15c22bea0806cf739608720515e31"
         target="_blank"
       class="navbar-link"
       role="button"
@@ -146,28 +146,28 @@
       class="item-texture  texture "
     > HexParse Commands</a></summary>
       <ul>
-          <li><a href="#commands/io" class="toc-elem "><img
+          <li><a href="#hexparse_commands/io" class="toc-elem "><img
       title="Command Block"
       alt="Command Block"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
       loading="lazy"
       class="item-texture  texture "
     > Reading &amp; Writing</a></li>
-          <li><a href="#commands/config" class="toc-elem "><img
+          <li><a href="#hexparse_commands/config" class="toc-elem "><img
       title="Command Block"
       alt="Command Block"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
       loading="lazy"
       class="item-texture  texture "
     > Configs</a></li>
-          <li><a href="#commands/misc" class="toc-elem "><img
+          <li><a href="#hexparse_commands/misc" class="toc-elem "><img
       title="Command Block"
       alt="Command Block"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
       loading="lazy"
       class="item-texture  texture "
     > Misc. &amp; Helpers</a></li>
-          <li><a href="#commands/op" class="toc-elem "><img
+          <li><a href="#hexparse_commands/op" class="toc-elem "><img
       title="Command Block"
       alt="Command Block"
       src="https://hexdoc-dev.github.io/hexdoc-minecraft/v/1.20.1/1.0.dev1/assets/minecraft/textures/block/command_block.png"
@@ -214,7 +214,7 @@
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h2>
     <p>How I make use of the exotic power of <span style="color: #8d6acc">HexParse</span>.</p>
-<div id="commands/io" class="entry">
+<div id="hexparse_commands/io" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="Command Block"
@@ -227,7 +227,7 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/io"
+    href="#hexparse_commands/io"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
@@ -242,7 +242,7 @@
     <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse property ...</strong>: (<strong><span style="color: #8d6acc">Hexcellular</span></strong> interop) get/set data for PropertyIota; used property names all force-added leading <strong>_</strong> for security reason</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... read &lt;propName&gt;</strong>: read and parse from certain property</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... write &lt;propName&gt; &lt;code&gt;</strong>: write code into certain property</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... clipboard &lt;propName&gt;</strong>: same as above, but code comes from clipboard</p>
 <br />
 </div>
-<div id="commands/config" class="entry">
+<div id="hexparse_commands/config" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="Command Block"
@@ -255,7 +255,7 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/config"
+    href="#hexparse_commands/config"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
@@ -263,12 +263,12 @@
 <br />
     <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... define &lt;key&gt; &lt;value&gt;</strong>: define a macro/dialect mapping; could be fresh-new or overriding existed one.</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>macro define_clipboard &lt;key&gt;</strong>: same as above, but only for macros, and reads player&#39;s clipboard</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... remove &lt;key&gt;</strong>: remove mapping entry with given key (if exists)</p>
 <br />
-    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse conflict</strong>: conflict resolver for multiple patterns with same short name (ID path)</p><p class="fake-li fake-li-alt" style="--level: 2;"><i>only enables during singleplayer, local multiplayer host or with OP permission</i></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>...</strong> or <strong>... list</strong>: list all short names pointed by multiple long IDs</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse conflict</strong>: conflict resolver for multiple patterns with same short name (ID path)</p><p class="fake-li fake-li-alt" style="--level: 2;"><i>only enables in physical client (singleplayer, local multiplayer) or with OP permission</i></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>...</strong> or <strong>... list</strong>: list all short names pointed by multiple long IDs</p><p class="fake-li fake-li-alt" style="--level: 2;">...</p>
 <br />
     <p></p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... list &lt;short_name&gt;</strong>: list all conflicting IDs under certain short name</p><p class="fake-li fake-li-alt" style="--level: 2;"><strong>... set &lt;short_name&gt; &lt;long_ID&gt;</strong>: redirect certain short name to input pattern ID</p>
 <br />
 </div>
-<div id="commands/misc" class="entry">
+<div id="hexparse_commands/misc" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="Command Block"
@@ -281,14 +281,14 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/misc"
+    href="#hexparse_commands/misc"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
-    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse donate [amount]</strong>: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)</p><p class="fake-li " style="--level: 1;"><strong>/hexParse lehmer [...nums]</strong>: calculate lehmer code for given permutation (from ascending, e.g. <strong>0 1 2 3 4</strong>); input should be separated with space.</p>
+    <p></p><p class="fake-li " style="--level: 1;"><strong>/hexParse donate [amount]</strong>: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)</p><p class="fake-li " style="--level: 1;"><strong>/hexParse lehmer [...nums]</strong>: calculate Lehmer Code for given permutation (from ascending, e.g. <strong>0 1 2 3 4</strong>); input should be separated with space; the result number can be used for <a href="https://hexcasting.hexxy.media/v/0.11.2/1.0/en_us#patterns/stackmanip@hexcasting:swizzle"><span style="color: #fc77be">Swindler&#39;s Gambit</span></a></p>
 <br />
 </div>
-<div id="commands/op" class="entry">
+<div id="hexparse_commands/op" class="entry">
     <h3 class="entry-title page-header">
     <img
       title="Command Block"
@@ -301,7 +301,7 @@
     class="permalink small"
     title="Jump to top"
   ><i class="bi bi-box-arrow-up"></i></a><a
-    href="#commands/op"
+    href="#hexparse_commands/op"
     class="permalink small"
     title="Permalink"
   ><i class="bi bi-link-45deg"></i></a></h3>
