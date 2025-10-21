@@ -234,6 +234,11 @@ public class ParserMain {
             str2nbtParsers.add(PluginConstParsers.TO_MY_PROPERTY);
             nbt2strParsers.add(PropertyParser.INSTANCE);
         }
+
+        if (HexParse.HELPERS.modLoaded("hexpose")) {
+            str2nbtParsers.add(PluginConstParsers.TO_IDENTIFIER);
+            nbt2strParsers.add(IdentifierParser.INSTANCE);
+        }
     }
 
     public static void AddForthParser(IStr2Nbt p) {
