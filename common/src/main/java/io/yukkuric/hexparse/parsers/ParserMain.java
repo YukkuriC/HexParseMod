@@ -165,9 +165,11 @@ public class ParserMain {
             for (var p : nbt2strParsers) {
                 if (p.match(node)) return p.parse(node);
             }
-            if (HexParseConfig.showUnknownNBT())
-                return "UNKNOWN(%s)".formatted(node.toString());
-            return "UNKNOWN";
+            return switch (HexParseConfig.showUnknownNBT()) {
+                case KEEP_NBT -> FallbackBinaryParser.NBT2STR.INSTANCE.parse(node);
+                case SHOW_NBT -> "UNKNOWN(%s)".formatted(node.toString());
+                default -> "UNKNOWN";
+            };
         } catch (Throwable e) {
             caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
             return "ERROR";
@@ -187,12 +189,13 @@ public class ParserMain {
     public static void init() {
         str2nbtParsers.addAll(List.of(
                 ToPattern.META,
+                ToMiscConst.INSTANCE,
+                FallbackBinaryParser.STR2NBT.INSTANCE,
                 ToPattern.NORMAL, ToPattern.GREAT,
                 TO_TAB, TO_COMMENT, TO_SCOMMENT,
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
                 new ToEntity(),
-                ToMiscConst.INSTANCE,
                 ToDialect.INSTANCE,
                 TO_RAW_PATTERN
         ));
