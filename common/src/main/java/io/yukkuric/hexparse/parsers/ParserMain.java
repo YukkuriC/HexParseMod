@@ -5,7 +5,8 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
-import io.yukkuric.hexparse.misc.*;
+import io.yukkuric.hexparse.misc.CodeHelpers;
+import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
@@ -43,8 +44,7 @@ public class ParserMain {
         try {
             return ParseCode(CodeCutter.splitCode(code), caller);
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()).withStyle(
-                    ChatFormatting.DARK_RED));
+            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));
             return IotaFactory.makeList(new ListTag());
         }
     }
@@ -83,7 +83,7 @@ public class ParserMain {
                                 caller.sendSystemMessage(Component.translatable("hexparse.msg.error.unknown_symbol", frag).withStyle(ChatFormatting.GOLD));
                             else if (parsed != IGNORED) stack.peek().add(parsed);
                         } catch (Throwable e) {
-                            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", frag, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
+                            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error_node", frag, e.getLocalizedMessage()), e));
                         }
                         break;
                 }
@@ -92,7 +92,7 @@ public class ParserMain {
                 throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.open"));
             }
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
+            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));
             // try fix data anyway
             while (stack.size() > 1) {
                 var sub = IotaFactory.makeList(stack.pop());
@@ -112,10 +112,7 @@ public class ParserMain {
         } catch (Throwable e) {
             if (caller != null)
                 caller.sendSystemMessage(
-                        Component.translatable(
-                                        "hexparse.msg.parse_error", e.getLocalizedMessage()
-                                )
-                                .withStyle(ChatFormatting.DARK_RED)
+                        CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e)
                 );
             return res;
         }
@@ -171,7 +168,7 @@ public class ParserMain {
                 default -> "UNKNOWN";
             };
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
+            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()), e));
             return "ERROR";
         }
     }
