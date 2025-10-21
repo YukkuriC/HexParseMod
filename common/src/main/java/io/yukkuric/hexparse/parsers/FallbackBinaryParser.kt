@@ -9,10 +9,12 @@ import java.util.*
 
 object FallbackBinaryParser {
     const val prefix = "nbt_"
+    val REPLACERS = arrayOf("+-", "=_")
 
     object STR2NBT : Prefix(prefix) {
         override fun parse(node: String): CompoundTag {
-            val raw = node.substring(4)
+            var raw = node.substring(4)
+            for (p in REPLACERS) raw = raw.replace(p[1], p[0])
             val bytes: ByteArray = Base64.getDecoder().decode(raw)
             val buf = FriendlyByteBuf(Unpooled.wrappedBuffer(bytes))
             return buf.readNbt()!!
@@ -27,7 +29,9 @@ object FallbackBinaryParser {
             buf.writeNbt(node)
             val bytes = ByteArray(buf.readableBytes())
             buf.readBytes(bytes)
-            return prefix + Base64.getEncoder().encodeToString(bytes)
+            var raw = Base64.getEncoder().encodeToString(bytes)
+            for (p in REPLACERS) raw = raw.replace(p[0], p[1])
+            return prefix + raw
         }
     }
 }
