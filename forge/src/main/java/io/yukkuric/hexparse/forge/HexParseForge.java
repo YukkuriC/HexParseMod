@@ -50,7 +50,6 @@ public final class HexParseForge {
         modBus.addListener((RegisterEvent event) -> {
             var key = event.getRegistryKey();
             if (key.equals(HexRegistries.ACTION)) {
-                CommentIotaType.registerAction();
                 HexParsePatterns.registerActions();
             } else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
         });

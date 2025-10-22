@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.hooks;
 
-import at.petrak.hexcasting.api.casting.ActionRegistryEntry;
 import at.petrak.hexcasting.api.casting.castables.Action;
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import at.petrak.hexcasting.api.casting.eval.OperationResult;
@@ -13,7 +12,6 @@ import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.api.mod.HexTags;
 import at.petrak.hexcasting.api.utils.HexUtils;
-import at.petrak.hexcasting.common.lib.hex.HexActions;
 import at.petrak.hexcasting.common.lib.hex.HexEvalSounds;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
@@ -27,9 +25,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class CommentIotaType extends IotaType<CommentIota> {
@@ -56,8 +52,6 @@ public class CommentIotaType extends IotaType<CommentIota> {
             return new OperationResult(img, NO_EFFECT, cont, HexEvalSounds.NOTHING);
         }
     };
-
-    public static final ActionRegistryEntry COMMENT_ACTION_ENTRY = new ActionRegistryEntry(COMMENT_PATTERN, NULL_ACTION);
 
     @Override
     public CommentIota deserialize(Tag tag, ServerLevel serverLevel) throws IllegalArgumentException {
@@ -99,12 +93,6 @@ public class CommentIotaType extends IotaType<CommentIota> {
 
     public static void registerSelf() {
         registerIota();
-        registerAction();
-    }
-
-    public static void registerAction() {
-        // add action
-        Registry.register(HexActions.REGISTRY, TYPE_ID, COMMENT_ACTION_ENTRY);
     }
 
     public static void registerIota() {
