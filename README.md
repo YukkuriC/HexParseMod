@@ -75,7 +75,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 - `/hexParse (macro/dialect) ...`: edit client-saved code dialects (1-on-1 mapping, not starting with `#`) and macros (
   mapped to code segments, starting with `#`)
-    - `... list`: list all saved macros/dialects.
+    - `... list`: list all saved macros/dialects; there exist several predefined macros from ~~the nature~~
     - `... define <key> <value>`: define a macro/dialect mapping; could be fresh-new or overriding existed one.
     - `macro define_clipboard <key>`: same as above, but only for macros, and reads player's clipboard
     - `... remove <key>`: remove mapping entry with given key (if exists)
