@@ -145,13 +145,14 @@ Parsing is not limited.
 
 ### Other configs
 
-| Entry              | Type   | Description                                                                                                                                                                      |
-|--------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CommentParsingMode | `enum` | how comments get parsed into iotas<br>`ALL`: including `comment_%s`s and `/* */`s & `//`s;<br>`MANUAL`(default): only `comment_%s`s;<br>`DISABLED`: no comments at all           |
-| IndentParsingMode  | `enum` | how indents get parsed into iotas<br>`ALL`(default): coding indents will be auto-converted into `tab_%d`;<br>`MANUAL`: only `tab_%d`s accepted;<br>`DISABLED`: no indents at all |
-| MaxBlankLineCount  | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                         |
-| ParserBaseCost     | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                   |
-| ShowColorfulNested | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                       |
+| Entry              | Type   | Description                                                                                                                                                                            |
+|--------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CommentParsingMode | `enum` | how comments get parsed into iotas<br>`ALL`: including `comment_%s`s and `/* */`s & `//`s;<br>`MANUAL`(default): only `comment_%s`s;<br>`DISABLED`: no comments at all                 |
+| IndentParsingMode  | `enum` | how indents get parsed into iotas<br>`ALL`(default): coding indents will be auto-converted into `tab_%d`;<br>`MANUAL`: only `tab_%d`s accepted;<br>`DISABLED`: no indents at all       |
+| ShowUnknownNBT     | `enum` | how to handle unsupported iota's inner data<br>`KEEP_NBT`(default): save whole NBT as Base64 string;<br>`SHOW_NBT`: output `UNKNOWN(serialized NBT)`;<br>`SIMPLE`: show `UNKNOWN` only |
+| MaxBlankLineCount  | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                               |
+| ParserBaseCost     | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                         |
+| ShowColorfulNested | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                             |
 
 ## New iota: `CommentIota`
 
