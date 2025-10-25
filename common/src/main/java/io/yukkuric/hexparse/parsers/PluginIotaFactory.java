@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.parsers;
 
 import io.yukkuric.hexparse.HexParse;
 import net.minecraft.nbt.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
@@ -14,6 +15,7 @@ public class PluginIotaFactory extends IotaFactory {
     public static final String TYPE_GATE = "hexal:gate";
     public static final String TYPE_MOTE = "hexal:item";
     public static final String TYPE_PROP = "hexcellular:property";
+    public static final String TYPE_RESLOC = "hexpose:identifier";
 
     public static CompoundTag makeIotaType(String type) {
         return makeType(TYPE_IOTA_TYPE, StringTag.valueOf(type));
@@ -116,5 +118,13 @@ public class PluginIotaFactory extends IotaFactory {
             payload.putString("target_name", binder.getName().getString());
         }
         return makeType(TYPE_GATE, payload);
+    }
+
+    public static CompoundTag makeResLoc(String raw) {
+        var resloc = new ResourceLocation(raw);
+        var res = new CompoundTag();
+        res.putString("path", resloc.getPath());
+        res.putString("namespace", resloc.getNamespace());
+        return makeType(TYPE_RESLOC, res);
     }
 }

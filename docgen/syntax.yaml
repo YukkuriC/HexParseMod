@@ -150,6 +150,12 @@ Plugin Parser Installed:
       prefix could be omitted.
     Output Type: '`GlyphIota`'
     Type: Glyph Reference
+  - Addon: HexPose
+    Example: '`id_bedrock`, `id_hexcasting:focus`'
+    Output: identifier iota with given resource location; namespace `minecraft` could
+      be omitted.
+    Output Type: '`IdentifierIota`'
+    Type: Identifier (ResourceLocation) Reference for HexPose
   headers:
   - Addon
   - Type

@@ -50,13 +50,15 @@ public final class HexParseForge {
         modBus.addListener((RegisterEvent event) -> {
             var key = event.getRegistryKey();
             if (key.equals(HexRegistries.ACTION)) {
-                CommentIotaType.registerAction();
                 HexParsePatterns.registerActions();
             } else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
         });
 
         var ctx = ModLoadingContext.get();
         HexParseConfigForge.register(ctx);
+
+        // init client
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> HexParse::initClient);
     }
 
     public static class Network implements ISenderClient, ISenderServer {

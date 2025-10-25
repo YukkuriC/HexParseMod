@@ -20,6 +20,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -175,5 +177,19 @@ public class CodeHelpers {
         }
         if (rawIota == null) return Component.literal("NULL");
         return IotaType.getDisplay(rawIota);
+    }
+
+    public static Component dumpError(MutableComponent raw, Throwable e) {
+        // dump stack trace
+        var sw = new StringWriter();
+        var pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        var trace = sw.toString();
+
+        return raw.withStyle(
+                Style.EMPTY.withColor(ChatFormatting.DARK_RED)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, trace))
+                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal(trace)))
+        );
     }
 }

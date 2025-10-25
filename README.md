@@ -75,7 +75,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 - `/hexParse (macro/dialect) ...`: edit client-saved code dialects (1-on-1 mapping, not starting with `#`) and macros (
   mapped to code segments, starting with `#`)
-    - `... list`: list all saved macros/dialects.
+    - `... list`: list all saved macros/dialects; there exist several predefined macros from ~~the nature~~
     - `... define <key> <value>`: define a macro/dialect mapping; could be fresh-new or overriding existed one.
     - `macro define_clipboard <key>`: same as above, but only for macros, and reads player's clipboard
     - `... remove <key>`: remove mapping entry with given key (if exists)
@@ -145,13 +145,14 @@ Parsing is not limited.
 
 ### Other configs
 
-| Entry              | Type   | Description                                                                                                                                                                      |
-|--------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CommentParsingMode | `enum` | how comments get parsed into iotas<br>`ALL`: including `comment_%s`s and `/* */`s & `//`s;<br>`MANUAL`(default): only `comment_%s`s;<br>`DISABLED`: no comments at all           |
-| IndentParsingMode  | `enum` | how indents get parsed into iotas<br>`ALL`(default): coding indents will be auto-converted into `tab_%d`;<br>`MANUAL`: only `tab_%d`s accepted;<br>`DISABLED`: no indents at all |
-| MaxBlankLineCount  | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                         |
-| ParserBaseCost     | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                   |
-| ShowColorfulNested | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                       |
+| Entry              | Type   | Description                                                                                                                                                                            |
+|--------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CommentParsingMode | `enum` | how comments get parsed into iotas<br>`ALL`: including `comment_%s`s and `/* */`s & `//`s;<br>`MANUAL`(default): only `comment_%s`s;<br>`DISABLED`: no comments at all                 |
+| IndentParsingMode  | `enum` | how indents get parsed into iotas<br>`ALL`(default): coding indents will be auto-converted into `tab_%d`;<br>`MANUAL`: only `tab_%d`s accepted;<br>`DISABLED`: no indents at all       |
+| ShowUnknownNBT     | `enum` | how to handle unsupported iota's inner data<br>`KEEP_NBT`(default): save whole NBT as Base64 string;<br>`SHOW_NBT`: output `UNKNOWN(serialized NBT)`;<br>`SIMPLE`: show `UNKNOWN` only |
+| MaxBlankLineCount  | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                               |
+| ParserBaseCost     | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                         |
+| ShowColorfulNested | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                             |
 
 ## New iota: `CommentIota`
 
