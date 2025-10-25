@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.fabric.client;
 
 import at.petrak.hexcasting.common.network.IMessage;
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.fabric.HexParseFabric;
 import io.yukkuric.hexparse.fabric.events.MacroFabricHandler;

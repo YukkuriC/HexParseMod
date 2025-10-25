@@ -2,13 +2,9 @@ package io.yukkuric.hexparse;
 
 import com.mojang.logging.LogUtils;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
-import gay.object.hexdebug.api.client.splicing.SplicingTableIotaRendererParser;
-import gay.object.hexdebug.api.client.splicing.SplicingTableIotaRenderers;
-import io.yukkuric.hexparse.compat.hexdebug.CommentRenderer;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.locale.Language;
-import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
 public final class HexParse {
@@ -23,9 +19,7 @@ public final class HexParse {
         HexParsePatterns.registerActions();
     }
     public static void initClient() {
-        if (HELPERS.modLoaded("hexdebug")) {
-            SplicingTableIotaRenderers.register(new ResourceLocation(CommentIotaType.TYPE_ID), SplicingTableIotaRendererParser.simple((foo, bar, baz, yjsp) -> new CommentRenderer(bar, baz, yjsp)));
-        }
+        // nope, no splicing table
     }
 
     public static String doTranslate(String key, Object... args) {
