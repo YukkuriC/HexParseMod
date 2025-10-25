@@ -39,6 +39,9 @@ public final class HexParseForge {
 
         var ctx = ModLoadingContext.get();
         HexParseConfigForge.register(ctx);
+
+        // init client
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> HexParse::initClient);
     }
 
     public static class Network implements ISenderClient, ISenderServer {

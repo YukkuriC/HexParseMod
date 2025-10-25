@@ -31,7 +31,7 @@ public class HexParseConfigForge implements API {
         return CfgShowColorfulNested.get();
     }
     @Override
-    public boolean showUnknownNBT() {
+    public UnknownNbtHandlingMode showUnknownNBT() {
         return CfgShowUnknownNBT.get();
     }
 
@@ -40,7 +40,8 @@ public class HexParseConfigForge implements API {
         return CfgParserBaseCost.get();
     }
 
-    public final ForgeConfigSpec.BooleanValue CfgShowColorfulNested, CfgShowUnknownNBT;
+    public final ForgeConfigSpec.BooleanValue CfgShowColorfulNested;
+    public final ForgeConfigSpec.EnumValue<UnknownNbtHandlingMode> CfgShowUnknownNBT;
     public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
     public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
     public final ForgeConfigSpec.IntValue CfgParserBaseCost, CfgMaxBlankLine;
@@ -52,7 +53,7 @@ public class HexParseConfigForge implements API {
         CfgMaxBlankLine = builder.comment(DESCRIP_MAX_BLANK_LINES).defineInRange("MaxBlankLines", 0, 0, Integer.MAX_VALUE);
         CfgParserBaseCost = builder.comment(DESCRIP_PARSER_BASE_COST).defineInRange("ParserBaseCost", 0, 0, 100000);
         CfgShowColorfulNested = builder.comment(DESCRIP_COLORFUL_NESTED).define("ShowColorfulNested", true);
-        CfgShowUnknownNBT = builder.comment(DESCRIP_SHOW_UNKNOWN_NBT).define("ShowUnknownNBT", true);
+        CfgShowUnknownNBT = builder.comment(DESCRIP_SHOW_UNKNOWN_NBT).defineEnum("ShowUnknownNBT", UnknownNbtHandlingMode.KEEP_NBT);
     }
 
     private static final Pair<HexParseConfigForge, ForgeConfigSpec> CFG_REGISTRY;

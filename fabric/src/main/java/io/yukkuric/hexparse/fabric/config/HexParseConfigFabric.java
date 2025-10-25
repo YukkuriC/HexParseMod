@@ -42,7 +42,7 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Comment(DESCRIP_COLORFUL_NESTED)
         private boolean showColorfulNested = true;
         @Comment(DESCRIP_SHOW_UNKNOWN_NBT)
-        private boolean showUnknownNBT = true;
+        private UnknownNbtHandlingMode showUnknownNBT = UnknownNbtHandlingMode.KEEP_NBT;
         @Comment(DESCRIP_MAX_BLANK_LINES)
         private int maxBlankLineCount = 0;
 
@@ -69,7 +69,7 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
             return showColorfulNested;
         }
         @Override
-        public boolean showUnknownNBT() {
+        public UnknownNbtHandlingMode showUnknownNBT() {
             return showUnknownNBT;
         }
 

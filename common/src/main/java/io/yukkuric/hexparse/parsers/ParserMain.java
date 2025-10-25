@@ -5,7 +5,8 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
-import io.yukkuric.hexparse.misc.*;
+import io.yukkuric.hexparse.misc.CodeHelpers;
+import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
@@ -43,8 +44,7 @@ public class ParserMain {
         try {
             return ParseCode(CodeCutter.splitCode(code), caller);
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()).withStyle(
-                    ChatFormatting.DARK_RED));
+            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));
             return IotaFactory.makeList(new ListTag());
         }
     }
@@ -83,7 +83,7 @@ public class ParserMain {
                                 caller.sendSystemMessage(Component.translatable("hexparse.msg.error.unknown_symbol", frag).withStyle(ChatFormatting.GOLD));
                             else if (parsed != IGNORED) stack.peek().add(parsed);
                         } catch (Throwable e) {
-                            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", frag, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
+                            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error_node", frag, e.getLocalizedMessage()), e));
                         }
                         break;
                 }
@@ -92,7 +92,7 @@ public class ParserMain {
                 throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.open"));
             }
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
+            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));
             // try fix data anyway
             while (stack.size() > 1) {
                 var sub = IotaFactory.makeList(stack.pop());
@@ -112,10 +112,7 @@ public class ParserMain {
         } catch (Throwable e) {
             if (caller != null)
                 caller.sendSystemMessage(
-                        Component.translatable(
-                                        "hexparse.msg.parse_error", e.getLocalizedMessage()
-                                )
-                                .withStyle(ChatFormatting.DARK_RED)
+                        CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e)
                 );
             return res;
         }
@@ -165,11 +162,13 @@ public class ParserMain {
             for (var p : nbt2strParsers) {
                 if (p.match(node)) return p.parse(node);
             }
-            if (HexParseConfig.showUnknownNBT())
-                return "UNKNOWN(%s)".formatted(node.toString());
-            return "UNKNOWN";
+            return switch (HexParseConfig.showUnknownNBT()) {
+                case KEEP_NBT -> FallbackBinaryParser.NBT2STR.INSTANCE.parse(node);
+                case SHOW_NBT -> "UNKNOWN(%s)".formatted(node.toString());
+                default -> "UNKNOWN";
+            };
         } catch (Throwable e) {
-            caller.sendSystemMessage(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()).withStyle(ChatFormatting.DARK_RED));
+            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()), e));
             return "ERROR";
         }
     }
@@ -186,12 +185,13 @@ public class ParserMain {
 
     public static void init() {
         str2nbtParsers.addAll(List.of(
+                ToMiscConst.INSTANCE,
+                FallbackBinaryParser.STR2NBT.INSTANCE,
                 ToPattern.NORMAL, ToPattern.GREAT,
                 TO_TAB, TO_COMMENT, TO_SCOMMENT,
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
                 new ToEntity(),
-                ToMiscConst.INSTANCE,
                 ToDialect.INSTANCE,
                 TO_RAW_PATTERN
         ));
@@ -231,6 +231,11 @@ public class ParserMain {
             str2nbtParsers.add(PluginConstParsers.TO_PROPERTY);
             str2nbtParsers.add(PluginConstParsers.TO_MY_PROPERTY);
             nbt2strParsers.add(PropertyParser.INSTANCE);
+        }
+
+        if (HexParse.HELPERS.modLoaded("hexpose")) {
+            str2nbtParsers.add(PluginConstParsers.TO_IDENTIFIER);
+            nbt2strParsers.add(IdentifierParser.INSTANCE);
         }
     }
 

@@ -108,4 +108,6 @@ public class PluginConstParsers {
             return subParse.apply(type);
         }
     }
+
+    public static BaseConstParser TO_IDENTIFIER = new Resource("id_", PluginIotaFactory::makeResLoc);
 }
