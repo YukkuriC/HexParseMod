@@ -2,6 +2,8 @@ package io.yukkuric.hexparse.compat.hexdebug
 
 import at.petrak.hexcasting.api.utils.darkGreen
 import gay.`object`.hexdebug.api.client.splicing.SplicingTableIotaRenderer
+import gay.`object`.hexdebug.api.client.splicing.SplicingTableIotaRendererParser
+import gay.`object`.hexdebug.api.client.splicing.SplicingTableIotaRenderers
 import gay.`object`.hexdebug.api.splicing.SplicingTableIotaClientView
 import gay.`object`.hexdebug.utils.letPushPose
 import gay.`object`.hexdebug.utils.scale
@@ -41,6 +43,16 @@ class CommentRenderer(iota: SplicingTableIotaClientView, x: Int, y: Int) :
                     font, Component.literal(sizeText).darkGreen, -halfWidth2, 0, (0xffffffff).toInt(), false
                 )
             }
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun registerSelf() {
+            SplicingTableIotaRenderers.register(
+                net.minecraft.resources.ResourceLocation(CommentIotaType.TYPE_ID),
+                SplicingTableIotaRendererParser.simple { _, iota, x, y -> CommentRenderer(iota, x, y) }
+            )
         }
     }
 }
