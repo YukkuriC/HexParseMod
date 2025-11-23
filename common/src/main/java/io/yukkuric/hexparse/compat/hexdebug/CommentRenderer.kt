@@ -12,6 +12,7 @@ import io.yukkuric.hexparse.parsers.IotaFactory
 import io.yukkuric.hexparse.parsers.nbt2str.CommentParser
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.nbt.StringTag
 import net.minecraft.network.chat.Component
 
@@ -45,6 +46,8 @@ class CommentRenderer(iota: SplicingTableIotaClientView, x: Int, y: Int) :
             }
         }
     }
+
+    fun getTooltip() = Tooltip.create(CommentIotaType.INSTANCE.display(iota.data))
 
     companion object {
         @JvmStatic
