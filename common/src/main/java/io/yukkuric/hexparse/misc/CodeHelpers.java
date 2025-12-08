@@ -5,7 +5,6 @@ import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.item.IotaHolderItem;
 import at.petrak.hexcasting.api.utils.NBTHelper;
 import at.petrak.hexcasting.common.items.storage.*;
-import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
 import io.yukkuric.hexparse.hooks.PatternMapper;
@@ -17,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 
 import java.io.PrintWriter;
@@ -78,11 +76,6 @@ public class CodeHelpers {
                 NBTHelper.getOrCreateCompound(stack, TAG_PAGES).put(pageKey, nbt);
             }, null);
         }
-    }
-
-    public static void doExtractMedia(ServerPlayer caster, long amount) {
-        var harness = IXplatAbstractions.INSTANCE.getStaffcastVM(caster, InteractionHand.MAIN_HAND);
-        harness.getEnv().extractMedia(amount, false);
     }
 
     public static IOMethod getItemIO(ServerPlayer player) {
