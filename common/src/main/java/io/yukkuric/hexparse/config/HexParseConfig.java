@@ -47,7 +47,7 @@ public class HexParseConfig {
     }
 
     public static final String DESCRIP_PARSE_GREAT = "can directly parse great spell patterns, without scrolls";
-    public static final String DESCRIP_ENABLE_COMMENTS = "how comments get parsed into iotas\nALL: including `comment_%s`s and `/* */`s & `//`s;\nMANUAL(default): only `comment_%s`s;\nDISABLED: no comments at all";
+    public static final String DESCRIP_ENABLE_COMMENTS = "how comments get parsed into iotas\nALL: including single & multi line comments;\nMANUAL(default): only `comment_%s`s;\nDISABLED: no comments at all";
     public static final String DESCRIP_ENABLE_INDENTS = "how indents get parsed into iotas\nALL(default): coding indents will be auto-converted into `tab_%d`;\nMANUAL: only `tab_%d`s accepted;\nDISABLED: no indents at all";
     public static final String DESCRIP_PARSER_BASE_COST = "cost to parse single keyword into iota";
     public static final String DESCRIP_COLORFUL_NESTED = "display colorful nested lists and intro/retros";
