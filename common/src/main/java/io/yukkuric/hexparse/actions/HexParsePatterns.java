@@ -23,10 +23,12 @@ public class HexParsePatterns {
     public static final ActionRegistryEntry LEARN_GREAT_PATTERNS = wrap("learn_patterns", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwwqqeqqeqqeqqeqqeqqdqeeeeed", HexDir.EAST), ActionLearnGreatPatterns.INSTANCE);
     public static final ActionRegistryEntry CREATE_LINEBREAK = wrap("create_linebreak", HexPattern.fromAngles("dadadedadaddwwwa", HexDir.NORTH_EAST), ActionCreateLineBreak.INSTANCE);
     public static final ActionRegistryEntry COMPILE;
+    public static final ActionRegistryEntry COMMENT_SWITCHER;
 
     static {
-        var action = HexParse.HELPERS.modLoaded("moreiotas") ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION;
-        COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), action);
+        var moreIotasLoaded = HexParse.HELPERS.modLoaded("moreiotas");
+        COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), moreIotasLoaded ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION);
+        COMMENT_SWITCHER = wrap("comment_switcher", HexPattern.fromAngles("adadaqadadaawwqde", HexDir.SOUTH_EAST), moreIotasLoaded ? ActionCommentSwitcher.INSTANCE : CommentIotaType.NULL_ACTION);
     }
 
     public static void registerActions() {

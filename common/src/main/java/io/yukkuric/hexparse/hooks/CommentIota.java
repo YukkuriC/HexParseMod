@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import java.util.List;
 
 public class CommentIota extends Iota {
-    String comment;
+    public String comment;
 
     public CommentIota(String comment) {
         super(CommentIotaType.INSTANCE, CommentIotaType.COMMENT_PATTERN);
