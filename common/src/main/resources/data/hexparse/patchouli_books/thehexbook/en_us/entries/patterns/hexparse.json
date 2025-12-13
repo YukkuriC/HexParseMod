@@ -6,6 +6,14 @@
 	"pages": [
 		{
 			"type": "hexcasting:pattern",
+			"op_id": "hexparse:comment_switcher",
+			"anchor": "hexparse:comment_switcher",
+			"input": "comment/any",
+			"output": "string/comment",
+			"text": "book.descrip.hexparse:comment_switcher"
+		},
+		{
+			"type": "hexcasting:pattern",
 			"op_id": "hexparse:focus2code",
 			"anchor": "hexparse:focus2code",
 			"input": "",

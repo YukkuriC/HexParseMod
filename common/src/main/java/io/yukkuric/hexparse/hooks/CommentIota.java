@@ -5,7 +5,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 
 public class CommentIota extends PatternIota {
-    String comment;
+    public String comment;
 
     public CommentIota(String comment) {
         super(CommentIotaType.INSTANCE, CommentIotaType.COMMENT_PATTERN);
