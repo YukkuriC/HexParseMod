@@ -99,10 +99,12 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 ## Patterns added
 
+* `comment_switcher`: Transforms input Comment Iota into String Iota, or everything else into Comment Iota.
 * `code2focus`: Equivalent to `/hexParse clipboard` (now not only focuses).
 * `focus2code`: Equivalent to `/hexParse read`.
 * `remove_comments`: Clears comment iotas from a (nested) list input.
 * `learn_patterns`: Read handheld items and learns great pattern(s) inside.
+* `create_linebreak`: Adds a line-break comment iota with space-indents of given number to the stack.
 * (great spell) `compile`: takes in a MoreIotas string iota, and parses it into a code list.
 
 *Introduction also written in `HexParse Patterns` section inside the book.*
