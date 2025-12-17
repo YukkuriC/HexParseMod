@@ -37,6 +37,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Comment(DESCRIP_ENABLE_INDENTS)
         @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
         private CommentParsingMode indentParsingMode = CommentParsingMode.MANUAL;
+        @Comment(DESCRIP_ADD_INDENT_INSIDE_MACRO)
+        private boolean addIndentInsideMacro = true;
         @Comment(DESCRIP_PARSER_BASE_COST)
         private int parserBaseCost = 0;
         @Comment(DESCRIP_COLORFUL_NESTED)
@@ -62,6 +64,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public int getMaxBlankLineCount() {
             return maxBlankLineCount;
+        }
+        @Override
+        public boolean addIndentInsideMacro() {
+            return addIndentInsideMacro;
         }
 
         @Override

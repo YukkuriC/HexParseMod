@@ -2,7 +2,10 @@ package io.yukkuric.hexparse.macro;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.parsers.CodeCutter;
+import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
+import io.yukkuric.hexparse.parsers.str2nbt.ConstParsers;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
@@ -16,16 +19,18 @@ public class MacroProcessor implements Iterator<String> {
     String cachedNext;
     RuntimeException cachedError;
     int count;
+    int tabBase, tabLastMet;
 
     public MacroProcessor(Iterator<String> source, ServerPlayer player) {
-        this(source, player, new HashSet<>());
+        this(source, player, new HashSet<>(), 0);
     }
 
-    MacroProcessor(Iterator<String> src, ServerPlayer caller, Set<String> used) {
+    MacroProcessor(Iterator<String> src, ServerPlayer caller, Set<String> used, int extraTab) {
         source = src;
         usedMacros = used;
         player = caller;
-        cachedNext = calcCache();
+        tabBase = tabLastMet = extraTab;
+        cachedNext = applyForIndent(calcCache());
     }
 
     String calcCache() {
@@ -47,7 +52,7 @@ public class MacroProcessor implements Iterator<String> {
         usedMacros.add(raw);
 
         try {
-            inner = new MacroProcessor(CodeCutter.splitCode(mapped).iterator(), player, usedMacros);
+            inner = new MacroProcessor(CodeCutter.splitCode(mapped).iterator(), player, usedMacros, tabLastMet);
         } catch (Throwable e) {
             cachedError = new RuntimeException(e);
             return "ERROR";
@@ -69,7 +74,18 @@ public class MacroProcessor implements Iterator<String> {
         if (count >= HexIotaTypes.MAX_SERIALIZATION_TOTAL)
             throw new RuntimeException(HexParse.doTranslate("hexcasting.mishap.stack_size"));
         var res = cachedNext;
-        cachedNext = calcCache();
+        cachedNext = applyForIndent(calcCache());
         return res;
+    }
+
+    // indent adding
+    boolean noExtraIndentConfig = !HexParseConfig.addIndentInsideMacro() || INDENT.ignored();
+    static BaseConstParser.Comment.Indent INDENT = ConstParsers.TO_TAB;
+    String applyForIndent(String original) {
+        if (noExtraIndentConfig) return original;
+        if (original == null || !INDENT.match(original)) return original;
+        var oldTab = INDENT.getIndent(original);
+        tabLastMet = oldTab + tabBase;
+        return "tab_%d".formatted(tabLastMet);
     }
 }
