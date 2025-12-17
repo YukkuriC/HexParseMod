@@ -3,7 +3,6 @@ package io.yukkuric.hexparse.parsers.str2nbt;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
 import at.petrak.hexcasting.api.casting.math.HexDir;
-import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.misc.NumEvaluatorBrute;
 import io.yukkuric.hexparse.misc.StringEscaper;
 import io.yukkuric.hexparse.parsers.IotaFactory;
@@ -14,22 +13,7 @@ import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.*;
 
 public class ConstParsers {
     // prefix
-    public static BaseConstParser TO_TAB = new Comment("tab") {
-        @Override
-        public CompoundTag parse(String node) {
-            int indent = 0;
-            try {
-                indent = Integer.parseInt(node.substring(4));
-            } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            }
-            return IotaFactory.makeTab(indent);
-        }
-
-        @Override
-        public boolean ignored() {
-            return HexParseConfig.getIndentParsingMode() == HexParseConfig.CommentParsingMode.DISABLED;
-        }
-    };
+    public static Comment.Indent TO_TAB = new Comment.Indent();
     public static BaseConstParser TO_COMMENT = new Comment("comment_") {
         @Override
         public CompoundTag parse(String node) {
