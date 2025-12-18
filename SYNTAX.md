@@ -19,7 +19,7 @@ Boolean|`true`, `False`|corresponding `BooleanIota` (case insensitive)|`BooleanI
 None|`null`, `NULL`|`NullIota` (case insensitive)|`NullIota`
 Const Garbage|`garbage`|`GarbageIota` (case insensitive)|`GarbageIota`
 Iota Comments|`comment_meow`|comment which displays as text but won't be executed; same limitation as `String`s|`CommentIota`
-Iota Indents|`tab_4`, `tab_8`, `tab`|special comment which contains linebreak and leading spaces of given amount;<br>>will be auto-added if input is multi-line|`CommentIota`
+Iota Indents|`tab_4`, `indent_8`, `tab`|special comment which contains linebreak and leading spaces of given amount;<br>>will be auto-added if input is multi-line|`CommentIota`
 # Plugin Parser Installed
 
 Addon|Type|Example|Output|Output Type

@@ -1,27 +1,30 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
 import io.yukkuric.hexparse.config.HexParseConfig;
+import io.yukkuric.hexparse.parsers.IotaFactory;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.regex.Pattern;
 
 public abstract class BaseConstParser implements IStr2Nbt {
     public static abstract class Prefix extends BaseConstParser {
-        String prefix;
+        String[] prefix;
 
-        protected Prefix(String prefix) {
+        public Prefix(String... prefix) {
             this.prefix = prefix;
         }
 
         @Override
         public boolean match(String node) {
-            return node.startsWith(this.prefix);
+            for (var p : prefix) if (node.startsWith(p)) return true;
+            return false;
         }
     }
 
     public static abstract class Regex extends BaseConstParser {
         Pattern regex;
 
-        protected Regex(String regex) {
+        public Regex(String regex) {
             this.regex = Pattern.compile(regex);
         }
 
@@ -32,7 +35,7 @@ public abstract class BaseConstParser implements IStr2Nbt {
     }
 
     public static abstract class Comment extends Prefix {
-        Comment(String prefix) {
+        public Comment(String... prefix) {
             super(prefix);
         }
 
@@ -44,6 +47,28 @@ public abstract class BaseConstParser implements IStr2Nbt {
         @Override
         public boolean ignored() {
             return HexParseConfig.getCommentParsingMode() == HexParseConfig.CommentParsingMode.DISABLED;
+        }
+
+        public static class Indent extends Comment {
+            public Indent() {
+                super("tab", "indent");
+            }
+            @Override
+            public CompoundTag parse(String node) {
+                int indent = getIndent(node);
+                return IotaFactory.makeTab(indent);
+            }
+            @Override
+            public boolean ignored() {
+                return HexParseConfig.getIndentParsingMode() == HexParseConfig.CommentParsingMode.DISABLED;
+            }
+            public int getIndent(String node) {
+                try {
+                    return Integer.parseInt(node.substring(4));
+                } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                    return 0;
+                }
+            }
         }
     }
 }

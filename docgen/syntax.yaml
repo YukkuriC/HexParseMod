@@ -69,7 +69,7 @@ Currently Supported Syntax:
       as `String`s
     Output Type: '`CommentIota`'
     Type: Iota Comments
-  - Example: '`tab_4`, `tab_8`, `tab`'
+  - Example: '`tab_4`, `indent_8`, `tab`'
     Output: special comment which contains linebreak and leading spaces of given amount;<br>>will
       be auto-added if input is multi-line
     Output Type: '`CommentIota`'

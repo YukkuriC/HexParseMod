@@ -52,7 +52,7 @@ object CodeCutter {
         matcher.find()
         val commentContents = matcher.group().substring(2)
         val commentTokenIfRequested = if (commentsToIota) commentToCommentString(commentContents) else null
-        return Pair(commentTokenIfRequested,code.substring(matcher.end()))
+        return Pair(commentTokenIfRequested, code.substring(matcher.end()))
     }
 
     private fun consumeBlockComment(code: String, commentsToIota: Boolean): Pair<String?, String> {
@@ -134,10 +134,11 @@ object CodeCutter {
     private fun splitCode(code: String, addIndent: Boolean, commentsToIota: Boolean = true): MutableList<String> {
         var code = code
         val list = mutableListOf<String>()
+        listForRecover = list
         seqNewLineCount = 0
         while (code.isNotEmpty()) {
             newLineThisTurn = false
-            var (token, newCode) = (when(code[0]) {
+            var (token, newCode) = (when (code[0]) {
                 '/' -> consumeComment(code, commentsToIota)
                 '"' -> consumeString(code)
                 in VALID_WHITESPACE -> consumeWhiteSpace(code)
@@ -172,4 +173,9 @@ object CodeCutter {
         }
         return list
     }
+
+    // recover list anyway for inner errors
+    private var listForRecover: List<String>? = null
+    @JvmStatic
+    fun tryRecoverSplittedCode() = listForRecover ?: listOf()
 }

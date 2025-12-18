@@ -37,6 +37,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Comment(DESCRIP_ENABLE_INDENTS)
         @Gui.EnumHandler(option = EnumDisplayOption.BUTTON)
         private CommentParsingMode indentParsingMode = CommentParsingMode.MANUAL;
+        @Comment(DESCRIP_ADD_INDENT_INSIDE_MACRO)
+        private boolean addIndentInsideMacro = true;
         @Comment(DESCRIP_PARSER_BASE_COST)
         private int parserBaseCost = 0;
         @Comment(DESCRIP_COLORFUL_NESTED)
@@ -45,6 +47,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         private UnknownNbtHandlingMode showUnknownNBT = UnknownNbtHandlingMode.KEEP_NBT;
         @Comment(DESCRIP_MAX_BLANK_LINES)
         private int maxBlankLineCount = 0;
+        @Comment(DESCRIP_FAIR_PLAY_PROP_NAMES)
+        private boolean fairPlayPropNames = false;
 
         @Override
         public ParseGreatPatternMode canParseGreatPatterns() {
@@ -63,6 +67,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         public int getMaxBlankLineCount() {
             return maxBlankLineCount;
         }
+        @Override
+        public boolean addIndentInsideMacro() {
+            return addIndentInsideMacro;
+        }
 
         @Override
         public boolean showColorfulNested() {
@@ -76,6 +84,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public int parserBaseCost() {
             return parserBaseCost;
+        }
+        @Override
+        public boolean fairPlayPropNames() {
+            return fairPlayPropNames;
         }
     }
 }

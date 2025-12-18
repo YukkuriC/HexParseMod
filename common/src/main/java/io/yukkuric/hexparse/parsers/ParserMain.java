@@ -41,12 +41,14 @@ public class ParserMain {
     }
 
     public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
+        List<String> cutterResult;
         try {
-            return ParseCode(CodeCutter.splitCode(code), caller);
+            cutterResult = CodeCutter.splitCode(code);
         } catch (Throwable e) {
             caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));
-            return IotaFactory.makeList(new ListTag());
+            cutterResult = CodeCutter.tryRecoverSplittedCode();
         }
+        return ParseCode(cutterResult, caller);
     }
 
     public static synchronized CompoundTag ParseCode(List<String> nodes, ServerPlayer caller) {

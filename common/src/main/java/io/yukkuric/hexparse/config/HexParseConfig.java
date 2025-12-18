@@ -53,6 +53,8 @@ public class HexParseConfig {
     public static final String DESCRIP_COLORFUL_NESTED = "display colorful nested lists and intro/retros";
     public static final String DESCRIP_MAX_BLANK_LINES = "how many continuous blank lines are allowed in parsed spell; excess ones will be ignored";
     public static final String DESCRIP_SHOW_UNKNOWN_NBT = "how to handle unsupported iota's inner data\nKEEP_NBT(default): save whole NBT as Base64 string;\nSHOW_NBT: output `UNKNOWN(serialized NBT)`;\nSIMPLE: show `UNKNOWN` only";
+    public static final String DESCRIP_ADD_INDENT_INSIDE_MACRO = "code indentation add to `tab_N`'s inside nested macros";
+    public static final String DESCRIP_FAIR_PLAY_PROP_NAMES = "randomize property names based on input string";
 
     public static void bindConfigImp(API api) {
         imp = api;
@@ -71,6 +73,9 @@ public class HexParseConfig {
     public static int getMaxBlankLineCount() {
         return imp.getMaxBlankLineCount();
     }
+    public static boolean addIndentInsideMacro() {
+        return imp.addIndentInsideMacro();
+    }
 
     public static boolean colorfulNested() {
         return imp.showColorfulNested();
@@ -81,6 +86,9 @@ public class HexParseConfig {
 
     public static int parserBaseCost() {
         return imp.parserBaseCost();
+    }
+    public static boolean fairPlayPropNames() {
+        return imp.fairPlayPropNames();
     }
 
     public interface API {
@@ -94,7 +102,9 @@ public class HexParseConfig {
 
         boolean showColorfulNested();
         UnknownNbtHandlingMode showUnknownNBT();
+        boolean addIndentInsideMacro();
 
         int parserBaseCost();
+        boolean fairPlayPropNames();
     }
 }

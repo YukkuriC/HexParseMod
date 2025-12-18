@@ -1,8 +1,10 @@
 package io.yukkuric.hexparse.parsers.str2nbt.plugins;
 
 import at.petrak.hexcasting.api.misc.MediaConstants;
+import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.misc.StringEscaper;
 import io.yukkuric.hexparse.misc.StringProcessors;
+import io.yukkuric.hexparse.misc.plugins.FairPlayPropertyNameMaker;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
@@ -46,7 +48,12 @@ public class PluginConstParsers {
             super(regex);
         }
         String getPropValue(String str) {
-            return StringProcessors.APPEND_UNDERLINE.apply(str);
+            str = StringProcessors.APPEND_UNDERLINE.apply(str);
+            if (HexParseConfig.fairPlayPropNames()) {
+                str = FairPlayPropertyNameMaker.generatePropertyName(str);
+                str = StringProcessors.APPEND_UNDERLINE.apply(str);
+            }
+            return str;
         }
         @Override
         public CompoundTag parse(String node) {
@@ -72,6 +79,7 @@ public class PluginConstParsers {
             }
             @Override
             String getPropValue(String str) {
+                if (HexParseConfig.fairPlayPropNames()) str = FairPlayPropertyNameMaker.generatePropertyName(str);
                 return "[%s]@%s".formatted(owner.getScoreboardName(), str); // 1.19 no inline :(
             }
         }
