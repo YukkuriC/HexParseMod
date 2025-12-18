@@ -51,8 +51,6 @@ public class StringProcessors {
             s -> s.replaceAll("comment_.*?(?=,|$)", ""), // comment
             s -> s.replaceAll("\\n\\s*", ","), // linebreak
             s -> s.replaceAll("[a-z_]+:", ""), // mod namespace
-            s -> s.replaceAll(",(?=,)", ""), // excess comma
-
-            s -> s.replace("eval/cc", "NORTH_WEST qwaqde") // missing iris, why?
+            s -> s.replaceAll(",(?=,)", "") // excess comma
     );
 }
