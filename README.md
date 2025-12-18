@@ -20,24 +20,24 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 <!-- TOC -->
 
-* [HexParse mod](#hexparse-mod)
-    * [Supported IO Item Types](#supported-io-item-types)
-    * [Commands added](#commands-added)
-        * [Reading & Writing](#reading--writing)
-        * [Configs](#configs)
-        * [Misc. & Helpers](#misc--helpers)
-        * [OP-Only Commands](#op-only-commands)
-    * [Patterns added](#patterns-added)
-    * [Supported expressions](#supported-expressions)
-    * [Misc. Features](#misc-features)
-    * [Available Configs](#available-configs)
-        * [Limited great pattern parsing](#limited-great-pattern-parsing)
-            * [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
-            * [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
-            * [Hard Mode: `DISABLED`](#hard-mode-disabled)
-        * [Other configs](#other-configs)
-    * [New iota: `CommentIota`](#new-iota-commentiota)
-    * [Future plans](#future-plans)
+- [HexParse mod](#hexparse-mod)
+    - [Supported IO Item Types](#supported-io-item-types)
+    - [Commands added](#commands-added)
+        - [Reading & Writing](#reading--writing)
+        - [Configs](#configs)
+        - [Misc. & Helpers](#misc--helpers)
+        - [OP-Only Commands](#op-only-commands)
+    - [Patterns added](#patterns-added)
+    - [Supported expressions](#supported-expressions)
+    - [Misc. Features](#misc-features)
+    - [Available Configs](#available-configs)
+        - [Limited great pattern parsing](#limited-great-pattern-parsing)
+            - [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
+            - [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
+            - [Hard Mode: `DISABLED`](#hard-mode-disabled)
+        - [Other configs](#other-configs)
+    - [New iota: `CommentIota`](#new-iota-commentiota)
+    - [Future plans](#future-plans)
 
 <!-- TOC -->
 
@@ -155,6 +155,7 @@ Parsing is not limited.
 | MaxBlankLineCount    | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                               |
 | AddIndentInsideMacro | `bool` | code indentation add to `tab_N`'s inside nested macros                                                                                                                                 |
 | ParserBaseCost       | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                         |
+| FairPlayPropNames    | `bool` | randomize property names based on input string                                                                                                                                         |
 | ShowColorfulNested   | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                             |
 
 ## New iota: `CommentIota`

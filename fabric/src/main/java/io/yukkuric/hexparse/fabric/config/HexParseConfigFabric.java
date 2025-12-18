@@ -47,6 +47,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         private UnknownNbtHandlingMode showUnknownNBT = UnknownNbtHandlingMode.KEEP_NBT;
         @Comment(DESCRIP_MAX_BLANK_LINES)
         private int maxBlankLineCount = 0;
+        @Comment(DESCRIP_FAIR_PLAY_PROP_NAMES)
+        private boolean fairPlayPropNames = false;
 
         @Override
         public ParseGreatPatternMode canParseGreatPatterns() {
@@ -82,6 +84,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public int parserBaseCost() {
             return parserBaseCost;
+        }
+        @Override
+        public boolean fairPlayPropNames() {
+            return fairPlayPropNames;
         }
     }
 }

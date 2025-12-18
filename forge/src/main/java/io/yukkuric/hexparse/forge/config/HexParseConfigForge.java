@@ -43,8 +43,15 @@ public class HexParseConfigForge implements API {
     public int parserBaseCost() {
         return CfgParserBaseCost.get();
     }
+    @Override
+    public boolean fairPlayPropNames() {
+        return CfgFairPlayPropNames.get();
+    }
 
-    public final ForgeConfigSpec.BooleanValue CfgShowColorfulNested, CfgAddIndentInsideMacro;
+    public final ForgeConfigSpec.BooleanValue
+            CfgShowColorfulNested,
+            CfgFairPlayPropNames,
+            CfgAddIndentInsideMacro;
     public final ForgeConfigSpec.EnumValue<UnknownNbtHandlingMode> CfgShowUnknownNBT;
     public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
     public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
@@ -57,6 +64,7 @@ public class HexParseConfigForge implements API {
         CfgMaxBlankLine = builder.comment(DESCRIP_MAX_BLANK_LINES).defineInRange("MaxBlankLines", 0, 0, Integer.MAX_VALUE);
         CfgAddIndentInsideMacro = builder.comment(DESCRIP_ADD_INDENT_INSIDE_MACRO).define("ExtendIndentInsideMacro", true);
         CfgParserBaseCost = builder.comment(DESCRIP_PARSER_BASE_COST).defineInRange("ParserBaseCost", 0, 0, 100000);
+        CfgFairPlayPropNames = builder.comment(DESCRIP_FAIR_PLAY_PROP_NAMES).define("FairPlayPropNames", false);
         CfgShowColorfulNested = builder.comment(DESCRIP_COLORFUL_NESTED).define("ShowColorfulNested", true);
         CfgShowUnknownNBT = builder.comment(DESCRIP_SHOW_UNKNOWN_NBT).defineEnum("ShowUnknownNBT", UnknownNbtHandlingMode.KEEP_NBT);
     }
