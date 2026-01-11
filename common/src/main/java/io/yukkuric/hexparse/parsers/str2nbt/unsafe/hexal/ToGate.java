@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.parsers.str2nbt.unsafe.hexal;
 
+import at.petrak.hexcasting.api.casting.mishaps.MishapOthersName;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
@@ -8,13 +9,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import ram.talia.hexal.api.config.HexalConfig;
 
 import java.util.*;
 
 public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
-    public static ToGate INSTANCE=new ToGate();
+    public static ToGate INSTANCE = new ToGate();
     private ToGate() {
         super("^gate(_?)");
     }
@@ -69,8 +71,14 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
             try {
                 var uuid = UUID.fromString(f);
                 entity = ((ServerLevel) self.level()).getEntity(uuid);
+                if (entity instanceof Player p && !self.equals(p)) {
+                    throw new MishapOthersName(p);
+                }
             } catch (IllegalArgumentException e) {
                 throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.unknown_symbol", f));
+            } catch (MishapOthersName e) {
+                var msg = HexParse.doTranslate("hexcasting.mishap.others_name", entity.getName());
+                throw new RuntimeException(msg);
             }
         }
         Vec3 pos = null;
