@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.parsers.str2nbt.unsafe.hexal;
 
-import at.petrak.hexcasting.api.casting.mishaps.MishapOthersName;
+import at.petrak.hexcasting.api.spell.mishaps.MishapOthersName;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
