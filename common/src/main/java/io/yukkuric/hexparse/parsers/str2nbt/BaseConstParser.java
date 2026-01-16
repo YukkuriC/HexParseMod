@@ -14,6 +14,10 @@ public abstract class BaseConstParser implements IStr2Nbt {
             this.prefix = prefix;
         }
 
+        public Prefix(String prefix) {
+            this(new String[]{prefix});
+        }
+
         @Override
         public boolean match(String node) {
             for (var p : prefix) if (node.startsWith(p)) return true;
