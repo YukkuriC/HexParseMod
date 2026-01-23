@@ -37,7 +37,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
             - [Hard Mode: `DISABLED`](#hard-mode-disabled)
         - [Other configs](#other-configs)
     - [New iota: `CommentIota`](#new-iota-commentiota)
-    - [Future plans](#future-plans)
+    - [(for `v1.8.0+`) Common API for interops](#for-v180-common-api-for-interops)
 
 <!-- TOC -->
 
@@ -165,7 +165,10 @@ nothing.
 Comment iotas includes text comments, line-breaks & indents, and unknown great spell placeholders.  
 When player holds `Shift` key, all comments will be hidden.
 
-## Future plans
+## (for `v1.8.0+`) Common API for interops
 
-* **more complex tokenizer to replace simple regex queues**
-* **legal** number pattern generator
+- Location: `io.yukkuric.hexparse.api.HexParseAPI`
+- Contents:
+    - `AddForthParser(IStr2Nbt p)`
+    - `AddBackParser(INbt2Str p)`
+    - `AddSpecialHandlerBackParser(Class<T> cls, BiFunction<T, CompoundTag, String> func)`
