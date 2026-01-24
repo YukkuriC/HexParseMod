@@ -12,5 +12,14 @@ class CodeHelpersKt {
             val env = env ?: IXplatAbstractions.INSTANCE.getStaffcastVM(caster, InteractionHand.MAIN_HAND).env
             return env.extractMedia(amount, false)
         }
+
+        @JvmStatic
+        fun getItemIO(player: ServerPlayer?): IOMethod? {
+            if (player == null) return null
+            val mainHandIO = IOMethod.get(player.mainHandItem)
+            val offhandIO = IOMethod.get(player.offhandItem) ?: return mainHandIO
+            if (mainHandIO == null || offhandIO.priority <= mainHandIO.priority) return offhandIO // includes same IO, bound to offhand already
+            return mainHandIO
+        }
     }
 }

@@ -20,24 +20,24 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 <!-- TOC -->
 
-- [HexParse mod](#hexparse-mod)
-    - [Supported IO Item Types](#supported-io-item-types)
-    - [Commands added](#commands-added)
-        - [Reading & Writing](#reading--writing)
-        - [Configs](#configs)
-        - [Misc. & Helpers](#misc--helpers)
-        - [OP-Only Commands](#op-only-commands)
-    - [Patterns added](#patterns-added)
-    - [Supported expressions](#supported-expressions)
-    - [Misc. Features](#misc-features)
-    - [Available Configs](#available-configs)
-        - [Limited great pattern parsing](#limited-great-pattern-parsing)
-            - [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
-            - [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
-            - [Hard Mode: `DISABLED`](#hard-mode-disabled)
-        - [Other configs](#other-configs)
-    - [New iota: `CommentIota`](#new-iota-commentiota)
-    - [(for `v1.8.0+`) Common API for interops](#for-v180-common-api-for-interops)
+* [HexParse mod](#hexparse-mod)
+    * [Supported IO Item Types](#supported-io-item-types)
+    * [Commands added](#commands-added)
+        * [Reading & Writing](#reading--writing)
+        * [Configs](#configs)
+        * [Misc. & Helpers](#misc--helpers)
+        * [OP-Only Commands](#op-only-commands)
+    * [Patterns added](#patterns-added)
+    * [Supported expressions](#supported-expressions)
+    * [Misc. Features](#misc-features)
+    * [Available Configs](#available-configs)
+        * [Limited great pattern parsing](#limited-great-pattern-parsing)
+            * [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
+            * [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
+            * [Hard Mode: `DISABLED`](#hard-mode-disabled)
+        * [Other configs](#other-configs)
+    * [New iota: `CommentIota`](#new-iota-commentiota)
+    * [(for `v1.8.0+`) `HexParseAPI`](#for-v180-hexparseapi)
 
 <!-- TOC -->
 
@@ -46,6 +46,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 - Focuses
 - Spell Books
 - (1.20) Thought Knots
+- recognized by item classes, able to add more via `HexParseAPI` or `IOMethod`
 
 ## Commands added
 
@@ -165,10 +166,12 @@ nothing.
 Comment iotas includes text comments, line-breaks & indents, and unknown great spell placeholders.  
 When player holds `Shift` key, all comments will be hidden.
 
-## (for `v1.8.0+`) Common API for interops
+## (for `v1.8.0+`) `HexParseAPI`
 
 - Location: `io.yukkuric.hexparse.api.HexParseAPI`
 - Contents:
-    - `AddForthParser(IStr2Nbt p)`
-    - `AddBackParser(INbt2Str p)`
-    - `AddSpecialHandlerBackParser(Class<T> cls, BiFunction<T, CompoundTag, String> func)`
+    - `AddForthParser(p: IStr2Nbt)`
+    - `AddBackParser(p: INbt2Str)`
+    - `<T : SpecialHandler> AddSpecialHandlerBackParser(cls: Class<T>, func: (T, CompoundTag) -> String)`
+    - `CreateItemIOMethod(cls: Class<*>, writer: ((ItemStack, CompoundTag) -> Unit)?, reader: ((ItemStack) -> CompoundTag?)?, priority: Int = 0)`
+)`
