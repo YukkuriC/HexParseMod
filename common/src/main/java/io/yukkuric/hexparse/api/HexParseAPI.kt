@@ -25,10 +25,11 @@ object HexParseAPI {
     @JvmStatic
     fun CreateItemIOMethod(
         cls: Class<*>,
-        writer: ((ItemStack, CompoundTag) -> Unit)?,
-        reader: ((ItemStack) -> CompoundTag?)?,
-        priority: Int = 0
+        writer: ((ItemStack, CompoundTag) -> Unit)? = null,
+        reader: ((ItemStack) -> CompoundTag?)? = null,
+        priority: Int = 0,
+        validator: ((ItemStack, Boolean) -> Boolean)? = null,
     ) {
-        IOMethod(cls, writer, reader, priority)
+        IOMethod(cls, writer, reader, priority, validator)
     }
 }

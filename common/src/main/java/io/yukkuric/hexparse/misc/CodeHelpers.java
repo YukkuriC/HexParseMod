@@ -22,7 +22,7 @@ import static io.yukkuric.hexparse.misc.CodeHelpersKt.getItemIO;
 
 public class CodeHelpers {
     public static void doParse(ServerPlayer player, String code, String rename) {
-        var target = getItemIO(player);
+        var target = getItemIO(player, true);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
         target.write(nbt);
@@ -30,7 +30,7 @@ public class CodeHelpers {
     }
 
     public static void doParse(ServerPlayer player, List<String> code, String rename) {
-        var target = getItemIO(player);
+        var target = getItemIO(player, true);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
         target.write(nbt);
@@ -41,7 +41,7 @@ public class CodeHelpers {
         return readHand(player, StringProcessors.READ_DEFAULT);
     }
     public static String readHand(ServerPlayer player, StringProcessors.F post) {
-        var target = getItemIO(player);
+        var target = getItemIO(player, false);
         if (target == null) return null;
         var iotaRoot = target.read();
         if (iotaRoot == null) return null;

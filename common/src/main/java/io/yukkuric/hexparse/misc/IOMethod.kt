@@ -15,8 +15,9 @@ import net.minecraft.world.item.ItemStack
 
 
 class IOMethod(
-    cls: Class<*>, private val writer: ((ItemStack, CompoundTag) -> Unit)?,
-    private val reader: ((ItemStack) -> CompoundTag?)?, val priority: Int = 0
+    cls: Class<*>, private val writer: ((ItemStack, CompoundTag) -> Unit)? = null,
+    private val reader: ((ItemStack) -> CompoundTag?)? = null, val priority: Int = 0,
+    private val validator: ((ItemStack, Boolean) -> Boolean)? = null
 ) {
     private lateinit var current: ItemStack
 
@@ -57,23 +58,24 @@ class IOMethod(
         private val ITEM_IO_TYPES: MutableMap<Class<*>, IOMethod> = HashMap()
 
         @JvmStatic
-        fun get(stack: ItemStack?): IOMethod? {
+        fun get(stack: ItemStack?, isWrite: Boolean): IOMethod? {
             if (stack == null) return null
             val ret = ITEM_IO_TYPES[stack.item.javaClass]
+            if (ret?.validator != null && !ret.validator!!(stack, isWrite)) return null
             ret?.bind(stack)
             return ret
         }
 
         init {
-            IOMethod(ItemFocus::class.java, null, null)
-            IOMethod(ItemThoughtKnot::class.java, null, null)
+            IOMethod(ItemFocus::class.java)
+            IOMethod(ItemThoughtKnot::class.java)
             IOMethod(
                 ItemSpellbook::class.java,
-                { stack: ItemStack?, nbt: CompoundTag? ->
+                writer = { stack: ItemStack?, nbt: CompoundTag? ->
                     val idx = ItemSpellbook.getPage(stack, 1)
                     val pageKey = idx.toString()
                     stack!!.getOrCreateCompound(ItemSpellbook.TAG_PAGES).put(pageKey, nbt)
-                }, null
+                }
             )
         }
     }

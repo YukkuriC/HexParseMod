@@ -22,7 +22,7 @@ public class CommandRead {
                 Commands.literal("share").executes(ctx -> readHand(ctx, code -> {
                     var p = ctx.getSource().getPlayer();
                     if (p == null) return;
-                    var io = CodeHelpersKt.getItemIO(p);
+                    var io = CodeHelpersKt.getItemIO(p, false);
                     var iota = io.readIota(p.serverLevel());
                     if (iota == null) return;
                     var shared = Component.translatable("hexparse.cmd.read.share",
