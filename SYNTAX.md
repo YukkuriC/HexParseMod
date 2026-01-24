@@ -37,3 +37,4 @@ Hexcellular|Property|`prop_imaprop`, `property_ImAPropToo`|property iota with ce
 Hexcellular|Property (player specific)|`myprop_imaprop`, `myprop_ImAPropToo`|same as above, but with specific player's name as prefix;<br>**NOTE: Extra cost for making properties**|`PropertyIota`
 Hex-Ars-Linker|Glyph Reference|`glyph_touch`, `glyph_ars_nouveau:glyph_projectile`, `glyph_hex_ars_link:hex_callback`|glyph iota with certain name; `ars_nouveau` namespace and `glyph_` path prefix could be omitted.|`GlyphIota`
 HexPose|Identifier (ResourceLocation) Reference for HexPose|`id_bedrock`, `id_hexcasting:focus`|identifier iota with given resource location; namespace `minecraft` could be omitted.|`IdentifierIota`
+HexFlow|Fisherman Copy Mask Pattern|`copy_mask_nn----`, `copy_mask_n-n-n`|`Electric Fisherman` (Copy Mask) special pattern with given copy targets; each `n` indicates a stack position to copy from.|`PatternIota`
