@@ -2,25 +2,24 @@ package io.yukkuric.hexparse.parsers.nbt2str;
 
 import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.PatternRegistry;
+import at.petrak.hexcasting.api.spell.Action;
 import at.petrak.hexcasting.api.spell.ConstMediaAction;
 import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.iota.DoubleIota;
-import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.math.HexPattern;
 import at.petrak.hexcasting.api.spell.mishaps.MishapInvalidPattern;
 import at.petrak.hexcasting.common.casting.operators.stack.OpMask;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.hooks.PatternMapper;
-import io.yukkuric.hexparse.parsers.IotaFactory;
+import io.yukkuric.hexparse.misc.TriFunction;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
+import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PatternParser implements INbt2Str, IPlayerBinder {
     static Map<String, String> SPECIAL_PATTERNS = new HashMap<>() {
@@ -30,7 +29,25 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
             put("qqqaw", "\\");
         }
     };
-    static List<Iota> FOO_LIST = List.of();
+    static Map<String, TriFunction<Action, CompoundTag, ServerPlayer, String>> SPECIAL_HANDLER_MAP = new HashMap<>();
+
+    public static void AddSpecialHandlerBackParser(String key, TriFunction<Action, CompoundTag, ServerPlayer, String> func) {
+        SPECIAL_HANDLER_MAP.put(key, func);
+    }
+
+    static {
+        AddSpecialHandlerBackParser("hexcasting:mask", (action, node, player) -> {
+            var maskBuilder = new StringBuilder("mask_");
+            for (var m : ((OpMask) action).getMask()) {
+                maskBuilder.append(m ? '-' : 'v');
+            }
+            return maskBuilder.toString();
+        });
+        AddSpecialHandlerBackParser("hexcasting:number", (action, node, player) -> {
+            var constInner = ((ConstMediaAction) action).execute(List.of(), new CastingContext(player, InteractionHand.MAIN_HAND, CastingContext.CastSource.STAFF));
+            return "num_" + INbt2Str.displayMinimalStatic(((DoubleIota) constInner.get(0)).getDouble());
+        });
+    }
 
     @Override
     public boolean match(CompoundTag node) {
@@ -47,15 +64,8 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
             var action = matcher.getFirst();
             var opId = matcher.getSecond();
             var opIdStr = opId.toString();
-            if (opIdStr.equals("hexcasting:mask")) {
-                var maskBuilder = new StringBuilder("mask_");
-                for (var m : ((OpMask) action).getMask()) {
-                    maskBuilder.append(m ? '-' : 'v');
-                }
-                return maskBuilder.toString();
-            } else if (opIdStr.equals("hexcasting:number")) {
-                var constInner = ((ConstMediaAction) action).execute(FOO_LIST, new CastingContext(player, InteractionHand.MAIN_HAND, CastingContext.CastSource.STAFF));
-                return "num_" + displayMinimal(((DoubleIota) constInner.get(0)).getDouble());
+            if (SPECIAL_HANDLER_MAP.containsKey(opIdStr)) {
+                return SPECIAL_HANDLER_MAP.get(opIdStr).apply(action, node, player);
             } else if (!PatternMapper.mapPattern.containsKey(opIdStr) && !PatternMapper.mapPatternWorld.containsKey(opIdStr)) {
                 throw new MishapInvalidPattern();
             }

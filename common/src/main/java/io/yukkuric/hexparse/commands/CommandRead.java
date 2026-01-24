@@ -2,8 +2,7 @@ package io.yukkuric.hexparse.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import io.yukkuric.hexparse.misc.CodeHelpers;
-import io.yukkuric.hexparse.misc.StringProcessors;
+import io.yukkuric.hexparse.misc.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -24,7 +23,7 @@ public class CommandRead {
                 Commands.literal("share").executes(ctx -> readHand(ctx, code -> {
                     var p = ctx.getSource().getPlayer();
                     if (p == null) return;
-                    var io = CodeHelpers.getItemIO(p);
+                    var io = CodeHelpersKt.getItemIO(p, false);
                     var iota = io.readIota((ServerLevel) p.level);
                     if (iota == null) return;
                     var shared = Component.translatable("hexparse.cmd.read.share",

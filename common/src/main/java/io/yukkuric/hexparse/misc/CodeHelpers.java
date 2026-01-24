@@ -1,10 +1,5 @@
 package io.yukkuric.hexparse.misc;
 
-import at.petrak.hexcasting.api.item.IotaHolderItem;
-import at.petrak.hexcasting.api.spell.iota.Iota;
-import at.petrak.hexcasting.api.utils.NBTHelper;
-import at.petrak.hexcasting.common.items.ItemFocus;
-import at.petrak.hexcasting.common.items.ItemSpellbook;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
@@ -17,78 +12,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.ref.WeakReference;
-import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.List;
 
-import static at.petrak.hexcasting.common.items.ItemSpellbook.TAG_PAGES;
-
+import static io.yukkuric.hexparse.misc.CodeHelpersKt.getItemIO;
 
 public class CodeHelpers {
-    public static class IOMethod {
-        private final BiConsumer<ItemStack, CompoundTag> writer;
-        private final Function<ItemStack, CompoundTag> reader;
-        private ItemStack current;
-
-        private static Map<Class<? extends IotaHolderItem>, IOMethod> ITEM_IO_TYPES = new HashMap<>();
-
-        public IOMethod(Class<? extends IotaHolderItem> cls, BiConsumer<ItemStack, CompoundTag> writer,
-                        Function<ItemStack, CompoundTag> reader) {
-            this.reader = reader;
-            this.writer = writer;
-            ITEM_IO_TYPES.put(cls, this);
-        }
-        public void write(CompoundTag nbt) {
-            writer.accept(current, nbt);
-        }
-        public CompoundTag read() {
-            if (reader == null) return ((IotaHolderItem) current.getItem()).readIotaTag(current);
-            return reader.apply(current);
-        }
-        public void bind(ItemStack stack) {
-            this.current = stack;
-        }
-        public void rename(String newName) {
-            current.setHoverName(Component.literal(newName));
-        }
-
-        public Iota readIota(ServerLevel world) {
-            return ((IotaHolderItem) current.getItem()).readIota(current, world);
-        }
-
-        static IOMethod get(ItemStack stack) {
-            if (stack == null) return null;
-            var ret = ITEM_IO_TYPES.get(stack.getItem().getClass());
-            if (ret != null) ret.bind(stack);
-            return ret;
-        }
-
-        static {
-            BiConsumer<ItemStack, CompoundTag> simpleWrite = (target, nbt) -> target.getOrCreateTag().put("data", nbt);
-            new IOMethod(ItemFocus.class, simpleWrite, null);
-            // new IOMethod(ItemThoughtKnot.class, simpleWrite, null); // not in 1.19
-            new IOMethod(ItemSpellbook.class, (stack, nbt) -> {
-                int idx = ItemSpellbook.getPage(stack, 1);
-                String pageKey = String.valueOf(idx);
-                NBTHelper.getOrCreateCompound(stack, TAG_PAGES).put(pageKey, nbt);
-            }, null);
-        }
-    }
-
-    public static IOMethod getItemIO(ServerPlayer player) {
-        if (player == null) return null;
-        var ret = IOMethod.get(player.getMainHandItem());
-        if (ret == null) ret = IOMethod.get(player.getOffhandItem());
-        return ret;
-    }
-
     public static void doParse(ServerPlayer player, String code, String rename) {
-        var target = getItemIO(player);
+        var target = getItemIO(player, true);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
         target.write(nbt);
@@ -96,7 +30,7 @@ public class CodeHelpers {
     }
 
     public static void doParse(ServerPlayer player, List<String> code, String rename) {
-        var target = getItemIO(player);
+        var target = getItemIO(player, true);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
         target.write(nbt);
@@ -107,7 +41,7 @@ public class CodeHelpers {
         return readHand(player, StringProcessors.READ_DEFAULT);
     }
     public static String readHand(ServerPlayer player, StringProcessors.F post) {
-        var target = getItemIO(player);
+        var target = getItemIO(player, false);
         if (target == null) return null;
         var iotaRoot = target.read();
         if (iotaRoot == null) return null;

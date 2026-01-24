@@ -156,6 +156,12 @@ Plugin Parser Installed:
       be omitted.
     Output Type: '`IdentifierIota`'
     Type: Identifier (ResourceLocation) Reference for HexPose
+  - Addon: HexFlow
+    Example: '`copy_mask_nn----`, `copy_mask_n-n-n`'
+    Output: '`Electric Fisherman` (Copy Mask) special pattern with given copy targets;
+      each `n` indicates a stack position to copy from.'
+    Output Type: '`PatternIota`'
+    Type: Fisherman Copy Mask Pattern
   headers:
   - Addon
   - Type
