@@ -59,6 +59,14 @@
 			"input": "str",
 			"output": "list",
 			"text": "book.descrip.hexparse:compile"
+		},
+		{
+			"type": "hexcasting:pattern",
+			"op_id": "hexparse:donate",
+			"anchor": "hexparse:donate",
+			"input": "num",
+			"output": "",
+			"text": "book.descrip.hexparse:donate"
 		}
 	]
 }
