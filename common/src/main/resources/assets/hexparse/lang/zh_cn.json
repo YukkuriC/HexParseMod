@@ -42,6 +42,7 @@
   "hexcasting.spell.hexparse:create_linebreak": "换行之纯化",
   "hexcasting.spell.hexparse:compile": "编译术",
   "hexcasting.spell.hexparse:comment_switcher": "注释转换",
+  "hexcasting.spell.hexparse:donate": "捐赠",
   "hexparse.category.commands": "HexParse指令",
   "hexparse.category.commands.desc": "我如何利用来自$(thing)HexParse/$的异端之力",
   "hexparse.book.entry.commands.io": "读写",
@@ -66,5 +67,6 @@
   "book.descrip.hexparse:learn_patterns": "从手持物品（远古卷轴、核心、制成的施法道具等）内提取卓越法术图案，返回装有解码器本次学习内容的列表。",
   "book.descrip.hexparse:remove_comments": "清除列表内所有注释iota，返回处理后的列表。",
   "book.descrip.hexparse:create_linebreak": "在栈内添加一个具有给定数目空格缩进的换行注释iota。",
-  "book.descrip.hexparse:compile": "将输入字符串iota编译为iota列表；若未安装$(bold)$(thing)MoreIotas/$则无效果。"
+  "book.descrip.hexparse:compile": "将输入字符串iota编译为iota列表；若未安装$(bold)$(thing)MoreIotas/$则无效果。",
+  "book.descrip.hexparse:donate": "向自然捐赠特定数量的媒质（以粉为单位）"
 }

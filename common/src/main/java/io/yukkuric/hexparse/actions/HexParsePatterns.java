@@ -22,6 +22,7 @@ public class HexParsePatterns {
     public static final ActionRegistryEntry REMOVE_COMMENTS = wrap("remove_comments", HexPattern.fromAngles("dadadedadadwqaeaqeww", HexDir.NORTH_EAST), ActionRemoveComments.INSTANCE);
     public static final ActionRegistryEntry LEARN_GREAT_PATTERNS = wrap("learn_patterns", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwwqqeqqeqqeqqeqqeqqdqeeeeed", HexDir.EAST), ActionLearnGreatPatterns.INSTANCE);
     public static final ActionRegistryEntry CREATE_LINEBREAK = wrap("create_linebreak", HexPattern.fromAngles("dadadedadaddwwwa", HexDir.NORTH_EAST), ActionCreateLineBreak.INSTANCE);
+    public static final ActionRegistryEntry DONATE = wrap("donate", HexPattern.fromAngles("qqdqqdqqqqqdqqdqqew", HexDir.EAST), ActionDonate.INSTANCE);
     public static final ActionRegistryEntry COMPILE;
     public static final ActionRegistryEntry COMMENT_SWITCHER;
 

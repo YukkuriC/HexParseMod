@@ -107,6 +107,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 * `remove_comments`: Clears comment iotas from a (nested) list input.
 * `learn_patterns`: Read handheld items and learns great pattern(s) inside.
 * `create_linebreak`: Adds a line-break comment iota with space-indents of given number to the stack.
+* `donate`: Equivalent to `/hexParse donate`.
 * (great spell) `compile`: takes in a MoreIotas string iota, and parses it into a code list.
 
 *Introduction also written in `HexParse Patterns` section inside the book.*
