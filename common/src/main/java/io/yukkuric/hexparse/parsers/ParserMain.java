@@ -9,6 +9,7 @@ import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
+import io.yukkuric.hexparse.parsers.nbt2str.unsafe.hexcellular.PropertyParser;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
 import io.yukkuric.hexparse.parsers.str2nbt.plugins.PluginConstParsers;
 import net.minecraft.ChatFormatting;
@@ -235,6 +236,7 @@ public class ParserMain {
             str2nbtParsers.add(PluginConstParsers.TO_PROPERTY);
             str2nbtParsers.add(PluginConstParsers.TO_MY_PROPERTY);
             nbt2strParsers.add(PropertyParser.INSTANCE);
+            nbt2strParsers.add(loadUnsafe(INbt2Str.class, "nbt2str.unsafe.hexcellular.PropertyParser"));
         }
 
         if (HexParse.HELPERS.modLoaded("hexpose")) {

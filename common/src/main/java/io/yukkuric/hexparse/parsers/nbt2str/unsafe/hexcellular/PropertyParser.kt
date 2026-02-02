@@ -1,11 +1,14 @@
-package io.yukkuric.hexparse.parsers.nbt2str.plugins
+package io.yukkuric.hexparse.parsers.nbt2str.unsafe.hexcellular
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
+import io.yukkuric.hexparse.parsers.IPlayerBinder
 import io.yukkuric.hexparse.parsers.PluginIotaFactory
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 
-object PropertyParser : INbt2Str {
+object PropertyParser : INbt2Str, IPlayerBinder {
     fun unwrapName(raw: String) = if (raw.startsWith("_")) raw.substring(1) else raw
 
     override fun match(node: CompoundTag?): Boolean = isType(node, PluginIotaFactory.TYPE_PROP)
@@ -18,5 +21,16 @@ object PropertyParser : INbt2Str {
             return "myprop_${sub}"
         }
         return "prop_${unwrapName(name)}"
+    }
+
+    private var level: ServerLevel? = null
+    override fun collectInnerData(): CompoundTag? {
+        if (level == null) return null
+        // TODO
+        return super.collectInnerData()
+    }
+
+    override fun BindPlayer(p: ServerPlayer?) {
+        level = p?.serverLevel()
     }
 }
