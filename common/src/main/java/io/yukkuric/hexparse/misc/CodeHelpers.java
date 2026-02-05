@@ -38,9 +38,9 @@ public class CodeHelpers {
     }
 
     public static String readHand(ServerPlayer player) {
-        return readHand(player, StringProcessors.READ_DEFAULT);
+        return readHand(player, 0, StringProcessors.READ_DEFAULT);
     }
-    public static String readHand(ServerPlayer player, StringProcessors.F post) {
+    public static String readHand(ServerPlayer player, int configNum, StringProcessors.F post) {
         var target = getItemIO(player, false);
         if (target == null) return null;
         var iotaRoot = target.read();

@@ -11,6 +11,7 @@ import at.petrak.hexcasting.common.casting.actions.stack.SpecialHandlerMask;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.IotaFactory;
+import io.yukkuric.hexparse.parsers.interfaces.ConfigNums;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -48,6 +49,12 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
         });
     }
 
+    private int configState = 0;
+    @Override
+    public void receiveConfigNum(int num) {
+        configState = num;
+    }
+
     @Override
     public boolean match(CompoundTag node) {
         return isType(node, IotaFactory.TYPE_PATTERN);
@@ -57,6 +64,10 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
     public String parse(CompoundTag node) {
         var pattern = HexPattern.fromNBT(node.getCompound(HexIotaTypes.KEY_DATA));
         var angleSigs = pattern.anglesSignature();
+
+        // early escape by config
+        if (hasConfigNum(configState, ConfigNums.FORCE_SIGNATURES)) return '_' + angleSigs;
+
         if (SPECIAL_PATTERNS.containsKey(angleSigs)) return SPECIAL_PATTERNS.get(angleSigs);
 
         // do match
