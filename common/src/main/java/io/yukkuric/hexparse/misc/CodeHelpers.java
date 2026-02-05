@@ -46,7 +46,7 @@ public class CodeHelpers {
         var iotaRoot = target.read();
         if (iotaRoot == null) return null;
         autoRefresh(player.getServer());
-        return ParserMain.ParseIotaNbt(iotaRoot, player, post);
+        return ParserMain.ParseIotaNbt(iotaRoot, player, configNum, post);
     }
 
     static WeakReference<MinecraftServer> refreshedWorld = new WeakReference<>(null);
