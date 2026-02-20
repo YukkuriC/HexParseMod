@@ -16,6 +16,7 @@ public class PluginIotaFactory extends IotaFactory {
     public static final String TYPE_MOTE = "hexal:item";
     public static final String TYPE_PROP = "hexcellular:property";
     public static final String TYPE_RESLOC = "hexpose:identifier";
+    public static final String TYPE_DIM = "oneironaut:dim";
 
     public static CompoundTag makeIotaType(String type) {
         return makeType(TYPE_IOTA_TYPE, StringTag.valueOf(type));
@@ -126,5 +127,11 @@ public class PluginIotaFactory extends IotaFactory {
         res.putString("path", resloc.getPath());
         res.putString("namespace", resloc.getNamespace());
         return makeType(TYPE_RESLOC, res);
+    }
+
+    public static CompoundTag makeDimension(String raw) {
+        var res = new CompoundTag();
+        res.putString("dim_key", raw);
+        return makeType(TYPE_DIM, res);
     }
 }

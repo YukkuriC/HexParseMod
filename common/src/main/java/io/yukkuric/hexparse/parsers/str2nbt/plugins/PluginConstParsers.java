@@ -118,4 +118,6 @@ public class PluginConstParsers {
     }
 
     public static BaseConstParser TO_IDENTIFIER = new Resource("id_", PluginIotaFactory::makeResLoc);
+
+    public static BaseConstParser TO_DIMENSION = new Resource("dim_", PluginIotaFactory::makeDimension);
 }
