@@ -17,6 +17,7 @@ public class PluginIotaFactory extends IotaFactory {
     public static final String TYPE_PROP = "hexcellular:property";
     public static final String TYPE_RESLOC = "hexpose:identifier";
     public static final String TYPE_DIM = "oneironaut:dim";
+    public static final String TYPE_POTION = "ephemera:potion";
 
     public static CompoundTag makeIotaType(String type) {
         return makeType(TYPE_IOTA_TYPE, StringTag.valueOf(type));
@@ -133,5 +134,11 @@ public class PluginIotaFactory extends IotaFactory {
         var res = new CompoundTag();
         res.putString("dim_key", raw);
         return makeType(TYPE_DIM, res);
+    }
+
+    public static CompoundTag makePotion(String raw) {
+        var res = new CompoundTag();
+        res.putString("potion_key", raw);
+        return makeType(TYPE_POTION, res);
     }
 }
