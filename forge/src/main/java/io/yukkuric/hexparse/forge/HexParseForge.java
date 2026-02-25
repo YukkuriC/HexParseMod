@@ -21,6 +21,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 import java.util.function.*;
 
+@SuppressWarnings("removal")
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
     static Network NETWORK;
