@@ -15,6 +15,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.nbt.StringTag
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 class CommentRenderer(iota: SplicingTableIotaClientView, x: Int, y: Int) :
     SplicingTableIotaRenderer(CommentIotaType.INSTANCE, iota, x, y) {
@@ -47,13 +48,13 @@ class CommentRenderer(iota: SplicingTableIotaClientView, x: Int, y: Int) :
         }
     }
 
-    fun getTooltip() = Tooltip.create(CommentIotaType.INSTANCE.display(iota.data))
+    override fun getTooltip(): Tooltip? = Tooltip.create(CommentIotaType.INSTANCE.display(iota.data))
 
     companion object {
         @JvmStatic
         fun registerSelf() {
             SplicingTableIotaRenderers.register(
-                net.minecraft.resources.ResourceLocation(CommentIotaType.TYPE_ID),
+                ResourceLocation(CommentIotaType.TYPE_ID),
                 SplicingTableIotaRendererParser.simple { _, iota, x, y -> CommentRenderer(iota, x, y) }
             )
         }

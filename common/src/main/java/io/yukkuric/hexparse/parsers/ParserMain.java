@@ -247,6 +247,16 @@ public class ParserMain {
             str2nbtParsers.add(PluginConstParsers.TO_IDENTIFIER);
             nbt2strParsers.add(IdentifierParser.INSTANCE);
         }
+
+        if (HexParse.HELPERS.modLoaded("oneironaut")) {
+            str2nbtParsers.add(PluginConstParsers.TO_DIMENSION);
+            nbt2strParsers.add(new DimParser());
+        }
+
+        if (HexParse.HELPERS.modLoaded("ephemera")) {
+            str2nbtParsers.add(PluginConstParsers.TO_POTION);
+            nbt2strParsers.add(new PotionParser());
+        }
     }
 
     public static void AddForthParser(IStr2Nbt p) {
