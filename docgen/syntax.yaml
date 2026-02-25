@@ -162,6 +162,16 @@ Plugin Parser Installed:
       each `n` indicates a stack position to copy from.'
     Output Type: '`PatternIota`'
     Type: Fisherman Copy Mask Pattern
+  - Addon: Oneironaut
+    Example: '`dim_oneironaut:noosphere`'
+    Output: Dimension iota with given ID; namespace `minecraft:` can be omitted
+    Output Type: '`DimIota`'
+    Type: Spatial Imprint
+  - Addon: Ephemera
+    Example: '`potion_hexcasting:enlarge_grid`'
+    Output: status iota with given ID; namespace `minecraft:` can be omitted
+    Output Type: '`PotionIota`'
+    Type: Status Iota
   headers:
   - Addon
   - Type

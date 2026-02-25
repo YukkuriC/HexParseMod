@@ -1,9 +1,10 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import io.yukkuric.hexparse.parsers.interfaces.IConfigNumReceiver;
 import net.minecraft.nbt.CompoundTag;
 
-public interface INbt2Str {
+public interface INbt2Str extends IConfigNumReceiver {
     boolean match(CompoundTag node);
 
     String parse(CompoundTag node);

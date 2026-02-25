@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.compat.hexdebug
 
 import at.petrak.hexcasting.api.utils.darkGreen
-import gay.`object`.hexdebug.api.client.splicing.SplicingTableIotaRenderer
 import gay.`object`.hexdebug.api.client.splicing.SplicingTableIotaRendererParser
 import gay.`object`.hexdebug.api.client.splicing.SplicingTableIotaRenderers
 import gay.`object`.hexdebug.api.splicing.SplicingTableIotaClientView
@@ -12,12 +11,12 @@ import io.yukkuric.hexparse.parsers.IotaFactory
 import io.yukkuric.hexparse.parsers.nbt2str.CommentParser
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.nbt.StringTag
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
 
 class CommentRenderer(iota: SplicingTableIotaClientView, x: Int, y: Int) :
-    SplicingTableIotaRenderer(CommentIotaType.INSTANCE, iota, x, y) {
+    CommentRendererButIgnoresOverride(CommentIotaType.INSTANCE, iota, x, y) {
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float) {
         guiGraphics.pose().letPushPose { pose ->
             val content = (iota.data as StringTag).asString
@@ -47,13 +46,11 @@ class CommentRenderer(iota: SplicingTableIotaClientView, x: Int, y: Int) :
         }
     }
 
-    fun getTooltip() = Tooltip.create(CommentIotaType.INSTANCE.display(iota.data))
-
     companion object {
         @JvmStatic
         fun registerSelf() {
             SplicingTableIotaRenderers.register(
-                net.minecraft.resources.ResourceLocation(CommentIotaType.TYPE_ID),
+                ResourceLocation(CommentIotaType.TYPE_ID),
                 SplicingTableIotaRendererParser.simple { _, iota, x, y -> CommentRenderer(iota, x, y) }
             )
         }

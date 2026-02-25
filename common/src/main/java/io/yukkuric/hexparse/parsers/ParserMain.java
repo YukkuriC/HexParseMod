@@ -138,14 +138,20 @@ public class ParserMain {
     }
 
     public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller, StringProcessors.F post) {
-        var res = _parseIotaNbt(node, caller, true);
+        return ParseIotaNbt(node, caller, 0, post);
+    }
+    public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller, int configNum, StringProcessors.F post) {
+        var res = _parseIotaNbt(node, caller, configNum, true);
         res = post.apply(res);
         return res;
     }
 
-    private static synchronized String _parseIotaNbt(CompoundTag node, ServerPlayer caller, boolean isRoot) {
+    private static synchronized String _parseIotaNbt(CompoundTag node, ServerPlayer caller, int configNum, boolean isRoot) {
         // bind caller
-        if (isRoot) for (var p : nbt2strParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
+        if (isRoot) for (var p : nbt2strParsers) {
+            p.receiveConfigNum(configNum);
+            if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
+        }
 
         try {
             // handle nested list
@@ -156,7 +162,7 @@ public class ParserMain {
                 for (var sub : node.getList(HexIotaTypes.KEY_DATA, ListTag.TAG_COMPOUND)) {
                     if (isFirst) isFirst = false;
                     else sb.append(',');
-                    sb.append(_parseIotaNbt((CompoundTag) sub, caller, false));
+                    sb.append(_parseIotaNbt((CompoundTag) sub, caller, configNum, false));
                 }
                 if (!isRoot) sb.append(']');
                 return sb.toString();
@@ -240,6 +246,16 @@ public class ParserMain {
         if (HexParse.HELPERS.modLoaded("hexpose")) {
             str2nbtParsers.add(PluginConstParsers.TO_IDENTIFIER);
             nbt2strParsers.add(IdentifierParser.INSTANCE);
+        }
+
+        if (HexParse.HELPERS.modLoaded("oneironaut")) {
+            str2nbtParsers.add(PluginConstParsers.TO_DIMENSION);
+            nbt2strParsers.add(new DimParser());
+        }
+
+        if (HexParse.HELPERS.modLoaded("ephemera")) {
+            str2nbtParsers.add(PluginConstParsers.TO_POTION);
+            nbt2strParsers.add(new PotionParser());
         }
     }
 
