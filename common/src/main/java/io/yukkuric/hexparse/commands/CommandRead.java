@@ -3,6 +3,7 @@ package io.yukkuric.hexparse.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.misc.*;
+import io.yukkuric.hexparse.parsers.interfaces.ConfigNums;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -18,7 +19,9 @@ public class CommandRead {
         cmd.then(
                 Commands.literal("read").executes(ctx -> readHand(ctx, code -> CodeHelpers.displayCode(ctx.getSource().getPlayer(), code)))
         ).then(
-                Commands.literal("read_hexbug").executes(ctx -> readHand(ctx, StringProcessors.READ_HEXBOT_VARIANT, code -> CodeHelpers.displayCode(ctx.getSource().getPlayer(), code)))
+                Commands.literal("read_signatures").executes(ctx -> readHand(ctx, ConfigNums.FORCE_SIGNATURES, code -> CodeHelpers.displayCode(ctx.getSource().getPlayer(), code)))
+        ).then(
+                Commands.literal("read_hexbug").executes(ctx -> readHand(ctx, 0, StringProcessors.READ_HEXBOT_VARIANT, code -> CodeHelpers.displayCode(ctx.getSource().getPlayer(), code)))
         ).then(
                 Commands.literal("share").executes(ctx -> readHand(ctx, code -> {
                     var p = ctx.getSource().getPlayer();
@@ -37,12 +40,16 @@ public class CommandRead {
         );
     }
 
-    static int readHand(CommandContext<CommandSourceStack> ctx, @NotNull Consumer<String> then) {
-        return readHand(ctx, StringProcessors.READ_DEFAULT, then);
+    static int readHand(CommandContext<CommandSourceStack> ctx, int configNum, @NotNull Consumer<String> then) {
+        return readHand(ctx, configNum, StringProcessors.READ_DEFAULT, then);
     }
 
-    static int readHand(CommandContext<CommandSourceStack> ctx, StringProcessors.F post, @NotNull Consumer<String> then) {
-        var code = CodeHelpers.readHand(ctx.getSource().getPlayer(), post);
+    static int readHand(CommandContext<CommandSourceStack> ctx, @NotNull Consumer<String> then) {
+        return readHand(ctx, 0, StringProcessors.READ_DEFAULT, then);
+    }
+
+    static int readHand(CommandContext<CommandSourceStack> ctx, int configNum, StringProcessors.F post, @NotNull Consumer<String> then) {
+        var code = CodeHelpers.readHand(ctx.getSource().getPlayer(), configNum, post);
         if (code == null) return 0;
         then.accept(code);
         return 1919810;
