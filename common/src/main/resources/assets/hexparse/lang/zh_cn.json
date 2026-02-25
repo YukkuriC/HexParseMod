@@ -46,7 +46,7 @@
   "hexparse.category.commands": "HexParse指令",
   "hexparse.category.commands.desc": "我如何利用来自$(thing)HexParse/$的异端之力",
   "hexparse.book.entry.commands.io": "读写",
-  "hexparse.book.entry.commands.io.base": "$(li)$(bold)/hexParse <代码文本> [重命名]/$直接解析输入的代码至手持核心；若提供了“重命名”可选参数则会同时重命名核心$(li)$(bold)/hexParse read/$：读取玩家手中的核心，将其内容解析为代码输出至聊天窗口，输出结果点击可复制",
+  "hexparse.book.entry.commands.io.base": "$(li)$(bold)/hexParse <代码文本> [重命名]/$：直接解析输入的代码至手持核心；若提供了“重命名”可选参数则会同时重命名核心$(li)$(bold)/hexParse read/$：读取玩家手中的核心，将其内容解析为代码输出至聊天窗口，输出结果点击可复制$(li)$(bold)/hexParse read_signatures/$：同$(bold)read/$，但忽略所有已知图案ID并直接输出其笔划序列",
   "hexparse.book.entry.commands.io.clipboard": "$(li)$(bold)/hexParse clipboard [重命名]/$：读取玩家剪贴板内容，将其作为代码解析至核心；“重命名”可选参数会同时重命名核心$(li)$(bold)/hexParse clipboard_angles [重命名]/$：同上，但只会解析其中形如$(bold)\"wedsaq\"/$的笔划序列段，并将其逐个转为图案",
   "hexparse.book.entry.commands.io.read.2": "$(li)$(bold)/hexParse read_hexbug/$：同$(bold)read/$，但会尝试将格式翻译以适配Discord内HexBug的$(bold)/patterns hex/$命令；$(italic)注：非图案常量、部分HexBug内过时注册名等仍需手动处理/$$(li)$(bold)/hexParse share/$：（实验性质）同$(bold)read/$，但同时广播核心原始内容与解析后代码至服务器内所有玩家",
   "hexparse.book.entry.commands.io.mind": "$(li)$(bold)/hexParse mind_stack .../$：从玩家思维栈（法杖施法空间）读写Iota$(li2)$(bold)... peek/$：读取栈内最后一个Iota，若栈为空则得到$(bold)null/$$(li2)$(bold)... push <代码>/$：解析代码并压入思维栈$(li2)$(bold)... push_clipboard/$：同上，但代码来自读取剪贴板",

@@ -55,6 +55,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 - `/hexParse <code string> [rename]`: parse input code into supported held item; optional `rename` argument to rename the item.
 - `/hexParse read`: read handheld item's iota, parse into code and show in chat window; the result will be copied
   when clicked.
+- `/hexParse read_signatures`: same as `read`, but ignores all known pattern IDs and outputs all as angle signatures.
 - `/hexParse clipboard [rename]`: read client clipboard text and parse into supported held item; optional `rename` argument to rename
   the item.
 - `/hexParse clipboard_angles [rename]`: same as `clipboard`, but only accept patterns input with raw angle string like
