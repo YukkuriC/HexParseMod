@@ -38,5 +38,5 @@ Hexcellular|Property (player specific)|`myprop_imaprop`, `myprop_ImAPropToo`|sam
 Hex-Ars-Linker|Glyph Reference|`glyph_touch`, `glyph_ars_nouveau:glyph_projectile`, `glyph_hex_ars_link:hex_callback`|glyph iota with certain name; `ars_nouveau` namespace and `glyph_` path prefix could be omitted.|`GlyphIota`
 HexPose|Identifier (ResourceLocation) Reference for HexPose|`id_bedrock`, `id_hexcasting:focus`|identifier iota with given resource location; namespace `minecraft` could be omitted.|`IdentifierIota`
 HexFlow|Fisherman Copy Mask Pattern|`copy_mask_nn----`, `copy_mask_n-n-n`|`Electric Fisherman` (Copy Mask) special pattern with given copy targets; each `n` indicates a stack position to copy from.|`PatternIota`
-Oneironaut|Spatial Imprint|`dim_oneironaut:noosphere`|dimension iota with given ID; namespace `minecraft:` can be omitted|`DimIota`
+Oneironaut|Spatial Imprint|`dim_oneironaut:noosphere`|Dimension iota with given ID; namespace `minecraft:` can be omitted|`DimIota`
 Ephemera|Status Iota|`potion_hexcasting:enlarge_grid`|status iota with given ID; namespace `minecraft:` can be omitted|`PotionIota`
