@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 env:
-  PYPI_PACKAGE: hexdoc-hexautomata
+  PYPI_PACKAGE: hexdoc-hexparse
 
 jobs:
   build-hexdoc:
