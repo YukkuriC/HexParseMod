@@ -162,6 +162,8 @@ Parsing is not limited.
 | FairPlayPropNames    | `bool` | randomize property names based on input string                                                                                                                                         |
 | ShowColorfulNested   | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                             |
 
+_* note: iota types with tag `hexparse:nbt_parsing_forbidden` won't be imported unless player has OP permission_
+
 ## New iota: `CommentIota`
 
 `CommentIota` displays string inside, and parses into a null iota (with id: `"hexparse:comment"`) which executes doing
@@ -177,4 +179,4 @@ When player holds `Shift` key, all comments will be hidden.
     - `AddBackParser(p: INbt2Str)`
     - `<T : SpecialHandler> AddSpecialHandlerBackParser(cls: Class<T>, func: (T, CompoundTag) -> String)`
     - `CreateItemIOMethod(cls: Class<*>, writer: ((ItemStack, CompoundTag) -> Unit)?, reader: ((ItemStack) -> CompoundTag?)?, priority: Int = 0, validator: ((ItemStack, Boolean) -> Boolean)?`
-)`
+      )`
