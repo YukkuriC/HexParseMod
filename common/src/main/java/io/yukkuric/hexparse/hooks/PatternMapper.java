@@ -25,8 +25,12 @@ public class PatternMapper {
     static {
         mapPatternMeta.put("\\", IotaFactory.makePattern("qqqaw", HexDir.WEST));
         mapPatternMeta.put("del", IotaFactory.makePattern("eeedw", HexDir.EAST));
-        mapPatternMeta.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
-        mapPatternMeta.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
+        var bracketStart = IotaFactory.makePattern("qqq", HexDir.WEST);
+        var bracketEnd = IotaFactory.makePattern("eee", HexDir.EAST);
+        mapPatternMeta.put("(", bracketStart);
+        mapPatternMeta.put("{", bracketStart);
+        mapPatternMeta.put(")", bracketEnd);
+        mapPatternMeta.put("}", bracketEnd);
     }
 
     static void _setMap(Map<String, CompoundTag> map, ResourceLocation id, String seq, HexDir dir) {
