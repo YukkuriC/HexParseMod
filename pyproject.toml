@@ -117,6 +117,9 @@ reportUnusedFunction = "warning"
 reportUnusedImport = "warning"
 reportUnusedVariable = "warning"
 
+[tool.uv]
+index-strategy = "unsafe-best-match"
+
 # mirror
 # uv sync --index-strategy unsafe-best-match
 [[tool.uv.index]]
