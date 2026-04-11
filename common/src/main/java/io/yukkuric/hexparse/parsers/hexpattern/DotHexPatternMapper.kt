@@ -7,14 +7,16 @@ import net.minecraft.locale.Language
 object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
     var serverNameMap: Map<String, String>? = null // TODO collect en_us lang from server
+    val KeepSelfKeys = setOf("[", "]", "{", "}")
 
     @JvmStatic
     fun doCollect() {
         if (nameMap.isNotEmpty()) return
         val hexAPI = HexAPI.instance()
         for (entry in HexActions.REGISTRY.entrySet()) {
-            val display = Language.getInstance().getOrDefault(hexAPI.getActionI18nKey(entry.key))
-            nameMap[display] = entry.key.location().toString()
+            val langKey = hexAPI.getActionI18nKey(entry.key)
+            val display = Language.getInstance().getOrDefault(langKey)
+            if (display != langKey) nameMap[display] = entry.key.location().toString()
         }
     }
 
@@ -23,6 +25,9 @@ object DotHexPatternMapper {
 
     @JvmStatic
     fun processCode(code: String): String {
+        // try init client-side map here
+        doCollect()
+
         // we just remap per-line for now
         val pieces = code.split("\n").map(String::trim)
 
@@ -31,6 +36,10 @@ object DotHexPatternMapper {
             if (p.startsWith("<") && p.endsWith(">")) {
                 // TODO
                 collected.append(p.substring(1, p.length - 1))
+                continue
+            }
+            if (p in KeepSelfKeys) {
+                collected.append(" $p")
                 continue
             }
             // TODO special handlers

@@ -9,15 +9,16 @@ import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
 import io.yukkuric.hexparse.forge.events.MacroForgeHandler;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
-import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
+import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -43,6 +44,9 @@ public final class HexParseForge {
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
         evBus.register(MacroForgeHandler.class);
+        evBus.addListener((ServerStartedEvent e) -> {
+            DotHexPatternMapper.doCollect();
+        });
 
         var modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((RegisterEvent event) -> {
