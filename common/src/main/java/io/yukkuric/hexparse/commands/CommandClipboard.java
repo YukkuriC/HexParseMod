@@ -13,6 +13,7 @@ public class CommandClipboard {
     public static void init() {
         getBranch("clipboard", ClipboardMsgMode.DEFAULT);
         getBranch("clipboard_angles", ClipboardMsgMode.ANGLES_ONLY);
+        getBranch("clipboard_hexpattern", ClipboardMsgMode.HEXPATTERN_FORMAT);
     }
 
     static void getBranch(String name, ClipboardMsgMode mode) {

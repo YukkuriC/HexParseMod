@@ -7,12 +7,12 @@ import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.fabric.config.HexParseConfigFabric;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
-import io.yukkuric.hexparse.network.ISenderServer;
-import io.yukkuric.hexparse.network.MsgHandlers;
-import io.yukkuric.hexparse.network.MsgPushClipboard;
+import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
+import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.FriendlyByteBuf;
@@ -38,6 +38,10 @@ public final class HexParseFabric implements ModInitializer {
         HexParsePatterns.registerActions();
 
         CommandRegistrationCallback.EVENT.register((dp, foo, bar) -> HexParseCommands.register(dp));
+
+        CommonLifecycleEvents.TAGS_LOADED.register((reg, isClient) -> {
+            DotHexPatternMapper.doCollect();
+        });
     }
 
     static Network NETWORK;

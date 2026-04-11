@@ -9,6 +9,7 @@ import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
 import io.yukkuric.hexparse.forge.events.MacroForgeHandler;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
+import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
@@ -19,16 +20,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.*;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.registries.RegisterEvent;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
@@ -52,6 +50,9 @@ public final class HexParseForge {
             if (key.equals(HexRegistries.ACTION)) {
                 HexParsePatterns.registerActions();
             } else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
+        });
+        modBus.addListener((FMLCommonSetupEvent e) -> {
+            DotHexPatternMapper.doCollect();
         });
 
         var ctx = ModLoadingContext.get();
