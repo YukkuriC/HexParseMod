@@ -12,14 +12,17 @@ import net.minecraft.server.level.ServerPlayer
 // mapper.doCollect()
 object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
-    var serverNameMap: Map<String, String>? = null // TODO collect en_us lang from server
+    val prefixMap = HashMap<String, String>()
+    var serverNameMap: Map<String, String>? = null
+    var serverPrefixMap: Map<String, String>? = null
     @JvmStatic
-    fun receiveRemoteMap(data: Map<String, String>) {
-        serverNameMap = data
+    fun receiveRemoteMap(packet: MsgSyncDisplayMap) {
+        serverNameMap = packet.map
+        serverPrefixMap = packet.prefixMap
     }
     @JvmStatic
     fun sendRemoteMap(player: ServerPlayer) {
-        MsgHandlers.SERVER.sendPacketToPlayer(player, MsgSyncDisplayMap(nameMap))
+        MsgHandlers.SERVER.sendPacketToPlayer(player, MsgSyncDisplayMap(nameMap, prefixMap))
     }
 
     val KeepSelfKeys = setOf("(", ")", "[", "]", "{", "}")

@@ -11,13 +11,14 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-public record MsgSyncDisplayMap(Map<String, String> map) implements IMessage {
+public record MsgSyncDisplayMap(Map<String, String> map, Map<String, String> prefixMap) implements IMessage {
     public static final ResourceLocation ID = HexParse.modLoc("display/sync");
     public static final Codec<Map<String, String>> CODEC = Codec.unboundedMap(Codec.STRING, Codec.STRING);
 
     @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeJsonWithCodec(CODEC, map);
+        buf.writeJsonWithCodec(CODEC, prefixMap);
     }
 
     @Override
@@ -28,13 +29,14 @@ public record MsgSyncDisplayMap(Map<String, String> map) implements IMessage {
     public static MsgSyncDisplayMap deserialize(ByteBuf buffer) {
         var buf = new FriendlyByteBuf(buffer);
         var map = buf.readJsonWithCodec(CODEC);
-        return new MsgSyncDisplayMap(map);
+        var prefixMap = buf.readJsonWithCodec(CODEC);
+        return new MsgSyncDisplayMap(map, prefixMap);
     }
 
     public static void handle(MsgSyncDisplayMap self) {
         var MC = Minecraft.getInstance();
         MC.execute(() -> {
-            DotHexPatternMapper.receiveRemoteMap(self.map);
+            DotHexPatternMapper.receiveRemoteMap(self);
         });
     }
 }
