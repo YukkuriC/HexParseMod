@@ -7,7 +7,10 @@ import net.minecraft.locale.Language
 object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
     var serverNameMap: Map<String, String>? = null // TODO collect en_us lang from server
+
     val KeepSelfKeys = setOf("(", ")", "[", "]", "{", "}")
+    val SpecialPatternKeys = listOf("open_paren", "close_paren", "escape", "undo")
+
     val RegLineSep = Regex("\\s*,\\s*")
     val RegListUnwrap = Regex("(\\[+)(.*?)(]+)")
 
@@ -19,6 +22,12 @@ object DotHexPatternMapper {
             val langKey = hexAPI.getActionI18nKey(entry.key)
             val display = Language.getInstance().getOrDefault(langKey)
             if (display != langKey) nameMap[display] = entry.key.location().toString()
+        }
+        for (key in SpecialPatternKeys) {
+            val loc = HexAPI.modLoc(key)
+            val langKey = hexAPI.getRawHookI18nKey(loc)
+            val display = Language.getInstance().getOrDefault(langKey)
+            if (display != langKey) nameMap[display] = loc.toString()
         }
     }
 
