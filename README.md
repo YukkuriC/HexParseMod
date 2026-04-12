@@ -61,6 +61,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   the item.
 - `/hexParse clipboard_angles [rename]`: same as `clipboard`, but only accept patterns input with raw angle string like
   `"wedsaq"`.
+- `/hexParse clipboard_hexpattern [rename]`: (experimental) same as `clipboard`, but accepts `.hexpattern` format; _warning: only partial features supported_.
 - `/hexParse share`: (experimental) same as `read` but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
 - `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
