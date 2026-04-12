@@ -7,7 +7,9 @@ import net.minecraft.locale.Language
 object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
     var serverNameMap: Map<String, String>? = null // TODO collect en_us lang from server
-    val KeepSelfKeys = setOf("[", "]", "{", "}")
+    val KeepSelfKeys = setOf("(", ")", "[", "]", "{", "}")
+    val RegLineSep = Regex("\\s*,\\s*")
+    val RegListUnwrap = Regex("(\\[+)(.*?)(]+)")
 
     @JvmStatic
     fun doCollect() {
@@ -33,25 +35,42 @@ object DotHexPatternMapper {
 
         val collected = StringBuilder()
         for (p in pieces) {
-            if (p.startsWith("<") && p.endsWith(">")) {
-                // TODO
-                collected.append(p.substring(1, p.length - 1))
-                continue
-            }
-            if (p in KeepSelfKeys) {
-                collected.append(" $p")
-                continue
-            }
-            // TODO special handlers
-            // TODO raw patterns
-            val actionKey = this[p]
-            if (actionKey == null) {
-                collected.append(" comment_UNKNOWN_${p.replace(" ", "")}")
-                continue
-            }
-            collected.append(" $actionKey")
+            collected.append(" ${processOne(p)}")
         }
 
         return collected.toString()
+    }
+
+    fun processOne(p: String): String {
+        if (p.startsWith("<") && p.endsWith(">")) {
+            val unwrapped = p.substring(1, p.length - 1)
+            // brute breakdown for lists
+            if (unwrapped.startsWith('[') || unwrapped.endsWith(']')) {
+                val cut = unwrapped.split(RegLineSep)
+                if (cut.size > 1) return processCode(cut.joinToString("\n"))
+                var p1 = ""
+                var p2 = ""
+                val center = unwrapped.replace(RegListUnwrap) { match ->
+                    val (m1, mc, m2) = match.destructured
+                    p1 = m1
+                    p2 = m2
+                    mc
+                }
+                val rebuild = ArrayList<String>()
+                if (p1.isNotEmpty()) rebuild.add(p1)
+                rebuild.add(processOne(center))
+                if (p2.isNotEmpty()) rebuild.add(p2)
+                return rebuild.joinToString(" ")
+            }
+
+            // TODO other consts
+            return unwrapped
+        }
+        if (p in KeepSelfKeys) return p
+
+        // TODO special handlers
+        // TODO raw patterns
+        val actionKey = this[p] ?: return p.replace(" ", "")
+        return actionKey
     }
 }
