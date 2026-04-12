@@ -32,6 +32,12 @@ object DotHexPatternMapper {
         Pair("escape", "\\"),
         Pair("undo", "\\"),
     )
+    val SpecialHandlerMap = hashMapOf(
+        Pair("hexcasting:number", "num_"),
+        Pair("hexcasting:mask", "mask_"),
+        Pair("hexflow:copy_mask", "copy_mask_"),
+        Pair("hexflow:noob_num", "num_"),
+    )
 
     val RegLineSep = Regex("((?<=[\\[\\]])?\\s*,\\s*(?=[\\[\\]])?)|(?<=[\\[\\]])|(?=[\\[\\]])")
 
@@ -48,6 +54,13 @@ object DotHexPatternMapper {
             val langKey = hexAPI.getRawHookI18nKey(HexAPI.modLoc(entry.key))
             val display = Language.getInstance().getOrDefault(langKey)
             if (display != langKey) nameMap[display] = entry.value
+        }
+
+        // special handler prefix
+        for (entry in SpecialHandlerMap) {
+            val langKey = "hexcasting.special.${entry.key}"
+            val display = Language.getInstance().getOrDefault(langKey).replace("%s", "")
+            if (display != langKey) prefixMap[display] = entry.value
         }
     }
 
