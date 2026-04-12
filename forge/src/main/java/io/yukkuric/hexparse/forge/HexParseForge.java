@@ -18,10 +18,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.*;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -47,6 +47,10 @@ public final class HexParseForge {
         evBus.addListener((ServerStartedEvent e) -> {
             DotHexPatternMapper.doCollect();
         });
+        evBus.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
+            if (e.getEntity() instanceof ServerPlayer sp)
+                DotHexPatternMapper.sendRemoteMap(sp);
+        });
 
         var modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((RegisterEvent event) -> {
@@ -54,9 +58,6 @@ public final class HexParseForge {
             if (key.equals(HexRegistries.ACTION)) {
                 HexParsePatterns.registerActions();
             } else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
-        });
-        modBus.addListener((FMLCommonSetupEvent e) -> {
-            DotHexPatternMapper.doCollect();
         });
 
         var ctx = ModLoadingContext.get();
@@ -111,6 +112,10 @@ public final class HexParseForge {
                     MsgUpdateClientMacro::deserialize, makeClientBoundHandler(MsgUpdateClientMacro::handle));
             CHANNEL.registerMessage(idx++, MsgPushMacro.class, MsgPushMacro::serialize,
                     MsgPushMacro::deserialize, makeServerBoundHandler(MsgPushMacro::handle));
+
+            // hexpattern data
+            CHANNEL.registerMessage(idx++, MsgSyncDisplayMap.class, MsgSyncDisplayMap::serialize,
+                    MsgSyncDisplayMap::deserialize, makeClientBoundHandler(MsgSyncDisplayMap::handle));
         }
 
         @Override

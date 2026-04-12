@@ -24,7 +24,9 @@ public class PatternMapper {
 
     static {
         mapPatternMeta.put("\\", IotaFactory.makePattern("qqqaw", HexDir.WEST));
-        mapPatternMeta.put("del", IotaFactory.makePattern("eeedw", HexDir.EAST));
+        var undo = IotaFactory.makePattern("eeedw", HexDir.EAST);
+        mapPatternMeta.put("del", undo);
+        mapPatternMeta.put("undo", undo);
         var bracketStart = IotaFactory.makePattern("qqq", HexDir.WEST);
         var bracketEnd = IotaFactory.makePattern("eee", HexDir.EAST);
         mapPatternMeta.put("(", bracketStart);

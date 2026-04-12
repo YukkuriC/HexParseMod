@@ -2,17 +2,35 @@ package io.yukkuric.hexparse.parsers.hexpattern
 
 import at.petrak.hexcasting.api.HexAPI
 import at.petrak.hexcasting.common.lib.hex.HexActions
+import io.yukkuric.hexparse.network.MsgHandlers
+import io.yukkuric.hexparse.network.MsgSyncDisplayMap
 import net.minecraft.locale.Language
+import net.minecraft.server.level.ServerPlayer
 
+// this.mapper=Java.loadClass('io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper').INSTANCE
+// mapper.nameMap.clear()
+// mapper.doCollect()
 object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
     var serverNameMap: Map<String, String>? = null // TODO collect en_us lang from server
+    @JvmStatic
+    fun receiveRemoteMap(data: Map<String, String>) {
+        serverNameMap = data
+    }
+    @JvmStatic
+    fun sendRemoteMap(player: ServerPlayer) {
+        MsgHandlers.SERVER.sendPacketToPlayer(player, MsgSyncDisplayMap(nameMap))
+    }
 
     val KeepSelfKeys = setOf("(", ")", "[", "]", "{", "}")
-    val SpecialPatternKeys = listOf("open_paren", "close_paren", "escape", "undo")
+    val RawPatternMap = mapOf(
+        Pair("open_paren", "{"),
+        Pair("close_paren", "}"),
+        Pair("escape", "\\"),
+        Pair("undo", "\\"),
+    )
 
-    val RegLineSep = Regex("\\s*,\\s*")
-    val RegListUnwrap = Regex("(\\[+)(.*?)(]+)")
+    val RegLineSep = Regex("((?<=[\\[\\]])?\\s*,\\s*(?=[\\[\\]])?)|(?<=[\\[\\]])|(?=[\\[\\]])")
 
     @JvmStatic
     fun doCollect() {
@@ -23,11 +41,10 @@ object DotHexPatternMapper {
             val display = Language.getInstance().getOrDefault(langKey)
             if (display != langKey) nameMap[display] = entry.key.location().toString()
         }
-        for (key in SpecialPatternKeys) {
-            val loc = HexAPI.modLoc(key)
-            val langKey = hexAPI.getRawHookI18nKey(loc)
+        for (entry in RawPatternMap) {
+            val langKey = hexAPI.getRawHookI18nKey(HexAPI.modLoc(entry.key))
             val display = Language.getInstance().getOrDefault(langKey)
-            if (display != langKey) nameMap[display] = loc.toString()
+            if (display != langKey) nameMap[display] = entry.value
         }
     }
 
@@ -56,20 +73,7 @@ object DotHexPatternMapper {
             // brute breakdown for lists
             if (unwrapped.startsWith('[') || unwrapped.endsWith(']')) {
                 val cut = unwrapped.split(RegLineSep)
-                if (cut.size > 1) return processCode(cut.joinToString("\n"))
-                var p1 = ""
-                var p2 = ""
-                val center = unwrapped.replace(RegListUnwrap) { match ->
-                    val (m1, mc, m2) = match.destructured
-                    p1 = m1
-                    p2 = m2
-                    mc
-                }
-                val rebuild = ArrayList<String>()
-                if (p1.isNotEmpty()) rebuild.add(p1)
-                rebuild.add(processOne(center))
-                if (p2.isNotEmpty()) rebuild.add(p2)
-                return rebuild.joinToString(" ")
+                return processCode(cut.joinToString("\n"))
             }
 
             // TODO other consts
