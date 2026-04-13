@@ -29,7 +29,7 @@ public class HexParsePatterns {
     static {
         var moreIotasLoaded = HexParse.HELPERS.modLoaded("moreiotas");
         COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), moreIotasLoaded ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION);
-        COMMENT_SWITCHER = wrap("comment_switcher", HexPattern.fromAngles("adadaqadadaawwqde", HexDir.SOUTH_EAST), moreIotasLoaded ? ActionCommentSwitcher.INSTANCE : CommentIotaType.NULL_ACTION);
+        COMMENT_SWITCHER = wrap("switch_comment", HexPattern.fromAngles("adadaqadadaawwqde", HexDir.SOUTH_EAST), moreIotasLoaded ? ActionCommentSwitcher.INSTANCE : CommentIotaType.NULL_ACTION);
     }
 
     public static void registerActions() {

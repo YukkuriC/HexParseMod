@@ -8,7 +8,7 @@ object CodeCutter {
     var pCommentLine: Pattern = Pattern.compile("//.*")
     var pLineBreak: Pattern = Pattern.compile("\\r?\\n")
     var pCommentBlock: Pattern = Pattern.compile("(?s)/\\*.*?\\*/")
-    var pTokens: Pattern = Pattern.compile("\\\\|\\(|\\)|\\[|]|[\\w./\\-:#\u0100-\uffff]+")
+    var pTokens: Pattern = Pattern.compile("\\\\|\\(|\\)|\\{|\\}|\\[|]|[\\w./\\-:#\u0100-\uffff]+")
 
     var pLineStart: Pattern = Pattern.compile("^[ \\t]*")
 

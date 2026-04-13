@@ -55,6 +55,7 @@ public class HexParseConfig {
     public static final String DESCRIP_SHOW_UNKNOWN_NBT = "how to handle unsupported iota's inner data\nKEEP_NBT(default): save whole NBT as Base64 string;\nSHOW_NBT: output `UNKNOWN(serialized NBT)`;\nSIMPLE: show `UNKNOWN` only";
     public static final String DESCRIP_ADD_INDENT_INSIDE_MACRO = "code indentation add to `tab_N`'s inside nested macros";
     public static final String DESCRIP_FAIR_PLAY_PROP_NAMES = "randomize property names based on input string";
+    public static final String DESCRIP_ALWAYS_SHORT_NAME = "Forced using short ID for patterns even from addons";
 
     public static void bindConfigImp(API api) {
         imp = api;
@@ -75,6 +76,9 @@ public class HexParseConfig {
     }
     public static boolean addIndentInsideMacro() {
         return imp.addIndentInsideMacro();
+    }
+    public static boolean alwaysShortName() {
+        return imp.alwaysShortName();
     }
 
     public static boolean colorfulNested() {
@@ -103,6 +107,7 @@ public class HexParseConfig {
         boolean showColorfulNested();
         UnknownNbtHandlingMode showUnknownNBT();
         boolean addIndentInsideMacro();
+        boolean alwaysShortName();
 
         int parserBaseCost();
         boolean fairPlayPropNames();

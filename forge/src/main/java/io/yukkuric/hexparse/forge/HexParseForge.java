@@ -12,23 +12,22 @@ import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
+import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.fml.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.*;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.registries.RegisterEvent;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
@@ -45,6 +44,13 @@ public final class HexParseForge {
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
         evBus.register(MacroForgeHandler.class);
+        evBus.addListener((ServerStartedEvent e) -> {
+            DotHexPatternMapper.doCollect();
+        });
+        evBus.addListener((PlayerEvent.PlayerLoggedInEvent e) -> {
+            if (e.getEntity() instanceof ServerPlayer sp)
+                DotHexPatternMapper.sendRemoteMap(sp);
+        });
 
         var modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((RegisterEvent event) -> {
@@ -106,6 +112,10 @@ public final class HexParseForge {
                     MsgUpdateClientMacro::deserialize, makeClientBoundHandler(MsgUpdateClientMacro::handle));
             CHANNEL.registerMessage(idx++, MsgPushMacro.class, MsgPushMacro::serialize,
                     MsgPushMacro::deserialize, makeServerBoundHandler(MsgPushMacro::handle));
+
+            // hexpattern data
+            CHANNEL.registerMessage(idx++, MsgSyncDisplayMap.class, MsgSyncDisplayMap::serialize,
+                    MsgSyncDisplayMap::deserialize, makeClientBoundHandler(MsgSyncDisplayMap::handle));
         }
 
         @Override

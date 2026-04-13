@@ -6,11 +6,11 @@
 	"pages": [
 		{
 			"type": "hexcasting:pattern",
-			"op_id": "hexparse:comment_switcher",
-			"anchor": "hexparse:comment_switcher",
+			"op_id": "hexparse:switch_comment",
+			"anchor": "hexparse:switch_comment",
 			"input": "comment/any",
 			"output": "string/comment",
-			"text": "book.descrip.hexparse:comment_switcher"
+			"text": "book.descrip.hexparse:switch_comment"
 		},
 		{
 			"type": "hexcasting:pattern",

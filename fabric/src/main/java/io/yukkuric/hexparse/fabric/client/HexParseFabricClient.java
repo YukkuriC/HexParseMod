@@ -4,9 +4,7 @@ import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.fabric.HexParseFabric;
 import io.yukkuric.hexparse.fabric.events.MacroFabricHandler;
-import io.yukkuric.hexparse.network.ISenderClient;
-import io.yukkuric.hexparse.network.MsgHandlers;
-import io.yukkuric.hexparse.network.MsgPullClipboard;
+import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -36,6 +34,8 @@ public final class HexParseFabricClient implements ClientModInitializer {
                     makeClientBoundHandler(MsgPullClipboard::deserialize, MsgPullClipboard::handle));
             ClientPlayNetworking.registerGlobalReceiver(MsgUpdateClientMacro.ID,
                     makeClientBoundHandler(MsgUpdateClientMacro::deserialize, MsgUpdateClientMacro::handle));
+            ClientPlayNetworking.registerGlobalReceiver(MsgSyncDisplayMap.ID,
+                    makeClientBoundHandler(MsgSyncDisplayMap::deserialize, MsgSyncDisplayMap::handle));
         }
 
         private static <T> ClientPlayNetworking.PlayChannelHandler makeClientBoundHandler(
