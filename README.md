@@ -92,6 +92,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 ### Misc. & Helpers
 
 - `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
+- `/hexParse learn_great`: Read handheld items and learns great pattern(s) inside.
 - `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input
   should be separated with space; the result number can be used for **Swindler's Gambit**.
 
