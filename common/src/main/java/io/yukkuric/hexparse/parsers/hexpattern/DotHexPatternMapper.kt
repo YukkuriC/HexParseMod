@@ -49,7 +49,7 @@ object DotHexPatternMapper {
         Pair("open_paren", "{"),
         Pair("close_paren", "}"),
         Pair("escape", "\\"),
-        Pair("undo", "\\"),
+        Pair("undo", "undo"),
     )
     val RawSpecialHandlerMap = hashMapOf(
         Pair("hexcasting:number", "num_"),
