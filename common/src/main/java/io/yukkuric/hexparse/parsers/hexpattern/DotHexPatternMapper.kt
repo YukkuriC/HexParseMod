@@ -10,6 +10,10 @@ import net.minecraft.server.level.ServerPlayer
 // this.mapper=Java.loadClass('io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper').INSTANCE
 // mapper.nameMap.clear()
 // mapper.doCollect()
+
+// srsly, it's just meaningless
+// there's no way to write a formal parser for a format designed only for display
+// anyone interested in this hell feel free to PR, I quit
 object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
     val prefixMap = HashMap<String, String>()
@@ -52,6 +56,13 @@ object DotHexPatternMapper {
         Pair("hexcasting:mask", "mask_"),
         Pair("hexflow:copy_mask", "copy_mask_"),
         Pair("hexflow:noob_num", "num_"),
+    )
+    val EmbeddedRegexSeq: List<Pair<Regex, (MatchResult) -> String>> = listOf(
+        Pair(Regex("\\(\\s*([0-9.-e]+)\\s*,\\s*([0-9.-e]+)\\s*,\\s*([0-9.-e]+)\\s*\\)")) {
+            val (x, y, z) = it.destructured
+            "vec_${x}_${y}_${z}"
+        },
+        Pair(Regex("(((NORTH|SOUTH)_)?(WEST|EAST))?\\s+(?<sig>[wedsaq]+)")) { "_${it.groups["sig"]?.value}" },
     )
 
     val RegLineSep = Regex("((?<=[\\[\\]])?\\s*,\\s*(?=[\\[\\]])?)|(?<=[\\[\\]])|(?=[\\[\\]])")
@@ -112,7 +123,11 @@ object DotHexPatternMapper {
                 return processCode(cut.joinToString("\n"))
             }
 
-            // TODO other consts
+            // other consts
+            for (pair in EmbeddedRegexSeq) {
+                pair.first.matchAt(unwrapped, 0)?.let { return pair.second(it) }
+            }
+
             return unwrapped
         }
         if (p in KeepSelfKeys) return p
@@ -121,7 +136,7 @@ object DotHexPatternMapper {
         prefixMapTrie[p]?.let { return it }
         serverPrefixMap[p]?.let { return it }
 
-        // TODO raw patterns
+        // named patterns
         val actionKey = this[p] ?: return p.replace(" ", "")
         return actionKey
     }
