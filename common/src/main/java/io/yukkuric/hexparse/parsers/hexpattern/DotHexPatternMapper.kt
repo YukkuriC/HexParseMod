@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.parsers.hexpattern
 
-import at.petrak.hexcasting.api.HexAPI
-import at.petrak.hexcasting.api.PatternRegistry
+import io.yukkuric.hexparse.hooks.PatternMapper
 import io.yukkuric.hexparse.network.MsgHandlers
 import io.yukkuric.hexparse.network.MsgSyncDisplayMap
 import net.minecraft.locale.Language
@@ -49,7 +48,6 @@ object DotHexPatternMapper {
         Pair("open_paren", "{"),
         Pair("close_paren", "}"),
         Pair("escape", "\\"),
-        Pair("undo", "\\"),
     )
     val RawSpecialHandlerMap = hashMapOf(
         Pair("hexcasting:number", "num_"),
@@ -70,14 +68,16 @@ object DotHexPatternMapper {
     @JvmStatic
     fun doCollect() {
         if (nameMap.isNotEmpty()) return
-        val hexAPI = HexAPI.instance()
-        for (entry in HexActions.REGISTRY.entrySet()) {
-            val langKey = hexAPI.getActionI18nKey(entry.key)
+        PatternMapper.initLocal()
+        for (entry in PatternMapper.mapPattern.entries) {
+            val key = entry.key
+            if (!key.contains(':')) continue
+            val langKey = "hexcasting.spell.$key"
             val display = Language.getInstance().getOrDefault(langKey)
-            if (display != langKey) nameMap[display] = entry.key.location().toString()
+            if (display != langKey) nameMap[display] = key
         }
         for (entry in RawPatternMap) {
-            val langKey = hexAPI.getRawHookI18nKey(HexAPI.modLoc(entry.key))
+            val langKey = "hexcasting.spell.hexcasting:${entry.key}"
             val display = Language.getInstance().getOrDefault(langKey)
             if (display != langKey) nameMap[display] = entry.value
         }
