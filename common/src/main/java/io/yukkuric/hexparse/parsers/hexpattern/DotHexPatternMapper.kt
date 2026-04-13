@@ -13,16 +13,31 @@ import net.minecraft.server.level.ServerPlayer
 object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
     val prefixMap = HashMap<String, String>()
+    val prefixMapTrie = TriePrefixMap()
     var serverNameMap: Map<String, String>? = null
-    var serverPrefixMap: Map<String, String>? = null
+    val serverPrefixMap = TriePrefixMap()
     @JvmStatic
     fun receiveRemoteMap(packet: MsgSyncDisplayMap) {
+        clearServer()
         serverNameMap = packet.map
-        serverPrefixMap = packet.prefixMap
+        for (entry in packet.prefixMap) {
+            serverPrefixMap[entry.key] = entry.value
+        }
     }
     @JvmStatic
     fun sendRemoteMap(player: ServerPlayer) {
         MsgHandlers.SERVER.sendPacketToPlayer(player, MsgSyncDisplayMap(nameMap, prefixMap))
+    }
+    @JvmStatic
+    fun clear() {
+        nameMap.clear()
+        prefixMap.clear()
+        prefixMapTrie.clear()
+    }
+    @JvmStatic
+    fun clearServer() {
+        serverNameMap = null
+        serverPrefixMap.clear()
     }
 
     val KeepSelfKeys = setOf("(", ")", "[", "]", "{", "}")
@@ -32,7 +47,7 @@ object DotHexPatternMapper {
         Pair("escape", "\\"),
         Pair("undo", "\\"),
     )
-    val SpecialHandlerMap = hashMapOf(
+    val RawSpecialHandlerMap = hashMapOf(
         Pair("hexcasting:number", "num_"),
         Pair("hexcasting:mask", "mask_"),
         Pair("hexflow:copy_mask", "copy_mask_"),
@@ -57,10 +72,15 @@ object DotHexPatternMapper {
         }
 
         // special handler prefix
-        for (entry in SpecialHandlerMap) {
+        for (entry in RawSpecialHandlerMap) {
             val langKey = "hexcasting.special.${entry.key}"
-            val display = Language.getInstance().getOrDefault(langKey).replace("%s", "")
-            if (display != langKey) prefixMap[display] = entry.value
+            val display = Language.getInstance().getOrDefault(langKey).replace("%s", "").trim()
+            if (display != langKey) {
+                entry.value.let {
+                    prefixMap[display] = it
+                    prefixMapTrie[display] = it
+                }
+            }
         }
     }
 
@@ -97,7 +117,10 @@ object DotHexPatternMapper {
         }
         if (p in KeepSelfKeys) return p
 
-        // TODO special handlers
+        // special handlers
+        prefixMapTrie[p]?.let { return it }
+        serverPrefixMap[p]?.let { return it }
+
         // TODO raw patterns
         val actionKey = this[p] ?: return p.replace(" ", "")
         return actionKey
