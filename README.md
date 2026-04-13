@@ -160,6 +160,7 @@ Parsing is not limited.
 | ShowUnknownNBT       | `enum` | how to handle unsupported iota's inner data<br>`KEEP_NBT`(default): save whole NBT as Base64 string;<br>`SHOW_NBT`: output `UNKNOWN(serialized NBT)`;<br>`SIMPLE`: show `UNKNOWN` only |
 | MaxBlankLineCount    | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                               |
 | AddIndentInsideMacro | `bool` | code indentation add to `tab_N`'s inside nested macros                                                                                                                                 |
+| AlwaysShortName      | `bool` | Forced using short ID for patterns even from addons                                                                                                                                    |
 | ParserBaseCost       | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                         |
 | FairPlayPropNames    | `bool` | randomize property names based on input string                                                                                                                                         |
 | ShowColorfulNested   | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                             |
