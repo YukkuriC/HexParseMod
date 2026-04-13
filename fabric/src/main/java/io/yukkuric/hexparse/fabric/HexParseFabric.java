@@ -5,12 +5,13 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.fabric.config.HexParseConfigFabric;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
-import io.yukkuric.hexparse.network.ISenderServer;
-import io.yukkuric.hexparse.network.MsgHandlers;
-import io.yukkuric.hexparse.network.MsgPushClipboard;
+import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
+import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.FriendlyByteBuf;
@@ -34,6 +35,13 @@ public final class HexParseFabric implements ModInitializer {
         HexParseConfigFabric.setup();
 
         CommandRegistrationCallback.EVENT.register((dp, foo, bar) -> HexParseCommands.register(dp));
+
+        ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
+            DotHexPatternMapper.doCollect();
+        });
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            DotHexPatternMapper.sendRemoteMap(handler.player);
+        });
     }
 
     static Network NETWORK;

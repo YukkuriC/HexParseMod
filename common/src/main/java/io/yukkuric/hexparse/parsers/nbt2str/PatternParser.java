@@ -12,6 +12,7 @@ import at.petrak.hexcasting.common.casting.operators.stack.OpMask;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.misc.TriFunction;
+import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import io.yukkuric.hexparse.parsers.interfaces.ConfigNums;
@@ -81,7 +82,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
                 throw new MishapInvalidPattern();
             }
 
-            if (opId.getNamespace().equals(HexAPI.MOD_ID)) return opId.getPath();
+            if (opId.getNamespace().equals(HexAPI.MOD_ID) || HexParseConfig.alwaysShortName()) return opId.getPath();
             return opIdStr;
         } catch (MishapInvalidPattern e) {
         }

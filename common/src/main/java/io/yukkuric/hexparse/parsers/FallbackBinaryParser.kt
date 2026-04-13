@@ -1,10 +1,15 @@
 package io.yukkuric.hexparse.parsers
 
+import at.petrak.hexcasting.api.utils.asTextComponent
+import at.petrak.hexcasting.api.utils.gold
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import io.netty.buffer.Unpooled
+import io.yukkuric.hexparse.misc.HexParseTags
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Prefix
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.server.level.ServerPlayer
 import java.io.ByteArrayOutputStream
 import java.util.*
 import java.util.zip.DeflaterOutputStream
@@ -15,7 +20,7 @@ object FallbackBinaryParser {
     const val prefix = "nbt_"
     val REPLACERS = arrayOf("+-", "=_")
 
-    object STR2NBT : Prefix(prefix) {
+    object STR2NBT : Prefix(prefix), IPlayerBinder {
         override fun parse(node: String): CompoundTag {
             var raw = node.substring(4)
             for (p in REPLACERS) raw = raw.replace(p[1], p[0])
@@ -30,7 +35,23 @@ object FallbackBinaryParser {
             bytes = out.toByteArray()
 
             val buf = FriendlyByteBuf(Unpooled.wrappedBuffer(bytes))
-            return buf.readNbt()!!
+            val ret = buf.readNbt()!!
+            HexIotaTypes.getTypeFromTag(ret)?.let {
+                val reg = HexIotaTypes.REGISTRY
+                val holder = reg.getHolder(reg.getId(it)).get()
+                if (holder.`is`(HexParseTags.NBT_PARSING_FORBIDDEN)) {
+                    val errorMsg = "forbidden iota type: ${HexIotaTypes.REGISTRY.getKey(it)}"
+                    if (callingPlayer?.hasPermissions(2) == true) {
+                        callingPlayer?.sendSystemMessage(errorMsg.asTextComponent.gold)
+                    } else throw RuntimeException(errorMsg)
+                }
+            }
+            return ret
+        }
+
+        private var callingPlayer: ServerPlayer? = null
+        override fun BindPlayer(p: ServerPlayer?) {
+            callingPlayer = p
         }
     }
 

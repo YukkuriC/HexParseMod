@@ -39,6 +39,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         private CommentParsingMode indentParsingMode = CommentParsingMode.MANUAL;
         @Comment(DESCRIP_ADD_INDENT_INSIDE_MACRO)
         private boolean addIndentInsideMacro = true;
+        @Comment(DESCRIP_ALWAYS_SHORT_NAME)
+        private boolean alwaysShortName = true;
         @Comment(DESCRIP_PARSER_BASE_COST)
         private int parserBaseCost = 0;
         @Comment(DESCRIP_COLORFUL_NESTED)
@@ -70,6 +72,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public boolean addIndentInsideMacro() {
             return addIndentInsideMacro;
+        }
+        @Override
+        public boolean alwaysShortName() {
+            return alwaysShortName;
         }
 
         @Override

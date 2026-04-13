@@ -42,8 +42,12 @@ public class PatternMapper {
 
             // init special patterns
             mapPattern.put("\\", IotaFactory.makePattern("qqqaw", HexDir.WEST));
-            mapPattern.put("(", IotaFactory.makePattern("qqq", HexDir.WEST));
-            mapPattern.put(")", IotaFactory.makePattern("eee", HexDir.EAST));
+            var bracketStart = IotaFactory.makePattern("qqq", HexDir.WEST);
+            var bracketEnd = IotaFactory.makePattern("eee", HexDir.EAST);
+            mapPattern.put("(", bracketStart);
+            mapPattern.put("{", bracketStart);
+            mapPattern.put(")", bracketEnd);
+            mapPattern.put("}", bracketEnd);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

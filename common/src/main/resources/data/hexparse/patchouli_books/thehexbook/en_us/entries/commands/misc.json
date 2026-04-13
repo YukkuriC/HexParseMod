@@ -5,6 +5,7 @@
   "advancement": "hexcasting:root",
   "sortnum": 2,
   "pages": [
-    "hexparse.book.entry.commands.misc.1"
+    "hexparse.book.entry.commands.misc.1",
+    "hexparse.book.entry.commands.misc.2"
   ]
 }

@@ -7,4 +7,5 @@ public enum ClipboardMsgMode {
     INVALID,
     WRITE_PROPERTY, // hexcellular
     PUSH_MIND, // staff env
+    HEXPATTERN_FORMAT,
 }

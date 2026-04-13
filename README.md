@@ -7,7 +7,8 @@ CurseForge](https://www.curseforge.com/minecraft/mc-mods/hexparse)
 Provides a pair of patterns and a set of commands to convert custom code into (pattern or literal) list iota; requires
 player to have a focus item in hand.
 
-[Online HexBook](https://yukkuric.github.io/HexParseMod)
+[<img src="https://github.com/SamsTheNerd/HexGloop/blob/73ea39b3becd/externalassets/hexdoc-badgecozy.svg?raw=true" alt="A badge for hexdoc in the style of Devins Badges" width=180>](https://yukkuric.github.io/HexParseMod)
+[<img src="https://github.com/SamsTheNerd/HexGloop/blob/73ea39b3becd/externalassets/addon-badge-cozy.svg?raw=true" alt="A badge for addons.hexxy.media in the style of Devins Badges" width=160>](https://addons.hexxy.media)
 
 (Old KubeJS version [HERE](https://github.com/YukkuriC/hex_playground/blob/1.19/server_scripts/Parser.js))
 
@@ -61,6 +62,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   the item.
 - `/hexParse clipboard_angles [rename]`: same as `clipboard`, but only accept patterns input with raw angle string like
   `"wedsaq"`.
+- `/hexParse clipboard_hexpattern [rename]`: (experimental) same as `clipboard`, but accepts `.hexpattern` format; _warning: only partial features supported_.
 - `/hexParse share`: (experimental) same as `read` but broadcasts iota's raw content and click-copy-able parsed code to
   every player in the server.
 - `/hexParse read_hexbug`: same as `read` but translates the result to the format used by discord HexBug's `/patterns hex` command. _note:
@@ -91,6 +93,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 ### Misc. & Helpers
 
 - `/hexParse donate [amount]`: donate custom amount of media to the nature. Pay if you feel guilty using this mod ::)
+- `/hexParse learn_great`: Read handheld items and learns great pattern(s) inside.
 - `/hexParse lehmer [...nums]`: calculate lehmer code for given permutation (from ascending, e.g. `0 1 2 3 4`); input
   should be separated with space; the result number can be used for **Swindler's Gambit**.
 
@@ -158,9 +161,12 @@ Parsing is not limited.
 | ShowUnknownNBT       | `enum` | how to handle unsupported iota's inner data<br>`KEEP_NBT`(default): save whole NBT as Base64 string;<br>`SHOW_NBT`: output `UNKNOWN(serialized NBT)`;<br>`SIMPLE`: show `UNKNOWN` only |
 | MaxBlankLineCount    | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                               |
 | AddIndentInsideMacro | `bool` | code indentation add to `tab_N`'s inside nested macros                                                                                                                                 |
+| AlwaysShortName      | `bool` | Forced using short ID for patterns even from addons                                                                                                                                    |
 | ParserBaseCost       | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                         |
 | FairPlayPropNames    | `bool` | randomize property names based on input string                                                                                                                                         |
 | ShowColorfulNested   | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                             |
+
+_* note: iota types with tag `hexparse:nbt_parsing_forbidden` won't be imported unless player has OP permission_
 
 ## New iota: `CommentIota`
 
@@ -177,4 +183,4 @@ When player holds `Shift` key, all comments will be hidden.
     - `AddBackParser(p: INbt2Str)`
     - `AddSpecialHandlerBackParser(id: String, func: (Action, CompoundTag, ServerPlayer) -> String)`
     - `CreateItemIOMethod(cls: Class<*>, writer: ((ItemStack, CompoundTag) -> Unit)?, reader: ((ItemStack) -> CompoundTag?)?, priority: Int = 0, validator: ((ItemStack, Boolean) -> Boolean)?`
-)`
+      )`

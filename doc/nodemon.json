@@ -7,5 +7,5 @@
     ],
     "ignore": ["**/generated/**"],
     "ext": "jinja,html,css,js,ts,toml,json,json5,py",
-    "exec": "hexdoc serve"
+    "exec": "uv run hexdoc serve"
 }

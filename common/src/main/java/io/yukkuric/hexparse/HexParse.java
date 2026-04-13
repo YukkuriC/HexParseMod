@@ -5,6 +5,7 @@ import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.locale.Language;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
 public final class HexParse {
@@ -24,5 +25,9 @@ public final class HexParse {
 
     public static String doTranslate(String key, Object... args) {
         return Language.getInstance().getOrDefault(key).formatted(args);
+    }
+
+    public static ResourceLocation modLoc(String path) {
+        return new ResourceLocation(MOD_ID, path);
     }
 }

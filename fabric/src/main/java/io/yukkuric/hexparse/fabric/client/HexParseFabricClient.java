@@ -34,6 +34,8 @@ public final class HexParseFabricClient implements ClientModInitializer {
                     makeClientBoundHandler(MsgPullClipboard::deserialize, MsgPullClipboard::handle));
             ClientPlayNetworking.registerGlobalReceiver(MsgUpdateClientMacro.ID,
                     makeClientBoundHandler(MsgUpdateClientMacro::deserialize, MsgUpdateClientMacro::handle));
+            ClientPlayNetworking.registerGlobalReceiver(MsgSyncDisplayMap.ID,
+                    makeClientBoundHandler(MsgSyncDisplayMap::deserialize, MsgSyncDisplayMap::handle));
         }
 
         private static <T> ClientPlayNetworking.PlayChannelHandler makeClientBoundHandler(
