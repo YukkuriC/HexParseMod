@@ -31,4 +31,9 @@ public interface INbt2Str extends IConfigNumReceiver {
         }
         return mid.substring(0, ptr);
     }
+
+    // recursive parser support
+    default CompoundTag collectInnerData() {
+        return null;
+    }
 }
