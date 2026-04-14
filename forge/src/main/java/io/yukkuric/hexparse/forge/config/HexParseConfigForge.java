@@ -52,11 +52,17 @@ public class HexParseConfigForge implements API {
         return CfgFairPlayPropNames.get();
     }
 
+    @Override
+    public boolean syncDisplayToClient() {
+        return CfgSyncDisplayToClient.get();
+    }
+
     public final ForgeConfigSpec.BooleanValue
             CfgShowColorfulNested,
             CfgFairPlayPropNames,
             CfgAddIndentInsideMacro,
-            CfgAlwaysShortName;
+            CfgAlwaysShortName,
+            CfgSyncDisplayToClient;
     public final ForgeConfigSpec.EnumValue<UnknownNbtHandlingMode> CfgShowUnknownNBT;
     public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
     public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
@@ -73,6 +79,7 @@ public class HexParseConfigForge implements API {
         CfgFairPlayPropNames = builder.comment(DESCRIP_FAIR_PLAY_PROP_NAMES).define("FairPlayPropNames", false);
         CfgShowColorfulNested = builder.comment(DESCRIP_COLORFUL_NESTED).define("ShowColorfulNested", true);
         CfgShowUnknownNBT = builder.comment(DESCRIP_SHOW_UNKNOWN_NBT).defineEnum("ShowUnknownNBT", UnknownNbtHandlingMode.KEEP_NBT);
+        CfgSyncDisplayToClient = builder.comment(DESCRIP_SYNC_DISPLAY_TO_CLIENT).define("SyncDisplayToClient", false);
     }
 
     private static final Pair<HexParseConfigForge, ForgeConfigSpec> CFG_REGISTRY;

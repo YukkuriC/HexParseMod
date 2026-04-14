@@ -56,6 +56,7 @@ public class HexParseConfig {
     public static final String DESCRIP_ADD_INDENT_INSIDE_MACRO = "code indentation add to `tab_N`'s inside nested macros";
     public static final String DESCRIP_FAIR_PLAY_PROP_NAMES = "randomize property names based on input string";
     public static final String DESCRIP_ALWAYS_SHORT_NAME = "Forced using short ID for patterns even from addons";
+    public static final String DESCRIP_SYNC_DISPLAY_TO_CLIENT = "Whether server sends all `en_us` action names to client on player login";
 
     public static void bindConfigImp(API api) {
         imp = api;
@@ -95,6 +96,10 @@ public class HexParseConfig {
         return imp.fairPlayPropNames();
     }
 
+    public static boolean syncDisplayToClient() {
+        return imp.syncDisplayToClient();
+    }
+
     public interface API {
         ParseGreatPatternMode canParseGreatPatterns();
 
@@ -111,5 +116,6 @@ public class HexParseConfig {
 
         int parserBaseCost();
         boolean fairPlayPropNames();
+        boolean syncDisplayToClient();
     }
 }
