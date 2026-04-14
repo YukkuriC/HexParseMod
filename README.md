@@ -70,6 +70,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
     - `... read <propName>`: read and parse from certain property
     - `... write <propName> <code>`: write code into certain property
     - `... clipboard <propName>`: same as above, but code comes from clipboard
+    - `... dump <propName>`: recursively read and dump the property and all properties referenced within it; indented output shows the nesting structure, and cycles are detected automatically
 
 ### Configs
 
