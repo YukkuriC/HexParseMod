@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.parsers.hexpattern
 
 import at.petrak.hexcasting.api.HexAPI
 import at.petrak.hexcasting.common.lib.hex.HexActions
+import io.yukkuric.hexparse.config.HexParseConfig
 import io.yukkuric.hexparse.network.MsgHandlers
 import io.yukkuric.hexparse.network.MsgSyncDisplayMap
 import net.minecraft.locale.Language
@@ -29,6 +30,8 @@ object DotHexPatternMapper {
     }
     @JvmStatic
     fun sendRemoteMap(player: ServerPlayer) {
+        if (!HexParseConfig.syncDisplayToClient()) return
+        doCollect()
         MsgHandlers.SERVER.sendPacketToPlayer(player, MsgSyncDisplayMap(nameMap, prefixMap))
     }
     @JvmStatic
