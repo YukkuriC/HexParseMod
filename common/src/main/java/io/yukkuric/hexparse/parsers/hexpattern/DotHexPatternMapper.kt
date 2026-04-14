@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.parsers.hexpattern
 
+import io.yukkuric.hexparse.config.HexParseConfig
 import io.yukkuric.hexparse.hooks.PatternMapper
 import io.yukkuric.hexparse.network.MsgHandlers
 import io.yukkuric.hexparse.network.MsgSyncDisplayMap
@@ -17,18 +18,19 @@ object DotHexPatternMapper {
     val nameMap = HashMap<String, String>()
     val prefixMap = HashMap<String, String>()
     val prefixMapTrie = TriePrefixMap()
-    var serverNameMap: Map<String, String>? = null
+    var serverNameMap = HashMap<String, String>()
     val serverPrefixMap = TriePrefixMap()
     @JvmStatic
     fun receiveRemoteMap(packet: MsgSyncDisplayMap) {
-        clearServer()
-        serverNameMap = packet.map
+        serverNameMap.putAll(packet.map)
         for (entry in packet.prefixMap) {
             serverPrefixMap[entry.key] = entry.value
         }
     }
     @JvmStatic
     fun sendRemoteMap(player: ServerPlayer) {
+        if (!HexParseConfig.syncDisplayToClient()) return
+        doCollect()
         MsgHandlers.SERVER.sendPacketToPlayer(player, MsgSyncDisplayMap(nameMap, prefixMap))
     }
     @JvmStatic
@@ -39,7 +41,7 @@ object DotHexPatternMapper {
     }
     @JvmStatic
     fun clearServer() {
-        serverNameMap = null
+        serverNameMap.clear()
         serverPrefixMap.clear()
     }
 

@@ -24,22 +24,18 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 * [HexParse mod](#hexparse-mod)
     * [Supported IO Item Types](#supported-io-item-types)
-    * [Commands added](#commands-added)
+    * [Commands Added](#commands-added)
         * [Reading & Writing](#reading--writing)
         * [Configs](#configs)
         * [Misc. & Helpers](#misc--helpers)
         * [OP-Only Commands](#op-only-commands)
-    * [Patterns added](#patterns-added)
-    * [Supported expressions](#supported-expressions)
+    * [Patterns Added](#patterns-added)
     * [Misc. Features](#misc-features)
-    * [Available Configs](#available-configs)
-        * [Limited great pattern parsing](#limited-great-pattern-parsing)
-            * [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
-            * [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
-            * [Hard Mode: `DISABLED`](#hard-mode-disabled)
-        * [Other configs](#other-configs)
-    * [New iota: `CommentIota`](#new-iota-commentiota)
-    * [(for `v1.8.0+`) `HexParseAPI`](#for-v180-hexparseapi)
+    * [New Iota: `CommentIota`](#new-iota-commentiota)
+    * [`HexParseAPI`](#hexparseapi)
+    * [External Documents](#external-documents)
+        * [Supported Expressions](#supported-expressions)
+        * [Available Configs](#available-configs)
 
 <!-- TOC -->
 
@@ -50,7 +46,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 - (1.20) Thought Knots
 - recognized by item classes, able to add more via `HexParseAPI` or `IOMethod`
 
-## Commands added
+## Commands Added
 
 ### Reading & Writing
 
@@ -103,7 +99,7 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
   process of current
   world by locking/unlocking all at once, or a single great pattern each execution.
 
-## Patterns added
+## Patterns Added
 
 * `comment_switcher`: Transforms input Comment Iota into String Iota, or everything else into Comment Iota.
 * `code2focus`: Equivalent to `/hexParse clipboard` (now not only focuses).
@@ -116,66 +112,18 @@ has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\exten
 
 *Introduction also written in `HexParse Patterns` section inside the book.*
 
-## Supported expressions
-
-see [this file](https://github.com/YukkuriC/HexParseMod/blob/main/SYNTAX.md) for all available symbols.
-
 ## Misc. Features
 
 * At each pattern's page, press `Shift` to display the pattern's registry ID
 
-## Available Configs
-
-### Limited great pattern parsing
-
-When failing to parse restricted great spells **from code to iota**, the parser leaves a placeholder comment in-place,
-which can be read as original input later.
-
-| Example                                                                                          |
-|--------------------------------------------------------------------------------------------------|
-| ![Code With Missing](https://github.com/YukkuriC/HexParseMod/raw/main/img/code_with_unknown.png) |
-| ![Iota With Missing](https://github.com/YukkuriC/HexParseMod/raw/main/img/iota_with_unknown.png) |
-
-The config entry `ParseGreatSpells` determines the mode this mod deals with great patterns.  
-Parsing iota with great patterns to code is not limited.
-
-#### Normal Mode (by default): `BY_SCROLL`
-
-All great patterns are restricted at first, and have to be unlocked by a `Learn Great Patterns` pattern after acquiring
-certain items containing great patterns.
-
-#### Easy Mode (by default before ver.`0.7`): `ALL`
-
-Parsing is not limited, and great patterns can be used freely regardless of world exploration and looting progress.
-
-#### Hard Mode: `DISABLED`
-
-Parsing is not limited.
-
-### Other configs
-
-| Entry                | Type   | Description                                                                                                                                                                            |
-|----------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CommentParsingMode   | `enum` | how comments get parsed into iotas<br>`ALL`: including `comment_%s`s and `/* */`s & `//`s;<br>`MANUAL`(default): only `comment_%s`s;<br>`DISABLED`: no comments at all                 |
-| IndentParsingMode    | `enum` | how indents get parsed into iotas<br>`ALL`(default): coding indents will be auto-converted into `tab_%d`;<br>`MANUAL`: only `tab_%d`s accepted;<br>`DISABLED`: no indents at all       |
-| ShowUnknownNBT       | `enum` | how to handle unsupported iota's inner data<br>`KEEP_NBT`(default): save whole NBT as Base64 string;<br>`SHOW_NBT`: output `UNKNOWN(serialized NBT)`;<br>`SIMPLE`: show `UNKNOWN` only |
-| MaxBlankLineCount    | `int`  | how many continuous blank lines are allowed in parsed spell; excess ones will be ignored                                                                                               |
-| AddIndentInsideMacro | `bool` | code indentation add to `tab_N`'s inside nested macros                                                                                                                                 |
-| AlwaysShortName      | `bool` | Forced using short ID for patterns even from addons                                                                                                                                    |
-| ParserBaseCost       | `int`  | Base cost for each iota (except comments/tabs)                                                                                                                                         |
-| FairPlayPropNames    | `bool` | randomize property names based on input string                                                                                                                                         |
-| ShowColorfulNested   | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                                                                                                                             |
-
-_* note: iota types with tag `hexparse:nbt_parsing_forbidden` won't be imported unless player has OP permission_
-
-## New iota: `CommentIota`
+## New Iota: `CommentIota`
 
 `CommentIota` displays string inside, and parses into a null iota (with id: `"hexparse:comment"`) which executes doing
 nothing.  
 Comment iotas includes text comments, line-breaks & indents, and unknown great spell placeholders.  
 When player holds `Shift` key, all comments will be hidden.
 
-## (for `v1.8.0+`) `HexParseAPI`
+## `HexParseAPI`
 
 - Location: `io.yukkuric.hexparse.api.HexParseAPI`
 - Contents:
@@ -184,3 +132,13 @@ When player holds `Shift` key, all comments will be hidden.
     - `AddSpecialHandlerBackParser(id: String, func: (Action, CompoundTag, ServerPlayer) -> String)`
     - `CreateItemIOMethod(cls: Class<*>, writer: ((ItemStack, CompoundTag) -> Unit)?, reader: ((ItemStack) -> CompoundTag?)?, priority: Int = 0, validator: ((ItemStack, Boolean) -> Boolean)?`
       )`
+
+## External Documents
+
+### Supported Expressions
+
+see [this file](https://github.com/YukkuriC/HexParseMod/blob/main/SYNTAX.md) for all available symbols.
+
+### Available Configs
+
+see [this file](https://github.com/YukkuriC/HexParseMod/blob/main/CONFIGS.md) for all available configs.
