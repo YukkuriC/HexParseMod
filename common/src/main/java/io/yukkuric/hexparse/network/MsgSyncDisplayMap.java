@@ -16,7 +16,7 @@ public record MsgSyncDisplayMap(Map<String, String> map, Map<String, String> pre
     @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeMap(map, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
-        buf.writeMap(map, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
+        buf.writeMap(prefixMap, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
     }
 
     @Override
