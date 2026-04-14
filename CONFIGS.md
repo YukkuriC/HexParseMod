@@ -97,3 +97,4 @@ How indents get parsed into iotas:
 | ParserBaseCost       | `int`  | Base cost for each iota (except comments/tabs)                                           |
 | FairPlayPropNames    | `bool` | randomize property names based on input string                                           |
 | ShowColorfulNested   | `bool` | Whether to colorize nested list (and intro/retros in 1.20)                               |
+| SyncDisplayToClient  | `bool` | Whether server sends all `en_us` action names to client on player login                  |
