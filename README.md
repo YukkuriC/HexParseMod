@@ -1,8 +1,7 @@
 # HexParse mod
 
-[<img src="https://static-beta.curseforge.com/images/favicon.ico" style="width:1em"/>
-CurseForge](https://www.curseforge.com/minecraft/mc-mods/hexparse)
-[<img src="https://modrinth.com/favicon.ico" style="width:1em"/>Modrinth](https://modrinth.com/mod/hexparse)
+[![Curseforge](https://badges.moddingx.org/curseforge/versions/1148731) ![CurseForge](https://badges.moddingx.org/curseforge/downloads/1148731)](https://www.curseforge.com/minecraft/mc-mods/hexparse)  
+[![Modrinth](https://badges.moddingx.org/modrinth/versions/WjFyIzFj) ![Modrinth](https://badges.moddingx.org/modrinth/downloads/WjFyIzFj)](https://modrinth.com/mod/hexparse)
 
 Provides a pair of patterns and a set of commands to convert custom code into (pattern or literal) list iota; requires
 player to have a focus item in hand.
