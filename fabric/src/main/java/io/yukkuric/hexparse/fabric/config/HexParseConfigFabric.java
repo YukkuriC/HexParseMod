@@ -51,6 +51,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         private int maxBlankLineCount = 0;
         @Comment(DESCRIP_FAIR_PLAY_PROP_NAMES)
         private boolean fairPlayPropNames = false;
+        @Comment(DESCRIP_SYNC_DISPLAY_TO_CLIENT)
+        private boolean syncDisplayToClient = false;
 
         @Override
         public ParseGreatPatternMode canParseGreatPatterns() {
@@ -94,6 +96,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public boolean fairPlayPropNames() {
             return fairPlayPropNames;
+        }
+        @Override
+        public boolean syncDisplayToClient() {
+            return syncDisplayToClient;
         }
     }
 }
