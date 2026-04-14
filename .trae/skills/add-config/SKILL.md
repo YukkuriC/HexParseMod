@@ -12,6 +12,7 @@ This skill adds a new configuration item to all three HexParseConfig files in th
 1. **Base class**: `common/src/main/java/io/yukkuric/hexparse/config/HexParseConfig.java`
 2. **Fabric impl**: `fabric/src/main/java/io/yukkuric/hexparse/fabric/config/HexParseConfigFabric.java`
 3. **Forge impl**: `forge/src/main/java/io/yukkuric/hexparse/forge/config/HexParseConfigForge.java`
+4. **Config docs**: `CONFIGS.md`
 
 ## Step 1: Ask User for Input
 
@@ -131,6 +132,27 @@ Find the last line in the constructor (`HexParseConfigForge(ForgeConfigSpec.Buil
   `Cfg<PascalCase> = builder.comment(DESCRIP_<UPPER_SNAKE>).defineInRange("<PascalCase>", <defaultValue>, <min>, <max>);`
 - For `enum`:
   `Cfg<PascalCase> = builder.comment(DESCRIP_<UPPER_SNAKE>).defineEnum("<PascalCase>", <EnumType>.<defaultValue>);`
+
+## Step 5: Add to CONFIGS.md (Documentation)
+
+Find the table under the `## Other Configs` section in `CONFIGS.md`. This table has three columns: `Entry`, `Type`, and `Description`.
+
+Add a new row at the end of the table (after the last data row), following the existing column alignment:
+
+```
+| <PascalCase> | `<type>` | <description text> |
+```
+
+Where:
+- **Entry**: PascalCase name (same as Forge config key, e.g. `FooBar`)
+- **Type**: backtick-wrapped type — `bool` for boolean, `int` for int, or the enum class name for enum types
+- **Description**: the same description text used in the `DESCRIP_*` constant
+
+Example: given name `fooBar`, type `boolean`, description `does something cool`:
+
+```
+| FooBar | `bool` | does something cool |
+```
 
 ## Naming Convention Summary
 
