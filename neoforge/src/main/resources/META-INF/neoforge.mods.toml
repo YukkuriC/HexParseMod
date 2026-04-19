@@ -15,6 +15,11 @@ logoFile = "logo.png"
 updateJSONURL = "https://api.modrinth.com/updates/WjFyIzFj/forge_updates.json"
 displayURL = "https://modrinth.com/mod/hexparse"
 
+[[mixins]]
+config = "hexparse.mixins.json"
+[[mixins]]
+config = "hexparse.mixins.tmp_patches.json"
+
 [[dependencies.hexparse]]
 modId = "forge"
 mandatory = true

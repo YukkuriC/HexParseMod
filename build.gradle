@@ -1,8 +1,8 @@
 plugins {
-    id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply false
+    id 'dev.architectury.loom' version '1.10-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
-    id "org.jetbrains.kotlin.jvm" version "1.9.24"
+    id "org.jetbrains.kotlin.jvm" version "2.0.21"
 }
 
 project.mod_version = "${minecraft_version}-${mod_version_base}"
@@ -43,12 +43,12 @@ subprojects {
     var nameForRef = project.name.equals("common") ? "fabric" : project.name
     dependencies {
         compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
-        if (project.name == 'forge')
+        if (project.name == 'neoforge')
             implementation(include("io.github.llamalad7:mixinextras-${project.name}:0.4.1"))
 
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
-        modImplementation("at.petra-k.hexcasting:hexcasting-${nameForRef}-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
+        // modImplementation("at.petra-k.hexcasting:hexcasting-${nameForRef}-${project.minecraft_version}:${project.hexcastingVersion}") { transitive = false }
 
         modImplementation("vazkii.patchouli:Patchouli:${minecraft_version}-${patchouliVersion}-${nameForRef.toUpperCase()}")
 
@@ -67,12 +67,12 @@ subprojects {
     }
 
     tasks.withType(JavaCompile).configureEach {
-        it.options.release = 17
+        it.options.release = 21
     }
 
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "21"
         }
     }
 
