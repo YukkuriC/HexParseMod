@@ -70,7 +70,7 @@ public final class HexParseForge {
     public static class Network implements ISenderClient, ISenderServer {
         static final String PROTOCOL_VERSION = "1";
         static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(HexParse.MOD_ID, "network"),
+                HexParse.modLoc("network"),
                 () -> PROTOCOL_VERSION,
                 PROTOCOL_VERSION::equals,
                 PROTOCOL_VERSION::equals

@@ -40,7 +40,7 @@ public class HexParsePatterns {
     }
 
     static ActionRegistryEntry wrap(String name, HexPattern pattern, Action action) {
-        var key = new ResourceLocation(HexParse.MOD_ID, name);
+        var key = HexParse.modLoc(name);
         var val = new ActionRegistryEntry(pattern, action);
         CACHED.put(key, val);
         return val;
