@@ -9,13 +9,16 @@ import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import miyucomics.hexcellular.StateStorage;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements IMessage {
+public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements IMessage, CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("clipboard/push");
 
     @Override
@@ -63,4 +66,17 @@ public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMod
             CommandMindStackIO.INSTANCE.writeStackWithIota(sender, nbt);
         } else CodeHelpers.doParse(sender, self.code, self.rename);
     }
+
+    public static final CustomPacketPayload.Type<MsgPushClipboard> TYPE = new CustomPacketPayload.Type<>(ID);
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, MsgPushClipboard> STREAM_CODEC = new StreamCodec<>() {
+        public MsgPushClipboard decode(RegistryFriendlyByteBuf buf) {
+            return deserialize(buf);
+        }
+        public void encode(RegistryFriendlyByteBuf buf, MsgPushClipboard msg) {
+            msg.serialize(buf);
+        }
+    };
 }

@@ -10,12 +10,15 @@ import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.regex.Pattern;
 
-public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements IMessage {
+public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements IMessage, CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("clipboard/pull");
     static Pattern ANGLES = Pattern.compile("(?<=\")[wedsaq]*(?=\")");
     static int MAX_LENGTH = 100 * HexIotaTypes.MAX_SERIALIZATION_TOTAL;
@@ -73,4 +76,17 @@ public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements 
         if (player != null)
             player.sendSystemMessage(Component.translatable("hexparse.msg.error.code_too_long", length));
     }
+
+    public static final CustomPacketPayload.Type<MsgPullClipboard> TYPE = new CustomPacketPayload.Type<>(ID);
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, MsgPullClipboard> STREAM_CODEC = new StreamCodec<>() {
+        public MsgPullClipboard decode(RegistryFriendlyByteBuf buf) {
+            return deserialize(buf);
+        }
+        public void encode(RegistryFriendlyByteBuf buf, MsgPullClipboard msg) {
+            msg.serialize(buf);
+        }
+    };
 }

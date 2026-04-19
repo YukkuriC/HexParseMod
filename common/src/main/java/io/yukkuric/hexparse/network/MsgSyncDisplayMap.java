@@ -6,11 +6,14 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-public record MsgSyncDisplayMap(Map<String, String> map, Map<String, String> prefixMap) implements IMessage {
+public record MsgSyncDisplayMap(Map<String, String> map, Map<String, String> prefixMap) implements IMessage, CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("display/sync");
 
     @Override
@@ -37,4 +40,17 @@ public record MsgSyncDisplayMap(Map<String, String> map, Map<String, String> pre
             DotHexPatternMapper.receiveRemoteMap(self);
         });
     }
+
+    public static final CustomPacketPayload.Type<MsgSyncDisplayMap> TYPE = new CustomPacketPayload.Type<>(ID);
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, MsgSyncDisplayMap> STREAM_CODEC = new StreamCodec<>() {
+        public MsgSyncDisplayMap decode(RegistryFriendlyByteBuf buf) {
+            return deserialize(buf);
+        }
+        public void encode(RegistryFriendlyByteBuf buf, MsgSyncDisplayMap msg) {
+            msg.serialize(buf);
+        }
+    };
 }

@@ -6,9 +6,12 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.network.MsgHelpers;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-public record MsgUpdateClientMacro(boolean isDefine, String key, String value) implements IMessage {
+public record MsgUpdateClientMacro(boolean isDefine, String key, String value) implements IMessage, CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("macro/update");
 
     @Override
@@ -34,4 +37,17 @@ public record MsgUpdateClientMacro(boolean isDefine, String key, String value) i
     public static void handle(MsgUpdateClientMacro self) {
         MacroClient.entryOp(self.isDefine, self.key, self.value);
     }
+
+    public static final CustomPacketPayload.Type<MsgUpdateClientMacro> TYPE = new CustomPacketPayload.Type<>(ID);
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, MsgUpdateClientMacro> STREAM_CODEC = new StreamCodec<>() {
+        public MsgUpdateClientMacro decode(RegistryFriendlyByteBuf buf) {
+            return deserialize(buf);
+        }
+        public void encode(RegistryFriendlyByteBuf buf, MsgUpdateClientMacro msg) {
+            msg.serialize(buf);
+        }
+    };
 }
