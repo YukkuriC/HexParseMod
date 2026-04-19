@@ -21,36 +21,29 @@ config = "hexparse.mixins.json"
 config = "hexparse.mixins.tmp_patches.json"
 
 [[dependencies.hexparse]]
-modId = "forge"
-mandatory = true
-versionRange = "[0,)"
-ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.hexparse]]
 modId = "minecraft"
-mandatory = true
+type = "required"
 versionRange = "[0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.hexparse]]
 modId = "hexcasting"
-mandatory = true
+type = "required"
 versionRange = "[0,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.hexparse]]
 modId = "hexal"
-mandatory = false
+type = "optional"
 versionRange = "[0,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.hexparse]]
 modId = "moreiotas"
-mandatory = false
+type = "optional"
 versionRange = "[0,)"
 ordering = "AFTER"
 side = "BOTH"
