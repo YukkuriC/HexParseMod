@@ -13,19 +13,15 @@ import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.fml.*;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.*;
-import net.minecraftforge.network.simple.SimpleChannel;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.*;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.function.*;
 
@@ -34,14 +30,14 @@ public final class HexParseForge {
     static Network NETWORK;
     static ModHelpers HELPERS;
 
-    public HexParseForge() {
+    public HexParseForge(ModContainer modContainer) {
         NETWORK = new Network();
         HELPERS = new ModHelpers();
 
         // Run our common setup.
         HexParse.init();
 
-        var evBus = MinecraftForge.EVENT_BUS;
+        var evBus = NeoForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
         evBus.register(MacroForgeHandler.class);
         evBus.addListener((ServerStartedEvent e) -> {
@@ -52,7 +48,7 @@ public final class HexParseForge {
                 DotHexPatternMapper.sendRemoteMap(sp);
         });
 
-        var modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        var modBus = modContainer.getEventBus();
         modBus.addListener((RegisterEvent event) -> {
             var key = event.getRegistryKey();
             if (key.equals(HexRegistries.ACTION)) {
@@ -60,8 +56,7 @@ public final class HexParseForge {
             } else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
         });
 
-        var ctx = ModLoadingContext.get();
-        HexParseConfigForge.register(ctx);
+        HexParseConfigForge.register(modContainer);
 
         // init client
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> HexParse::initClient);
