@@ -142,10 +142,10 @@ public class CommentIotaType extends IotaType<CommentIota> {
     public static final StreamCodec<RegistryFriendlyByteBuf, CommentIota> STREAM_CODEC = ByteBufCodecs.STRING_UTF8.map(CommentIota::new, CommentIota::getComment).mapStream(buffer -> buffer);
     @Override
     public MapCodec<CommentIota> codec() {
-        return null;
+        return CODEC;
     }
     @Override
     public StreamCodec<RegistryFriendlyByteBuf, CommentIota> streamCodec() {
-        return null;
+        return STREAM_CODEC;
     }
 }
