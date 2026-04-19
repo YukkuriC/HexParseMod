@@ -24,11 +24,11 @@ public class IotaFactory {
     static final Map<Character, HexAngle> ANGLE_MAP = new HashMap<>() {
         {
             put('w', HexAngle.FORWARD);
-            put('e', HexAngle.LEFT);
-            put('d', HexAngle.LEFT_BACK);
+            put('e', HexAngle.RIGHT);
+            put('d', HexAngle.RIGHT_BACK);
             put('s', HexAngle.BACK);
-            put('a', HexAngle.RIGHT_BACK);
-            put('q', HexAngle.RIGHT);
+            put('a', HexAngle.LEFT_BACK);
+            put('q', HexAngle.LEFT);
         }
     };
 

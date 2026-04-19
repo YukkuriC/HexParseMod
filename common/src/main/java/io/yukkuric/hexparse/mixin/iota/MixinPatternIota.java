@@ -25,7 +25,7 @@ public class MixinPatternIota {
             ChatFormatting.BLUE
     );
 
-    @Inject(method = "display", at = @At("RETURN"))
+    @Inject(method = "display(Lat/petrak/hexcasting/api/casting/math/HexPattern;)Lnet/minecraft/network/chat/Component;", at = @At("RETURN"))
     private static void hookParens(HexPattern pat, CallbackInfoReturnable<Component> cir) {
         if (!HexParseConfig.colorfulNested()) return;
         var angles = pat.getAngles();

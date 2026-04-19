@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.commands;
 
-import at.petrak.hexcasting.common.command.PatternResLocArgument;
+import at.petrak.hexcasting.common.command.PatternResKeyArgument;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import io.yukkuric.hexparse.HexParse;
@@ -24,9 +24,9 @@ public class CommandGreatPatternUnlock {
         registerLine(saveOp((save, ctx) -> opBatch(save::clear, "hexparse.cmd.unlocker.lock.all")),
                 sub, Commands.literal("lockAll"));
         registerLine(saveOp((save, ctx) -> opSingle(ctx, save::unlock, "hexparse.cmd.unlocker.unlock.one")),
-                sub, Commands.literal("unlock"), Commands.argument("patternKey", PatternResLocArgument.id()));
+                sub, Commands.literal("unlock"), Commands.argument("patternKey", PatternResKeyArgument.id()));
         registerLine(saveOp((save, ctx) -> opSingle(ctx, save::lock, "hexparse.cmd.unlocker.lock.one")),
-                sub, Commands.literal("lock"), Commands.argument("patternKey", PatternResLocArgument.id()));
+                sub, Commands.literal("lock"), Commands.argument("patternKey", PatternResKeyArgument.id()));
     }
 
     static String opBatch(Supplier<Integer> op, final String msg) {
