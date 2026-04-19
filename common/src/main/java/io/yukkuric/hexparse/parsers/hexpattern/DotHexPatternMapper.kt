@@ -4,6 +4,7 @@ import io.yukkuric.hexparse.config.HexParseConfig
 import io.yukkuric.hexparse.hooks.PatternMapper
 import io.yukkuric.hexparse.network.MsgHandlers
 import io.yukkuric.hexparse.network.MsgSyncDisplayMap
+import io.yukkuric.hexparse.parsers.CodeCutter
 import net.minecraft.locale.Language
 import net.minecraft.server.level.ServerPlayer
 
@@ -98,12 +99,16 @@ object DotHexPatternMapper {
     }
 
     @JvmStatic
-    operator fun get(display: String) = nameMap[display] ?: serverNameMap?.let { it[display] }
+    operator fun get(display: String) = nameMap[display] ?: serverNameMap[display]
 
     @JvmStatic
-    fun processCode(code: String): String {
+    fun processCode(code: String, firstCall: Boolean = false): String {
         // try init client-side map here
         doCollect()
+        val code = if (firstCall) {
+            code.let { CodeCutter.pCommentBlock.matcher(it).replaceAll("") }
+                .let { CodeCutter.pCommentLine.matcher(it).replaceAll("") }
+        } else code
 
         // we just remap per-line for now
         val pieces = code.split("\n").map(String::trim)

@@ -18,7 +18,7 @@ class TriePrefixMap {
         for (chr in fullStr) {
             len++
             ptr = ptr.next[chr] ?: return null
-            ptr.value?.let { return "${it}${fullStr.substring(len).trim()}" }
+            ptr.value?.let { return "$it${fullStr.substring(len).trim()}" }
         }
         return null
     }

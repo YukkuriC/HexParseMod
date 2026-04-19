@@ -57,7 +57,7 @@ public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements 
                 var matched = ANGLES.matcher(code).results().map(x -> '_' + x.group());
                 code = String.join(" ", matched.toList());
             } else if (self.mode == ClipboardMsgMode.HEXPATTERN_FORMAT) {
-                code = DotHexPatternMapper.processCode(code);
+                code = DotHexPatternMapper.processCode(code, true);
             }
             if (code.length() > MAX_LENGTH) {
                 sendTooLongMsg(MC.player, code.length());

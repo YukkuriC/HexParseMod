@@ -38,8 +38,6 @@ object CodeCutter {
         val matcher = pTokens.matcher(code)
         require(matcher.find())
 
-
-
         return Pair(matcher.group(), code.substring(matcher.end()))
     }
 
@@ -62,7 +60,6 @@ object CodeCutter {
         return if (commentsToIota) {
             var match = matcher.group()
             match = match.substring(2, match.length - 2)
-
 
             Pair(
                 commentToCommentString(match),
@@ -159,12 +156,10 @@ object CodeCutter {
                 }
             }
             if (code == newCode) {
-
                 // nothing is getting consumed, infinite loop!
                 // throw IllegalArgumentException("illegal characters in: ${code}");
                 // Chop off the offending character
                 newCode = code.substring(1)
-
             }
             code = newCode
             if (token != null) {
