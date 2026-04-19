@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.parsers;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import at.petrak.hexcasting.api.casting.iota.*;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.macro.MacroClient;
@@ -8,13 +8,9 @@ import io.yukkuric.hexparse.macro.MacroProcessor;
 import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
-import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
-import io.yukkuric.hexparse.parsers.str2nbt.plugins.PluginConstParsers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -26,9 +22,9 @@ public class ParserMain {
     static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers = new ArrayList<>();
     static List<INbt2Str> nbt2strParsers = new ArrayList<>();
-    static CompoundTag IGNORED = new CompoundTag();
+    static Iota IGNORED = GarbageIota.INSTANCE;
 
-    public static CompoundTag ParseSingleNode(String frag) {
+    public static Iota ParseSingleNode(String frag) {
         for (var p : str2nbtParsers) {
             if (p.match(frag)) {
                 if (p.ignored()) return IGNORED;
@@ -40,7 +36,7 @@ public class ParserMain {
         return null;
     }
 
-    public static synchronized CompoundTag ParseCode(String code, ServerPlayer caller) {
+    public static synchronized Iota ParseCode(String code, ServerPlayer caller) {
         List<String> cutterResult;
         try {
             cutterResult = CodeCutter.splitCode(code);
@@ -51,8 +47,8 @@ public class ParserMain {
         return ParseCode(cutterResult, caller);
     }
 
-    public static synchronized CompoundTag ParseCode(List<String> nodes, ServerPlayer caller) {
-        if (caller == null) return IotaFactory.makeList(new ListTag());
+    public static synchronized Iota ParseCode(List<String> nodes, ServerPlayer caller) {
+        if (caller == null) return new ListIota(List.of());
         CodeHelpers.autoRefresh(caller.getServer());
         for (var p : str2nbtParsers) if (p instanceof IPlayerBinder pb) pb.BindPlayer(caller);
         try (var ignored = CostTracker.INSTANCE.beginTrack(caller)) {
@@ -60,22 +56,22 @@ public class ParserMain {
         }
     }
 
-    private static CompoundTag _parseCode(List<String> nodes, ServerPlayer caller) {
-        var stack = new Stack<ListTag>();
-        stack.add(new ListTag());
+    private static Iota _parseCode(List<String> nodes, ServerPlayer caller) {
+        var stack = new Stack<List<Iota>>();
+        stack.add(new ArrayList<>());
         try {
             for (MacroProcessor it = new MacroProcessor(nodes.iterator(), caller); it.hasNext(); ) {
                 var frag = it.next();
                 switch (frag) {
                     // special: nested list
                     case "[":
-                        stack.push(new ListTag());
+                        stack.push(new ArrayList<>());
                         break;
                     case "]":
                         if (stack.size() <= 1) {
                             throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.closed"));
                         }
-                        var inner = IotaFactory.makeList(stack.pop());
+                        var inner = new ListIota(stack.pop());
                         stack.peek().add(inner);
                         break;
                     default:
@@ -97,12 +93,12 @@ public class ParserMain {
             caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));
             // try fix data anyway
             while (stack.size() > 1) {
-                var sub = IotaFactory.makeList(stack.pop());
+                var sub = new ListIota(stack.pop());
                 stack.peek().add(sub);
             }
-            return IotaFactory.makeList(stack.isEmpty() ? new ListTag() : stack.pop());
+            return new ListIota(stack.isEmpty() ? List.of() : stack.pop());
         }
-        return IotaFactory.makeList(stack.pop());
+        return new ListIota(stack.pop());
     }
 
     public static List<String> preMatchClipboardClient(String code) {
@@ -137,16 +133,16 @@ public class ParserMain {
         return res;
     }
 
-    public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller, StringProcessors.F post) {
+    public static synchronized String ParseIotaNbt(Iota node, ServerPlayer caller, StringProcessors.F post) {
         return ParseIotaNbt(node, caller, 0, post);
     }
-    public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller, int configNum, StringProcessors.F post) {
+    public static synchronized String ParseIotaNbt(Iota node, ServerPlayer caller, int configNum, StringProcessors.F post) {
         var res = _parseIotaNbt(node, caller, configNum, true);
         res = post.apply(res);
         return res;
     }
 
-    private static synchronized String _parseIotaNbt(CompoundTag node, ServerPlayer caller, int configNum, boolean isRoot) {
+    private static synchronized String _parseIotaNbt(Iota node, ServerPlayer caller, int configNum, boolean isRoot) {
         // bind caller
         if (isRoot) for (var p : nbt2strParsers) {
             p.receiveConfigNum(configNum);
@@ -155,14 +151,14 @@ public class ParserMain {
 
         try {
             // handle nested list
-            if (node.getString(HexIotaTypes.KEY_TYPE).equals(IotaFactory.TYPE_LIST)) {
+            if (node instanceof ListIota nodeList) {
                 var sb = new StringBuilder();
                 if (!isRoot) sb.append('[');
                 var isFirst = true;
-                for (var sub : node.getList(HexIotaTypes.KEY_DATA, ListTag.TAG_COMPOUND)) {
+                for (var sub : nodeList.getList()) {
                     if (isFirst) isFirst = false;
                     else sb.append(',');
-                    sb.append(_parseIotaNbt((CompoundTag) sub, caller, configNum, false));
+                    sb.append(_parseIotaNbt(sub, caller, configNum, false));
                 }
                 if (!isRoot) sb.append(']');
                 return sb.toString();
@@ -215,6 +211,7 @@ public class ParserMain {
                 new GarbageParser()
         ));
 
+        /*
         if (HexParse.HELPERS.modLoaded("hexal")) {
             str2nbtParsers.add(loadUnsafe(IStr2Nbt.class, "str2nbt.unsafe.hexal.ToGate"));
             nbt2strParsers.add(new GateParser());
@@ -257,6 +254,7 @@ public class ParserMain {
             str2nbtParsers.add(PluginConstParsers.TO_POTION);
             nbt2strParsers.add(new PotionParser());
         }
+        */
     }
 
     public static void AddForthParser(IStr2Nbt p) {

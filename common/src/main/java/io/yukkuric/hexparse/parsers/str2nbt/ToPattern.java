@@ -1,18 +1,19 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
 public class ToPattern implements IStr2Nbt {
-    final Map<String, CompoundTag> target;
+    final Map<String, Iota> target;
 
-    ToPattern(Map<String, CompoundTag> target) {
+    ToPattern(Map<String, Iota> target) {
         this.target = target;
     }
 
@@ -22,7 +23,7 @@ public class ToPattern implements IStr2Nbt {
     }
 
     @Override
-    public CompoundTag parse(String node) {
+    public Iota parse(String node) {
         return this.target.get(node);
     }
 
@@ -33,18 +34,18 @@ public class ToPattern implements IStr2Nbt {
     public static class ToGreatPattern extends ToPattern implements IPlayerBinder {
         GreatPatternUnlocker checker;
 
-        ToGreatPattern(Map<String, CompoundTag> target) {
+        ToGreatPattern(Map<String, Iota> target) {
             super(target);
         }
 
         @Override
-        public void BindPlayer(ServerPlayer p) {
+        public void BindPlayer(@NotNull ServerPlayer p) {
             var level = p.serverLevel();
             checker = GreatPatternUnlocker.get(level);
         }
 
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             if (checker == null || checker.isUnlocked(node)) return super.parse(node);
             return IotaFactory.makeUnknownGreatPattern(node);
         }

@@ -49,7 +49,7 @@ object ActionLearnGreatPatterns : ConstMediaAction {
     private fun extractTargetFromItem(item: ItemStack): List<Iota>? {
         val holderIota = IXplatAbstractions.INSTANCE.findDataHolder(item)
         if (holderIota != null) {
-            val inner = holderIota.readIota(cachedLevel)
+            val inner = holderIota.readIota()
             if (inner != null) return listOf(inner)
         }
         val holderHex = IXplatAbstractions.INSTANCE.findHexHolder(item)

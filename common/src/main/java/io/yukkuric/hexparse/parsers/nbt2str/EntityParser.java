@@ -1,28 +1,26 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import at.petrak.hexcasting.api.casting.iota.EntityIota;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
-import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.NotNull;
 
-public class EntityParser implements INbt2Str, IPlayerBinder {
+public class EntityParser implements INbt2Str<EntityIota>, IPlayerBinder {
     @Override
-    public boolean match(CompoundTag node) {
-        return isType(node, IotaFactory.TYPE_ENTITY);
-    }
-
-    @Override
-    public String parse(CompoundTag node) {
-        var uuid = node.getCompound(HexIotaTypes.KEY_DATA).getUUID("uuid");
+    public String parse(EntityIota iota) {
+        var uuid = iota.getEntityId();
         if (self.getUUID().equals(uuid)) return "self";
         return "entity_" + uuid;
+    }
+    @Override
+    public Class<EntityIota> getType() {
+        return EntityIota.class;
     }
 
     ServerPlayer self;
 
     @Override
-    public void BindPlayer(ServerPlayer p) {
+    public void BindPlayer(@NotNull ServerPlayer p) {
         self = p;
     }
 }

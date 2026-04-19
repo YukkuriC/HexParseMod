@@ -4,26 +4,24 @@ import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.casting.PatternShapeMatch;
 import at.petrak.hexcasting.api.casting.castables.SpecialHandler;
 import at.petrak.hexcasting.api.casting.eval.env.StaffCastEnv;
-import at.petrak.hexcasting.api.casting.math.HexPattern;
+import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.common.casting.PatternRegistryManifest;
 import at.petrak.hexcasting.common.casting.actions.math.SpecialHandlerNumberLiteral;
 import at.petrak.hexcasting.common.casting.actions.stack.SpecialHandlerMask;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
-import io.yukkuric.hexparse.parsers.IotaFactory;
 import io.yukkuric.hexparse.parsers.interfaces.ConfigNums;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public class PatternParser implements INbt2Str, IPlayerBinder {
+public class PatternParser implements INbt2Str<PatternIota>, IPlayerBinder {
     static Map<String, String> SPECIAL_PATTERNS = new HashMap<>() {
         {
             put("qqq", "(");
@@ -31,9 +29,9 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
             put("qqqaw", "\\");
         }
     };
-    static Map<Class<?>, BiFunction<?, CompoundTag, String>> SPECIAL_HANDLER_MAP = new HashMap<>();
+    static Map<Class<?>, BiFunction<?, PatternIota, String>> SPECIAL_HANDLER_MAP = new HashMap<>();
 
-    public static <T extends SpecialHandler> void AddSpecialHandlerBackParser(Class<T> cls, BiFunction<T, CompoundTag, String> func) {
+    public static <T extends SpecialHandler> void AddSpecialHandlerBackParser(Class<T> cls, BiFunction<T, PatternIota, String> func) {
         SPECIAL_HANDLER_MAP.put(cls, func);
     }
 
@@ -57,13 +55,8 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
     }
 
     @Override
-    public boolean match(CompoundTag node) {
-        return isType(node, IotaFactory.TYPE_PATTERN);
-    }
-
-    @Override
-    public String parse(CompoundTag node) {
-        var pattern = HexPattern.fromNBT(node.getCompound(HexIotaTypes.KEY_DATA));
+    public String parse(PatternIota iota) {
+        var pattern = iota.getPattern();
         var angleSigs = pattern.anglesSignature();
 
         // early escape by config
@@ -80,8 +73,8 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
             opId = pm.key.location();
         } else if (matcher instanceof PatternShapeMatch.Special sm) {
             var handler = sm.handler;
-            var func = (BiFunction<SpecialHandler, CompoundTag, String>) SPECIAL_HANDLER_MAP.get(handler.getClass());
-            if (func != null) return func.apply(handler, node);
+            var func = (BiFunction<SpecialHandler, PatternIota, String>) SPECIAL_HANDLER_MAP.get(handler.getClass());
+            if (func != null) return func.apply(handler, iota);
         }
 
         // by key
@@ -93,12 +86,16 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
         // by angle sig
         return '_' + angleSigs;
     }
+    @Override
+    public Class<PatternIota> getType() {
+        return PatternIota.class;
+    }
 
     ServerLevel level;
     ServerPlayer player;
 
     @Override
-    public void BindPlayer(ServerPlayer p) {
+    public void BindPlayer(@NotNull ServerPlayer p) {
         this.player = p;
         this.level = p.serverLevel();
     }

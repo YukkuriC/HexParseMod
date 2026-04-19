@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.network;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
@@ -58,7 +57,7 @@ public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMod
         } else if (self.mode == ClipboardMsgMode.WRITE_PROPERTY) {
             var nbt = ParserMain.ParseCode(self.code, sender);
             var world = sender.serverLevel();
-            StateStorage.Companion.setProperty(world, self.rename, IotaType.deserialize(nbt, world));
+            StateStorage.Companion.setProperty(world, self.rename, nbt);
         } else if (self.mode == ClipboardMsgMode.PUSH_MIND) {
             var nbt = ParserMain.ParseCode(self.code, sender);
             CommandMindStackIO.INSTANCE.writeStackWithIota(sender, nbt);

@@ -1,11 +1,10 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.api.HexAPI;
-import at.petrak.hexcasting.api.casting.math.HexDir;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import at.petrak.hexcasting.api.casting.iota.*;
+import at.petrak.hexcasting.api.casting.math.*;
 import io.yukkuric.hexparse.HexParse;
-import io.yukkuric.hexparse.hooks.CommentIotaType;
-import net.minecraft.nbt.*;
+import io.yukkuric.hexparse.hooks.CommentIota;
 
 import java.util.*;
 
@@ -22,43 +21,30 @@ public class IotaFactory {
     public static final String GREAT_PLACEHOLDER_PREFIX = "<";
     public static final String GREAT_PLACEHOLDER_POSTFIX = "?>";
 
-    static final Map<Character, Byte> ANGLE_MAP = new HashMap<>() {
+    static final Map<Character, HexAngle> ANGLE_MAP = new HashMap<>() {
         {
-            put('w', (byte) 0);
-            put('e', (byte) 1);
-            put('d', (byte) 2);
-            put('s', (byte) 3);
-            put('a', (byte) 4);
-            put('q', (byte) 5);
+            put('w', HexAngle.FORWARD);
+            put('e', HexAngle.LEFT);
+            put('d', HexAngle.LEFT_BACK);
+            put('s', HexAngle.BACK);
+            put('a', HexAngle.RIGHT_BACK);
+            put('q', HexAngle.RIGHT);
         }
     };
 
-    public static CompoundTag makeType(String type, Tag data) {
-        var res = new CompoundTag();
-        res.putString(HexIotaTypes.KEY_TYPE, type);
-        res.put(HexIotaTypes.KEY_DATA, data);
-        return res;
-    }
-
-    public static CompoundTag makeList(ListTag data) {
-        return makeType(TYPE_LIST, data);
-    }
-
-    public static CompoundTag makePattern(String angles, HexDir start) {
-        var angleArray = new ArrayList<Byte>();
+    public static Iota makePattern(String angles, HexDir start) {
+        var angleArray = new ArrayList<HexAngle>();
         for (var chr : angles.toCharArray()) { // skip fromAngles check
             if (ANGLE_MAP.containsKey(chr)) angleArray.add(ANGLE_MAP.get(chr));
             else
                 throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
         }
-        var pattern = new CompoundTag();
-        pattern.putByte("start_dir", (byte) (start.ordinal()));
-        pattern.putByteArray("angles", angleArray);
-        return makeType(TYPE_PATTERN, pattern);
+        var pattern = new HexPattern(start, angleArray);
+        return new PatternIota(pattern);
     }
 
-    public static CompoundTag makeComment(String comment) {
-        return makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
+    public static Iota makeComment(String comment) {
+        return new CommentIota(comment);
     }
 
     public static boolean isGreatPatternPlaceholder(String node) {
@@ -69,15 +55,15 @@ public class IotaFactory {
         return GREAT_PLACEHOLDER_PREFIX + id + GREAT_PLACEHOLDER_POSTFIX;
     }
 
-    public static CompoundTag makeUnknownGreatPattern(String id) {
+    public static Iota makeUnknownGreatPattern(String id) {
         return makeComment(makeUnknownGreatPatternText(id));
     }
 
-    public static CompoundTag makeTab(int num) {
+    public static Iota makeTab(int num) {
         return makeComment("\n" + " ".repeat(num));
     }
 
-    public static CompoundTag makeNum(Double num) {
-        return makeType(TYPE_DOUBLE, DoubleTag.valueOf(num));
+    public static Iota makeNum(Double num) {
+        return new DoubleIota(num);
     }
 }

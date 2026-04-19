@@ -1,19 +1,18 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import io.yukkuric.hexparse.parsers.interfaces.IConfigNumReceiver;
-import net.minecraft.nbt.CompoundTag;
 
-public interface INbt2Str extends IConfigNumReceiver {
-    boolean match(CompoundTag node);
+public interface INbt2Str<T extends Iota> extends IConfigNumReceiver {
+    Class<T> getType();
 
-    String parse(CompoundTag node);
+    default boolean match(Iota node){
+        return getType().isInstance(node);
+    }
+
+    String parse(T node);
 
     // helpers
-
-    default boolean isType(CompoundTag node, String type) {
-        return node.getString(HexIotaTypes.KEY_TYPE).equals(type);
-    }
 
     default String displayMinimal(Double raw) {
         return INbt2Str.displayMinimalStatic(raw);

@@ -1,17 +1,14 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
-import at.petrak.hexcasting.api.casting.iota.EntityIota;
-import at.petrak.hexcasting.api.casting.iota.Iota;
-import at.petrak.hexcasting.api.casting.iota.IotaType;
-import at.petrak.hexcasting.api.casting.iota.NullIota;
+import at.petrak.hexcasting.api.casting.iota.*;
 import at.petrak.hexcasting.api.casting.mishaps.MishapOthersName;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -24,13 +21,13 @@ public class ToEntity extends BaseConstParser.Prefix implements IPlayerBinder {
     }
 
     @Override
-    public void BindPlayer(ServerPlayer p) {
+    public void BindPlayer(@NotNull ServerPlayer p) {
         self = p;
         level = p.serverLevel();
     }
 
     @Override
-    public CompoundTag parse(String node) {
+    public Iota parse(String node) {
         Iota res;
         Entity entity = null;
         try {
@@ -44,8 +41,8 @@ public class ToEntity extends BaseConstParser.Prefix implements IPlayerBinder {
             var msg = HexParse.doTranslate("hexcasting.mishap.others_name", entity.getName());
             throw new RuntimeException(msg);
         } catch (Exception e) {
-            res = new NullIota();
+            res = NullIota.INSTANCE;
         }
-        return IotaType.serialize(res);
+        return res;
     }
 }

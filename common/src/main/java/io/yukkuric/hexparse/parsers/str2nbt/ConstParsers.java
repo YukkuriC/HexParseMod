@@ -1,12 +1,10 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
-import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
+import at.petrak.hexcasting.api.casting.iota.*;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import io.yukkuric.hexparse.misc.NumEvaluatorBrute;
 import io.yukkuric.hexparse.misc.StringEscaper;
 import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
 import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.*;
@@ -16,13 +14,13 @@ public class ConstParsers {
     public static Comment.Indent TO_TAB = new Comment.Indent();
     public static BaseConstParser TO_COMMENT = new Comment("comment_") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             return IotaFactory.makeComment(node.substring(8));
         }
     };
     public static BaseConstParser TO_SCOMMENT = new Comment("c\"") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             return IotaFactory.makeComment(
                     // c"<escaped comment contents>"
                     StringEscaper.Companion.unescape(node.substring(1))
@@ -31,7 +29,7 @@ public class ConstParsers {
     };
     public static BaseConstParser TO_VEC = new Prefix("vec") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             var frags = node.split("_");
             var axes = new double[3];
             for (var i = 1; i <= 3; i++) {
@@ -42,12 +40,12 @@ public class ConstParsers {
                 } catch (NumberFormatException e) {
                 }
             }
-            return IotaType.serialize(new Vec3Iota(new Vec3(axes[0], axes[1], axes[2])));
+            return new Vec3Iota(new Vec3(axes[0], axes[1], axes[2]));
         }
     };
     public static BaseConstParser TO_NUM_PATTERN = new Prefix("num") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             double num = 0;
             try {
                 num = Double.parseDouble(node.split("_")[1]);
@@ -61,7 +59,7 @@ public class ConstParsers {
     // regex
     public static BaseConstParser TO_NUM = new Regex("^[0-9.\\-]+(e[0-9.\\-]+)?$") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             try {
                 return IotaFactory.makeNum(Double.parseDouble(node));
             } catch (NumberFormatException e) {
@@ -71,13 +69,13 @@ public class ConstParsers {
     };
     public static BaseConstParser TO_RAW_PATTERN = new Regex("^_[wedsaq]*$") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             return IotaFactory.makePattern(node.substring(1), HexDir.EAST);
         }
     };
     public static BaseConstParser TO_MASK = new Regex("^mask_[-v]+$") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             var seq = new StringBuilder();
             var line = true;
             var start = HexDir.EAST;

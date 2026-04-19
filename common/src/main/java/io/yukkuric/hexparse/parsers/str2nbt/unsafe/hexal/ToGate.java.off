@@ -50,7 +50,7 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
     }
 
     @Override
-    public CompoundTag parse(String node) {
+    public Iota parse(String node) {
         if (node.length() <= 5) return PluginIotaFactory.makeGate(getGateOrder(null, null), null, null);
         var frags = node.substring(5).split("_");
         double[] vecRaw = new double[]{0, 0, 0};

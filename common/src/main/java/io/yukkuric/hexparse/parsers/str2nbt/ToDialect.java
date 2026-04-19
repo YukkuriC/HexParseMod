@@ -1,8 +1,8 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
 import at.petrak.hexcasting.api.HexAPI;
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import io.yukkuric.hexparse.parsers.ParserMain;
-import net.minecraft.nbt.CompoundTag;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public record ToDialect(Map<String, String> mapper) implements IStr2Nbt {
     }
 
     @Override
-    public CompoundTag parse(String node) {
+    public Iota parse(String node) {
         node = cutHeader(node);
         var mapped = mapper.get(node);
         return ParserMain.ParseSingleNode(mapped);

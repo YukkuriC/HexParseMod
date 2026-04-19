@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.parsers
 
+import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.api.utils.asTextComponent
 import at.petrak.hexcasting.api.utils.gold
@@ -8,8 +9,8 @@ import io.netty.buffer.Unpooled
 import io.yukkuric.hexparse.misc.HexParseTags
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Prefix
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.core.RegistryAccess
+import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.server.level.ServerPlayer
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -22,7 +23,7 @@ object FallbackBinaryParser {
     val REPLACERS = arrayOf("+-", "=_")
 
     object STR2NBT : Prefix(prefix), IPlayerBinder {
-        override fun parse(node: String): CompoundTag {
+        override fun parse(node: String): Iota {
             var raw = node.substring(4)
             for (p in REPLACERS) raw = raw.replace(p[1], p[0])
             var bytes = Base64.getDecoder().decode(raw)
@@ -35,9 +36,9 @@ object FallbackBinaryParser {
             infl.close()
             bytes = out.toByteArray()
 
-            val buf = FriendlyByteBuf(Unpooled.wrappedBuffer(bytes))
-            val ret = buf.readNbt()!!
-            IotaType.getTypeFromTag(ret)?.let {
+            val buf = RegistryFriendlyByteBuf(Unpooled.wrappedBuffer(bytes), callingPlayer.registryAccess())
+            val ret = IotaType.TYPED_STREAM_CODEC.decode(buf)
+            ret.type.let {
                 val holder = HexIotaTypes.REGISTRY.wrapAsHolder(it)
                 if (holder.`is`(HexParseTags.NBT_PARSING_FORBIDDEN)) {
                     val errorMsg = "forbidden iota type: ${HexIotaTypes.REGISTRY.getKey(it)}"
@@ -49,18 +50,19 @@ object FallbackBinaryParser {
             return ret
         }
 
-        private var callingPlayer: ServerPlayer? = null
-        override fun BindPlayer(p: ServerPlayer?) {
+        private lateinit var callingPlayer: ServerPlayer
+        override fun BindPlayer(p: ServerPlayer) {
             callingPlayer = p
         }
     }
 
-    object NBT2STR : INbt2Str {
-        override fun match(node: CompoundTag) = true
+    object NBT2STR : INbt2Str<Iota>, IPlayerBinder {
+        override fun match(node: Iota) = true
+        override fun getType() = Iota::class.java
 
-        override fun parse(node: CompoundTag): String {
-            val buf = FriendlyByteBuf(Unpooled.buffer())
-            buf.writeNbt(node)
+        override fun parse(node: Iota): String {
+            val buf = RegistryFriendlyByteBuf(Unpooled.buffer(), regAccess)
+            IotaType.TYPED_STREAM_CODEC.encode(buf, node)
             var bytes = ByteArray(buf.readableBytes())
             buf.readBytes(bytes)
 
@@ -75,6 +77,11 @@ object FallbackBinaryParser {
             var raw = Base64.getEncoder().encodeToString(bytes)
             for (p in REPLACERS) raw = raw.replace(p[0], p[1])
             return prefix + raw
+        }
+
+        private lateinit var regAccess: RegistryAccess
+        override fun BindPlayer(p: ServerPlayer) {
+            regAccess = p.registryAccess()
         }
     }
 }

@@ -1,11 +1,8 @@
 package io.yukkuric.hexparse.actions
 
-import at.petrak.hexcasting.api.casting.asActionResult
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.IotaType
-import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughMedia
 import at.petrak.hexcasting.api.misc.MediaConstants
 import io.yukkuric.hexparse.parsers.CostTracker
@@ -20,7 +17,6 @@ object ActionCompile : ConstMediaAction {
         CostTracker.usedCastingEnv = env
         val tag = ParserMain.ParseCode(data, env.caster)
         if (CostTracker.totalCost > 0) throw MishapNotEnoughMedia(CostTracker.totalCost)
-        val iota = IotaType.deserialize(tag, env.world) as ListIota
-        return iota.list.asActionResult
+        return listOf(tag)
     }
 }

@@ -1,12 +1,11 @@
 package io.yukkuric.hexparse.misc;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -78,14 +77,14 @@ public class CodeHelpers {
         return component.withStyle(
                 Style.EMPTY
                         .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, code))
-                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.translatable("chat.copy.click")))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("chat.copy.click")))
         );
     }
     public static MutableComponent wrapClickSuggest(MutableComponent component, String command) {
         return component.withStyle(
                 Style.EMPTY
                         .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command))
-                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal(command)))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal(command)))
         );
     }
 
@@ -97,7 +96,7 @@ public class CodeHelpers {
             if (!GreatPatternUnlocker.get(level).isUnlocked(longName)) return Component.literal("???");
         }
 
-        CompoundTag rawIota = null;
+        Iota rawIota = null;
         for (var map : PatternMapper.ShortNameTracker.modifyTargets) {
             if (map.containsKey(longName)) {
                 rawIota = map.get(longName);
@@ -105,7 +104,7 @@ public class CodeHelpers {
             }
         }
         if (rawIota == null) return Component.literal("NULL");
-        return IotaType.getDisplay(rawIota);
+        return rawIota.display();
     }
 
     public static Component dumpError(MutableComponent raw, Throwable e) {
@@ -118,7 +117,7 @@ public class CodeHelpers {
         return raw.withStyle(
                 Style.EMPTY.withColor(ChatFormatting.DARK_RED)
                         .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, trace))
-                        .withHoverEvent(HoverEvent.Action.SHOW_TEXT.deserializeFromLegacy(Component.literal(trace)))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal(trace)))
         );
     }
 }

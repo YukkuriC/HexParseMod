@@ -1,10 +1,7 @@
 package io.yukkuric.hexparse.parsers.str2nbt
 
-import at.petrak.hexcasting.api.casting.iota.EntityIota
-import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.casting.iota.*
 import io.yukkuric.hexparse.parsers.IPlayerBinder
-import io.yukkuric.hexparse.parsers.IotaFactory.*
-import net.minecraft.nbt.ByteTag
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
@@ -13,12 +10,12 @@ object ToMiscConst : IStr2Nbt, IPlayerBinder {
     val NULL = CompoundTag();
 
     val ConstMapper = mapOf(
-        "self" to { IotaType.serialize(EntityIota(owner)) },
-        "myself" to { IotaType.serialize(EntityIota(owner)) },
-        "false" to { makeType(TYPE_BOOLEAN, ByteTag.ZERO) },
-        "true" to { makeType(TYPE_BOOLEAN, ByteTag.ONE) },
-        "null" to { makeType(TYPE_NULL, NULL) },
-        "garbage" to { makeType(TYPE_GARBAGE, NULL) },
+        "self" to { EntityIota(owner) },
+        "myself" to { EntityIota(owner) },
+        "false" to { BooleanIota(false) },
+        "true" to { BooleanIota(true) },
+        "null" to { NullIota.INSTANCE },
+        "garbage" to { GarbageIota.INSTANCE },
     )
 
     lateinit var cachedKey: String
@@ -34,7 +31,7 @@ object ToMiscConst : IStr2Nbt, IPlayerBinder {
         return ConstMapper.containsKey(cachedKey)
     }
 
-    override fun parse(node: String?): CompoundTag {
+    override fun parse(node: String?): Iota {
         val getter = ConstMapper[cachedKey] ?: throw RuntimeException("why?")
         return getter.invoke()
     }

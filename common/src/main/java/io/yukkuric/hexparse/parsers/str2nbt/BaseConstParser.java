@@ -1,8 +1,8 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
 
 import java.util.regex.Pattern;
 
@@ -58,7 +58,7 @@ public abstract class BaseConstParser implements IStr2Nbt {
                 super("tab", "indent");
             }
             @Override
-            public CompoundTag parse(String node) {
+            public Iota parse(String node) {
                 int indent = getIndent(node);
                 return IotaFactory.makeTab(indent);
             }

@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.commands
 
-import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -14,7 +14,6 @@ import io.yukkuric.hexparse.network.MsgPullClipboard
 import io.yukkuric.hexparse.parsers.ParserMain
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 
@@ -42,8 +41,8 @@ object CommandMindStackIO {
         val player = ctx.source.player
         val img = IXplatAbstractions.INSTANCE.getStaffcastVM(player, InteractionHand.MAIN_HAND).image
         val stack = img.stack
-        val lastIota = if (stack.isEmpty()) NullIota() else stack[stack.size - 1]
-        val code = ParserMain.ParseIotaNbt(IotaType.serialize(lastIota), player, StringProcessors.READ_DEFAULT)
+        val lastIota = if (stack.isEmpty()) NullIota.INSTANCE else stack[stack.size - 1]
+        val code = ParserMain.ParseIotaNbt(lastIota, player, StringProcessors.READ_DEFAULT)
         CodeHelpers.displayCode(player, code)
         return 1
     }
@@ -63,8 +62,7 @@ object CommandMindStackIO {
         return 1
     }
 
-    fun writeStackWithIota(player: ServerPlayer, iotaTag: CompoundTag) {
-        val newIota = IotaType.deserialize(iotaTag, player.serverLevel())
+    fun writeStackWithIota(player: ServerPlayer, newIota: Iota) {
         var img = IXplatAbstractions.INSTANCE.getStaffcastVM(player, InteractionHand.MAIN_HAND).image
         var stack = img.stack
         if (stack !is MutableList<*>) { // in case inner changed

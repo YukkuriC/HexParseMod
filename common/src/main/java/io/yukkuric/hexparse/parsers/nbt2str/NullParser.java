@@ -1,16 +1,14 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
+import at.petrak.hexcasting.api.casting.iota.NullIota;
 
-public class NullParser implements INbt2Str {
+public class NullParser implements INbt2Str<NullIota> {
     @Override
-    public boolean match(CompoundTag node) {
-        return isType(node, IotaFactory.TYPE_NULL);
-    }
-
-    @Override
-    public String parse(CompoundTag node) {
+    public String parse(NullIota iota) {
         return "null";
+    }
+    @Override
+    public Class<NullIota> getType() {
+        return NullIota.class;
     }
 }

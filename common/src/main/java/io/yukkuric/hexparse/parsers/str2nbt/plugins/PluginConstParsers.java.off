@@ -23,7 +23,7 @@ public class PluginConstParsers {
 
     public static BaseConstParser TO_IOTA_TYPE = new Regex("^type(\\/iota)?_") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             var type = node.substring(node.indexOf('_') + 1);
             if (type.indexOf(':') < 0) type = "hexcasting:" + type;
             return PluginIotaFactory.makeIotaType(type);
@@ -31,14 +31,14 @@ public class PluginConstParsers {
     };
     public static BaseConstParser TO_STRING = new Prefix("str_") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             var str = node.substring(node.indexOf('_') + 1);
             return PluginIotaFactory.makeString(str);
         }
     };
     public static BaseConstParser TO_MATRIX = new Regex("^mat(rix)?_") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             return PluginIotaFactory.makeMatrix(node.split("_"));
         }
     };
@@ -56,7 +56,7 @@ public class PluginConstParsers {
             return str;
         }
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             var str = node.substring(node.indexOf('_') + 1);
             var packed = new CompoundTag();
             packed.putString("name", getPropValue(str));
@@ -89,7 +89,7 @@ public class PluginConstParsers {
 
     public static BaseConstParser TO_STRING_LIT = new Prefix("\"") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             // remove the quotes
             node = node.substring(1, node.length() - 1);
 
@@ -110,7 +110,7 @@ public class PluginConstParsers {
         }
 
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             var type = node.substring(node.indexOf('_') + 1);
             if (type.indexOf(':') < 0) type = "minecraft:" + type;
             return subParse.apply(type);

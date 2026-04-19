@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse;
 
 import com.mojang.logging.LogUtils;
-import io.yukkuric.hexparse.compat.hexdebug.CommentRenderer;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import net.minecraft.locale.Language;
 import net.minecraft.resources.ResourceLocation;
@@ -17,9 +16,9 @@ public final class HexParse {
         ParserMain.init();
     }
     public static void initClient() {
-        if (HELPERS.modLoaded("hexdebug")) {
+        /*if (HELPERS.modLoaded("hexdebug")) {
             CommentRenderer.registerSelf();
-        }
+        }*/
     }
 
     public static String doTranslate(String key, Object... args) {

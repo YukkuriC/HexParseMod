@@ -1,12 +1,12 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import io.yukkuric.hexparse.config.HexParseConfig;
-import net.minecraft.nbt.CompoundTag;
 
 public interface IStr2Nbt {
     boolean match(String node);
 
-    CompoundTag parse(String node);
+    Iota parse(String node);
 
     default boolean ignored() {
         return false;

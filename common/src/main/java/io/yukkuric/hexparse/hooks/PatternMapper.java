@@ -1,6 +1,7 @@
 package io.yukkuric.hexparse.hooks;
 
 import at.petrak.hexcasting.api.HexAPI;
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.mod.HexTags;
 import at.petrak.hexcasting.api.utils.HexUtils;
@@ -8,6 +9,7 @@ import at.petrak.hexcasting.server.ScrungledPatternsSave;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IotaFactory;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -18,9 +20,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class PatternMapper {
-    public static final Map<String, CompoundTag> mapPatternMeta = new HashMap<>();
-    public static final Map<String, CompoundTag> mapPattern = new HashMap<>();
-    public static final Map<String, CompoundTag> mapPatternWorld = new HashMap<>();
+    public static final Map<String, Iota> mapPatternMeta = new HashMap<>();
+    public static final Map<String, Iota> mapPattern = new HashMap<>();
+    public static final Map<String, Iota> mapPatternWorld = new HashMap<>();
 
     static {
         mapPatternMeta.put("\\", IotaFactory.makePattern("qqqaw", HexDir.WEST));
@@ -35,7 +37,7 @@ public class PatternMapper {
         mapPatternMeta.put("}", bracketEnd);
     }
 
-    static void _setMap(Map<String, CompoundTag> map, ResourceLocation id, String seq, HexDir dir) {
+    static void _setMap(Map<String, Iota> map, ResourceLocation id, String seq, HexDir dir) {
         String idLong = id.toString(), idShort = id.getPath();
         var pattern = IotaFactory.makePattern(seq, dir);
         map.put(idLong, pattern);
@@ -81,7 +83,7 @@ public class PatternMapper {
     }
 
     public static class ShortNameTracker {
-        public static final Map<String, CompoundTag>[] modifyTargets = new Map[]{mapPattern, mapPatternWorld};
+        public static final Map<String, Iota>[] modifyTargets = new Map[]{mapPattern, mapPatternWorld};
         public static final Map<String, Set<ResourceLocation>> allPointed = new HashMap<>();
         public static final Map<String, ResourceLocation> mapActiveShortName = new HashMap<>();
         public static final Set<String> shortNameWithConflicts = new HashSet<>();
@@ -164,15 +166,18 @@ public class PatternMapper {
 
         ShortNameTrackerPersistent() {
         }
-        ShortNameTrackerPersistent(CompoundTag load) {
+        ShortNameTrackerPersistent(CompoundTag load, HolderLookup.Provider provider) {
             settings.merge(load);
         }
         static ShortNameTrackerPersistent get(ServerLevel level) {
             var ds = level.getDataStorage();
-            return ds.computeIfAbsent(ShortNameTrackerPersistent::new, ShortNameTrackerPersistent::new, SAVENAME);
+            return ds.computeIfAbsent(
+                    new SavedData.Factory<>(ShortNameTrackerPersistent::new, ShortNameTrackerPersistent::new, null),
+                    SAVENAME
+            );
         }
         @Override
-        public @NotNull CompoundTag save(CompoundTag body) {
+        public @NotNull CompoundTag save(CompoundTag body, HolderLookup.Provider provider) {
             body.merge(settings);
             return body;
         }

@@ -1,24 +1,12 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
-import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class VecParser implements INbt2Str {
+public class VecParser implements INbt2Str<Vec3Iota> {
     @Override
-    public boolean match(CompoundTag node) {
-        return isType(node, IotaFactory.TYPE_VECTOR);
-    }
-
-    @Override
-    public String parse(CompoundTag node) {
-        // use builtin
-        var iota = (Vec3Iota) IotaType.deserialize(node, null);
+    public String parse(Vec3Iota iota) {
         var vec = iota.getVec3();
         var frags = new ArrayList<>(List.of("vec"));
         var vecAxes = new ArrayList<>(Arrays.asList(vec.x, vec.y, vec.z));
@@ -29,5 +17,9 @@ public class VecParser implements INbt2Str {
         }
         for (var a : vecAxes) frags.add(displayMinimal(a));
         return String.join("_", frags);
+    }
+    @Override
+    public Class<Vec3Iota> getType() {
+        return Vec3Iota.class;
     }
 }

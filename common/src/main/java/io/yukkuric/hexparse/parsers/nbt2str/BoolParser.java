@@ -1,17 +1,14 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
+import at.petrak.hexcasting.api.casting.iota.BooleanIota;
 
-public class BoolParser implements INbt2Str {
+public class BoolParser implements INbt2Str<BooleanIota> {
     @Override
-    public boolean match(CompoundTag node) {
-        return isType(node, IotaFactory.TYPE_BOOLEAN);
+    public String parse(BooleanIota node) {
+        return node.getBool() ? "true" : "false";
     }
-
     @Override
-    public String parse(CompoundTag node) {
-        return node.getByte(HexIotaTypes.KEY_DATA) != 0 ? "true" : "false";
+    public Class<BooleanIota> getType() {
+        return BooleanIota.class;
     }
 }

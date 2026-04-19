@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ToMote {
     public static BaseConstParser INSTANCE = new BaseConstParser.Prefix("mote_") {
         @Override
-        public CompoundTag parse(String node) {
+        public Iota parse(String node) {
             var raw = node.split("_");
             var uuid = UUID.fromString(raw[1]);
             var idx = Integer.valueOf(raw[2]);

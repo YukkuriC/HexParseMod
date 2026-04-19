@@ -1,17 +1,14 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.parsers.IotaFactory;
-import net.minecraft.nbt.CompoundTag;
+import at.petrak.hexcasting.api.casting.iota.DoubleIota;
 
-public class NumParser implements INbt2Str {
+public class NumParser implements INbt2Str<DoubleIota> {
     @Override
-    public boolean match(CompoundTag node) {
-        return isType(node, IotaFactory.TYPE_DOUBLE);
+    public String parse(DoubleIota iota) {
+        return displayMinimal(iota.getDouble());
     }
-
     @Override
-    public String parse(CompoundTag node) {
-        return displayMinimal(node.getDouble(HexIotaTypes.KEY_DATA));
+    public Class<DoubleIota> getType() {
+        return DoubleIota.class;
     }
 }
