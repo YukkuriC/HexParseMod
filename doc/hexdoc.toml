@@ -52,5 +52,5 @@ src = "../fabric/src"
 package = "{src}/main/java/io/yukkuric/hexparse/fabric"
 
 [_forge]
-src = "../forge/src"
+src = "../neoforge/src"
 package = "{src}/main/java/io/yukkuric/hexparse/forge"
