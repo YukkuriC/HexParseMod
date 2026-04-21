@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.fabric;
 
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
@@ -16,11 +15,10 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 public final class HexParseFabric implements ModInitializer {
     @Override
@@ -52,23 +50,22 @@ public final class HexParseFabric implements ModInitializer {
     static ModHelpers HELPERS;
 
     static class Network implements ISenderServer {
-        static <T> ServerPlayNetworking.PlayChannelHandler makeServerBoundHandler(
-                Function<FriendlyByteBuf, T> decoder, BiConsumer<T, ServerPlayer> handle) {
-            return (server, player, _handler, buf, _responseSender) -> handle.accept(decoder.apply(buf), player);
+        static <T extends CustomPacketPayload> ServerPlayNetworking.PlayPayloadHandler<T> makeServerBoundHandler(BiConsumer<T, ServerPlayer> handle) {
+            return (payload, context) -> {
+                handle.accept(payload, context.player());
+            };
         }
 
         Network() {
             MsgHandlers.SERVER = this;
 
-            ServerPlayNetworking.registerGlobalReceiver(
-                    MsgPushClipboard.ID, makeServerBoundHandler(MsgPushClipboard::deserialize, MsgPushClipboard::handle));
-            ServerPlayNetworking.registerGlobalReceiver(
-                    MsgPushMacro.ID, makeServerBoundHandler(MsgPushMacro::deserialize, MsgPushMacro::handle));
+            ServerPlayNetworking.registerGlobalReceiver(MsgPushClipboard.TYPE, makeServerBoundHandler(MsgPushClipboard::handle));
+            ServerPlayNetworking.registerGlobalReceiver(MsgPushMacro.TYPE, makeServerBoundHandler(MsgPushMacro::handle));
         }
 
         @Override
-        public void sendPacketToPlayer(ServerPlayer player, IMessage packet) {
-            ServerPlayNetworking.send(player, packet.getFabricId(), packet.toBuf());
+        public void sendPacketToPlayer(ServerPlayer player, CustomPacketPayload packet) {
+            ServerPlayNetworking.send(player, packet);
         }
     }
 

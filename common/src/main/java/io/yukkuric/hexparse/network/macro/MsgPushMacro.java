@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.network.macro;
 
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.macro.MacroClient;
@@ -13,7 +12,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-public class MsgPushMacro implements IMessage, CustomPacketPayload {
+public class MsgPushMacro implements CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("macro/push");
     final CompoundTag pack;
 
@@ -25,14 +24,8 @@ public class MsgPushMacro implements IMessage, CustomPacketPayload {
         this(MacroClient.serialize());
     }
 
-    @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeNbt(pack);
-    }
-
-    @Override
-    public ResourceLocation getFabricId() {
-        return ID;
     }
 
     public static MsgPushMacro deserialize(ByteBuf buffer) {

@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.network.macro;
 
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.macro.MacroClient;
@@ -11,19 +10,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-public record MsgUpdateClientMacro(boolean isDefine, String key, String value) implements IMessage, CustomPacketPayload {
+public record MsgUpdateClientMacro(boolean isDefine, String key, String value) implements CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("macro/update");
 
-    @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeBoolean(isDefine);
         MsgHelpers.putString(buf, key);
         if (isDefine) MsgHelpers.putString(buf, value);
-    }
-
-    @Override
-    public ResourceLocation getFabricId() {
-        return ID;
     }
 
     public static MsgUpdateClientMacro deserialize(ByteBuf buffer) {

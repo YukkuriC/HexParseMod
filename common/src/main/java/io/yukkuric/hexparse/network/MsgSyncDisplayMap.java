@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.network;
 
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
@@ -13,18 +12,12 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-public record MsgSyncDisplayMap(Map<String, String> map, Map<String, String> prefixMap) implements IMessage, CustomPacketPayload {
+public record MsgSyncDisplayMap(Map<String, String> map, Map<String, String> prefixMap) implements CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("display/sync");
 
-    @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeMap(map, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
         buf.writeMap(prefixMap, FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
-    }
-
-    @Override
-    public ResourceLocation getFabricId() {
-        return ID;
     }
 
     public static MsgSyncDisplayMap deserialize(ByteBuf buffer) {

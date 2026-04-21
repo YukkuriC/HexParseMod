@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.network;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.misc.CodeHelpers;
@@ -18,21 +17,15 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.regex.Pattern;
 
-public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements IMessage, CustomPacketPayload {
+public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("clipboard/pull");
     static Pattern ANGLES = Pattern.compile("(?<=\")[wedsaq]*(?=\")");
     static int MAX_LENGTH = 100 * HexIotaTypes.MAX_SERIALIZATION_TOTAL;
     static int MAX_LENGTH_RAW = MAX_LENGTH * 10;
 
-    @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeByte(mode.ordinal());
         MsgHelpers.putString(buf, rename);
-    }
-
-    @Override
-    public ResourceLocation getFabricId() {
-        return ID;
     }
 
     public static MsgPullClipboard deserialize(ByteBuf buffer) {

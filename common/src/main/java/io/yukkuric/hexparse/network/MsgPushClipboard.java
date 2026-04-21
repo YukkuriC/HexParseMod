@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.network;
 
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.commands.CommandMindStackIO;
@@ -18,21 +17,15 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements IMessage, CustomPacketPayload {
+public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("clipboard/push");
 
-    @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeInt(code.size());
         for (var f : code)
             MsgHelpers.putString(buf, f);
         MsgHelpers.putString(buf, rename);
         buf.writeByte(mode.ordinal());
-    }
-
-    @Override
-    public ResourceLocation getFabricId() {
-        return ID;
     }
 
     public static MsgPushClipboard deserialize(ByteBuf buffer) {

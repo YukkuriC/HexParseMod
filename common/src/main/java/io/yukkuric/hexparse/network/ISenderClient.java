@@ -1,9 +1,9 @@
 package io.yukkuric.hexparse.network;
 
-import at.petrak.hexcasting.common.msgs.IMessage;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 public interface ISenderClient {
-    void sendPacketToServer(IMessage packet);
+    void sendPacketToServer(CustomPacketPayload packet);
 }
 
 

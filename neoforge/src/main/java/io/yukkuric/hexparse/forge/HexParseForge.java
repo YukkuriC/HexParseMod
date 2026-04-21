@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.forge;
 
 import at.petrak.hexcasting.common.lib.HexRegistries;
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
@@ -103,13 +102,13 @@ public final class HexParseForge {
         }
 
         @Override
-        public void sendPacketToServer(IMessage packet) {
-            PacketDistributor.sendToServer(CustomPacketPayload.class.cast(packet));
+        public void sendPacketToServer(CustomPacketPayload packet) {
+            PacketDistributor.sendToServer(packet);
         }
 
         @Override
-        public void sendPacketToPlayer(ServerPlayer player, IMessage packet) {
-            PacketDistributor.sendToPlayer(player, CustomPacketPayload.class.cast(packet));
+        public void sendPacketToPlayer(ServerPlayer player, CustomPacketPayload packet) {
+            PacketDistributor.sendToPlayer(player, packet);
         }
     }
 

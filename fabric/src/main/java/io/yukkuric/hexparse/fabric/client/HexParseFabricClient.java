@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.fabric.client;
 
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.fabric.HexParseFabric;
 import io.yukkuric.hexparse.fabric.events.MacroFabricHandler;
@@ -8,10 +7,9 @@ import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public final class HexParseFabricClient implements ClientModInitializer {
     @Override
@@ -30,22 +28,21 @@ public final class HexParseFabricClient implements ClientModInitializer {
         Network() {
             MsgHandlers.CLIENT = this;
 
-            ClientPlayNetworking.registerGlobalReceiver(MsgPullClipboard.ID,
-                    makeClientBoundHandler(MsgPullClipboard::deserialize, MsgPullClipboard::handle));
-            ClientPlayNetworking.registerGlobalReceiver(MsgUpdateClientMacro.ID,
-                    makeClientBoundHandler(MsgUpdateClientMacro::deserialize, MsgUpdateClientMacro::handle));
-            ClientPlayNetworking.registerGlobalReceiver(MsgSyncDisplayMap.ID,
-                    makeClientBoundHandler(MsgSyncDisplayMap::deserialize, MsgSyncDisplayMap::handle));
+            ClientPlayNetworking.registerGlobalReceiver(MsgPullClipboard.TYPE, makeClientBoundHandler(MsgPullClipboard::handle));
+            ClientPlayNetworking.registerGlobalReceiver(MsgPullClipboard.TYPE, makeClientBoundHandler(MsgPullClipboard::handle));
+            ClientPlayNetworking.registerGlobalReceiver(MsgUpdateClientMacro.TYPE, makeClientBoundHandler(MsgUpdateClientMacro::handle));
+            ClientPlayNetworking.registerGlobalReceiver(MsgSyncDisplayMap.TYPE, makeClientBoundHandler(MsgSyncDisplayMap::handle));
         }
 
-        private static <T> ClientPlayNetworking.PlayChannelHandler makeClientBoundHandler(
-                Function<FriendlyByteBuf, T> decoder, Consumer<T> handler) {
-            return (_client, _handler, buf, _responseSender) -> handler.accept(decoder.apply(buf));
+        private static <T extends CustomPacketPayload> ClientPlayNetworking.PlayPayloadHandler<T> makeClientBoundHandler(Consumer<T> handler) {
+            return (payload, context) -> {
+                handler.accept(payload);
+            };
         }
 
         @Override
-        public void sendPacketToServer(IMessage packet) {
-            ClientPlayNetworking.send(packet.getFabricId(), packet.toBuf());
+        public void sendPacketToServer(CustomPacketPayload packet) {
+            ClientPlayNetworking.send(packet);
         }
     }
 }
