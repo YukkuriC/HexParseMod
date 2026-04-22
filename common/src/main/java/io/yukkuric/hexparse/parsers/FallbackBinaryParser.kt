@@ -36,7 +36,16 @@ object FallbackBinaryParser {
             bytes = out.toByteArray()
 
             val buf = FriendlyByteBuf(Unpooled.wrappedBuffer(bytes))
-            val ret = buf.readNbt()!!
+            val ret = with(buf) {
+                try {
+                    val ret = buf.readNbt()!!
+                    release()
+                    return@with ret
+                } catch (e: Throwable) {
+                    release()
+                    throw e
+                }
+            }
             IotaType.getTypeFromTag(ret)?.let {
                 val holder = HexIotaTypes.REGISTRY.wrapAsHolder(it)
                 if (holder.`is`(HexParseTags.NBT_PARSING_FORBIDDEN)) {
@@ -60,9 +69,18 @@ object FallbackBinaryParser {
 
         override fun parse(node: CompoundTag): String {
             val buf = FriendlyByteBuf(Unpooled.buffer())
-            buf.writeNbt(node)
-            var bytes = ByteArray(buf.readableBytes())
-            buf.readBytes(bytes)
+            var bytes = with(buf) {
+                try {
+                    writeNbt(node)
+                    val ret = ByteArray(readableBytes())
+                    readBytes(ret)
+                    release()
+                    return@with ret
+                } catch (e: Throwable) {
+                    release()
+                    throw e
+                }
+            }
 
             // compress
             val out = ByteArrayOutputStream()
