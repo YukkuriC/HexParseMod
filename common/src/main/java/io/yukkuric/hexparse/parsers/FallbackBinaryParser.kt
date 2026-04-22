@@ -37,17 +37,23 @@ object FallbackBinaryParser {
             bytes = out.toByteArray()
 
             val buf = RegistryFriendlyByteBuf(Unpooled.wrappedBuffer(bytes), callingPlayer.registryAccess())
-            val ret = IotaType.TYPED_STREAM_CODEC.decode(buf)
-            ret.type.let {
-                val holder = HexIotaTypes.REGISTRY.wrapAsHolder(it)
-                if (holder.`is`(HexParseTags.NBT_PARSING_FORBIDDEN)) {
-                    val errorMsg = "forbidden iota type: ${HexIotaTypes.REGISTRY.getKey(it)}"
-                    if (callingPlayer?.hasPermissions(2) == true) {
-                        callingPlayer?.sendSystemMessage(errorMsg.asTextComponent.gold)
-                    } else throw RuntimeException(errorMsg)
+            try {
+                val ret = IotaType.TYPED_STREAM_CODEC.decode(buf)
+                ret.type.let {
+                    val holder = HexIotaTypes.REGISTRY.wrapAsHolder(it)
+                    if (holder.`is`(HexParseTags.NBT_PARSING_FORBIDDEN)) {
+                        val errorMsg = "forbidden iota type: ${HexIotaTypes.REGISTRY.getKey(it)}"
+                        if (callingPlayer?.hasPermissions(2) == true) {
+                            callingPlayer?.sendSystemMessage(errorMsg.asTextComponent.gold)
+                        } else throw RuntimeException(errorMsg)
+                    }
                 }
+                buf.release()
+                return ret
+            } catch (e: Throwable) {
+                buf.release()
+                throw e
             }
-            return ret
         }
 
         private lateinit var callingPlayer: ServerPlayer
@@ -62,9 +68,19 @@ object FallbackBinaryParser {
 
         override fun parse(node: Iota): String {
             val buf = RegistryFriendlyByteBuf(Unpooled.buffer(), regAccess)
-            IotaType.TYPED_STREAM_CODEC.encode(buf, node)
-            var bytes = ByteArray(buf.readableBytes())
-            buf.readBytes(bytes)
+            var bytes = with(buf) {
+                try {
+                    IotaType.TYPED_STREAM_CODEC.encode(this, node)
+                    resetReaderIndex()
+                    val ret = ByteArray(buf.readableBytes())
+                    readBytes(ret)
+                    release()
+                    return@with ret
+                } catch (e: Throwable) {
+                    release()
+                    throw e
+                }
+            }
 
             // compress
             val out = ByteArrayOutputStream()
