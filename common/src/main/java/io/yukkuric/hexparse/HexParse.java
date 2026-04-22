@@ -28,6 +28,6 @@ public final class HexParse {
     }
 
     public static ResourceLocation modLoc(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.tryBuild(MOD_ID, path);
     }
 }

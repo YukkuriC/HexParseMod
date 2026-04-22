@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class MsgPushMacro implements IMessage {
-    public static final ResourceLocation ID = new ResourceLocation(HexParse.MOD_ID, "macro/push");
+    public static final ResourceLocation ID = HexParse.modLoc("macro/push");
     final CompoundTag pack;
 
     MsgPushMacro(CompoundTag p) {

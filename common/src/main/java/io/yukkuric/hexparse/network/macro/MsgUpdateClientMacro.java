@@ -9,7 +9,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
 public record MsgUpdateClientMacro(boolean isDefine, String key, String value) implements IMessage {
-    public static final ResourceLocation ID = new ResourceLocation(HexParse.MOD_ID, "macro/update");
+    public static final ResourceLocation ID = HexParse.modLoc("macro/update");
 
     @Override
     public void serialize(FriendlyByteBuf buf) {

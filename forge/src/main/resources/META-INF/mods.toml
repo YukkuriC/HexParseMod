@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[43,)"
+loaderVersion = "[0,)"
 issueTrackerURL = "https://github.com/YukkuriC/HexParseMod/issues"
 license = "MIT"
 
@@ -18,14 +18,14 @@ displayURL = "https://modrinth.com/mod/hexparse"
 [[dependencies.hexparse]]
 modId = "forge"
 mandatory = true
-versionRange = "[43,)"
+versionRange = "[0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.hexparse]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.2,)"
+versionRange = "[0,)"
 ordering = "NONE"
 side = "BOTH"
 

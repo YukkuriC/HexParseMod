@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements IMessage {
-    public static final ResourceLocation ID = new ResourceLocation(HexParse.MOD_ID, "clipboard/push");
+    public static final ResourceLocation ID = HexParse.modLoc("clipboard/push");
 
     @Override
     public void serialize(FriendlyByteBuf buf) {

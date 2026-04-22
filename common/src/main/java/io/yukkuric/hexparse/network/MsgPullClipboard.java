@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.regex.Pattern;
 
 public record MsgPullClipboard(String rename, ClipboardMsgMode mode) implements IMessage {
-    public static final ResourceLocation ID = new ResourceLocation(HexParse.MOD_ID, "clipboard/pull");
+    public static final ResourceLocation ID = HexParse.modLoc("clipboard/pull");
     static Pattern ANGLES = Pattern.compile("(?<=\")[wedsaq]*(?=\")");
     static int MAX_LENGTH = 100 * HexIotaTypes.MAX_SERIALIZATION_TOTAL;
     static int MAX_LENGTH_RAW = MAX_LENGTH * 10;

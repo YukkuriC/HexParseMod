@@ -27,6 +27,7 @@ build
 eclipse
 run
 **/libs
+**/libsRaw
 
 # Files from Forge MDK
 forge*changelog.txt
