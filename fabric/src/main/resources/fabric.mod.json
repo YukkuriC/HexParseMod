@@ -31,10 +31,10 @@
     "hexparse.mixins.tmp_patches.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.9",
-    "minecraft": "~1.20.1",
-    "java": ">=17",
-    "hexcasting": ">=0"
+    "fabricloader": "*",
+    "minecraft": "*",
+    "java": "*",
+    "hexcasting": "*"
   },
   "suggests": {
     "hexal": "*",
