@@ -41,7 +41,7 @@ public class ToEntity extends BaseConstParser.Prefix implements IPlayerBinder {
             var msg = HexParse.doTranslate("hexcasting.mishap.others_name", entity.getName());
             throw new RuntimeException(msg);
         } catch (Exception e) {
-            res = NullIota.INSTANCE;
+            res = new NullIota();
         }
         return res;
     }

@@ -41,7 +41,7 @@ object CommandMindStackIO {
         val player = ctx.source.player
         val img = IXplatAbstractions.INSTANCE.getStaffcastVM(player, InteractionHand.MAIN_HAND).image
         val stack = img.stack
-        val lastIota = if (stack.isEmpty()) NullIota.INSTANCE else stack[stack.size - 1]
+        val lastIota = if (stack.isEmpty()) NullIota() else stack[stack.size - 1]
         val code = ParserMain.ParseIotaNbt(lastIota, player, StringProcessors.READ_DEFAULT)
         CodeHelpers.displayCode(player, code)
         return 1

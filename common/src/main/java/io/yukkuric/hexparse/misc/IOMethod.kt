@@ -24,7 +24,7 @@ class IOMethod(
     fun write(nbt: Iota) {
         if (writer == null) {
             // simple writer for IotaHolderItem
-            current.set(HexDataComponents.IOTA, nbt)
+            current.set(HexDataComponents.IOTA_HOLDER_IOTA, nbt)
             return
         }
         writer!!(current, nbt)

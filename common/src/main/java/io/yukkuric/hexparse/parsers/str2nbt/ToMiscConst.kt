@@ -14,8 +14,8 @@ object ToMiscConst : IStr2Nbt, IPlayerBinder {
         "myself" to { EntityIota(owner) },
         "false" to { BooleanIota(false) },
         "true" to { BooleanIota(true) },
-        "null" to { NullIota.INSTANCE },
-        "garbage" to { GarbageIota.INSTANCE },
+        "null" to { NullIota() },
+        "garbage" to { GarbageIota() },
     )
 
     lateinit var cachedKey: String

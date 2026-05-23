@@ -22,7 +22,7 @@ public class ParserMain {
     static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers = new ArrayList<>();
     static List<INbt2Str> nbt2strParsers = new ArrayList<>();
-    static Iota IGNORED = GarbageIota.INSTANCE;
+    static Iota IGNORED = new GarbageIota();
 
     public static Iota ParseSingleNode(String frag) {
         for (var p : str2nbtParsers) {
