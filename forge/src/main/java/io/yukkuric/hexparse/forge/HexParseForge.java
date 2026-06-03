@@ -43,7 +43,7 @@ public final class HexParseForge {
 
         var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
-        evBus.register(MacroForgeHandler.class);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> evBus.register(MacroForgeHandler.class));
         evBus.addListener((ServerStartedEvent e) -> {
             DotHexPatternMapper.doCollect();
         });
