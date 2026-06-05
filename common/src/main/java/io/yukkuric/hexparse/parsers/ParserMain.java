@@ -23,7 +23,6 @@ import java.util.*;
 import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 
 public class ParserMain {
-    static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers = new ArrayList<>();
     static List<INbt2Str> nbt2strParsers = new ArrayList<>();
     static CompoundTag IGNORED = new CompoundTag();
