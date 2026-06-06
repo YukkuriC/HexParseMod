@@ -57,6 +57,7 @@ public class HexParseConfig {
     public static final String DESCRIP_FAIR_PLAY_PROP_NAMES = "randomize property names based on input string";
     public static final String DESCRIP_ALWAYS_SHORT_NAME = "Forced using short ID for patterns even from addons";
     public static final String DESCRIP_SYNC_DISPLAY_TO_CLIENT = "Whether server sends all `en_us` action names to client on player login";
+    public static final String DESCRIP_ATTACH_CODE_META = "Bitfield config for metadata displayed at beginning of exported code: 1=author, 2=addons list";
 
     public static void bindConfigImp(API api) {
         imp = api;
@@ -100,6 +101,10 @@ public class HexParseConfig {
         return imp.syncDisplayToClient();
     }
 
+    public static int attachCodeMeta() {
+        return imp.attachCodeMeta();
+    }
+
     public interface API {
         ParseGreatPatternMode canParseGreatPatterns();
 
@@ -117,5 +122,6 @@ public class HexParseConfig {
         int parserBaseCost();
         boolean fairPlayPropNames();
         boolean syncDisplayToClient();
+        int attachCodeMeta();
     }
 }
