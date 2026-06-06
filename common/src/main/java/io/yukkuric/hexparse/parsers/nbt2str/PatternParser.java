@@ -69,9 +69,12 @@ public class PatternParser implements INbt2Str<PatternIota>, IPlayerBinder {
         ResourceLocation opId = null;
         if (matcher instanceof PatternShapeMatch.Normal nm) {
             opId = nm.key.location();
+            namespaceJustMatched = opId.getNamespace();
         } else if (matcher instanceof PatternShapeMatch.PerWorld pm) {
             opId = pm.key.location();
+            namespaceJustMatched = opId.getNamespace();
         } else if (matcher instanceof PatternShapeMatch.Special sm) {
+            namespaceJustMatched = sm.key.location().getNamespace();
             var handler = sm.handler;
             var func = (BiFunction<SpecialHandler, PatternIota, String>) SPECIAL_HANDLER_MAP.get(handler.getClass());
             if (func != null) return func.apply(handler, iota);
@@ -98,5 +101,11 @@ public class PatternParser implements INbt2Str<PatternIota>, IPlayerBinder {
     public void BindPlayer(@NotNull ServerPlayer p) {
         this.player = p;
         this.level = p.serverLevel();
+    }
+
+    String namespaceJustMatched = null;
+    @Override
+    public String getNamespace(PatternIota node) {
+        return namespaceJustMatched;
     }
 }

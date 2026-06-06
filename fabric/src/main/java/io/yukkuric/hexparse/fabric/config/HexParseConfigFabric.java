@@ -53,6 +53,8 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         private boolean fairPlayPropNames = false;
         @Comment(DESCRIP_SYNC_DISPLAY_TO_CLIENT)
         private boolean syncDisplayToClient = false;
+        @Comment(DESCRIP_ATTACH_CODE_META)
+        private int attachCodeMeta = 3;
 
         @Override
         public ParseGreatPatternMode canParseGreatPatterns() {
@@ -100,6 +102,10 @@ public class HexParseConfigFabric extends PartitioningSerializer.GlobalData {
         @Override
         public boolean syncDisplayToClient() {
             return syncDisplayToClient;
+        }
+        @Override
+        public int attachCodeMeta() {
+            return attachCodeMeta;
         }
     }
 }
