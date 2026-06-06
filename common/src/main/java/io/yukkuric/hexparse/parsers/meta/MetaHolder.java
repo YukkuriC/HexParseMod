@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.*;
 
 public final class MetaHolder {
-    private static final List<String> _ignored = List.of(HexAPI.MOD_ID, null, "");
+    private static final List<String> _ignored = Collections.unmodifiableList(Arrays.asList(HexAPI.MOD_ID, null, ""));
     private static final Set<String> namespaces = new HashSet<>();
 
     public static void init() {
