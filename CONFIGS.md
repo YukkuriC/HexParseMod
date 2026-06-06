@@ -3,19 +3,20 @@
 <!-- TOC -->
 
 * [HexParse Configs](#hexparse-configs)
-    * [Limited great pattern parsing](#limited-great-pattern-parsing)
+    * [Limited Great Pattern Parsing](#limited-great-pattern-parsing)
         * [Normal Mode (by default): `BY_SCROLL`](#normal-mode-by-default-by_scroll)
         * [Easy Mode (by default before ver.`0.7`): `ALL`](#easy-mode-by-default-before-ver07-all)
         * [Hard Mode: `DISABLED`](#hard-mode-disabled)
-    * [Handling unsupported iota types](#handling-unsupported-iota-types)
+    * [Handling Unsupported Iota Types](#handling-unsupported-iota-types)
         * [Keeping reversible NBT (by default): `KEEP_NBT`](#keeping-reversible-nbt-by-default-keep_nbt)
             * [Blacklisted tag for unsafe iota types](#blacklisted-tag-for-unsafe-iota-types)
         * [Displaying NBT String : `SHOW_NBT`](#displaying-nbt-string--show_nbt)
         * [No Extra Display: `SIMPLE`](#no-extra-display-simple)
-    * [Handling comments and indents](#handling-comments-and-indents)
+    * [Handling Comments and Indents](#handling-comments-and-indents)
         * [CommentParsingMode](#commentparsingmode)
         * [IndentParsingMode](#indentparsingmode)
-    * [Other configs](#other-configs)
+    * [Code Meta Config](#code-meta-config)
+    * [Other Configs](#other-configs)
 
 <!-- TOC -->
 
@@ -86,6 +87,16 @@ How indents get parsed into iotas:
 - `ALL`(default): coding indents will be auto-converted into `tab_%d`
 - `MANUAL`: only `tab_%d`s accepted
 - `DISABLED`: no indents at all
+
+## Code Meta Config
+
+Controls which metadata is prepended to exported code output.  
+The config entry `AttachCodeMeta` uses a bitfield to select which information to include.
+
+| Bit | Metadata    |
+|-----|-------------|
+| 1   | Author      |
+| 2   | Addons list |
 
 ## Other Configs
 

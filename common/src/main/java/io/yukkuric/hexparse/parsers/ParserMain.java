@@ -7,6 +7,7 @@ import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
 import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.misc.StringProcessors;
+import io.yukkuric.hexparse.parsers.meta.MetaHolder;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
@@ -23,7 +24,6 @@ import java.util.*;
 import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 
 public class ParserMain {
-    static boolean mutableFlag = false;
     static List<IStr2Nbt> str2nbtParsers = new ArrayList<>();
     static List<INbt2Str> nbt2strParsers = new ArrayList<>();
     static CompoundTag IGNORED = new CompoundTag();
@@ -141,8 +141,14 @@ public class ParserMain {
         return ParseIotaNbt(node, caller, 0, post);
     }
     public static synchronized String ParseIotaNbt(CompoundTag node, ServerPlayer caller, int configNum, StringProcessors.F post) {
+        var hasMeta = MetaHolder.enabled(MetaHolder.ANY);
+        if (hasMeta) MetaHolder.init();
         var res = _parseIotaNbt(node, caller, configNum, true);
         res = post.apply(res);
+
+        // attach meta
+        if (hasMeta) res = MetaHolder.dump(caller) + res;
+
         return res;
     }
 
@@ -168,10 +174,10 @@ public class ParserMain {
                 return sb.toString();
             }
             for (var p : nbt2strParsers) {
-                if (p.match(node)) return p.parse(node);
+                if (p.match(node)) return p.parseAndCollect(node);
             }
             return switch (HexParseConfig.showUnknownNBT()) {
-                case KEEP_NBT -> FallbackBinaryParser.NBT2STR.INSTANCE.parse(node);
+                case KEEP_NBT -> FallbackBinaryParser.NBT2STR.INSTANCE.parseAndCollect(node);
                 case SHOW_NBT -> "UNKNOWN(%s)".formatted(node.toString());
                 default -> "UNKNOWN";
             };

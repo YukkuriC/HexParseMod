@@ -2,9 +2,11 @@ package io.yukkuric.hexparse.parsers.nbt2str;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.interfaces.IConfigNumReceiver;
+import io.yukkuric.hexparse.parsers.meta.IMetaCollector;
+import io.yukkuric.hexparse.parsers.meta.MetaHolder;
 import net.minecraft.nbt.CompoundTag;
 
-public interface INbt2Str extends IConfigNumReceiver {
+public interface INbt2Str extends IConfigNumReceiver, IMetaCollector {
     boolean match(CompoundTag node);
 
     String parse(CompoundTag node);
@@ -30,5 +32,13 @@ public interface INbt2Str extends IConfigNumReceiver {
             }
         }
         return mid.substring(0, ptr);
+    }
+
+    // meta collector
+    default String parseAndCollect(CompoundTag node) {
+        var res = parse(node);
+        if (MetaHolder.enabled(MetaHolder.ADDONS))
+            MetaHolder.addNamespace(getNamespace(node));
+        return res;
     }
 }

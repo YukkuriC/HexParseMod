@@ -57,6 +57,11 @@ public class HexParseConfigForge implements API {
         return CfgSyncDisplayToClient.get();
     }
 
+    @Override
+    public int attachCodeMeta() {
+        return CfgAttachCodeMeta.get();
+    }
+
     public final ForgeConfigSpec.BooleanValue
             CfgShowColorfulNested,
             CfgFairPlayPropNames,
@@ -66,7 +71,7 @@ public class HexParseConfigForge implements API {
     public final ForgeConfigSpec.EnumValue<UnknownNbtHandlingMode> CfgShowUnknownNBT;
     public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
     public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
-    public final ForgeConfigSpec.IntValue CfgParserBaseCost, CfgMaxBlankLine;
+    public final ForgeConfigSpec.IntValue CfgParserBaseCost, CfgMaxBlankLine, CfgAttachCodeMeta;
 
     public HexParseConfigForge(ForgeConfigSpec.Builder builder) {
         CfgParseGreatSpells = builder.comment(DESCRIP_PARSE_GREAT).defineEnum("ParseGreatSpells", ParseGreatPatternMode.BY_SCROLL);
@@ -80,6 +85,7 @@ public class HexParseConfigForge implements API {
         CfgShowColorfulNested = builder.comment(DESCRIP_COLORFUL_NESTED).define("ShowColorfulNested", true);
         CfgShowUnknownNBT = builder.comment(DESCRIP_SHOW_UNKNOWN_NBT).defineEnum("ShowUnknownNBT", UnknownNbtHandlingMode.KEEP_NBT);
         CfgSyncDisplayToClient = builder.comment(DESCRIP_SYNC_DISPLAY_TO_CLIENT).define("SyncDisplayToClient", false);
+        CfgAttachCodeMeta = builder.comment(DESCRIP_ATTACH_CODE_META).defineInRange("AttachCodeMeta", 3, 0, Integer.MAX_VALUE);
     }
 
     private static final Pair<HexParseConfigForge, ForgeConfigSpec> CFG_REGISTRY;

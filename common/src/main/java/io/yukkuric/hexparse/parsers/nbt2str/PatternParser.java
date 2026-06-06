@@ -75,6 +75,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
             var matcher = PatternRegistry.matchPatternAndID(pattern, level);
             var action = matcher.getFirst();
             var opId = matcher.getSecond();
+            namespaceJustMatched = opId.getNamespace();
             var opIdStr = opId.toString();
             if (SPECIAL_HANDLER_MAP.containsKey(opIdStr)) {
                 return SPECIAL_HANDLER_MAP.get(opIdStr).apply(action, node, player);
@@ -97,5 +98,11 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
     public void BindPlayer(ServerPlayer p) {
         this.player = p;
         this.level = (ServerLevel) p.level;
+    }
+
+    String namespaceJustMatched = null;
+    @Override
+    public String getNamespace(CompoundTag node) {
+        return namespaceJustMatched;
     }
 }
