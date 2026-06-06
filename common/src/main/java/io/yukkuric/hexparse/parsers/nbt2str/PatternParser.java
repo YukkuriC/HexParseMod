@@ -76,9 +76,12 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
         ResourceLocation opId = null;
         if (matcher instanceof PatternShapeMatch.Normal nm) {
             opId = nm.key.location();
+            namespaceJustMatched = opId.getNamespace();
         } else if (matcher instanceof PatternShapeMatch.PerWorld pm) {
             opId = pm.key.location();
+            namespaceJustMatched = opId.getNamespace();
         } else if (matcher instanceof PatternShapeMatch.Special sm) {
+            namespaceJustMatched = sm.key.location().getNamespace();
             var handler = sm.handler;
             var func = (BiFunction<SpecialHandler, CompoundTag, String>) SPECIAL_HANDLER_MAP.get(handler.getClass());
             if (func != null) return func.apply(handler, node);
@@ -101,5 +104,11 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
     public void BindPlayer(ServerPlayer p) {
         this.player = p;
         this.level = p.serverLevel();
+    }
+
+    String namespaceJustMatched = null;
+    @Override
+    public String getNamespace(CompoundTag node) {
+        return namespaceJustMatched;
     }
 }
