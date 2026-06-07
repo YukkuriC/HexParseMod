@@ -16,8 +16,8 @@ player to have a focus item in hand.
 | ![Code](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20code.png) | ![Iota](https://github.com/YukkuriC/HexParseMod/raw/main/img/sample%20iota.png) | ![Iota (Colorful)](https://github.com/YukkuriC/HexParseMod/raw/main/img/colorful%20nested%20iota.png) |
 
 _The
-highlight [VSCode extension](https://github.com/YukkuriC/hexParse_scripts/tree/main/.vscode/extensions/hexParse_highlight)
-has only basic functions, and needs to be put into `"%USERPROFILE%\.vscode\extensions\hexParse_highlight"` manually._
+highlight [VSCode extension](https://marketplace.visualstudio.com/items?itemName=YukkuriC.hexparse-highlight)
+is available on the Marketplace ([source code](https://github.com/YukkuriC/hexParse_scripts/tree/main/.vscode/extensions/hexParse_highlight))._
 
 <!-- TOC -->
 
