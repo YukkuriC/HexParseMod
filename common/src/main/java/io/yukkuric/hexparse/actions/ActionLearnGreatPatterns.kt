@@ -74,7 +74,7 @@ object ActionLearnGreatPatterns : ConstMediaAction {
     }
 
     private fun fetchPatternGreatKey(pattern: HexPattern): ResourceLocation? {
-        var matcher = PatternRegistryManifest.matchPattern(pattern, cachedEnv, false)
+        var matcher = PatternRegistryManifest.matchPattern(pattern, cachedEnv)
         if (matcher !is PatternShapeMatch.PerWorld) return null
         return matcher.key.location()
     }

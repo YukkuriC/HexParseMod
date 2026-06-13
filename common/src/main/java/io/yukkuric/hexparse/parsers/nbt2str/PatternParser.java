@@ -65,7 +65,7 @@ public class PatternParser implements INbt2Str<PatternIota>, IPlayerBinder {
         if (SPECIAL_PATTERNS.containsKey(angleSigs)) return SPECIAL_PATTERNS.get(angleSigs);
 
         // do match
-        var matcher = PatternRegistryManifest.matchPattern(pattern, new StaffCastEnv(player, InteractionHand.MAIN_HAND), false);
+        var matcher = PatternRegistryManifest.matchPattern(pattern, new StaffCastEnv(player, InteractionHand.MAIN_HAND));
         ResourceLocation opId = null;
         if (matcher instanceof PatternShapeMatch.Normal nm) {
             opId = nm.key.location();
