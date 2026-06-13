@@ -197,13 +197,13 @@ public class ParserMain {
         str2nbtParsers.addAll(List.of(
                 ToPattern.META,
                 ToMiscConst.INSTANCE,
-                FallbackBinaryParser.STR2NBT.INSTANCE,
                 ToPattern.NORMAL, ToPattern.GREAT,
                 TO_TAB, TO_COMMENT, TO_SCOMMENT,
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
                 new ToEntity(),
                 ToDialect.INSTANCE,
+                FallbackBinaryParser.STR2NBT.INSTANCE,
                 TO_RAW_PATTERN
         ));
 
