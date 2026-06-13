@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.utils.asTextComponent
 import at.petrak.hexcasting.api.utils.gold
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import io.netty.buffer.Unpooled
+import io.yukkuric.hexparse.config.HexParseConfig
 import io.yukkuric.hexparse.misc.HexParseTags
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Prefix
@@ -56,6 +57,11 @@ object FallbackBinaryParser {
                 }
             }
             return ret
+        }
+
+        override fun match(node: String): Boolean {
+            if (HexParseConfig.showUnknownNBT() != HexParseConfig.UnknownNbtHandlingMode.KEEP_NBT) return false
+            return super.match(node)
         }
 
         private var callingPlayer: ServerPlayer? = null
