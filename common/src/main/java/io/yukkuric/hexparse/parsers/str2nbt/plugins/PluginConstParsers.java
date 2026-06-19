@@ -11,6 +11,8 @@ import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Function;
 
 import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.Prefix;
@@ -39,7 +41,9 @@ public class PluginConstParsers {
     public static BaseConstParser TO_MATRIX = new Regex("^mat(rix)?_") {
         @Override
         public CompoundTag parse(String node) {
-            return PluginIotaFactory.makeMatrix(node.split("_"));
+            var raw = new ArrayList<>(Arrays.stream(node.split("_")).toList());
+            raw.remove(0);
+            return PluginIotaFactory.makeMatrix(raw.toArray(String[]::new));
         }
     };
 
