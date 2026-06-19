@@ -47,8 +47,8 @@ public class PluginIotaFactory extends IotaFactory {
 
     public static CompoundTag makeMatrix(String[] raw) {
         var body = new CompoundTag();
-        int ptr = 1, // (mat_)...
-                targetSize = 3;
+        int ptr = 0, // (mat_)...
+                targetSize = 2;
 
         // pre-check size 1
         if (raw.length < targetSize)
@@ -56,25 +56,24 @@ public class PluginIotaFactory extends IotaFactory {
 
         // row & col
         int nrow, ncol;
-        try {
+        // wtf was this?
+        {
             nrow = Integer.parseInt(raw[ptr]);
-            if (nrow <= 0)
+            if (nrow < 0)
                 throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", nrow));
             ptr++;
             body.putInt("rows", nrow);
             ncol = Integer.parseInt(raw[ptr]);
-            if (ncol <= 0)
+            if (ncol < 0)
                 throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", ncol));
             ptr++;
             body.putInt("cols", ncol);
-        } catch (Throwable e) {
-            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", raw[ptr]));
         }
 
         // pre-check data length 2
         targetSize = nrow * ncol;
-        if (raw.length - 3 < targetSize)
-            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length - 3, targetSize));
+        if (raw.length - 2 < targetSize)
+            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length - 2, targetSize));
 
         // data
         var data = new ListTag();
