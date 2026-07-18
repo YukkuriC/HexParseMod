@@ -92,6 +92,10 @@ public class CommentIotaType extends IotaType<CommentIota> {
     public int color() {
         return 0xff_00aa00;
     }
+    @Override
+    public boolean usesListCommas() {
+        return false;
+    }
 
     public static void registerSelf() {
         registerIota();
