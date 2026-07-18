@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.actions
 
-import at.petrak.hexcasting.api.casting.SpellList
 import at.petrak.hexcasting.api.casting.asActionResult
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
@@ -8,6 +7,7 @@ import at.petrak.hexcasting.api.casting.getList
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.api.casting.iota.PatternIota
+import at.petrak.hexcasting.api.utils.TreeList
 import io.yukkuric.hexparse.hooks.CommentIota
 import io.yukkuric.hexparse.hooks.CommentIotaType
 
@@ -19,7 +19,7 @@ object ActionRemoveComments : ConstMediaAction {
         return filterComments(target).asActionResult
     }
 
-    private fun filterComments(target: SpellList): SpellList {
+    private fun filterComments(target: TreeList<Iota>): TreeList<Iota> {
         val res = ArrayList<Iota>()
         for (sub in target) {
             if (sub is ListIota) {
@@ -29,6 +29,6 @@ object ActionRemoveComments : ConstMediaAction {
             else if (sub is PatternIota && sub.pattern.sigsEqual(CommentIotaType.COMMENT_PATTERN)) continue
             res.add(sub)
         }
-        return SpellList.LList(res)
+        return TreeList.from(res)
     }
 }
