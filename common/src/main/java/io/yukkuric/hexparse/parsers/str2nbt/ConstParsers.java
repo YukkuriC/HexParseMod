@@ -96,4 +96,20 @@ public class ConstParsers {
             return IotaFactory.makePattern(seq.toString(), start);
         }
     };
+    public static BaseConstParser TO_NEW_THOTH = new Regex("^(thoth|for_each)(_\\d+)?$") {
+        @Override
+        public Iota parse(String node) {
+            var steps = 0;
+            if (node.contains("_")) {
+                var tmp = node.split("_");
+                steps = Integer.parseInt(tmp[tmp.length - 1]);
+            }
+            if (steps >= 1024) throw new RuntimeException(String.valueOf(steps));
+            var sb = new StringBuilder("waaddw");
+            for (int i = 0; i < steps; i++) {
+                sb.append(i % 2 == 0 ? "da" : "ad");
+            }
+            return IotaFactory.makePattern(sb.toString(), HexDir.EAST);
+        }
+    };
 }

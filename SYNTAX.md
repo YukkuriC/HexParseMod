@@ -9,6 +9,7 @@ Non-functional Pattern|`(`, `)`, `\\` or `escape`|`Introspection`, `Retrospectio
 Normal Pattern|`get_caster`, `entity_pos/eye`|normal static patterns matched by registration key|`PatternIota`
 Great Spell|`lightning` , `brainsweep`|great (per-world) patterns; controlled by `ParseGreatSpells` config entry|`PatternIota`
 Mask Pattern|`mask_--vv--`|`Bookkeeper's Gambit`|`PatternIota`
+Thoth Special Handler (1.21)|`thoth`, `for_each`, `thoth_0`, `for_each_3`|`Thoth's Gambit`|`PatternIota`
 Number Pattern|`num_1.375`|`Numerical Reflection`|`PatternIota`
 Raw Pattern|`_wedsaq`|Patterns with given angle signatures|`PatternIota`
 Entity Reference|`entity_<uuidString>`|the `EntityIota` of the entity with certain UUID|`EntityIota`

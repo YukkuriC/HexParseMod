@@ -28,6 +28,10 @@ Currently Supported Syntax:
     Output: '`Bookkeeper''s Gambit`'
     Output Type: '`PatternIota`'
     Type: Mask Pattern
+  - Example: '`thoth`, `for_each`, `thoth_0`, `for_each_3`'
+    Output: '`Thoth''s Gambit`'
+    Output Type: '`PatternIota`'
+    Type: Thoth Special Handler (1.21)
   - Example: '`num_1.375`'
     Output: '`Numerical Reflection`'
     Output Type: '`PatternIota`'

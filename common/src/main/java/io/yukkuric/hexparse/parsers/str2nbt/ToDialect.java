@@ -37,7 +37,6 @@ public record ToDialect(Map<String, String> mapper) implements IStr2Nbt {
             // meta names
             put("hermes", "eval");
             put("iris", "eval/cc");
-            put("thoth", "for_each");
             // 1.19 registry
             put("list_size", "abs");
             put("concat", "add");

@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.casting.castables.SpecialHandler;
 import at.petrak.hexcasting.api.casting.eval.env.StaffCastEnv;
 import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.common.casting.PatternRegistryManifest;
+import at.petrak.hexcasting.common.casting.actions.eval.SpecialHandlerForEach;
 import at.petrak.hexcasting.common.casting.actions.math.SpecialHandlerNumberLiteral;
 import at.petrak.hexcasting.common.casting.actions.stack.SpecialHandlerMask;
 import io.yukkuric.hexparse.config.HexParseConfig;
@@ -45,6 +46,9 @@ public class PatternParser implements INbt2Str<PatternIota>, IPlayerBinder {
         });
         AddSpecialHandlerBackParser(SpecialHandlerNumberLiteral.class, (hn, node) -> {
             return "num_" + INbt2Str.displayMinimalStatic(hn.getX());
+        });
+        AddSpecialHandlerBackParser(SpecialHandlerForEach.class, (hn, node) -> {
+            return "thoth_" + hn.getN();
         });
     }
 

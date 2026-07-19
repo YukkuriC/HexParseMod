@@ -201,6 +201,7 @@ public class ParserMain {
                 TO_TAB, TO_COMMENT, TO_SCOMMENT,
                 TO_NUM, TO_VEC,
                 TO_MASK, TO_NUM_PATTERN,
+                TO_NEW_THOTH,
                 new ToEntity(),
                 ToDialect.INSTANCE,
                 FallbackBinaryParser.STR2NBT.INSTANCE,
