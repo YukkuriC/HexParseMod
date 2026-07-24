@@ -182,7 +182,7 @@ public class ParserMain {
                 default -> "UNKNOWN";
             };
         } catch (Throwable e) {
-            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error_node", node, e.getLocalizedMessage()), e));
+            caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error_node", node.display(), e.getLocalizedMessage()), e));
             return "ERROR";
         }
     }
