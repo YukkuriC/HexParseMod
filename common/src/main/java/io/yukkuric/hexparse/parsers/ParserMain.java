@@ -173,7 +173,11 @@ public class ParserMain {
                 if (p.match(node)) return p.parseAndCollect(node);
             }
             return switch (HexParseConfig.showUnknownNBT()) {
-                case KEEP_NBT -> FallbackBinaryParser.NBT2STR.INSTANCE.parseAndCollect(node);
+                case KEEP_NBT -> {
+                    var fallback = FallbackBinaryParser.NBT2STR.INSTANCE;
+                    fallback.BindPlayer(caller);
+                    yield fallback.parseAndCollect(node);
+                }
                 case SHOW_NBT -> "UNKNOWN(%s)".formatted(node.toString());
                 default -> "UNKNOWN";
             };
