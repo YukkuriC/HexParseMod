@@ -24,7 +24,7 @@ class IOMethod(
     fun write(nbt: Iota) {
         if (writer == null) {
             // simple writer for IotaHolderItem
-            current.set(HexDataComponents.IOTA_HOLDER_IOTA, nbt)
+            current.set(HexDataComponents.IOTA_HOLDER_IOTA.get(), nbt)
             return
         }
         writer!!(current, nbt)
@@ -72,7 +72,7 @@ class IOMethod(
             IOMethod(
                 ItemSpellbook::class.java,
                 writer = { stack: ItemStack?, nbt: Iota? ->
-                    HexItems.SPELLBOOK.writeDatum(stack, nbt)
+                    HexItems.SPELLBOOK.get().writeDatum(stack, nbt)
                 }
             )
         }

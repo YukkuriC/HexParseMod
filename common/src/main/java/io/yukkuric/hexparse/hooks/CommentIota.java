@@ -29,7 +29,7 @@ public class CommentIota extends Iota {
     }
 
     public CastResult execute(CastingVM vm, ServerLevel world, SpellContinuation continuation) {
-        return new CastResult(this, continuation, null, List.of(), ResolvedPatternType.ESCAPED, HexEvalSounds.NOTHING);
+        return new CastResult(this, continuation, null, List.of(), ResolvedPatternType.ESCAPED, HexEvalSounds.NOTHING.get());
     }
     @Override
     public Component display() {

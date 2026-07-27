@@ -51,7 +51,7 @@ public class CommentIotaType extends IotaType<CommentIota> {
 
         @Override
         public @NotNull OperationResult operate(CastingEnvironment env, CastingImage img, SpellContinuation cont) {
-            return new OperationResult(img, NO_EFFECT, cont, HexEvalSounds.NOTHING);
+            return new OperationResult(img, NO_EFFECT, cont, HexEvalSounds.NOTHING.get());
         }
     };
 
