@@ -8,9 +8,10 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.api.casting.iota.PatternIota
 import at.petrak.hexcasting.api.casting.math.HexPattern
-import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
 import at.petrak.hexcasting.common.casting.PatternRegistryManifest
 import at.petrak.hexcasting.xplat.IXplatAbstractions
+import io.yukkuric.hexparse.legacy.MishapDisallowedSpell
+import io.yukkuric.hexparse.legacy.caster
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
