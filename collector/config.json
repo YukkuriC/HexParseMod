@@ -1,5 +1,6 @@
 {
     "mock": false,
+    "version_type": "alpha",
     "MR": {
         "dependencies": [
             "nTW3yKrm"
