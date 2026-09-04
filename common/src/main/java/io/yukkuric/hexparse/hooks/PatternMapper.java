@@ -7,8 +7,8 @@ import at.petrak.hexcasting.api.mod.HexTags;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.server.ScrungledPatternsSave;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IotaFactory;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -133,9 +133,9 @@ public class PatternMapper {
             // check exist
             var validIdSet = allPointed.get(shortName);
             if (validIdSet == null || !shortNameWithConflicts.contains(shortName))
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.cmd.conflict.error", shortName, HexParse.doTranslate("hexparse.cmd.conflict.error.name")));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.cmd.conflict.error", shortName, YCLib.doTranslate("hexparse.cmd.conflict.error.name")));
             else if (!validIdSet.contains(newId))
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.cmd.conflict.error", shortName, HexParse.doTranslate("hexparse.cmd.conflict.error.id", newId)));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.cmd.conflict.error", shortName, YCLib.doTranslate("hexparse.cmd.conflict.error.id", newId)));
 
             // edit short name from all maps
             var longName = newId.toString();
@@ -150,7 +150,7 @@ public class PatternMapper {
                 }
             }
             if (!found)
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.cmd.conflict.error", shortName, "excuse me WTF?"));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.cmd.conflict.error", shortName, "excuse me WTF?"));
 
             // set active target
             mapActiveShortName.put(shortName, newId);

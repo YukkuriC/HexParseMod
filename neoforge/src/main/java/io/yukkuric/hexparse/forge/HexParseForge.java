@@ -2,7 +2,6 @@ package io.yukkuric.hexparse.forge;
 
 import at.petrak.hexcasting.common.lib.HexRegistries;
 import io.yukkuric.hexparse.HexParse;
-import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
 import io.yukkuric.hexparse.forge.events.MacroForgeHandler;
@@ -17,7 +16,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -35,14 +33,12 @@ import java.util.function.Consumer;
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
     static Network NETWORK;
-    static ModHelpers HELPERS;
 
     public HexParseForge(ModContainer modContainer) {
         var evBus = NeoForge.EVENT_BUS;
         var modBus = modContainer.getEventBus();
 
         NETWORK = new Network(modBus);
-        HELPERS = new ModHelpers();
 
         // Run our common setup.
         HexParse.init();
@@ -109,23 +105,6 @@ public final class HexParseForge {
         @Override
         public void sendPacketToPlayer(ServerPlayer player, CustomPacketPayload packet) {
             PacketDistributor.sendToPlayer(player, packet);
-        }
-    }
-
-    public static class ModHelpers implements IModHelpers {
-        private boolean isClient = false;
-        ModHelpers() {
-            HexParse.HELPERS = this;
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> isClient = true);
-        }
-
-        @Override
-        public boolean modLoaded(String modId) {
-            return ModList.get().isLoaded(modId);
-        }
-        @Override
-        public boolean isPhysicalClient() {
-            return isClient;
         }
     }
 }

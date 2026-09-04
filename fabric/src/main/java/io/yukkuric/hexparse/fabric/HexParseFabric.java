@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.fabric;
 
 import io.yukkuric.hexparse.HexParse;
-import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.fabric.config.HexParseConfigFabric;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
@@ -14,7 +13,6 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -28,7 +26,6 @@ public final class HexParseFabric implements ModInitializer {
         // Proceed with mild caution.
 
         NETWORK = new Network();
-        HELPERS = new ModHelpers();
 
         // Run our common setup.
         HexParse.init();
@@ -47,7 +44,6 @@ public final class HexParseFabric implements ModInitializer {
     }
 
     static Network NETWORK;
-    static ModHelpers HELPERS;
 
     static class Network implements ISenderServer {
         static <T extends CustomPacketPayload> ServerPlayNetworking.PlayPayloadHandler<T> makeServerBoundHandler(BiConsumer<T, ServerPlayer> handle) {
@@ -66,26 +62,6 @@ public final class HexParseFabric implements ModInitializer {
         @Override
         public void sendPacketToPlayer(ServerPlayer player, CustomPacketPayload packet) {
             ServerPlayNetworking.send(player, packet);
-        }
-    }
-
-    public static void markPhysicalClient() {
-        ModHelpers.markClient = true;
-    }
-
-    static class ModHelpers implements IModHelpers {
-        ModHelpers() {
-            HexParse.HELPERS = this;
-        }
-        static boolean markClient = false;
-
-        @Override
-        public boolean modLoaded(String modId) {
-            return FabricLoader.getInstance().isModLoaded(modId);
-        }
-        @Override
-        public boolean isPhysicalClient() {
-            return markClient;
         }
     }
 }

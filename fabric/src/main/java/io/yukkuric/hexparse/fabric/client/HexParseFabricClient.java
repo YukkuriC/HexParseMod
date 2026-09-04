@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.fabric.client;
 
 import io.yukkuric.hexparse.HexParse;
-import io.yukkuric.hexparse.fabric.HexParseFabric;
 import io.yukkuric.hexparse.fabric.events.MacroFabricHandler;
 import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
@@ -17,7 +16,6 @@ public final class HexParseFabricClient implements ClientModInitializer {
         // This entrypoint is suitable for setting up client-specific logic, such as rendering.
         NETWORK = new Network();
         MacroFabricHandler.Companion.init();
-        HexParseFabric.markPhysicalClient();
 
         HexParse.initClient();
     }

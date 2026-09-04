@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.api.casting.iota.*;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
@@ -10,6 +9,7 @@ import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.meta.MetaHolder;
 import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -69,7 +69,7 @@ public class ParserMain {
                         break;
                     case "]":
                         if (stack.size() <= 1) {
-                            throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.closed"));
+                            throw new RuntimeException(YCLib.doTranslate("hexparse.msg.error.bracket.closed"));
                         }
                         var inner = new ListIota(stack.pop());
                         stack.peek().add(inner);
@@ -87,7 +87,7 @@ public class ParserMain {
                 }
             }
             if (stack.size() > 1) {
-                throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.open"));
+                throw new RuntimeException(YCLib.doTranslate("hexparse.msg.error.bracket.open"));
             }
         } catch (Throwable e) {
             caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));

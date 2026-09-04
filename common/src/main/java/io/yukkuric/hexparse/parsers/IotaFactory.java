@@ -3,8 +3,8 @@ package io.yukkuric.hexparse.parsers;
 import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.casting.iota.*;
 import at.petrak.hexcasting.api.casting.math.*;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.CommentIota;
+import io.yukkuric.yclib.YCLib;
 
 import java.util.*;
 
@@ -37,7 +37,7 @@ public class IotaFactory {
         for (var chr : angles.toCharArray()) { // skip fromAngles check
             if (ANGLE_MAP.containsKey(chr)) angleArray.add(ANGLE_MAP.get(chr));
             else
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
         }
         var pattern = new HexPattern(start, angleArray);
         return new PatternIota(pattern);

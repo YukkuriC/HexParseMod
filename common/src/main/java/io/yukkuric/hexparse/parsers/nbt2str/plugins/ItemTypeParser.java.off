@@ -17,7 +17,7 @@ public class ItemTypeParser implements INbt2Str {
     public String parse(CompoundTag node) {
         var inner = node.get(HexIotaTypes.KEY_DATA);
         if (!(inner instanceof CompoundTag tag))
-            throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.invalid_iota", node));
+            throw new RuntimeException(YCLib.doTranslate("hexparse.msg.error.invalid_iota", node));
         var typeSub = "item";
         var key = tag.getString(typeSub);
         if (key.isEmpty()) {

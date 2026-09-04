@@ -3,9 +3,9 @@ package io.yukkuric.hexparse.commands;
 import at.petrak.hexcasting.common.command.PatternResKeyArgument;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
@@ -31,13 +31,13 @@ public class CommandGreatPatternUnlock {
 
     static String opBatch(Supplier<Integer> op, final String msg) {
         var res = op.get();
-        return HexParse.doTranslate(msg, res);
+        return YCLib.doTranslate(msg, res);
     }
 
     static String opSingle(CommandContext<CommandSourceStack> ctx, Function<String, Boolean> op, final String msg) {
         var key = ResourceLocationArgument.getId(ctx, "patternKey").toString();
         op.apply(key);
-        return HexParse.doTranslate(msg, key);
+        return YCLib.doTranslate(msg, key);
     }
 
     static Command<CommandSourceStack> saveOp(BiFunction<GreatPatternUnlocker, CommandContext<CommandSourceStack>, String> callback) {
