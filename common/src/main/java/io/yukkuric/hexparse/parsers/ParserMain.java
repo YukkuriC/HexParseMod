@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
@@ -12,6 +11,7 @@ import io.yukkuric.hexparse.parsers.nbt2str.*;
 import io.yukkuric.hexparse.parsers.nbt2str.plugins.*;
 import io.yukkuric.hexparse.parsers.str2nbt.*;
 import io.yukkuric.hexparse.parsers.str2nbt.plugins.PluginConstParsers;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -73,7 +73,7 @@ public class ParserMain {
                         break;
                     case "]":
                         if (stack.size() <= 1) {
-                            throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.closed"));
+                            throw new RuntimeException(YCLib.doTranslate("hexparse.msg.error.bracket.closed"));
                         }
                         var inner = IotaFactory.makeList(stack.pop());
                         stack.peek().add(inner);
@@ -91,7 +91,7 @@ public class ParserMain {
                 }
             }
             if (stack.size() > 1) {
-                throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.bracket.open"));
+                throw new RuntimeException(YCLib.doTranslate("hexparse.msg.error.bracket.open"));
             }
         } catch (Throwable e) {
             caller.sendSystemMessage(CodeHelpers.dumpError(Component.translatable("hexparse.msg.parse_error", e.getLocalizedMessage()), e));
@@ -221,14 +221,14 @@ public class ParserMain {
                 new GarbageParser()
         ));
 
-        if (HexParse.HELPERS.modLoaded("hexal")) {
+        if (YCLib.modLoaded("hexal")) {
             str2nbtParsers.add(loadUnsafe(IStr2Nbt.class, "str2nbt.unsafe.hexal.ToGate"));
             nbt2strParsers.add(new GateParser());
             str2nbtParsers.add(loadUnsafe(IStr2Nbt.class, "str2nbt.unsafe.hexal.ToMote"));
             nbt2strParsers.add(loadUnsafe(INbt2Str.class, "nbt2str.unsafe.hexal.MoteParser"));
         }
 
-        if (HexParse.HELPERS.modLoaded("moreiotas")) {
+        if (YCLib.modLoaded("moreiotas")) {
             str2nbtParsers.add(PluginConstParsers.TO_ENTITY_TYPE);
             str2nbtParsers.add(PluginConstParsers.TO_IOTA_TYPE);
             str2nbtParsers.add(PluginConstParsers.TO_ITEM_TYPE);
@@ -243,23 +243,23 @@ public class ParserMain {
             nbt2strParsers.add(MatrixParser.INSTANCE);
         }
 
-        if (HexParse.HELPERS.modLoaded("hexcellular")) {
+        if (YCLib.modLoaded("hexcellular")) {
             str2nbtParsers.add(PluginConstParsers.TO_PROPERTY);
             str2nbtParsers.add(PluginConstParsers.TO_MY_PROPERTY);
             nbt2strParsers.add(PropertyParser.INSTANCE);
         }
 
-        if (HexParse.HELPERS.modLoaded("hexpose")) {
+        if (YCLib.modLoaded("hexpose")) {
             str2nbtParsers.add(PluginConstParsers.TO_IDENTIFIER);
             nbt2strParsers.add(IdentifierParser.INSTANCE);
         }
 
-        if (HexParse.HELPERS.modLoaded("oneironaut")) {
+        if (YCLib.modLoaded("oneironaut")) {
             str2nbtParsers.add(PluginConstParsers.TO_DIMENSION);
             nbt2strParsers.add(new DimParser());
         }
 
-        if (HexParse.HELPERS.modLoaded("ephemera")) {
+        if (YCLib.modLoaded("ephemera")) {
             str2nbtParsers.add(PluginConstParsers.TO_POTION);
             nbt2strParsers.add(new PotionParser());
         }

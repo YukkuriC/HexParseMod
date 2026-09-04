@@ -1,11 +1,11 @@
 package io.yukkuric.hexparse.macro;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.parsers.CodeCutter;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
 import io.yukkuric.hexparse.parsers.str2nbt.ConstParsers;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
@@ -43,7 +43,7 @@ public class MacroProcessor implements Iterator<String> {
         var raw = source.next();
         var isMacro = MacroManager.isMacro(raw);
         if (isMacro && usedMacros.contains(raw)) {
-            cachedError = new RuntimeException(HexParse.doTranslate("hexparse.msg.error.used_macro", raw));
+            cachedError = new RuntimeException(YCLib.doTranslate("hexparse.msg.error.used_macro", raw));
             return "ERROR";
         }
         var mapped = MacroManager.getMacro(player, raw);
@@ -72,7 +72,7 @@ public class MacroProcessor implements Iterator<String> {
         if (cachedError != null) throw cachedError;
         count++;
         if (count >= HexIotaTypes.MAX_SERIALIZATION_TOTAL)
-            throw new RuntimeException(HexParse.doTranslate("hexcasting.mishap.stack_size"));
+            throw new RuntimeException(YCLib.doTranslate("hexcasting.mishap.stack_size"));
         var res = cachedNext;
         cachedNext = applyForIndent(calcCache());
         return res;

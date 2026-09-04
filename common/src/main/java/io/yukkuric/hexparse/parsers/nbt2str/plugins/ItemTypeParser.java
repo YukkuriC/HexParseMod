@@ -1,10 +1,10 @@
 package io.yukkuric.hexparse.parsers.nbt2str.plugins;
 
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.misc.StringProcessors;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.CompoundTag;
 
 public class ItemTypeParser implements INbt2Str {
@@ -17,7 +17,7 @@ public class ItemTypeParser implements INbt2Str {
     public String parse(CompoundTag node) {
         var inner = node.get(HexIotaTypes.KEY_DATA);
         if (!(inner instanceof CompoundTag tag))
-            throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.invalid_iota", node));
+            throw new RuntimeException(YCLib.doTranslate("hexparse.msg.error.invalid_iota", node));
         var typeSub = "item";
         var key = tag.getString(typeSub);
         if (key.isEmpty()) {

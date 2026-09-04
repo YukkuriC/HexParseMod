@@ -1,6 +1,6 @@
 package io.yukkuric.hexparse.parsers;
 
-import io.yukkuric.hexparse.HexParse;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -52,7 +52,7 @@ public class PluginIotaFactory extends IotaFactory {
 
         // pre-check size 1
         if (raw.length < targetSize)
-            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length, targetSize));
+            throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length, targetSize));
 
         // row & col
         int nrow, ncol;
@@ -60,12 +60,12 @@ public class PluginIotaFactory extends IotaFactory {
         {
             nrow = Integer.parseInt(raw[ptr]);
             if (nrow < 0)
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", nrow));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.matrix.size", nrow));
             ptr++;
             body.putInt("rows", nrow);
             ncol = Integer.parseInt(raw[ptr]);
             if (ncol < 0)
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.size", ncol));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.matrix.size", ncol));
             ptr++;
             body.putInt("cols", ncol);
         }
@@ -73,7 +73,7 @@ public class PluginIotaFactory extends IotaFactory {
         // pre-check data length 2
         targetSize = nrow * ncol;
         if (raw.length - 2 < targetSize)
-            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length - 2, targetSize));
+            throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.matrix.data_amount", raw.length - 2, targetSize));
 
         // data
         var data = new ListTag();
@@ -87,7 +87,7 @@ public class PluginIotaFactory extends IotaFactory {
                 data.add(row);
             }
         } catch (Throwable e) {
-            throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.matrix.value", raw[ptr]));
+            throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.matrix.value", raw[ptr]));
         }
         body.put("mat", data);
 

@@ -3,8 +3,8 @@ package io.yukkuric.hexparse.parsers;
 import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.*;
 
 import java.util.*;
@@ -49,7 +49,7 @@ public class IotaFactory {
         for (var chr : angles.toCharArray()) { // skip fromAngles check
             if (ANGLE_MAP.containsKey(chr)) angleArray.add(ANGLE_MAP.get(chr));
             else
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
         }
         var pattern = new CompoundTag();
         pattern.putByte("start_dir", (byte) (start.ordinal()));

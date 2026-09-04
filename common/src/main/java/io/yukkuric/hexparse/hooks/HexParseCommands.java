@@ -4,8 +4,8 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.commands.*;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -24,7 +24,7 @@ public class HexParseCommands {
         CommandConflictResolver.INSTANCE.init();
         CommandLearnGreat.INSTANCE.init();
 
-        if (HexParse.HELPERS.modLoaded("hexcellular")) CommandPropertyIO.init();
+        YCLib.tryLoadInterop("hexcellular", CommandPropertyIO::init);
 
         dispatcher.register(MAIN_CMD);
     }
