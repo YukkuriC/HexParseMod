@@ -1,0 +1,4 @@
+[submodule "common/src/main/java/io/yukkuric/yclib_kt"]
+	path = common/src/main/java/io/yukkuric/yclib_kt
+	url = git@github.com:YukkuriC/YCLib-Minecraft.git
+	branch = kt-submodule
