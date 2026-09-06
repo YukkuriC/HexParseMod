@@ -28,14 +28,15 @@ public class MixinPatternIota {
     @Inject(method = "display(Lat/petrak/hexcasting/api/casting/math/HexPattern;)Lnet/minecraft/network/chat/Component;", at = @At("RETURN"))
     private static void hookParens(HexPattern pat, CallbackInfoReturnable<Component> cir) {
         if (!HexParseConfig.colorfulNested()) return;
-        var angles = pat.getAngles();
-        if (angles.size() != 3) return;
+        var angles = pat.getSignature();
         boolean isLeft = true, isRight = true;
+        int size = 0;
         for (var dir : angles) {
             isLeft &= dir == HexAngle.LEFT;
             isRight &= dir == HexAngle.RIGHT;
+            size++;
+            if (size > 3 || (!isLeft && !isRight)) return;
         }
-        if (!isLeft && !isRight) return;
         if (isLeft) NestedCounter.EnterParen();
         var cnt = NestedCounter.GetParensCount();
         if (cnt < 0) return;

@@ -33,7 +33,7 @@ import java.util.function.Supplier;
 public class CommentIotaType extends IotaType<CommentIota> {
     public static CommentIotaType INSTANCE = new CommentIotaType();
     public static final String TYPE_ID = HexParse.MOD_ID + ":comment";
-    public static final HexPattern COMMENT_PATTERN = HexPattern.fromAngles("adadaqadadaaww", HexDir.SOUTH_EAST);
+    public static final HexPattern COMMENT_PATTERN = HexPattern.fromAngleString("adadaqadadaaww", HexDir.SOUTH_EAST, false);
     static final Supplier<Boolean> getShiftKeyDown;
 
     static {

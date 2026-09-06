@@ -65,10 +65,10 @@ public class PatternMapper {
             if (HexUtils.isOfTag(registry, key, HexTags.Actions.PER_WORLD_PATTERN)) {
                 var perWorldEntry = perWorldPatterns.lookupReverse(key);
                 if (perWorldEntry == null) continue;
-                _setMap(mapPatternWorld, key.location(), perWorldEntry.getFirst(), perWorldEntry.getSecond().canonicalStartDir());
+                _setMap(mapPatternWorld, key.location(), perWorldEntry.getFirst().toAnglesString(), perWorldEntry.getSecond().canonicalStartDir());
             } else {
                 var pattern = entry.getValue().prototype();
-                _setMap(mapPattern, key.location(), pattern.anglesSignature(), pattern.getStartDir());
+                _setMap(mapPattern, key.location(), pattern.getSignature().toAnglesString(), pattern.getOrientation());
             }
         }
     }

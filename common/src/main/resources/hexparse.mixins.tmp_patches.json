@@ -7,8 +7,7 @@
   "client": [
   ],
   "mixins": [
-    "inline.MixinInlinePatternMatcher",
-    "iota.MixinHexPattern"
+    "inline.MixinInlinePatternMatcher"
   ],
   "injectors": {
     "defaultRequire": 1

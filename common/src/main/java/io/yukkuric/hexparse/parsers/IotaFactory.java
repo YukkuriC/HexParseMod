@@ -4,9 +4,9 @@ import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.casting.iota.*;
 import at.petrak.hexcasting.api.casting.math.*;
 import io.yukkuric.hexparse.hooks.CommentIota;
-import io.yukkuric.yclib.YCLib;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IotaFactory {
     public static final String TYPE_LIST = HexAPI.MOD_ID + ":list";
@@ -33,13 +33,7 @@ public class IotaFactory {
     };
 
     public static Iota makePattern(String angles, HexDir start) {
-        var angleArray = new ArrayList<HexAngle>();
-        for (var chr : angles.toCharArray()) { // skip fromAngles check
-            if (ANGLE_MAP.containsKey(chr)) angleArray.add(ANGLE_MAP.get(chr));
-            else
-                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
-        }
-        var pattern = new HexPattern(start, angleArray);
+        var pattern = HexPattern.fromAngleString(angles, start, false);
         return new PatternIota(pattern);
     }
 

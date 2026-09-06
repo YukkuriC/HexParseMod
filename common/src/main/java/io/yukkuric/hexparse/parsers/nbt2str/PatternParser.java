@@ -61,7 +61,7 @@ public class PatternParser implements INbt2Str<PatternIota>, IPlayerBinder {
     @Override
     public String parse(PatternIota iota) {
         var pattern = iota.getPattern();
-        var angleSigs = pattern.anglesSignature();
+        var angleSigs = pattern.getSignature().toAnglesString();
 
         // early escape by config
         if (hasConfigNum(configState, ConfigNums.FORCE_SIGNATURES)) return '_' + angleSigs;

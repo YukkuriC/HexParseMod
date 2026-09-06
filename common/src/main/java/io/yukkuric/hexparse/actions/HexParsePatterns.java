@@ -18,19 +18,19 @@ public class HexParsePatterns {
     static Map<ResourceLocation, ActionRegistryEntry> CACHED = new HashMap<>();
 
     public static final ActionRegistryEntry
-            CODE2FOCUS = wrap("code2focus", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwweeeeed", HexDir.EAST), ActionCode2Focus.INSTANCE),
-            FOCUS2CODE = wrap("focus2code", HexPattern.fromAngles("aqqqqqwwewewewewewdqeeeeed", HexDir.EAST), ActionFocus2Code.INSTANCE);
-    public static final ActionRegistryEntry REMOVE_COMMENTS = wrap("remove_comments", HexPattern.fromAngles("dadadedadadwqaeaqeww", HexDir.NORTH_EAST), ActionRemoveComments.INSTANCE);
-    public static final ActionRegistryEntry LEARN_GREAT_PATTERNS = wrap("learn_patterns", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwwqqeqqeqqeqqeqqeqqdqeeeeed", HexDir.EAST), ActionLearnGreatPatterns.INSTANCE);
-    public static final ActionRegistryEntry CREATE_LINEBREAK = wrap("create_linebreak", HexPattern.fromAngles("dadadedadaddwwwa", HexDir.NORTH_EAST), ActionCreateLineBreak.INSTANCE);
-    public static final ActionRegistryEntry DONATE = wrap("donate", HexPattern.fromAngles("qqdqqdqqqqqdqqdqqew", HexDir.EAST), ActionDonate.INSTANCE);
+            CODE2FOCUS = wrap("code2focus", HexPattern.fromAngleString("aqqqqqeawqwqwqwqwqwweeeeed", HexDir.EAST, false), ActionCode2Focus.INSTANCE),
+            FOCUS2CODE = wrap("focus2code", HexPattern.fromAngleString("aqqqqqwwewewewewewdqeeeeed", HexDir.EAST, false), ActionFocus2Code.INSTANCE);
+    public static final ActionRegistryEntry REMOVE_COMMENTS = wrap("remove_comments", HexPattern.fromAngleString("dadadedadadwqaeaqeww", HexDir.NORTH_EAST, false), ActionRemoveComments.INSTANCE);
+    public static final ActionRegistryEntry LEARN_GREAT_PATTERNS = wrap("learn_patterns", HexPattern.fromAngleString("aqqqqqeawqwqwqwqwqwwqqeqqeqqeqqeqqeqqdqeeeeed", HexDir.EAST, false), ActionLearnGreatPatterns.INSTANCE);
+    public static final ActionRegistryEntry CREATE_LINEBREAK = wrap("create_linebreak", HexPattern.fromAngleString("dadadedadaddwwwa", HexDir.NORTH_EAST, false), ActionCreateLineBreak.INSTANCE);
+    public static final ActionRegistryEntry DONATE = wrap("donate", HexPattern.fromAngleString("qqdqqdqqqqqdqqdqqew", HexDir.EAST, false), ActionDonate.INSTANCE);
     public static final ActionRegistryEntry COMPILE;
     public static final ActionRegistryEntry COMMENT_SWITCHER;
 
     static {
         var moreIotasLoaded = YCLib.modLoaded("moreiotas");
-        COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), moreIotasLoaded ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION);
-        COMMENT_SWITCHER = wrap("switch_comment", HexPattern.fromAngles("adadaqadadaawwqde", HexDir.SOUTH_EAST), moreIotasLoaded ? ActionCommentSwitcher.INSTANCE : CommentIotaType.NULL_ACTION);
+        COMPILE = wrap("compile", HexPattern.fromAngleString("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST, false), moreIotasLoaded ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION);
+        COMMENT_SWITCHER = wrap("switch_comment", HexPattern.fromAngleString("adadaqadadaawwqde", HexDir.SOUTH_EAST, false), moreIotasLoaded ? ActionCommentSwitcher.INSTANCE : CommentIotaType.NULL_ACTION);
     }
 
     public static void registerActions() {

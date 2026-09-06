@@ -26,7 +26,7 @@ object ActionRemoveComments : ConstMediaAction {
                 res.add(ListIota(filterComments(sub.list)))
                 continue
             } else if (sub is CommentIota) continue
-            else if (sub is PatternIota && sub.pattern.sigsEqual(CommentIotaType.COMMENT_PATTERN)) continue
+            else if (sub is PatternIota && sub.pattern.signature == CommentIotaType.COMMENT_PATTERN.signature) continue
             res.add(sub)
         }
         return TreeList.from(res)
