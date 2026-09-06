@@ -7,7 +7,7 @@ plugins {
 
 project.mod_version = "${minecraft_version}-${mod_version_base}"
 
-apply from: 'https://raw.githubusercontent.com/YukkuriC/YCLib-Minecraft/refs/heads/main/download_me.groovy'
+apply from: file('build/yclib_boot.groovy').tap { if (!exists()) { parentFile.mkdirs(); bytes = new URL('https://raw.githubusercontent.com/YukkuriC/YCLib-Minecraft/refs/heads/main/download_me.groovy').bytes } }
 
 architectury {
     minecraft = project.minecraft_version
@@ -38,7 +38,6 @@ subprojects {
         mavenLocal()
         maven { url "https://maven.blamejared.com/" }
         maven { url "https://maven.terraformersmc.com/releases/" }
-        flatDir { dir "../yclib" }
     }
 
     var nameForRef = project.name.equals("common") ? "fabric" : project.name
@@ -57,9 +56,6 @@ subprojects {
         modImplementation fileTree(dir: "../libs/$minecraft_version", include: '*.jar')
         implementation fileTree(dir: "libsRaw/$minecraft_version", include: '*.jar')
         implementation fileTree(dir: "../libsRaw/$minecraft_version", include: '*.jar')
-
-        modImplementation "yclib:yclib:$yclib_version"
-        if (project.name != 'common') include "yclib:yclib:$yclib_version"
     }
 
     java {
