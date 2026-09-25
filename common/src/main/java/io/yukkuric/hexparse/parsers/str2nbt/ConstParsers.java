@@ -96,7 +96,7 @@ public class ConstParsers {
             return IotaFactory.makePattern(seq.toString(), start);
         }
     };
-    public static BaseConstParser TO_NEW_THOTH = new Regex("^(thoth|for_each)(_\\d+)?$") {
+    public static BaseConstParser TO_NEW_THOTH = new Regex("^thoth(_\\d+)?$") {
         @Override
         public Iota parse(String node) {
             var steps = 0;
