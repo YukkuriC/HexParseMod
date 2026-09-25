@@ -27,7 +27,6 @@ public final class HexParseFabricClient implements ClientModInitializer {
             MsgHandlers.CLIENT = this;
 
             ClientPlayNetworking.registerGlobalReceiver(MsgPullClipboard.TYPE, makeClientBoundHandler(MsgPullClipboard::handle));
-            ClientPlayNetworking.registerGlobalReceiver(MsgPullClipboard.TYPE, makeClientBoundHandler(MsgPullClipboard::handle));
             ClientPlayNetworking.registerGlobalReceiver(MsgUpdateClientMacro.TYPE, makeClientBoundHandler(MsgUpdateClientMacro::handle));
             ClientPlayNetworking.registerGlobalReceiver(MsgSyncDisplayMap.TYPE, makeClientBoundHandler(MsgSyncDisplayMap::handle));
         }

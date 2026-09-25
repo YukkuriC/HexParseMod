@@ -7,10 +7,12 @@ import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.hexparse.hooks.HexParseCommands;
 import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
+import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -55,6 +57,14 @@ public final class HexParseFabric implements ModInitializer {
         Network() {
             MsgHandlers.SERVER = this;
 
+            // well... here's what streamcodec used for
+            PayloadTypeRegistry.playC2S().register(MsgPushClipboard.TYPE, MsgPushClipboard.STREAM_CODEC);
+            PayloadTypeRegistry.playC2S().register(MsgPushMacro.TYPE, MsgPushMacro.STREAM_CODEC);
+            PayloadTypeRegistry.playS2C().register(MsgPullClipboard.TYPE, MsgPullClipboard.STREAM_CODEC);
+            PayloadTypeRegistry.playS2C().register(MsgUpdateClientMacro.TYPE, MsgUpdateClientMacro.STREAM_CODEC);
+            PayloadTypeRegistry.playS2C().register(MsgSyncDisplayMap.TYPE, MsgSyncDisplayMap.STREAM_CODEC);
+
+            // c2s
             ServerPlayNetworking.registerGlobalReceiver(MsgPushClipboard.TYPE, makeServerBoundHandler(MsgPushClipboard::handle));
             ServerPlayNetworking.registerGlobalReceiver(MsgPushMacro.TYPE, makeServerBoundHandler(MsgPushMacro::handle));
         }
