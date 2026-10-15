@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.hooks;
 
-import at.petrak.hexcasting.api.casting.eval.CastResult;
-import at.petrak.hexcasting.api.casting.eval.ResolvedPatternType;
+import at.petrak.hexcasting.api.casting.eval.*;
 import at.petrak.hexcasting.api.casting.eval.vm.CastingVM;
 import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation;
 import at.petrak.hexcasting.api.casting.iota.Iota;
@@ -40,7 +39,7 @@ public class CommentIota extends Iota {
         return comment.hashCode();
     }
 
-    public boolean isTruthy() {
+    public boolean isTruthy(CastingEnvironment env) {
         return false;
     }
     protected boolean toleratesOther(Iota iota) {
