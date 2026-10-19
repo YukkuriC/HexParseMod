@@ -4,13 +4,12 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.api.item.IotaHolderItem
 import at.petrak.hexcasting.api.utils.getOrCreateCompound
-import at.petrak.hexcasting.common.items.storage.ItemFocus
-import at.petrak.hexcasting.common.items.storage.ItemSpellbook
-import at.petrak.hexcasting.common.items.storage.ItemThoughtKnot
+import at.petrak.hexcasting.common.items.storage.*
 import io.yukkuric.hexparse.HexParse
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 
 
@@ -60,9 +59,13 @@ class IOMethod(
         @JvmStatic
         fun get(stack: ItemStack?, isWrite: Boolean): IOMethod? {
             if (stack == null) return null
-            val ret = ITEM_IO_TYPES[stack.item.javaClass]
-            if (ret?.validator != null && !ret.validator!!(stack, isWrite)) return null
-            ret?.bind(stack)
+            val itemClass = Item::class.java
+            val ret = generateSequence<Class<*>>(stack.item.javaClass) { it.superclass }
+                .takeWhile { itemClass.isAssignableFrom(it) }
+                .firstNotNullOfOrNull { ITEM_IO_TYPES[it] }
+                ?: return null
+            if (ret.validator != null && !ret.validator(stack, isWrite)) return null
+            ret.bind(stack)
             return ret
         }
 
