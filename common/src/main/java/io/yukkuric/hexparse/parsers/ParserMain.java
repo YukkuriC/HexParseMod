@@ -272,4 +272,12 @@ public class ParserMain {
     public static void AddBackParser(INbt2Str p) {
         nbt2strParsers.add(p);
     }
+
+    public static void RemoveForthParser(IStr2Nbt p) {
+        str2nbtParsers.remove(p);
+    }
+
+    public static void RemoveBackParser(INbt2Str p) {
+        nbt2strParsers.remove(p);
+    }
 }

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.yukkuric.hexparse.api
 
 import at.petrak.hexcasting.api.casting.castables.SpecialHandler
@@ -9,7 +11,23 @@ import io.yukkuric.hexparse.parsers.str2nbt.IStr2Nbt
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
 
+@Suppress("unused", "FunctionName")
 object HexParseAPI {
+    private val idMapForth = HashMap<String, IStr2Nbt>()
+    private val idMapBack = HashMap<String, INbt2Str>()
+
+    @JvmStatic
+    fun AddForthParser(p: IStr2Nbt, id: String) {
+        idMapForth[id]?.let(::RemoveForthParser)
+        idMapForth[id] = p
+        ParserMain.AddForthParser(p)
+    }
+    @JvmStatic
+    fun AddBackParser(p: INbt2Str, id: String) {
+        idMapBack[id]?.let(::RemoveBackParser)
+        idMapBack[id] = p
+        ParserMain.AddBackParser(p)
+    }
     @JvmStatic
     fun AddForthParser(p: IStr2Nbt) {
         ParserMain.AddForthParser(p)
@@ -18,6 +36,15 @@ object HexParseAPI {
     fun AddBackParser(p: INbt2Str) {
         ParserMain.AddBackParser(p)
     }
+    @JvmStatic
+    fun RemoveForthParser(p: IStr2Nbt) {
+        ParserMain.RemoveForthParser(p)
+    }
+    @JvmStatic
+    fun RemoveBackParser(p: INbt2Str) {
+        ParserMain.RemoveBackParser(p)
+    }
+
     @JvmStatic
     fun <T : SpecialHandler> AddSpecialHandlerBackParser(cls: Class<T>, func: (T, CompoundTag) -> String) {
         PatternParser.AddSpecialHandlerBackParser(cls, func)
