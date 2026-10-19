@@ -2,7 +2,7 @@
 
 **简体中文** [English](../en_us/custom-parsers.md)
 
-> 生成于GLM-5.1
+> 生成于蓝色大肥鱼-v4.1-Flash
 
 ## 概述
 
@@ -33,11 +33,12 @@ public interface IStr2Nbt {
 ### INbt2Str — 反向解析器（NBT → 字符串）
 
 ```java
-public interface INbt2Str extends IConfigNumReceiver {
+public interface INbt2Str extends IConfigNumReceiver, IMetaCollector {
     boolean match(CompoundTag node);
     String parse(CompoundTag node);
     default boolean isType(CompoundTag node, String type) { ... }
     default String displayMinimal(Double raw) { ... }
+    default String parseAndCollect(CompoundTag node) { ... }
 }
 ```
 
@@ -47,6 +48,11 @@ public interface INbt2Str extends IConfigNumReceiver {
 | `parse(CompoundTag node)` | 将匹配的 NBT 节点转换为字符串表示 |
 | `isType(CompoundTag node, String type)` | 辅助方法，检查节点的 `type` 字段是否匹配 |
 | `displayMinimal(Double raw)` | 辅助方法，将浮点数格式化为最简表示（去除尾部零） |
+| `parseAndCollect(CompoundTag node)` | 调用 `parse`，并在启用附属模组元数据收集时记录该 Iota 的命名空间；`ParserMain` 实际调用的是此方法 |
+
+### IMetaCollector — 附属模组命名空间收集
+
+`INbt2Str` 继承了 `IMetaCollector`。默认的 `getNamespace` 读取节点的 `type` 字段并返回其命名空间；注释 Iota 返回 `null`，因此不会出现在 `// Requires:` 头部中。仅当命名空间无法从 Iota 类型推导时才需要覆写它。
 
 ### IPlayerBinder — 玩家绑定接口
 
@@ -58,7 +64,7 @@ public interface IPlayerBinder {
 }
 ```
 
-在每次解析前，`ParserMain` 会自动调用所有实现了 `IPlayerBinder` 的解析器的 `BindPlayer` 方法，将当前施法玩家传入。
+在每个解析入口（`ParseCode` / `ParseIotaNbt`）处，`ParserMain` 会自动调用所有实现了 `IPlayerBinder` 的解析器的 `BindPlayer` 方法，将当前施法玩家传入。
 
 ### IConfigNumReceiver — 配置编号接口
 
@@ -79,17 +85,30 @@ public interface IConfigNumReceiver {
 
 ```kotlin
 HexParseAPI.AddForthParser(p: IStr2Nbt)
+HexParseAPI.AddForthParser(p: IStr2Nbt, id: String)
 ```
 
 注册一个正向解析器。解析器被追加到解析器列表末尾，在所有内置解析器之后尝试匹配。
+
+带 `id` 的重载保证同一 ID 只保留一个解析器：用已存在的 ID 再次注册时，会先把旧解析器从列表中移除，再追加新的。适用于可能重复注册的场景（如资源重载）。
 
 ### AddBackParser
 
 ```kotlin
 HexParseAPI.AddBackParser(p: INbt2Str)
+HexParseAPI.AddBackParser(p: INbt2Str, id: String)
 ```
 
-注册一个反向解析器。解析器被追加到解析器列表末尾，在所有内置解析器之后尝试匹配。
+注册一个反向解析器，带 `id` 的重载与 `AddForthParser` 具有相同的替换行为。
+
+### RemoveForthParser / RemoveBackParser
+
+```kotlin
+HexParseAPI.RemoveForthParser(p: IStr2Nbt)
+HexParseAPI.RemoveBackParser(p: INbt2Str)
+```
+
+从解析器列表中移除指定的解析器实例。移除依据实例本身，而非 ID。
 
 ## 实战示例
 
@@ -193,25 +212,38 @@ HexParse 内置了以下正向解析器（按匹配顺序）：
 | 解析器 | 前缀/匹配规则 | 说明 |
 |--------|---------------|------|
 | `ToPattern.META` | 元操作名（`(`, `)`, `\`, `del` 等） | 元操作图案 |
-| `ToMiscConst` | `self`, `true`, `false`, `null`, `garbage` | 常量 |
-| `FallbackBinaryParser.STR2NBT` | `nbt_` | 二进制 NBT 回退 |
+| `ToMiscConst` | `self`/`myself`, `true`, `false`, `null`, `garbage` | 常量 |
 | `ToPattern.NORMAL` | 图案名 | 普通图案 |
-| `ToPattern.GREAT` | 卓越法术名 | 卓越图案（需解锁） |
-| `Comment.Indent` | `tab_N` | 缩进 |
-| `Comment` | `comment_` / `c"..."` | 注释 |
-| `ToNum` | 数字 | 数值 Iota |
+| `ToPattern.GREAT` | 卓越法术名 | 卓越图案（已解锁的正常解析，未解锁的变为注释占位） |
+| `Comment.Indent` | `tab` / `indent` | 缩进 |
+| `Comment`（`TO_COMMENT`） | `comment_` | 手动注释 |
+| `Comment`（`TO_SCOMMENT`） | `c"..."` | 单行字符串式注释 |
+| `ToNum` | 数字（正则） | 数值 Iota |
 | `ToVec` | `vec_X_Y_Z` | 向量 Iota |
-| `ToMask` | `mask_...` | Mask 特殊处理器 |
+| `ToMask` | `mask_[-v]+` | Mask 特殊处理器 |
 | `ToNumPattern` | `num_N` | 数字字面量特殊处理器 |
 | `ToEntity` | `entity_<UUID>` | 实体引用 |
 | `ToDialect` | 方言映射 | 自定义名称映射 |
+| `FallbackBinaryParser.STR2NBT` | `nbt_` | 二进制 NBT 回退；仅当 `showUnknownNBT` 为 `KEEP_NBT` 时匹配 |
+| `TO_RAW_PATTERN` | `^_[wedsaq]*$` | 原始角度签名图案 |
+
+若对应模组已加载，会追加以下正向解析器：
+
+| 模组 | 正向解析器 |
+|------|------------|
+| `hexal` | `ToGate`, `ToMote` |
+| `moreiotas` | `TO_ENTITY_TYPE`, `TO_IOTA_TYPE`, `TO_ITEM_TYPE`, `TO_BLOCK_TYPE`, `TO_STRING`, `TO_STRING_LIT`, `TO_MATRIX` |
+| `hexcellular` | `TO_PROPERTY`, `TO_MY_PROPERTY` |
+| `hexpose` | `TO_IDENTIFIER` |
+| `oneironaut` | `TO_DIMENSION` |
+| `ephemera` | `TO_POTION` |
 
 内置反向解析器（按匹配顺序）：
 
 | 解析器 | 匹配类型 | 输出格式 |
 |--------|----------|----------|
-| `PatternParser` | `hexcasting:pattern` | 图案名 / 角度签名 |
-| `CommentParser` | `hexparse:comment` | `comment_...` / `/*...*/` |
+| `PatternParser` | `hexcasting:pattern` | 图案名 / 角度签名 / `(`, `)`, `\` |
+| `CommentParser` | `hexparse:comment` | `comment_...` / `/*...*/` / 原始缩进 |
 | `NumParser` | `hexcasting:double` | 最简浮点数 |
 | `VecParser` | `hexcasting:vec3` | `vec_X_Y_Z` |
 | `EntityParser` | `hexcasting:entity` | `self` / `entity_<UUID>` |
@@ -219,9 +251,11 @@ HexParse 内置了以下正向解析器（按匹配顺序）：
 | `NullParser` | `hexcasting:null` | `null` |
 | `GarbageParser` | `hexcasting:garbage` | `garbage` |
 
+若对应模组已加载，会追加以下反向解析器：`hexal`（`GateParser`、`MoteParser`）、`moreiotas`（`StringParser.IOTA`、`StringParser.ENTITY`、`ItemTypeParser`、`StringLitParser`、`MatrixParser`）、`hexcellular`（`PropertyParser`）、`hexpose`（`IdentifierParser`）、`oneironaut`（`DimParser`）、`ephemera`（`PotionParser`）。
+
 ## 注意事项
 
 - 自定义解析器追加在列表末尾，因此**优先级低于所有内置解析器**。如果你的自定义前缀与内置解析器冲突，内置解析器会先匹配
 - 若需更高优先级，需在 `ParserMain.init()` 之前注册，或使用不与内置前缀冲突的命名
-- `IPlayerBinder.BindPlayer` 在每次解析调用前都会被调用，不要在其中存储长期状态
+- `IPlayerBinder.BindPlayer` 在每个解析入口（`ParseCode` / `ParseIotaNbt`）都会被调用，不要在其中存储长期状态
 - `getCost()` 返回的消耗会在解析时通过 `CostTracker` 累积，最终从施法者身上扣除

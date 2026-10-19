@@ -2,7 +2,7 @@
 
 **简体中文** [English](../en_us/custom-special-handler-parser.md)
 
-> 生成于GLM-5.1
+> 生成于蓝色大肥鱼-v4.1-Flash
 
 ## 概述
 
@@ -15,10 +15,11 @@ HexCasting 中的某些图案由 `SpecialHandler` 处理，而非普通的 `Acti
 当 `PatternParser` 解析一个图案 Iota 时，执行流程如下：
 
 1. 从 NBT 中重建 `HexPattern` 对象
-2. 调用 `PatternRegistryManifest.matchPattern()` 匹配图案
-3. 若匹配结果为 `PatternShapeMatch.Special`，获取其 `SpecialHandler` 实例
-4. 在 `SPECIAL_HANDLER_MAP` 中查找该 `SpecialHandler` 的 `Class` 对应的解析函数
-5. 若找到，调用该函数生成字符串；否则回退到角度签名（`_anglesSignature`）
+2. 若启用了 `FORCE_SIGNATURES` 配置（`/hexParse read_signatures`），或角度签名属于元图案 `(` / `)` / `\`，直接提前返回
+3. 使用主手 `StaffCastEnv` 调用 `PatternRegistryManifest.matchPattern()` 匹配图案
+4. 若匹配结果为 `PatternShapeMatch.Special`，获取其 `SpecialHandler` 实例
+5. 在 `SPECIAL_HANDLER_MAP` 中查找该 `SpecialHandler` 的运行时精确 `Class` 对应的解析函数
+6. 若找到，调用该函数生成字符串；否则回退到角度签名（`_anglesSignature`）
 
 ## API 方法
 
@@ -83,6 +84,8 @@ class ColorSpecialHandler(val color: Int) : SpecialHandler {
 ColorSpecialHandler.registerBackParser()
 ```
 
+注意：`SpecialHandler` 是接口，具体处理器还须实现 `act()` 与 `getName()`（上例中省略）。
+
 ### 在 Java 中注册
 
 ```java
@@ -90,7 +93,9 @@ import at.petrak.hexcasting.api.casting.castables.SpecialHandler;
 import io.yukkuric.hexparse.api.HexParseAPI;
 import net.minecraft.nbt.CompoundTag;
 
-public class MySpecialHandler extends SpecialHandler {
+public class MySpecialHandler implements SpecialHandler {
+    // act() 与 getName() 的实现省略
+
     public static void registerBackParser() {
         HexParseAPI.AddSpecialHandlerBackParser(
             MySpecialHandler.class,
@@ -104,5 +109,6 @@ public class MySpecialHandler extends SpecialHandler {
 
 - 注册时机应在 mod 初始化阶段完成，确保在首次解析之前注册
 - 每个 `SpecialHandler` 类只能注册一个反向解析器，重复注册会覆盖之前的
+- 查找使用处理器的运行时精确 `Class`，注册不会作用于其子类
 - 如果未为某个 `SpecialHandler` 注册解析器，`PatternParser` 会回退到输出角度签名（`_` 前缀 + 角度字符串），这仍然有效但可读性较差
 - `func` 中可以使用 `INbt2Str.displayMinimalStatic(Double)` 辅助方法来格式化浮点数
