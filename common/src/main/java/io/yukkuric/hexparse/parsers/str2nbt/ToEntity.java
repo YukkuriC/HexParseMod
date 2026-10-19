@@ -1,12 +1,9 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
-import at.petrak.hexcasting.api.casting.iota.EntityIota;
-import at.petrak.hexcasting.api.casting.iota.Iota;
-import at.petrak.hexcasting.api.casting.iota.IotaType;
-import at.petrak.hexcasting.api.casting.iota.NullIota;
+import at.petrak.hexcasting.api.casting.iota.*;
 import at.petrak.hexcasting.api.casting.mishaps.MishapOthersName;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,7 +38,7 @@ public class ToEntity extends BaseConstParser.Prefix implements IPlayerBinder {
             }
             res = new EntityIota(entity);
         } catch (MishapOthersName e) {
-            var msg = HexParse.doTranslate("hexcasting.mishap.others_name", entity.getName());
+            var msg = YCLib.doTranslate("hexcasting.mishap.others_name", entity.getName());
             throw new RuntimeException(msg);
         } catch (Exception e) {
             res = new NullIota();

@@ -7,6 +7,7 @@ import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.common.lib.hex.HexActions;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 
@@ -27,7 +28,7 @@ public class HexParsePatterns {
     public static final ActionRegistryEntry COMMENT_SWITCHER;
 
     static {
-        var moreIotasLoaded = HexParse.HELPERS.modLoaded("moreiotas");
+        var moreIotasLoaded = YCLib.modLoaded("moreiotas");
         COMPILE = wrap("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), moreIotasLoaded ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION);
         COMMENT_SWITCHER = wrap("switch_comment", HexPattern.fromAngles("adadaqadadaawwqde", HexDir.SOUTH_EAST), moreIotasLoaded ? ActionCommentSwitcher.INSTANCE : CommentIotaType.NULL_ACTION);
     }

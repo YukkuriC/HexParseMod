@@ -3,7 +3,6 @@ package io.yukkuric.hexparse.forge;
 import at.petrak.hexcasting.common.lib.HexRegistries;
 import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
-import io.yukkuric.hexparse.IModHelpers;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
 import io.yukkuric.hexparse.forge.events.MacroForgeHandler;
@@ -13,7 +12,6 @@ import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,11 +30,9 @@ import java.util.function.*;
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
     static Network NETWORK;
-    static ModHelpers HELPERS;
 
     public HexParseForge() {
         NETWORK = new Network();
-        HELPERS = new ModHelpers();
 
         // Run our common setup.
         HexParse.init();
@@ -126,23 +122,6 @@ public final class HexParseForge {
         @Override
         public void sendPacketToPlayer(ServerPlayer player, IMessage packet) {
             CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
-        }
-    }
-
-    public static class ModHelpers implements IModHelpers {
-        private boolean isClient = false;
-        ModHelpers() {
-            HexParse.HELPERS = this;
-            DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> isClient = true);
-        }
-
-        @Override
-        public boolean modLoaded(String modId) {
-            return ModList.get().isLoaded(modId);
-        }
-        @Override
-        public boolean isPhysicalClient() {
-            return isClient;
         }
     }
 }

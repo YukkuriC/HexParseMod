@@ -4,10 +4,10 @@ import at.petrak.hexcasting.api.utils.aqua
 import at.petrak.hexcasting.api.utils.darkRed
 import at.petrak.hexcasting.api.utils.gold
 import com.mojang.brigadier.context.CommandContext
-import io.yukkuric.hexparse.HexParse
 import io.yukkuric.hexparse.hooks.HexParseCommands
 import io.yukkuric.hexparse.hooks.PatternMapper
 import io.yukkuric.hexparse.misc.CodeHelpers
+import io.yukkuric.yclib.YCLib
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.ResourceLocationArgument
@@ -17,7 +17,7 @@ object CommandConflictResolver {
     fun init() {
 
         val subCmd = Commands.literal("conflict").requires { s: CommandSourceStack ->
-            if (HexParse.HELPERS.isPhysicalClient) return@requires true
+            if (YCLib.isPhysicalClient()) return@requires true
             return@requires s.hasPermission(2)
         }
         HexParseCommands.registerLine(
