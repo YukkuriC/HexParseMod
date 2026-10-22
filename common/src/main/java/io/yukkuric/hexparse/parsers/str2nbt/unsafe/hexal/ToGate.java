@@ -1,16 +1,18 @@
 package io.yukkuric.hexparse.parsers.str2nbt.unsafe.hexal;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.mishaps.MishapOthersName;
-import io.yukkuric.hexparse.HexParse;
+import com.mojang.datafixers.util.Either;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
-import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
-import net.minecraft.nbt.CompoundTag;
+import io.yukkuric.yclib.YCLib;
+import kotlin.Pair;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import ram.talia.hexal.api.casting.iota.GateIota;
 import ram.talia.hexal.api.config.HexalConfig;
 
 import java.util.*;
@@ -51,7 +53,7 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
 
     @Override
     public Iota parse(String node) {
-        if (node.length() <= 5) return PluginIotaFactory.makeGate(getGateOrder(null, null), null, null);
+        if (node.length() <= 5) return new GateIota(getGateOrder(null, null), null);
         var frags = node.substring(5).split("_");
         double[] vecRaw = new double[]{0, 0, 0};
         byte ptr = 0;
@@ -91,6 +93,6 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
                 throw new IllegalArgumentException(YCLib.doTranslate("hexcasting.mishap.invalid_value", "", expected, 0, pos));
             }
         }
-        return PluginIotaFactory.makeGate(getGateOrder(entity, pos), pos, entity);
+        return new GateIota(getGateOrder(entity, pos), entity == null ? Either.left(pos) : Either.right(new Pair<>(entity, pos)));
     }
 }
