@@ -2,7 +2,7 @@
 
 **简体中文** [English](../en_us/custom-item-io-method.md)
 
-> 生成于GLM-5.1
+> 生成于蓝色大肥鱼-v4.1-Flash
 
 ## 概述
 
@@ -12,15 +12,15 @@ HexParse 通过 `IOMethod` 类管理物品的 Iota 读写操作。当玩家手�
 
 ## IOMethod 工作原理
 
-`IOMethod` 在构造时自动注册到全局映射表 `ITEM_IO_TYPES` 中，以物品的 `Class` 为键。当需要读写时，`IOMethod.get()` 会根据物品实例的 `Class` 查找对应的 `IOMethod`。
+`IOMethod` 在构造时自动注册到全局映射表 `ITEM_IO_TYPES` 中，以物品的 `Class` 为键。当需要读写时，`IOMethod.get()` 会从物品实例的具体类开始，沿类继承链向上查找到 `Item`，使用第一个命中的已注册 `Class`。因此为基础物品类注册即可覆盖所有没有单独注册的子类。
 
 ### 查找优先级
 
 当玩家手持物品时，HexParse 同时检查主手和副手：
 
 1. 分别查找主手和副手物品的 `IOMethod`
-2. 若两者都有 `IOMethod`，选择 `priority` 更低（数值更小）的那个
-3. 若 `priority` 相同，优先选择副手
+2. 只有一侧存在 `IOMethod` 时直接使用该侧
+3. 两侧都有时，选择 `priority` 更低（数值更小）的那个；`priority` 相同时优先选择副手
 
 ### validator 验证
 
@@ -167,17 +167,15 @@ HexParseAPI.CreateItemIOMethod(
 
 ```java
 import io.yukkuric.hexparse.api.HexParseAPI;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
+import kotlin.Unit;
 
 HexParseAPI.CreateItemIOMethod(
     MyCustomItem.class,
     (stack, nbt) -> {
         stack.getOrCreateTag().put("iota_data", nbt);
+        return Unit.INSTANCE; // Kotlin 函数类型返回 Unit
     },
-    (stack) -> {
-        return stack.getTag() != null ? stack.getTag().getCompound("iota_data") : null;
-    },
+    (stack) -> stack.getTag() != null ? stack.getTag().getCompound("iota_data") : null,
     0,
     null
 );
@@ -185,8 +183,10 @@ HexParseAPI.CreateItemIOMethod(
 
 ## 注意事项
 
-- 每个 `Class` 只能注册一个 `IOMethod`，重复注册会在日志中输出错误（不会覆盖）
+- 每个 `Class` 只能注册一个 `IOMethod`，重复注册会覆盖旧条目，并在日志中输出错误
+- 匹配时会沿物品类的继承链查找，因此为基础类注册即可覆盖没有单独注册的子类
 - `IOMethod` 在构造时即自动注册，无需额外调用注册方法
 - `writer` 和 `reader` 中不要修改物品的类型或数量，只应修改物品的 NBT 数据
 - `reader` 返回 `null` 表示该物品当前没有存储的 Iota 数据
 - 注册时机应在 mod 初始化阶段，确保在玩家使用之前完成
+- `CreateItemIOMethod` 使用 Kotlin 默认参数但未加 `@JvmOverloads`，Java 调用方必须传齐全部五个参数
