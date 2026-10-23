@@ -2,7 +2,7 @@
 
 **简体中文** [English](../en_us/player-binder.md)
 
-> 生成于GLM-5.1
+> 生成于蓝色大肥鱼-v4.1-Flash
 
 ## 概述
 
@@ -23,7 +23,7 @@ public interface IPlayerBinder {
 `ParserMain` 在两个解析入口处统一绑定玩家：
 
 - **正向解析**（`ParseCode`）：遍历所有 `str2nbtParsers`，对 `IPlayerBinder` 实例调用 `BindPlayer`
-- **反向解析**（`ParseIotaNbt`）：遍历所有 `nbt2strParsers`，对 `IPlayerBinder` 实例调用 `BindPlayer`
+- **反向解析**（`ParseIotaNbt`）：遍历所有 `nbt2strParsers`，先调用 `receiveConfigNum`，再对 `IPlayerBinder` 实例调用 `BindPlayer`；这一步只在根节点执行，嵌套列表元素复用同一绑定
 
 这意味着无论你的解析器是 `IStr2Nbt` 还是 `INbt2Str`，只要同时实现 `IPlayerBinder`，就能在 `parse` 执行时使用已绑定的玩家引用。
 
@@ -81,11 +81,10 @@ class MyBackParser : INbt2Str, IPlayerBinder {
 | `FallbackBinaryParser.STR2NBT` | 二进制 NBT 回退解析，需检查管理员权限 | [FallbackBinaryParser.kt](../../common/src/main/java/io/yukkuric/hexparse/parsers/FallbackBinaryParser.kt) |
 | `PatternParser` | 反向解析图案，需玩家上下文匹配注册表 | [PatternParser.java](../../common/src/main/java/io/yukkuric/hexparse/parsers/nbt2str/PatternParser.java) |
 | `EntityParser` | 反向解析实体 Iota，判断是否为 `self` | [EntityParser.java](../../common/src/main/java/io/yukkuric/hexparse/parsers/nbt2str/EntityParser.java) |
-| `PluginConstParsers.TO_PROPERTY.Private` | 解析私有属性，需施法者名字 | [PluginConstParsers.java](../../common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/plugins/PluginConstParsers.java) |
+| `PluginConstParsers.ToProperty.Private` | 解析 `myprop_` 私有属性，需施法者名字 | [PluginConstParsers.java](../../common/src/main/java/io/yukkuric/hexparse/parsers/str2nbt/plugins/PluginConstParsers.java) |
 
 ## 注意事项
 
-- `BindPlayer` 在**每次解析调用前**都会被调用，不要假设引用在多次解析间保持不变
+- `BindPlayer` 在**每个解析入口**都会被调用，而不是每个节点——不要假设引用在多次解析间保持不变
 - 不要在 `BindPlayer` 中存储长期状态——它是一个"刷新"操作而非"初始化"操作
 - 若你的解析器仅在特定条件下需要玩家信息，可以在 `BindPlayer` 中缓存引用，在 `parse` 中按需使用
-- `BindPlayer` 接收的 `ServerPlayer` 可能为 `null`（虽然正常施法流程中不会），建议做防御性检查
