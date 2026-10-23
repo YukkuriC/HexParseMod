@@ -1,3 +1,7 @@
+**/libs/**/*.jar
+**/libsRaw/**/*.jar
+yclib/**.jar
+
 # hexdoc
 _site/
 _checkout/

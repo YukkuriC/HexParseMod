@@ -1,11 +1,13 @@
 plugins {
-    id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply false
+    id 'dev.architectury.loom' version '1.9+' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
-    id "org.jetbrains.kotlin.jvm" version "1.9.24"
+    id "org.jetbrains.kotlin.jvm" version "2.2.21"
 }
 
 project.mod_version = "${minecraft_version}-${mod_version_base}"
+
+apply from: file('build/yclib_boot.groovy').tap { if (!exists()) { parentFile.mkdirs(); bytes = new URL('https://raw.githubusercontent.com/YukkuriC/YCLib-Minecraft/refs/heads/main/download_me.groovy').bytes } }
 
 architectury {
     minecraft = project.minecraft_version
@@ -36,8 +38,6 @@ subprojects {
         mavenLocal()
         maven { url "https://maven.blamejared.com/" }
         maven { url "https://maven.terraformersmc.com/releases/" }
-        flatDir { dir "libs/$minecraft_version" }
-        flatDir { dir "../libs/$minecraft_version" }
     }
 
     var nameForRef = project.name.equals("common") ? "forge" : project.name

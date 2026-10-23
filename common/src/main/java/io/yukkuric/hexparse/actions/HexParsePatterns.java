@@ -8,6 +8,7 @@ import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.*;
@@ -27,7 +28,7 @@ public class HexParsePatterns {
     public static final ActionRegistryEntry COMMENT_SWITCHER;
 
     static {
-        var moreIotasLoaded = HexParse.HELPERS.modLoaded("moreiotas");
+        var moreIotasLoaded = YCLib.modLoaded("moreiotas");
         COMPILE = wrapGreat("compile", HexPattern.fromAngles("aqqqqqeawqwqwqwqwqwdeweweqeweweqewewe", HexDir.EAST), moreIotasLoaded ? ActionCompile.INSTANCE : CommentIotaType.NULL_ACTION);
         COMMENT_SWITCHER = wrap("switch_comment", HexPattern.fromAngles("adadaqadadaawwqde", HexDir.SOUTH_EAST), moreIotasLoaded ? ActionCommentSwitcher.INSTANCE : CommentIotaType.NULL_ACTION);
     }

@@ -1,10 +1,10 @@
 package io.yukkuric.hexparse.parsers.str2nbt.unsafe.hexal;
 
 import at.petrak.hexcasting.api.spell.mishaps.MishapOthersName;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -74,9 +74,9 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
                     throw new MishapOthersName(p);
                 }
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException(HexParse.doTranslate("hexparse.msg.error.unknown_symbol", f));
+                throw new RuntimeException(YCLib.doTranslate("hexparse.msg.error.unknown_symbol", f));
             } catch (MishapOthersName e) {
-                var msg = HexParse.doTranslate("hexcasting.mishap.others_name", entity.getName());
+                var msg = YCLib.doTranslate("hexcasting.mishap.others_name", entity.getName());
                 throw new RuntimeException(msg);
             }
         }
@@ -86,8 +86,8 @@ public class ToGate extends BaseConstParser.Regex implements IPlayerBinder {
         if (entity != null && pos != null) {
             var maxDist = HexalConfig.getServer().getMaxGateOffset();
             if (pos.length() > maxDist) {
-                var expected = HexParse.doTranslate("hexcasting.mishap.invalid_value.gate.offset", maxDist);
-                throw new IllegalArgumentException(HexParse.doTranslate("hexcasting.mishap.invalid_value", "", expected, 0, pos));
+                var expected = YCLib.doTranslate("hexcasting.mishap.invalid_value.gate.offset", maxDist);
+                throw new IllegalArgumentException(YCLib.doTranslate("hexcasting.mishap.invalid_value", "", expected, 0, pos));
             }
         }
         return PluginIotaFactory.makeGate(getGateOrder(entity, pos), pos, entity);

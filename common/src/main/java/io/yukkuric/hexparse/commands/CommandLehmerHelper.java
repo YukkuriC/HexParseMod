@@ -2,8 +2,8 @@ package io.yukkuric.hexparse.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.misc.CodeHelpers;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -30,9 +30,9 @@ public class CommandLehmerHelper {
                 var num = Integer.valueOf(seg);
                 orders.add(num);
                 if (orders.size() > MAX_COUNT)
-                    throw new IndexOutOfBoundsException(HexParse.doTranslate("hexparse.msg.error.code_too_long", MAX_COUNT));
+                    throw new IndexOutOfBoundsException(YCLib.doTranslate("hexparse.msg.error.code_too_long", MAX_COUNT));
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException(HexParse.doTranslate("hexparse.msg.error.unknown_symbol", seg));
+                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.unknown_symbol", seg));
             }
         }
         long res = 0, frac = 1;
