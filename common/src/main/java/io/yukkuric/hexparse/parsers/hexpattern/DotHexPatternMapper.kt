@@ -80,7 +80,7 @@ object DotHexPatternMapper {
             if (display != langKey) nameMap[display] = entry.key.location().toString()
         }
         for (entry in RawPatternMap) {
-            val langKey = hexAPI.getRawHookI18nKey(HexAPI.modLoc(entry.key))
+            val langKey = "hexcasting.action.${HexAPI.modLoc(entry.key)}"
             val display = Language.getInstance().getOrDefault(langKey)
             if (display != langKey) nameMap[display] = entry.value
         }

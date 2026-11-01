@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.getInt
 import at.petrak.hexcasting.api.casting.iota.Iota
+import io.yukkuric.hexparse.legacy.toIota
 import io.yukkuric.hexparse.parsers.IotaFactory
 
 object ActionCreateLineBreak : ConstMediaAction {
@@ -12,6 +13,6 @@ object ActionCreateLineBreak : ConstMediaAction {
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val n = args.getInt(0)
         var nbt = IotaFactory.makeTab(n)
-        return listOf(nbt)
+        return listOf(nbt.toIota())
     }
 }

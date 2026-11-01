@@ -1,7 +1,7 @@
 package io.yukkuric.hexparse.parsers.str2nbt
 
 import at.petrak.hexcasting.api.casting.iota.EntityIota
-import at.petrak.hexcasting.api.casting.iota.IotaType
+import io.yukkuric.hexparse.legacy.toNbt
 import io.yukkuric.hexparse.parsers.IPlayerBinder
 import io.yukkuric.hexparse.parsers.IotaFactory.*
 import net.minecraft.nbt.ByteTag
@@ -13,8 +13,9 @@ object ToMiscConst : IStr2Nbt, IPlayerBinder {
     val NULL = CompoundTag();
 
     val ConstMapper = mapOf(
-        "self" to { IotaType.serialize(EntityIota(owner)) },
-        "myself" to { IotaType.serialize(EntityIota(owner)) },
+        // TODO: is this broken in multiplayer?
+        "self" to { EntityIota(owner).toNbt() },
+        "myself" to { EntityIota(owner).toNbt() },
         "false" to { makeType(TYPE_BOOLEAN, ByteTag.ZERO) },
         "true" to { makeType(TYPE_BOOLEAN, ByteTag.ONE) },
         "null" to { makeType(TYPE_NULL, NULL) },
