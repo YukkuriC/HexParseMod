@@ -8,9 +8,10 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.api.casting.iota.PatternIota
 import at.petrak.hexcasting.api.casting.math.HexPattern
-import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
 import at.petrak.hexcasting.common.casting.PatternRegistryManifest
 import at.petrak.hexcasting.xplat.IXplatAbstractions
+import io.yukkuric.hexparse.legacy.MishapDisallowedSpell
+import io.yukkuric.hexparse.legacy.caster
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -49,7 +50,7 @@ object ActionLearnGreatPatterns : ConstMediaAction {
     private fun extractTargetFromItem(item: ItemStack): List<Iota>? {
         val holderIota = IXplatAbstractions.INSTANCE.findDataHolder(item)
         if (holderIota != null) {
-            val inner = holderIota.readIota(cachedLevel)
+            val inner = holderIota.readIota()
             if (inner != null) return listOf(inner)
         }
         val holderHex = IXplatAbstractions.INSTANCE.findHexHolder(item)
@@ -74,7 +75,7 @@ object ActionLearnGreatPatterns : ConstMediaAction {
     }
 
     private fun fetchPatternGreatKey(pattern: HexPattern): ResourceLocation? {
-        var matcher = PatternRegistryManifest.matchPattern(pattern, cachedEnv, false)
+        var matcher = PatternRegistryManifest.matchPattern(pattern, cachedEnv)
         if (matcher !is PatternShapeMatch.PerWorld) return null
         return matcher.key.location()
     }

@@ -4,7 +4,8 @@ import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.eval.env.StaffCastEnv
 import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.mishaps.MishapDisallowedSpell
+import io.yukkuric.hexparse.legacy.MishapDisallowedSpell
+import io.yukkuric.hexparse.legacy.caster
 import io.yukkuric.hexparse.misc.CodeHelpers
 
 object ActionFocus2Code : ConstMediaAction {

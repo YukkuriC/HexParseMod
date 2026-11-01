@@ -1,7 +1,5 @@
 package io.yukkuric.hexparse.network;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.netty.buffer.ByteBuf;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.commands.CommandMindStackIO;
@@ -10,27 +8,24 @@ import io.yukkuric.hexparse.misc.CodeHelpers;
 import io.yukkuric.hexparse.parsers.ParserMain;
 import miyucomics.hexcellular.StateStorage;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements IMessage {
+public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("clipboard/push");
 
-    @Override
     public void serialize(FriendlyByteBuf buf) {
         buf.writeInt(code.size());
         for (var f : code)
             MsgHelpers.putString(buf, f);
         MsgHelpers.putString(buf, rename);
         buf.writeByte(mode.ordinal());
-    }
-
-    @Override
-    public ResourceLocation getFabricId() {
-        return ID;
     }
 
     public static MsgPushClipboard deserialize(ByteBuf buffer) {
@@ -58,10 +53,23 @@ public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMod
         } else if (self.mode == ClipboardMsgMode.WRITE_PROPERTY) {
             var nbt = ParserMain.ParseCode(self.code, sender);
             var world = sender.serverLevel();
-            StateStorage.Companion.setProperty(world, self.rename, IotaType.deserialize(nbt, world));
+            StateStorage.Companion.setProperty(world, self.rename, nbt);
         } else if (self.mode == ClipboardMsgMode.PUSH_MIND) {
             var nbt = ParserMain.ParseCode(self.code, sender);
             CommandMindStackIO.INSTANCE.writeStackWithIota(sender, nbt);
         } else CodeHelpers.doParse(sender, self.code, self.rename);
     }
+
+    public static final CustomPacketPayload.Type<MsgPushClipboard> TYPE = new CustomPacketPayload.Type<>(ID);
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+    public static final StreamCodec<RegistryFriendlyByteBuf, MsgPushClipboard> STREAM_CODEC = new StreamCodec<>() {
+        public MsgPushClipboard decode(RegistryFriendlyByteBuf buf) {
+            return deserialize(buf);
+        }
+        public void encode(RegistryFriendlyByteBuf buf, MsgPushClipboard msg) {
+            msg.serialize(buf);
+        }
+    };
 }

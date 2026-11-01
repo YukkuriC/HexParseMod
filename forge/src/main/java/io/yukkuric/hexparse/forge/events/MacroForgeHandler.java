@@ -1,10 +1,10 @@
 package io.yukkuric.hexparse.forge.events;
 
 import io.yukkuric.hexparse.macro.MacroClientHandler;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 
 public class MacroForgeHandler extends MacroClientHandler {
     @OnlyIn(Dist.CLIENT)

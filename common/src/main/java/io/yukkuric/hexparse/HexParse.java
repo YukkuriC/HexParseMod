@@ -1,9 +1,7 @@
 package io.yukkuric.hexparse;
 
 import com.mojang.logging.LogUtils;
-import io.yukkuric.hexparse.compat.hexdebug.CommentRenderer;
 import io.yukkuric.hexparse.parsers.ParserMain;
-import io.yukkuric.yclib.YCLib;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 
@@ -15,7 +13,7 @@ public final class HexParse {
         ParserMain.init();
     }
     public static void initClient() {
-        YCLib.tryLoadInterop("hexdebug", CommentRenderer::registerSelf);
+        // YCLib.tryLoadInterop("hexdebug", CommentRenderer::registerSelf);
     }
 
     public static ResourceLocation modLoc(String path) {

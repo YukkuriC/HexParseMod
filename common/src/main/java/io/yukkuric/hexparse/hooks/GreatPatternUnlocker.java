@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.mod.HexTags;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
 import io.yukkuric.hexparse.config.HexParseConfig;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -28,7 +29,7 @@ public class GreatPatternUnlocker extends SavedData {
         _unlocked = new HashSet<>();
     }
 
-    public GreatPatternUnlocker(CompoundTag save) {
+    public GreatPatternUnlocker(CompoundTag save, HolderLookup.Provider provider) {
         try {
             var recorder = save.getCompound(KEY_UNLOCK_SET);
             _unlocked = new HashSet<>(recorder.getAllKeys());
@@ -38,7 +39,7 @@ public class GreatPatternUnlocker extends SavedData {
     }
 
     @Override
-    public CompoundTag save(CompoundTag save) {
+    public CompoundTag save(CompoundTag save, HolderLookup.Provider provider) {
         var recorder = new CompoundTag();
         for (var key : _unlocked) recorder.putBoolean(key, true);
         save.put(KEY_UNLOCK_SET, recorder);
@@ -91,6 +92,9 @@ public class GreatPatternUnlocker extends SavedData {
         else if (cfg == HexParseConfig.ParseGreatPatternMode.ALL) return ALLOW_ALL;
         level = level.getServer().overworld();
         var ds = level.getDataStorage();
-        return ds.computeIfAbsent(GreatPatternUnlocker::new, GreatPatternUnlocker::new, SAVENAME);
+        return ds.computeIfAbsent(
+                new SavedData.Factory<>(GreatPatternUnlocker::new, GreatPatternUnlocker::new, null),
+                SAVENAME
+        );
     }
 }

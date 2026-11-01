@@ -11,4 +11,4 @@ rootProject.name = "$archives_name"
 
 include 'common'
 include 'fabric'
-include 'forge'
+include 'neoforge'

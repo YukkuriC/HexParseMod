@@ -1,7 +1,6 @@
 package io.yukkuric.hexparse.forge;
 
 import at.petrak.hexcasting.common.lib.HexRegistries;
-import at.petrak.hexcasting.common.msgs.IMessage;
 import io.yukkuric.hexparse.HexParse;
 import io.yukkuric.hexparse.actions.HexParsePatterns;
 import io.yukkuric.hexparse.forge.config.HexParseConfigForge;
@@ -12,32 +11,38 @@ import io.yukkuric.hexparse.network.*;
 import io.yukkuric.hexparse.network.macro.MsgPushMacro;
 import io.yukkuric.hexparse.network.macro.MsgUpdateClientMacro;
 import io.yukkuric.hexparse.parsers.hexpattern.DotHexPatternMapper;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.fml.*;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.network.*;
-import net.minecraftforge.network.simple.SimpleChannel;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.IPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
-import java.util.function.*;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 @Mod(HexParse.MOD_ID)
 public final class HexParseForge {
     static Network NETWORK;
 
-    public HexParseForge() {
-        NETWORK = new Network();
+    public HexParseForge(ModContainer modContainer) {
+        var evBus = NeoForge.EVENT_BUS;
+        var modBus = modContainer.getEventBus();
+
+        NETWORK = new Network(modBus);
 
         // Run our common setup.
         HexParse.init();
 
-        var evBus = MinecraftForge.EVENT_BUS;
         evBus.addListener((RegisterCommandsEvent event) -> HexParseCommands.register(event.getDispatcher()));
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> evBus.register(MacroForgeHandler.class));
         evBus.addListener((ServerStartedEvent e) -> {
@@ -48,7 +53,6 @@ public final class HexParseForge {
                 DotHexPatternMapper.sendRemoteMap(sp);
         });
 
-        var modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener((RegisterEvent event) -> {
             var key = event.getRegistryKey();
             if (key.equals(HexRegistries.ACTION)) {
@@ -56,8 +60,7 @@ public final class HexParseForge {
             } else if (key.equals(HexRegistries.IOTA_TYPE)) CommentIotaType.registerIota();
         });
 
-        var ctx = ModLoadingContext.get();
-        HexParseConfigForge.register(ctx);
+        HexParseConfigForge.register(modContainer);
 
         // init client
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> HexParse::initClient);
@@ -65,63 +68,43 @@ public final class HexParseForge {
 
     public static class Network implements ISenderClient, ISenderServer {
         static final String PROTOCOL_VERSION = "1";
-        static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-                HexParse.modLoc("network"),
-                () -> PROTOCOL_VERSION,
-                PROTOCOL_VERSION::equals,
-                PROTOCOL_VERSION::equals
-        );
 
-        static <T> BiConsumer<T, Supplier<NetworkEvent.Context>> makeServerBoundHandler(
-                BiConsumer<T, ServerPlayer> handler) {
+        static <T extends CustomPacketPayload> IPayloadHandler<T> makeServerBoundHandler(BiConsumer<T, ServerPlayer> handler) {
             return (m, ctx) -> {
-                handler.accept(m, ctx.get().getSender());
-                ctx.get().setPacketHandled(true);
+                handler.accept(m, (ServerPlayer) ctx.player());
             };
         }
 
-        static <T> BiConsumer<T, Supplier<NetworkEvent.Context>> makeClientBoundHandler(Consumer<T> consumer) {
+        static <T extends CustomPacketPayload> IPayloadHandler<T> makeClientBoundHandler(Consumer<T> consumer) {
             return (m, ctx) -> {
                 consumer.accept(m);
-                ctx.get().setPacketHandled(true);
             };
         }
 
-        Network() {
+        Network(IEventBus modBus) {
             MsgHandlers.CLIENT = this;
             MsgHandlers.SERVER = this;
 
-            // packets
-            int idx = 0;
-
-            // clipboard
-            // from server
-            CHANNEL.registerMessage(idx++, MsgPullClipboard.class, MsgPullClipboard::serialize,
-                    MsgPullClipboard::deserialize, makeClientBoundHandler(MsgPullClipboard::handle));
-
-            // from client
-            CHANNEL.registerMessage(idx++, MsgPushClipboard.class, MsgPushClipboard::serialize,
-                    MsgPushClipboard::deserialize, makeServerBoundHandler(MsgPushClipboard::handle));
-
-            // macro
-            CHANNEL.registerMessage(idx++, MsgUpdateClientMacro.class, MsgUpdateClientMacro::serialize,
-                    MsgUpdateClientMacro::deserialize, makeClientBoundHandler(MsgUpdateClientMacro::handle));
-            CHANNEL.registerMessage(idx++, MsgPushMacro.class, MsgPushMacro::serialize,
-                    MsgPushMacro::deserialize, makeServerBoundHandler(MsgPushMacro::handle));
-
-            // hexpattern data
-            CHANNEL.registerMessage(idx++, MsgSyncDisplayMap.class, MsgSyncDisplayMap::serialize,
-                    MsgSyncDisplayMap::deserialize, makeClientBoundHandler(MsgSyncDisplayMap::handle));
+            modBus.addListener(RegisterPayloadHandlersEvent.class, (e) -> {
+                PayloadRegistrar reg = e.registrar(PROTOCOL_VERSION);
+                // s2c
+                reg.playToClient(MsgPullClipboard.TYPE, MsgPullClipboard.STREAM_CODEC, makeClientBoundHandler(MsgPullClipboard::handle));
+                reg.playToClient(MsgUpdateClientMacro.TYPE, MsgUpdateClientMacro.STREAM_CODEC, makeClientBoundHandler(MsgUpdateClientMacro::handle));
+                reg.playToClient(MsgSyncDisplayMap.TYPE, MsgSyncDisplayMap.STREAM_CODEC, makeClientBoundHandler(MsgSyncDisplayMap::handle));
+                // c2s
+                reg.playToServer(MsgPushClipboard.TYPE, MsgPushClipboard.STREAM_CODEC, makeServerBoundHandler(MsgPushClipboard::handle));
+                reg.playToServer(MsgPushMacro.TYPE, MsgPushMacro.STREAM_CODEC, makeServerBoundHandler(MsgPushMacro::handle));
+            });
         }
 
         @Override
-        public void sendPacketToServer(IMessage packet) {
-            CHANNEL.sendToServer(packet);
+        public void sendPacketToServer(CustomPacketPayload packet) {
+            PacketDistributor.sendToServer(packet);
         }
 
         @Override
-        public void sendPacketToPlayer(ServerPlayer player, IMessage packet) {
-            CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
+        public void sendPacketToPlayer(ServerPlayer player, CustomPacketPayload packet) {
+            PacketDistributor.sendToPlayer(player, packet);
         }
     }
 }

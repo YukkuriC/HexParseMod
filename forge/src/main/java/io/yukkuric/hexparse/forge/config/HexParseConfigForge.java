@@ -1,8 +1,8 @@
 package io.yukkuric.hexparse.forge.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 import static io.yukkuric.hexparse.config.HexParseConfig.*;
@@ -62,18 +62,29 @@ public class HexParseConfigForge implements API {
         return CfgAttachCodeMeta.get();
     }
 
+<<<<<<< HEAD:forge/src/main/java/io/yukkuric/hexparse/forge/config/HexParseConfigForge.java
     public final ForgeConfigSpec.BooleanValue
+=======
+    public final ModConfigSpec.BooleanValue
+>>>>>>> 9d1d17a58589fb6ee3ea5aca09cee56618745aed:neoforge/src/main/java/io/yukkuric/hexparse/forge/config/HexParseConfigForge.java
             CfgShowColorfulNested,
             CfgFairPlayPropNames,
             CfgAddIndentInsideMacro,
             CfgAlwaysShortName,
             CfgSyncDisplayToClient;
+<<<<<<< HEAD:forge/src/main/java/io/yukkuric/hexparse/forge/config/HexParseConfigForge.java
     public final ForgeConfigSpec.EnumValue<UnknownNbtHandlingMode> CfgShowUnknownNBT;
     public final ForgeConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
     public final ForgeConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
     public final ForgeConfigSpec.IntValue CfgParserBaseCost, CfgMaxBlankLine, CfgAttachCodeMeta;
+=======
+    public final ModConfigSpec.EnumValue<UnknownNbtHandlingMode> CfgShowUnknownNBT;
+    public final ModConfigSpec.EnumValue<ParseGreatPatternMode> CfgParseGreatSpells;
+    public final ModConfigSpec.EnumValue<CommentParsingMode> CfgCommentParsingMode, CfgIndentParsingMode;
+    public final ModConfigSpec.IntValue CfgParserBaseCost, CfgMaxBlankLine, CfgAttachCodeMeta;
+>>>>>>> 9d1d17a58589fb6ee3ea5aca09cee56618745aed:neoforge/src/main/java/io/yukkuric/hexparse/forge/config/HexParseConfigForge.java
 
-    public HexParseConfigForge(ForgeConfigSpec.Builder builder) {
+    public HexParseConfigForge(ModConfigSpec.Builder builder) {
         CfgParseGreatSpells = builder.comment(DESCRIP_PARSE_GREAT).defineEnum("ParseGreatSpells", ParseGreatPatternMode.BY_SCROLL);
         CfgCommentParsingMode = builder.comment(DESCRIP_ENABLE_COMMENTS).defineEnum("CommentParsingMode", CommentParsingMode.MANUAL);
         CfgIndentParsingMode = builder.comment(DESCRIP_ENABLE_INDENTS).defineEnum("IndentParsingMode", CommentParsingMode.ALL);
@@ -88,13 +99,13 @@ public class HexParseConfigForge implements API {
         CfgAttachCodeMeta = builder.comment(DESCRIP_ATTACH_CODE_META).defineInRange("AttachCodeMeta", 3, 0, Integer.MAX_VALUE);
     }
 
-    private static final Pair<HexParseConfigForge, ForgeConfigSpec> CFG_REGISTRY;
+    private static final Pair<HexParseConfigForge, ModConfigSpec> CFG_REGISTRY;
 
     static {
-        CFG_REGISTRY = new ForgeConfigSpec.Builder().configure(HexParseConfigForge::new);
+        CFG_REGISTRY = new ModConfigSpec.Builder().configure(HexParseConfigForge::new);
     }
 
-    public static void register(ModLoadingContext ctx) {
+    public static void register(ModContainer ctx) {
         bindConfigImp(CFG_REGISTRY.getKey());
         ctx.registerConfig(ModConfig.Type.COMMON, CFG_REGISTRY.getValue());
     }

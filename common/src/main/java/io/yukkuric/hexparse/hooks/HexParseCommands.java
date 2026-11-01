@@ -24,7 +24,7 @@ public class HexParseCommands {
         CommandConflictResolver.INSTANCE.init();
         CommandLearnGreat.INSTANCE.init();
 
-        YCLib.tryLoadInterop("hexcellular", CommandPropertyIO::init);
+        // YCLib.tryLoadInterop("hexcellular", CommandPropertyIO::init);
 
         dispatcher.register(MAIN_CMD);
     }
