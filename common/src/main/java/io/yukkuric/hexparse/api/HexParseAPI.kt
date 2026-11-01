@@ -3,6 +3,7 @@
 package io.yukkuric.hexparse.api
 
 import at.petrak.hexcasting.api.casting.castables.SpecialHandler
+import at.petrak.hexcasting.api.casting.iota.Iota
 import io.yukkuric.hexparse.misc.IOMethod
 import io.yukkuric.hexparse.parsers.ParserMain
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str
@@ -52,8 +53,8 @@ object HexParseAPI {
     @JvmStatic
     fun CreateItemIOMethod(
         cls: Class<*>,
-        writer: ((ItemStack, CompoundTag) -> Unit)? = null,
-        reader: ((ItemStack) -> CompoundTag?)? = null,
+        writer: ((ItemStack, Iota) -> Unit)? = null,
+        reader: ((ItemStack) -> Iota?)? = null,
         priority: Int = 0,
         validator: ((ItemStack, Boolean) -> Boolean)? = null,
     ) {
