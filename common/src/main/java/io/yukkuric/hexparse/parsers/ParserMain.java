@@ -199,7 +199,6 @@ public class ParserMain {
 
     public static void init() {
         str2nbtParsers.addAll(List.of(
-                ToPattern.META,
                 ToMiscConst.INSTANCE,
                 ToPattern.NORMAL, ToPattern.GREAT,
                 TO_TAB, TO_COMMENT, TO_SCOMMENT,

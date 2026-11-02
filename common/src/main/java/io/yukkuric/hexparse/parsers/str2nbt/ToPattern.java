@@ -30,7 +30,6 @@ public class ToPattern implements IStr2Nbt {
     }
 
     public static ToPattern NORMAL = new ToPattern(PatternMapper.mapPattern);
-    public static ToPattern META = new ToPattern(PatternMapper.mapPatternMeta);
     public static ToGreatPattern GREAT = new ToGreatPattern(PatternMapper.mapPatternWorld);
 
     public static class ToGreatPattern extends ToPattern implements IPlayerBinder {

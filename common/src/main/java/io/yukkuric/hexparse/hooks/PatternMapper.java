@@ -22,22 +22,8 @@ import java.util.*;
 import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toIota;
 
 public class PatternMapper {
-    public static final Map<String, Iota> mapPatternMeta = new HashMap<>();
     public static final Map<String, Iota> mapPattern = new HashMap<>();
     public static final Map<String, Iota> mapPatternWorld = new HashMap<>();
-
-    static {
-        mapPatternMeta.put("\\", toIota(IotaFactory.makePattern("qqqaw", HexDir.WEST)));
-        var undo = toIota(IotaFactory.makePattern("eeedw", HexDir.EAST));
-        mapPatternMeta.put("del", undo);
-        mapPatternMeta.put("undo", undo);
-        var bracketStart = toIota(IotaFactory.makePattern("qqq", HexDir.WEST));
-        var bracketEnd = toIota(IotaFactory.makePattern("eee", HexDir.EAST));
-        mapPatternMeta.put("(", bracketStart);
-        mapPatternMeta.put("{", bracketStart);
-        mapPatternMeta.put(")", bracketEnd);
-        mapPatternMeta.put("}", bracketEnd);
-    }
 
     static void _setMap(Map<String, Iota> map, ResourceLocation id, String seq, HexDir dir) {
         String idLong = id.toString(), idShort = id.getPath();

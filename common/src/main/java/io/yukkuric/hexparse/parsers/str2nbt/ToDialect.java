@@ -2,6 +2,7 @@ package io.yukkuric.hexparse.parsers.str2nbt;
 
 import at.petrak.hexcasting.api.HexAPI;
 import io.yukkuric.hexparse.parsers.ParserMain;
+import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.CompoundTag;
 
 import java.util.HashMap;
@@ -31,13 +32,16 @@ public record ToDialect(Map<String, String> mapper) implements IStr2Nbt {
             // pop one
             put("pop", "mask_v");
             // special pattern dialect
-            put("open_paren", "(");
-            put("close_paren", ")");
-            put("escape", "\\");
+            put("(", "open_paren");
+            put(")", "close_paren");
+            put("{", "open_paren");
+            put("}", "close_paren");
+            put("\\", "escape");
+            put("del", "undo");
             // meta names
             put("hermes", "eval");
             put("iris", "eval/cc");
-            put("thoth", "for_each");
+            if (YCLib.modLoaded("hexflow")) put("for_each", "old_thoth");
             // 1.19 registry
             put("list_size", "abs");
             put("concat", "add");
