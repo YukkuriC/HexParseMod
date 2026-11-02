@@ -13,7 +13,6 @@ object ToMiscConst : IStr2Nbt, IPlayerBinder {
     val NULL = CompoundTag();
 
     val ConstMapper = mapOf(
-        // TODO: is this broken in multiplayer?
         "self" to { EntityIota(owner).toNbt() },
         "myself" to { EntityIota(owner).toNbt() },
         "false" to { makeType(TYPE_BOOLEAN, ByteTag.ZERO) },
