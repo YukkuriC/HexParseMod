@@ -19,18 +19,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toIota;
+
 public class PatternMapper {
     public static final Map<String, Iota> mapPatternMeta = new HashMap<>();
     public static final Map<String, Iota> mapPattern = new HashMap<>();
     public static final Map<String, Iota> mapPatternWorld = new HashMap<>();
 
     static {
-        mapPatternMeta.put("\\", IotaFactory.makePattern("qqqaw", HexDir.WEST));
-        var undo = IotaFactory.makePattern("eeedw", HexDir.EAST);
+        mapPatternMeta.put("\\", toIota(IotaFactory.makePattern("qqqaw", HexDir.WEST)));
+        var undo = toIota(IotaFactory.makePattern("eeedw", HexDir.EAST));
         mapPatternMeta.put("del", undo);
         mapPatternMeta.put("undo", undo);
-        var bracketStart = IotaFactory.makePattern("qqq", HexDir.WEST);
-        var bracketEnd = IotaFactory.makePattern("eee", HexDir.EAST);
+        var bracketStart = toIota(IotaFactory.makePattern("qqq", HexDir.WEST));
+        var bracketEnd = toIota(IotaFactory.makePattern("eee", HexDir.EAST));
         mapPatternMeta.put("(", bracketStart);
         mapPatternMeta.put("{", bracketStart);
         mapPatternMeta.put(")", bracketEnd);
@@ -39,7 +41,7 @@ public class PatternMapper {
 
     static void _setMap(Map<String, Iota> map, ResourceLocation id, String seq, HexDir dir) {
         String idLong = id.toString(), idShort = id.getPath();
-        var pattern = IotaFactory.makePattern(seq, dir);
+        var pattern = toIota(IotaFactory.makePattern(seq, dir));
         map.put(idLong, pattern);
         if (ShortNameTracker.recordNewShortName(id)) {
             map.put(idShort, pattern);

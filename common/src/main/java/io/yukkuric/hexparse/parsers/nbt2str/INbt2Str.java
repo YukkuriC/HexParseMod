@@ -1,10 +1,11 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.interfaces.IConfigNumReceiver;
 import io.yukkuric.hexparse.parsers.meta.IMetaCollector;
 import io.yukkuric.hexparse.parsers.meta.MetaHolder;
 import net.minecraft.nbt.CompoundTag;
+
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_TYPE;
 
 public interface INbt2Str extends IConfigNumReceiver, IMetaCollector {
     boolean match(CompoundTag node);
@@ -14,7 +15,7 @@ public interface INbt2Str extends IConfigNumReceiver, IMetaCollector {
     // helpers
 
     default boolean isType(CompoundTag node, String type) {
-        return node.getString(HexIotaTypes.KEY_TYPE).equals(type);
+        return node.getString(KEY_TYPE).equals(type);
     }
 
     default String displayMinimal(Double raw) {

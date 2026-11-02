@@ -1,8 +1,9 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
+
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
 
 public class NumParser implements INbt2Str {
     @Override
@@ -12,6 +13,6 @@ public class NumParser implements INbt2Str {
 
     @Override
     public String parse(CompoundTag node) {
-        return displayMinimal(node.getDouble(HexIotaTypes.KEY_DATA));
+        return displayMinimal(node.getDouble(KEY_DATA));
     }
 }

@@ -12,6 +12,8 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.UUID;
 
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toNbt;
+
 public class ToEntity extends BaseConstParser.Prefix implements IPlayerBinder {
     ServerPlayer self;
     ServerLevel level;
@@ -43,6 +45,6 @@ public class ToEntity extends BaseConstParser.Prefix implements IPlayerBinder {
         } catch (Exception e) {
             res = new NullIota();
         }
-        return IotaType.serialize(res);
+        return toNbt(res);
     }
 }

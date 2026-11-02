@@ -5,7 +5,8 @@ import at.petrak.hexcasting.api.casting.iota.IotaType
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.NbtOps
 
-val KEY_DATA = "hexcasting:data"
+const val KEY_TYPE = "hexcasting:type"
+const val KEY_DATA = "hexcasting:data"
 
 fun CompoundTag.toIota(): Iota {
     val ret = IotaType.TYPED_CODEC.decode(NbtOps.INSTANCE, this)

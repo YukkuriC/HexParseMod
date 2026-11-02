@@ -1,10 +1,11 @@
 package io.yukkuric.hexparse.parsers.nbt2str;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
 
 public class EntityParser implements INbt2Str, IPlayerBinder {
     @Override
@@ -14,7 +15,7 @@ public class EntityParser implements INbt2Str, IPlayerBinder {
 
     @Override
     public String parse(CompoundTag node) {
-        var uuid = node.getCompound(HexIotaTypes.KEY_DATA).getUUID("uuid");
+        var uuid = node.getCompound(KEY_DATA).getUUID("uuid");
         if (self.getUUID().equals(uuid)) return "self";
         return "entity_" + uuid;
     }

@@ -122,7 +122,7 @@ public class PluginIotaFactory extends IotaFactory {
     }
 
     public static CompoundTag makeResLoc(String raw) {
-        var resloc = new ResourceLocation(raw);
+        var resloc = ResourceLocation.parse(raw);
         var res = new CompoundTag();
         res.putString("path", resloc.getPath());
         res.putString("namespace", resloc.getNamespace());

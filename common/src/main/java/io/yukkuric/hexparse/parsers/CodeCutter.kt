@@ -79,12 +79,14 @@ object CodeCutter {
         ' ',
         '\t',
     )
+
     private fun consumeWhiteSpace(code: String): Pair<String?, String> {
         var index = 0
         while (VALID_WHITESPACE.contains(code.getOrNull(index))) index++
 
         return Pair(null, code.substring(index))
     }
+
     private fun consumeNewline(code: String, addIndent: Boolean): Pair<String?, String> {
         val input = pLineBreak.matcher(code).replaceFirst("") // remove newline
         newLineThisTurn = true
@@ -120,9 +122,11 @@ object CodeCutter {
             '*' -> {
                 consumeBlockComment(code, commentsToIota)
             }
+
             '/' -> {
                 consumeLineComment(code, commentsToIota)
             }
+
             else -> throw IllegalArgumentException("invalid comment: $code")
         }
     }

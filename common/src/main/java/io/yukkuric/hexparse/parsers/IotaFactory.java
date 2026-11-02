@@ -2,12 +2,14 @@ package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.casting.math.HexDir;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
 import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.*;
 
 import java.util.*;
+
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_TYPE;
 
 public class IotaFactory {
     public static final String TYPE_LIST = HexAPI.MOD_ID + ":list";
@@ -35,8 +37,8 @@ public class IotaFactory {
 
     public static CompoundTag makeType(String type, Tag data) {
         var res = new CompoundTag();
-        res.putString(HexIotaTypes.KEY_TYPE, type);
-        res.put(HexIotaTypes.KEY_DATA, data);
+        res.putString(KEY_TYPE, type);
+        res.put(KEY_DATA, data);
         return res;
     }
 

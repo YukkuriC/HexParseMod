@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
-import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import io.yukkuric.hexparse.misc.NumEvaluatorBrute;
@@ -9,6 +8,7 @@ import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toNbt;
 import static io.yukkuric.hexparse.parsers.str2nbt.BaseConstParser.*;
 
 public class ConstParsers {
@@ -42,7 +42,7 @@ public class ConstParsers {
                 } catch (NumberFormatException e) {
                 }
             }
-            return IotaType.serialize(new Vec3Iota(new Vec3(axes[0], axes[1], axes[2])));
+            return toNbt(new Vec3Iota(new Vec3(axes[0], axes[1], axes[2])));
         }
     };
     public static BaseConstParser TO_NUM_PATTERN = new Prefix("num") {

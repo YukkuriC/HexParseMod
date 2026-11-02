@@ -17,6 +17,8 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toIota;
+
 public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMode mode) implements CustomPacketPayload {
     public static final ResourceLocation ID = HexParse.modLoc("clipboard/push");
 
@@ -53,10 +55,10 @@ public record MsgPushClipboard(List<String> code, String rename, ClipboardMsgMod
         } else if (self.mode == ClipboardMsgMode.WRITE_PROPERTY) {
             var nbt = ParserMain.ParseCode(self.code, sender);
             var world = sender.serverLevel();
-            StateStorage.Companion.setProperty(world, self.rename, nbt);
+            StateStorage.Companion.setProperty(world, self.rename, toIota(nbt));
         } else if (self.mode == ClipboardMsgMode.PUSH_MIND) {
             var nbt = ParserMain.ParseCode(self.code, sender);
-            CommandMindStackIO.INSTANCE.writeStackWithIota(sender, nbt);
+            CommandMindStackIO.INSTANCE.writeStackWithIota(sender, toIota(nbt));
         } else CodeHelpers.doParse(sender, self.code, self.rename);
     }
 

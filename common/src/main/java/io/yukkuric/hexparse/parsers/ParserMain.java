@@ -1,6 +1,5 @@
 package io.yukkuric.hexparse.parsers;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.macro.MacroClient;
 import io.yukkuric.hexparse.macro.MacroProcessor;
@@ -21,6 +20,8 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
 
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_TYPE;
 import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 
 public class ParserMain {
@@ -161,11 +162,11 @@ public class ParserMain {
 
         try {
             // handle nested list
-            if (node.getString(HexIotaTypes.KEY_TYPE).equals(IotaFactory.TYPE_LIST)) {
+            if (node.getString(KEY_TYPE).equals(IotaFactory.TYPE_LIST)) {
                 var sb = new StringBuilder();
                 if (!isRoot) sb.append('[');
                 var isFirst = true;
-                for (var sub : node.getList(HexIotaTypes.KEY_DATA, ListTag.TAG_COMPOUND)) {
+                for (var sub : node.getList(KEY_DATA, ListTag.TAG_COMPOUND)) {
                     if (isFirst) isFirst = false;
                     else sb.append(',');
                     sb.append(_parseIotaNbt((CompoundTag) sub, caller, configNum, false));

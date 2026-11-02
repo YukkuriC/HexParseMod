@@ -17,6 +17,8 @@ import java.io.StringWriter;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toIota;
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toNbt;
 import static io.yukkuric.hexparse.misc.CodeHelpersKt.getItemIO;
 
 public class CodeHelpers {
@@ -24,7 +26,7 @@ public class CodeHelpers {
         var target = getItemIO(player, true);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
-        target.write(nbt);
+        target.write(toIota(nbt));
         if (rename != null) target.rename(rename);
     }
 
@@ -32,7 +34,7 @@ public class CodeHelpers {
         var target = getItemIO(player, true);
         if (target == null) return;
         var nbt = ParserMain.ParseCode(code, player);
-        target.write(nbt);
+        target.write(toIota(nbt));
         if (rename != null) target.rename(rename);
     }
 
@@ -45,7 +47,7 @@ public class CodeHelpers {
         var iotaRoot = target.read();
         if (iotaRoot == null) return null;
         autoRefresh(player.getServer());
-        return ParserMain.ParseIotaNbt(iotaRoot, player, configNum, post);
+        return ParserMain.ParseIotaNbt(toNbt(iotaRoot), player, configNum, post);
     }
 
     static WeakReference<MinecraftServer> refreshedWorld = new WeakReference<>(null);

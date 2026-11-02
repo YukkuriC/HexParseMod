@@ -1,11 +1,12 @@
 package io.yukkuric.hexparse.parsers.nbt2str.plugins;
 
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.PluginIotaFactory;
 import io.yukkuric.hexparse.parsers.nbt2str.INbt2Str;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
 
 public class GateParser implements IPlayerBinder, INbt2Str {
     ServerPlayer self;
@@ -22,7 +23,7 @@ public class GateParser implements IPlayerBinder, INbt2Str {
 
     @Override
     public String parse(CompoundTag node) {
-        node = node.getCompound(HexIotaTypes.KEY_DATA);
+        node = node.getCompound(KEY_DATA);
         var type = node.getByte("target_type");
         if (type <= 0 || type > 2) return "gate";
         var res = "gate_%s_%s_%s".formatted(

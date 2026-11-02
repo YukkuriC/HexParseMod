@@ -1,5 +1,6 @@
 package io.yukkuric.hexparse.parsers.str2nbt;
 
+import at.petrak.hexcasting.api.casting.iota.Iota;
 import io.yukkuric.hexparse.hooks.GreatPatternUnlocker;
 import io.yukkuric.hexparse.hooks.PatternMapper;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
@@ -9,10 +10,12 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Map;
 
-public class ToPattern implements IStr2Nbt {
-    final Map<String, CompoundTag> target;
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toNbt;
 
-    ToPattern(Map<String, CompoundTag> target) {
+public class ToPattern implements IStr2Nbt {
+    final Map<String, Iota> target;
+
+    ToPattern(Map<String, Iota> target) {
         this.target = target;
     }
 
@@ -23,7 +26,7 @@ public class ToPattern implements IStr2Nbt {
 
     @Override
     public CompoundTag parse(String node) {
-        return this.target.get(node);
+        return toNbt(this.target.get(node));
     }
 
     public static ToPattern NORMAL = new ToPattern(PatternMapper.mapPattern);
@@ -33,7 +36,7 @@ public class ToPattern implements IStr2Nbt {
     public static class ToGreatPattern extends ToPattern implements IPlayerBinder {
         GreatPatternUnlocker checker;
 
-        ToGreatPattern(Map<String, CompoundTag> target) {
+        ToGreatPattern(Map<String, Iota> target) {
             super(target);
         }
 

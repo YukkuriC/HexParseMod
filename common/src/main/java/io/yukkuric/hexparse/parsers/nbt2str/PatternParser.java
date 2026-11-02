@@ -4,11 +4,10 @@ import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.casting.PatternShapeMatch;
 import at.petrak.hexcasting.api.casting.castables.SpecialHandler;
 import at.petrak.hexcasting.api.casting.eval.env.StaffCastEnv;
-import at.petrak.hexcasting.api.casting.math.HexPattern;
+import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.common.casting.PatternRegistryManifest;
 import at.petrak.hexcasting.common.casting.actions.math.SpecialHandlerNumberLiteral;
 import at.petrak.hexcasting.common.casting.actions.stack.SpecialHandlerMask;
-import at.petrak.hexcasting.common.lib.hex.HexIotaTypes;
 import io.yukkuric.hexparse.config.HexParseConfig;
 import io.yukkuric.hexparse.parsers.IPlayerBinder;
 import io.yukkuric.hexparse.parsers.IotaFactory;
@@ -22,6 +21,8 @@ import net.minecraft.world.InteractionHand;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toIota;
 
 public class PatternParser implements INbt2Str, IPlayerBinder {
     static Map<String, String> SPECIAL_PATTERNS = new HashMap<>() {
@@ -63,8 +64,8 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
 
     @Override
     public String parse(CompoundTag node) {
-        var pattern = HexPattern.fromNBT(node.getCompound(HexIotaTypes.KEY_DATA));
-        var angleSigs = pattern.anglesSignature();
+        var pattern = ((PatternIota) toIota(node)).getPattern();
+        var angleSigs = pattern.getSignature().toAnglesString();
 
         // early escape by config
         if (hasConfigNum(configState, ConfigNums.FORCE_SIGNATURES)) return '_' + angleSigs;
@@ -72,7 +73,7 @@ public class PatternParser implements INbt2Str, IPlayerBinder {
         if (SPECIAL_PATTERNS.containsKey(angleSigs)) return SPECIAL_PATTERNS.get(angleSigs);
 
         // do match
-        var matcher = PatternRegistryManifest.matchPattern(pattern, new StaffCastEnv(player, InteractionHand.MAIN_HAND), false);
+        var matcher = PatternRegistryManifest.matchPattern(pattern, new StaffCastEnv(player, InteractionHand.MAIN_HAND));
         ResourceLocation opId = null;
         if (matcher instanceof PatternShapeMatch.Normal nm) {
             opId = nm.key.location();
