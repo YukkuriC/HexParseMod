@@ -20,7 +20,6 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
 
-import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
 import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_TYPE;
 import static io.yukkuric.hexparse.parsers.str2nbt.ConstParsers.*;
 
@@ -166,7 +165,7 @@ public class ParserMain {
                 var sb = new StringBuilder();
                 if (!isRoot) sb.append('[');
                 var isFirst = true;
-                for (var sub : node.getList(KEY_DATA, ListTag.TAG_COMPOUND)) {
+                for (var sub : node.getList("list", ListTag.TAG_COMPOUND)) {
                     if (isFirst) isFirst = false;
                     else sb.append(',');
                     sb.append(_parseIotaNbt((CompoundTag) sub, caller, configNum, false));

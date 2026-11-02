@@ -3,7 +3,7 @@ package io.yukkuric.hexparse.parsers.nbt2str;
 import io.yukkuric.hexparse.parsers.IotaFactory;
 import net.minecraft.nbt.CompoundTag;
 
-import static at.petrak.hexcasting.common.lib.hex.HexContinuationTypes.KEY_DATA;
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
 
 public class BoolParser implements INbt2Str {
     @Override

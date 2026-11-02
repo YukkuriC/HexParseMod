@@ -1,15 +1,13 @@
 package io.yukkuric.hexparse.parsers;
 
 import at.petrak.hexcasting.api.HexAPI;
+import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.api.casting.math.HexDir;
+import at.petrak.hexcasting.api.casting.math.HexPattern;
 import io.yukkuric.hexparse.hooks.CommentIotaType;
-import io.yukkuric.yclib.YCLib;
 import net.minecraft.nbt.*;
 
-import java.util.*;
-
-import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
-import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_TYPE;
+import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.*;
 
 public class IotaFactory {
     public static final String TYPE_LIST = HexAPI.MOD_ID + ":list";
@@ -24,43 +22,29 @@ public class IotaFactory {
     public static final String GREAT_PLACEHOLDER_PREFIX = "<";
     public static final String GREAT_PLACEHOLDER_POSTFIX = "?>";
 
-    static final Map<Character, Byte> ANGLE_MAP = new HashMap<>() {
-        {
-            put('w', (byte) 0);
-            put('e', (byte) 1);
-            put('d', (byte) 2);
-            put('s', (byte) 3);
-            put('a', (byte) 4);
-            put('q', (byte) 5);
-        }
-    };
-
-    public static CompoundTag makeType(String type, Tag data) {
+    public static CompoundTag makeType(String type, Tag data, String dataKey) {
         var res = new CompoundTag();
         res.putString(KEY_TYPE, type);
-        res.put(KEY_DATA, data);
+        res.put(dataKey, data);
         return res;
+    }
+    public static CompoundTag makeType(String type, Tag data) {
+        return makeType(type, data, KEY_DATA);
     }
 
     public static CompoundTag makeList(ListTag data) {
-        return makeType(TYPE_LIST, data);
+        return makeType(TYPE_LIST, data, "list");
     }
 
     public static CompoundTag makePattern(String angles, HexDir start) {
-        var angleArray = new ArrayList<Byte>();
-        for (var chr : angles.toCharArray()) { // skip fromAngles check
-            if (ANGLE_MAP.containsKey(chr)) angleArray.add(ANGLE_MAP.get(chr));
-            else
-                throw new IllegalArgumentException(YCLib.doTranslate("hexparse.msg.error.illegal_pattern_angle", chr, angles));
-        }
-        var pattern = new CompoundTag();
-        pattern.putByte("start_dir", (byte) (start.ordinal()));
-        pattern.putByteArray("angles", angleArray);
-        return makeType(TYPE_PATTERN, pattern);
+        return makePattern(HexPattern.fromAngleString(angles, start, false));
+    }
+    public static CompoundTag makePattern(HexPattern pattern) {
+        return toNbt(new PatternIota(pattern));
     }
 
     public static CompoundTag makeComment(String comment) {
-        return makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment));
+        return makeType(CommentIotaType.TYPE_ID, StringTag.valueOf(comment), "comment");
     }
 
     public static boolean isGreatPatternPlaceholder(String node) {

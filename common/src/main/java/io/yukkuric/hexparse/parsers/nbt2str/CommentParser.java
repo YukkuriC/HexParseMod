@@ -6,8 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 
 import java.util.regex.Pattern;
 
-import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.KEY_DATA;
-
 public class CommentParser implements INbt2Str {
     public static Pattern INDENT = Pattern.compile("^\\n\\s*$");
 
@@ -18,7 +16,7 @@ public class CommentParser implements INbt2Str {
 
     @Override
     public String parse(CompoundTag node) {
-        var content = node.getString(KEY_DATA);
+        var content = node.getString("comment");
         if (content.startsWith("\"")) return "/*" + content.substring(1, content.length() - 1) + "*/";
         if (INDENT.matcher(content).find()) return content;
         if (content.startsWith(IotaFactory.GREAT_PLACEHOLDER_PREFIX) && content.endsWith(IotaFactory.GREAT_PLACEHOLDER_POSTFIX))
