@@ -1,6 +1,6 @@
 **/libs/**/*.jar
 **/libsRaw/**/*.jar
-yclib/**.jar
+yclib/
 
 # hexdoc
 _site/
