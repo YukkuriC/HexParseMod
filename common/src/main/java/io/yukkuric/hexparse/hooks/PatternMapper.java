@@ -2,12 +2,13 @@ package io.yukkuric.hexparse.hooks;
 
 import at.petrak.hexcasting.api.HexAPI;
 import at.petrak.hexcasting.api.casting.iota.Iota;
+import at.petrak.hexcasting.api.casting.iota.PatternIota;
 import at.petrak.hexcasting.api.casting.math.HexDir;
+import at.petrak.hexcasting.api.casting.math.HexPattern;
 import at.petrak.hexcasting.api.mod.HexTags;
 import at.petrak.hexcasting.api.utils.HexUtils;
 import at.petrak.hexcasting.server.ScrungledPatternsSave;
 import at.petrak.hexcasting.xplat.IXplatAbstractions;
-import io.yukkuric.hexparse.parsers.IotaFactory;
 import io.yukkuric.yclib.YCLib;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -19,15 +20,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static io.yukkuric.hexparse.legacy.CodecNbtConverterKt.toIota;
-
 public class PatternMapper {
     public static final Map<String, Iota> mapPattern = new HashMap<>();
     public static final Map<String, Iota> mapPatternWorld = new HashMap<>();
 
     static void _setMap(Map<String, Iota> map, ResourceLocation id, String seq, HexDir dir) {
+        _setMap(map, id, HexPattern.fromAngleString(seq, dir, false));
+    }
+    static void _setMap(Map<String, Iota> map, ResourceLocation id, HexPattern hp) {
         String idLong = id.toString(), idShort = id.getPath();
-        var pattern = toIota(IotaFactory.makePattern(seq, dir));
+        var pattern = new PatternIota(hp);
         map.put(idLong, pattern);
         if (ShortNameTracker.recordNewShortName(id)) {
             map.put(idShort, pattern);
@@ -56,7 +58,7 @@ public class PatternMapper {
                 _setMap(mapPatternWorld, key.location(), perWorldEntry.getFirst().toAnglesString(), perWorldEntry.getSecond().canonicalStartDir());
             } else {
                 var pattern = entry.getValue().prototype();
-                _setMap(mapPattern, key.location(), pattern.getSignature().toAnglesString(), pattern.getOrientation());
+                _setMap(mapPattern, key.location(), pattern);
             }
         }
     }
