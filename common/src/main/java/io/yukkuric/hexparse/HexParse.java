@@ -15,7 +15,8 @@ public final class HexParse {
         ParserMain.init();
     }
     public static void initClient() {
-        YCLib.tryLoadInterop("hexdebug", CommentRenderer::registerSelf);
+        //noinspection Convert2MethodRef - the class extends interop class, using :: causes NoClassDef crash
+        YCLib.tryLoadInterop("hexdebug", () -> CommentRenderer.registerSelf());
     }
 
     public static ResourceLocation modLoc(String path) {
